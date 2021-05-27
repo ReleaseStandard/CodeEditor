@@ -475,7 +475,7 @@ public class JavaTextTokenizer {
                 "this", "throw", "throws", "true", "false", "null"
         };
         Tokens[] sTokens = new Tokens[]{
-                Tokens.ABSTRACT, Tokens.ASSERT, Tokens.BOOLEAN, Tokens.BYTE, Tokens.CHAR, Tokens.CLASS, Tokens.DO,
+                Tokens.ASSERT, Tokens.ABSTRACT, Tokens.BOOLEAN, Tokens.BYTE, Tokens.CHAR, Tokens.CLASS, Tokens.DO,
                 Tokens.DOUBLE, Tokens.FINAL, Tokens.FLOAT, Tokens.FOR, Tokens.IF, Tokens.INT, Tokens.LONG, Tokens.NEW,
                 Tokens.PUBLIC, Tokens.PRIVATE, Tokens.PROTECTED, Tokens.PACKAGE, Tokens.RETURN, Tokens.STATIC,
                 Tokens.SHORT, Tokens.SUPER, Tokens.SWITCH, Tokens.ELSE, Tokens.VOLATILE, Tokens.SYNCHRONIZED, Tokens.STRICTFP,
