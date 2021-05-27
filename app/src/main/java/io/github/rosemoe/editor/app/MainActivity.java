@@ -41,6 +41,7 @@ import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
 import io.github.rosemoe.editor.langs.desc.CppDescription;
 import io.github.rosemoe.editor.langs.desc.JavaScriptDescription;
+import io.github.rosemoe.editor.langs.golang.GoLangLanguage;
 import io.github.rosemoe.editor.langs.html.HTMLLanguage;
 import io.github.rosemoe.editor.langs.java.JavaLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         //editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
-        editor.setEditorLanguage(new JavaLanguage());
+        editor.setEditorLanguage(new GoLangLanguage());
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
 
         new Thread(() -> {
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.switch_language:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.switch_language)
-                        .setSingleChoiceItems(new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None"}, -1, (dialog, which) -> {
+                        .setSingleChoiceItems(new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang"}, -1, (dialog, which) -> {
                             switch (which) {
                                 case 0:
                                     editor.setEditorLanguage(new UniversalLanguage(new CDescription()));
@@ -200,6 +201,10 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 case 6:
                                     editor.setEditorLanguage(new EmptyLanguage());
+                                    break;
+                                case 7:
+                                    editor.setEditorLanguage(new GoLangLanguage());
+                                    break;
                             }
                             dialog.dismiss();
                         })
