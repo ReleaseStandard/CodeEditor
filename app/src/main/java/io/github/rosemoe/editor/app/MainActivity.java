@@ -15,9 +15,7 @@
  */
 package io.github.rosemoe.editor.app;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import io.github.rosemoe.editor.interfaces.EditorLanguage;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
 import io.github.rosemoe.editor.langs.desc.CppDescription;
@@ -64,6 +63,26 @@ public class MainActivity extends AppCompatActivity {
     private CodeEditor editor;
     private LinearLayout panel;
     private EditText search, replace;
+
+    protected void setEditorLanguage(EditorLanguage el) {
+        setEditorLanguage(el,"java.txt");
+    }
+    protected void setEditorLanguage(EditorLanguage el, String fname) {
+        editor.setEditorLanguage(el);
+        new Thread(() -> {
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(fname)));
+                String line;
+                StringBuilder text = new StringBuilder();
+                while ((line = br.readLine()) != null) {
+                    text.append(line).append('\n');
+                }
+                runOnUiThread(() -> editor.setText(text));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,22 +119,8 @@ public class MainActivity extends AppCompatActivity {
         //editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
-        editor.setEditorLanguage(new GoLangLanguage());
+        setEditorLanguage(new JavaLanguage());
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
-
-        new Thread(() -> {
-            try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("sample.txt")));
-                String line;
-                StringBuilder text = new StringBuilder();
-                while ((line = br.readLine()) != null) {
-                    text.append(line).append('\n');
-                }
-                runOnUiThread(() -> editor.setText(text));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
     }
 
     @Override
@@ -183,31 +188,31 @@ public class MainActivity extends AppCompatActivity {
                         .setSingleChoiceItems(new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh"}, -1, (dialog, which) -> {
                             switch (which) {
                                 case 0:
-                                    editor.setEditorLanguage(new UniversalLanguage(new CDescription()));
+                                    setEditorLanguage(new UniversalLanguage(new CDescription()),"c.txt");
                                     break;
                                 case 1:
-                                    editor.setEditorLanguage(new UniversalLanguage(new CppDescription()));
+                                    setEditorLanguage(new UniversalLanguage(new CppDescription()),"cpp.txt");
                                     break;
                                 case 2:
-                                    editor.setEditorLanguage(new JavaLanguage());
+                                    setEditorLanguage(new JavaLanguage(),"java.txt");
                                     break;
                                 case 3:
-                                    editor.setEditorLanguage(new UniversalLanguage(new JavaScriptDescription()));
+                                    setEditorLanguage(new UniversalLanguage(new JavaScriptDescription()));
                                     break;
                                 case 4:
-                                    editor.setEditorLanguage(new HTMLLanguage());
+                                    setEditorLanguage(new HTMLLanguage(),"html.txt");
                                     break;
                                 case 5:
-                                    editor.setEditorLanguage(new PythonLanguage());
+                                    setEditorLanguage(new PythonLanguage(),"python.txt");
                                     break;
                                 case 6:
-                                    editor.setEditorLanguage(new EmptyLanguage());
+                                    setEditorLanguage(new EmptyLanguage());
                                     break;
                                 case 7:
-                                    editor.setEditorLanguage(new GoLangLanguage());
+                                    setEditorLanguage(new GoLangLanguage(),"golang.txt");
                                     break;
                                 case 8:
-                                    editor.setEditorLanguage(new MkshLanguage());
+                                    setEditorLanguage(new MkshLanguage(), "mksh.txt");
                                     break;
                             }
                             dialog.dismiss();

@@ -1,0 +1,10 @@
+####################################
+#
+# This script does nothing except show
+# live log output.
+#
+####################################
+while true ; do
+    echo "ok";
+    sleep 0.5;
+done
