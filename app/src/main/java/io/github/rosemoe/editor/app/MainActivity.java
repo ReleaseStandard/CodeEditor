@@ -44,6 +44,7 @@ import io.github.rosemoe.editor.langs.desc.JavaScriptDescription;
 import io.github.rosemoe.editor.langs.golang.GoLangLanguage;
 import io.github.rosemoe.editor.langs.html.HTMLLanguage;
 import io.github.rosemoe.editor.langs.java.JavaLanguage;
+import io.github.rosemoe.editor.langs.mksh.MkshLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
 import io.github.rosemoe.editor.struct.NavigationItem;
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.switch_language:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.switch_language)
-                        .setSingleChoiceItems(new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang"}, -1, (dialog, which) -> {
+                        .setSingleChoiceItems(new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh"}, -1, (dialog, which) -> {
                             switch (which) {
                                 case 0:
                                     editor.setEditorLanguage(new UniversalLanguage(new CDescription()));
@@ -204,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 case 7:
                                     editor.setEditorLanguage(new GoLangLanguage());
+                                    break;
+                                case 8:
+                                    editor.setEditorLanguage(new MkshLanguage());
                                     break;
                             }
                             dialog.dismiss();
