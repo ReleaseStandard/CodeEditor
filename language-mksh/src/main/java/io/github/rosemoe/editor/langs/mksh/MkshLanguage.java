@@ -23,7 +23,13 @@ import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 public class MkshLanguage implements EditorLanguage {
-
+    private final static String[] keywords = {
+            "case","else","function","then","do","esac","if","time","done","fi","in","until","elif","for","select","while",
+            "break","continue","eval","exec","exit","export","readonly","return","set","shift","times","trap","unset","builtint",
+            "global","typeset","wait","alias","bg","bind","cat","cd","command","echo","false","true","fc","fg","getopts","jobs",
+            "kill","let","mknod","print","pwd","read","realpath","rename","sleep","suspend","test","ulimit","umask","unalias",
+            "whence"
+    };
     @Override
     public CodeAnalyzer getAnalyzer() {
         return new MkshAnalyzer();
@@ -31,12 +37,12 @@ public class MkshLanguage implements EditorLanguage {
 
     @Override
     public AutoCompleteProvider getAutoCompleteProvider() {
-        return new IdentifierAutoComplete(new String[0]);
+        return new IdentifierAutoComplete(keywords);
     }
 
     @Override
     public boolean isAutoCompleteChar(char ch) {
-        return false;
+        return Character.isLetter(ch);
     }
 
 
