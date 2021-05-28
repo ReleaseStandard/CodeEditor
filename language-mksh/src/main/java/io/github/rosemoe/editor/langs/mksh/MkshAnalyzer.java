@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
+import io.github.rosemoe.editor.interfaces.EditorLanguage;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
@@ -57,16 +58,23 @@ public class MkshAnalyzer implements CodeAnalyzer {
             column = token.getCharPositionInLine();
             switch (token.getType()) {
 
-                case CASE:case ELSE: case FUNCTION: case THEN:
-                case DO: case ESAC: case IF:
-                case TIME: case DONE: case FI: case IN:
-                case UNTIL: case ELIF: case FOR: case SELECT:
-                case WHILE: case LET:
+                case CAT_KEYWORDS:
+                case CAT_ADDITIONNAL_BUILTINS:
                     colors.addIfNeeded(line,column, EditorColorScheme.KEYWORD);
                     break;
 
                 case LINE_COMMENT:
                     colors.addIfNeeded(line,column,EditorColorScheme.COMMENT);
+                    break;
+
+                case OPERATORS:
+                case P_PUNCTUATIONS:
+                case LET_OPERATOR:
+                    colors.addIfNeeded(line,column,EditorColorScheme.OPERATOR);
+                    break;
+
+                case STRING:
+                    colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
                     break;
 
                 default:

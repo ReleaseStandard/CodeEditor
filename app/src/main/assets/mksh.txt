@@ -8,3 +8,66 @@ while true ; do
     echo "ok";
     sleep 0.5;
 done
+
+echo "zaenpoezarnbipb:;:";
+
+let a=1+2;
+echo "$a";
+let b=$a;
+
+function test(a) {
+    echo "ok";
+    echo "$a";
+}
+
+for ((a=0;a<10;a=a+1)) ; do
+    echo "$a";
+    break;
+done
+
+echo "ok";
+
+set -o posix
+jobs
+
+## Exaustive test
+# Keywords
+a="ok";
+case a in
+    *)
+        echo "ok";
+    ;;
+esac
+
+if true then
+    echo "kk";
+fi
+
+time
+while true ; do true; done
+
+
+if true ; then
+elif true ; then
+else true ; fi
+
+until false ; do
+    echo "ok";
+done
+
+# Additionnal builtins
+while true ; do break; done
+while true ; do continue ; done
+eval "echo ok"
+exec ls
+exit
+export a=1
+readonly a
+function test() {
+    return 1;
+}
+set -o posix
+function test() { shift ; shift ; echo "$1"; }
+test a b c
+times
+trap STP test
