@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.text;
 
+import android.text.SpannableString;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class TextAnalyzeResult {
             if (extendedSpan == null) {
                 extendedSpan = Span.obtain(0, EditorColorScheme.TEXT_NORMAL);
             }
-            while (mapLine < spanLine) {
+            while (spanLine > mapLine) {
                 List<Span> lineSpans = new ArrayList<>();
                 lineSpans.add(extendedSpan.copy().setColumn(0));
                 mSpanMap.add(lineSpans);
