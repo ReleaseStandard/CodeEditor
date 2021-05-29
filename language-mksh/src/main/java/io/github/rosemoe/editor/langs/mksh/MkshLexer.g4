@@ -33,6 +33,17 @@
 
 lexer grammar MkshLexer; 
 
+// Keywords that should be autocompleted
+@lexer::members {
+public final static String[] keywords = {
+    "case","else","function","then","do","esac","if","time","done","fi","in","until","elif","for","select","while",
+    "break","continue","eval","exec","exit","export","readonly","return","set","shift","times","trap","unset","builtint",
+    "global","typeset","wait","alias","bg","bind","cat","cd","command","echo","false","true","fc","fg","getopts","jobs",
+    "kill","let","mknod","print","pwd","read","realpath","rename","sleep","suspend","test","ulimit","umask","unalias",
+    "whence"
+};
+}
+
 // Keywords
 
 fragment CASE                      : 'case';
