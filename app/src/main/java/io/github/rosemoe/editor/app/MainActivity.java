@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText search, replace;
 
     protected void setEditorLanguage(EditorLanguage el) {
-        setEditorLanguage(el,"java.txt");
+        setEditorLanguage(el, "samples/java/java.txt");
     }
     protected void setEditorLanguage(EditorLanguage el, String fname) {
         editor.setEditorLanguage(el);
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
         setEditorLanguage(new JavaLanguage());
-        setEditorLanguage(new MkshLanguage(),"mksh.txt");
+        setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh_while.txt");
         editor.setColorScheme(new SchemeNano());
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
@@ -191,31 +191,31 @@ public class MainActivity extends AppCompatActivity {
                         .setSingleChoiceItems(new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh"}, -1, (dialog, which) -> {
                             switch (which) {
                                 case 0:
-                                    setEditorLanguage(new UniversalLanguage(new CDescription()),"c.txt");
+                                    setEditorLanguage(new UniversalLanguage(new CDescription()), "samples/c/c.txt");
                                     break;
                                 case 1:
-                                    setEditorLanguage(new UniversalLanguage(new CppDescription()),"cpp.txt");
+                                    setEditorLanguage(new UniversalLanguage(new CppDescription()), "samples/cpp/cpp.txt");
                                     break;
                                 case 2:
-                                    setEditorLanguage(new JavaLanguage(),"java.txt");
+                                    setEditorLanguage(new JavaLanguage(), "samples/java/java.txt");
                                     break;
                                 case 3:
                                     setEditorLanguage(new UniversalLanguage(new JavaScriptDescription()));
                                     break;
                                 case 4:
-                                    setEditorLanguage(new HTMLLanguage(),"html.txt");
+                                    setEditorLanguage(new HTMLLanguage(), "samples/html/html.txt");
                                     break;
                                 case 5:
-                                    setEditorLanguage(new PythonLanguage(),"python.txt");
+                                    setEditorLanguage(new PythonLanguage(), "samples/python/python.txt");
                                     break;
                                 case 6:
                                     setEditorLanguage(new EmptyLanguage());
                                     break;
                                 case 7:
-                                    setEditorLanguage(new GoLangLanguage(),"golang.txt");
+                                    setEditorLanguage(new GoLangLanguage(), "samples/golang/golang.txt");
                                     break;
                                 case 8:
-                                    setEditorLanguage(new MkshLanguage(), "mksh.txt");
+                                    setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
                                     break;
                             }
                             dialog.dismiss();
