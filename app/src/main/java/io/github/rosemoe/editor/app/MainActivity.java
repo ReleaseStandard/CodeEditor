@@ -16,6 +16,7 @@
 package io.github.rosemoe.editor.app;
 
 import android.app.AlertDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,6 +34,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.EditorLanguage;
@@ -64,6 +67,29 @@ public class MainActivity extends AppCompatActivity {
     private CodeEditor editor;
     private LinearLayout panel;
     private EditText search, replace;
+
+    private MainActivityModel mam = new MainActivityModel();
+    private HashMap<String,EditorColorScheme> themes = new HashMap<String, EditorColorScheme>() {{
+        put("Default",new EditorColorScheme());
+        put("GitHub",new SchemeGitHub());
+        put("Eclipse",new SchemeEclipse());
+        put("Darcula",new SchemeDarcula());
+        put("VS2019",new SchemeVS2019());
+        put("NotepadXX",new SchemeNotepadXX());
+        put("HTML",new HTMLScheme());
+        put("Nano",new SchemeNano());
+    }};
+    private HashMap<String,EditorLanguage> languages = new HashMap<String,EditorLanguage>() {{
+        put("C",new UniversalLanguage(new CDescription()));
+        put("C++",new UniversalLanguage(new CppDescription()));
+        put("Java",new JavaLanguage());
+        put("Javascript",new UniversalLanguage(new JavaScriptDescription()));
+        put("HTML",new HTMLLanguage());
+        put("Python",new PythonLanguage());
+        put("None",new EmptyLanguage());
+        put("GoLang",new GoLangLanguage());
+        put("Mksh",new MkshLanguage());
+    }};
 
     protected void setEditorLanguage(EditorLanguage el) {
         setEditorLanguage(el, "samples/java/java.txt");
@@ -132,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -188,36 +215,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.switch_language:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.switch_language)
-                        .setSingleChoiceItems(new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh"}, -1, (dialog, which) -> {
-                            switch (which) {
-                                case 0:
-                                    setEditorLanguage(new UniversalLanguage(new CDescription()), "samples/c/c.txt");
-                                    break;
-                                case 1:
-                                    setEditorLanguage(new UniversalLanguage(new CppDescription()), "samples/cpp/cpp.txt");
-                                    break;
-                                case 2:
-                                    setEditorLanguage(new JavaLanguage(), "samples/java/java.txt");
-                                    break;
-                                case 3:
-                                    setEditorLanguage(new UniversalLanguage(new JavaScriptDescription()));
-                                    break;
-                                case 4:
-                                    setEditorLanguage(new HTMLLanguage(), "samples/html/html.txt");
-                                    break;
-                                case 5:
-                                    setEditorLanguage(new PythonLanguage(), "samples/python/python.txt");
-                                    break;
-                                case 6:
-                                    setEditorLanguage(new EmptyLanguage());
-                                    break;
-                                case 7:
-                                    setEditorLanguage(new GoLangLanguage(), "samples/golang/golang.txt");
-                                    break;
-                                case 8:
-                                    setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
-                                    break;
-                            }
+                        .setSingleChoiceItems(mam.languages, mam.checkedLanguage, (dialog, which) -> {
+                            setEditorLanguage(languages.get(mam.languages[which]), mam.languages_samples.get(mam.languages[which]));
+                            mam.checkedLanguage=which;
                             dialog.dismiss();
                         })
                         .setNegativeButton(android.R.string.cancel, null)
@@ -241,37 +241,11 @@ public class MainActivity extends AppCompatActivity {
                 editor.beginSearchMode();
                 break;
             case R.id.switch_colors:
-                String[] themes = new String[]{"Default", "GitHub", "Eclipse",
-                        "Darcula", "VS2019", "NotepadXX", "HTML", "Nano"};
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
-                        .setSingleChoiceItems(themes, -1, (dialog, which) -> {
-                            switch (which) {
-                                case 0:
-                                    editor.setColorScheme(new EditorColorScheme());
-                                    break;
-                                case 1:
-                                    editor.setColorScheme(new SchemeGitHub());
-                                    break;
-                                case 2:
-                                    editor.setColorScheme(new SchemeEclipse());
-                                    break;
-                                case 3:
-                                    editor.setColorScheme(new SchemeDarcula());
-                                    break;
-                                case 4:
-                                    editor.setColorScheme(new SchemeVS2019());
-                                    break;
-                                case 5:
-                                    editor.setColorScheme(new SchemeNotepadXX());
-                                    break;
-                                case 6:
-                                    editor.setColorScheme(new HTMLScheme());
-                                    break;
-                                case 7:
-                                    editor.setColorScheme(new SchemeNano());
-                                    break;
-                            }
+                        .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
+                            editor.setColorScheme(themes.get(mam.themes[which]));
+                            mam.checkedTheme=which;
                             dialog.dismiss();
                         })
                         .setNegativeButton(android.R.string.cancel, null)
