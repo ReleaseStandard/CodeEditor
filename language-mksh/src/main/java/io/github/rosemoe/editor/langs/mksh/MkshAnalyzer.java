@@ -76,6 +76,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
         }
         colors.addIfNeeded(token.getLine()-1,token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
     }
+
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
 
@@ -139,12 +140,12 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterInstruction(MkshParser.InstructionContext ctx) {
-                setTokenColor(colors,ctx.getStart(),KEYWORD);
+                setTokenColor(colors,ctx.getStart(),COMMENT);
             }
 
             @Override
             public void exitInstruction(MkshParser.InstructionContext ctx) {
-                resetTokenColor(colors,ctx.getStop());
+                //resetTokenColor(colors,ctx.getStop());
             }
 
             @Override
@@ -204,14 +205,16 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterWhile_do(MkshParser.While_doContext ctx) {
-                setTerminalSymbolColor(colors,ctx.WHILE(),KEYWORD);
-                setTerminalSymbolColor(colors,ctx.DO(),KEYWORD);
-                setTerminalSymbolColor(colors,ctx.DONE(),KEYWORD);
+                setTerminalSymbolColor(colors, ctx.WHILE(), KEYWORD);
+                resetTokenColor(colors,ctx.WHILE().getSymbol());
+                setTerminalSymbolColor(colors, ctx.DO(), KEYWORD);
+                resetTokenColor(colors,ctx.DO().getSymbol());
+                setTerminalSymbolColor(colors, ctx.DONE(), KEYWORD);
+                resetTokenColor(colors,ctx.DONE().getSymbol());
             }
 
             @Override
             public void exitWhile_do(MkshParser.While_doContext ctx) {
-                resetTokenColor(colors,ctx.getStop());
             }
 
             @Override
@@ -223,19 +226,8 @@ public class MkshAnalyzer implements CodeAnalyzer {
             public void exitFunction(MkshParser.FunctionContext ctx) {
 
             }
-
-            @Override
-            public void enterFunction_wo_kw(MkshParser.Function_wo_kwContext ctx) {
-
-            }
-
-            @Override
-            public void exitFunction_wo_kw(MkshParser.Function_wo_kwContext ctx) {
-
-            }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.start());
-        colors.determine(10);
 
         /*
         Token token = null;

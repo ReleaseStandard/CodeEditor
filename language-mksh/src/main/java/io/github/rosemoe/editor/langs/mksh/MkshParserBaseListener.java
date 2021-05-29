@@ -143,18 +143,6 @@ public class MkshParserBaseListener implements MkshParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunction(MkshParser.FunctionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunction_wo_kw(MkshParser.Function_wo_kwContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunction_wo_kw(MkshParser.Function_wo_kwContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

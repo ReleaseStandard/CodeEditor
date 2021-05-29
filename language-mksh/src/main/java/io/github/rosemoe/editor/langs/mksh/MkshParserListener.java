@@ -117,14 +117,4 @@ public interface MkshParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(MkshParser.FunctionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MkshParser#function_wo_kw}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunction_wo_kw(MkshParser.Function_wo_kwContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MkshParser#function_wo_kw}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunction_wo_kw(MkshParser.Function_wo_kwContext ctx);
 }
