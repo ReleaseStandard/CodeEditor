@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.text;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +59,6 @@ public class TextAnalyzeResult {
         }
         add(spanLine, Span.obtain(column, colorId));
     }
-
     /**
      * Add a span directly
      * Note: the line should always >= the line of span last committed

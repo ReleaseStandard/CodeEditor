@@ -31,7 +31,7 @@ public class MkshLanguage implements EditorLanguage {
 
     @Override
     public AutoCompleteProvider getAutoCompleteProvider() {
-        return new IdentifierAutoComplete(MkshLexer.keywords);
+        return new IdentifierAutoComplete(new String[0]);
     }
 
     @Override

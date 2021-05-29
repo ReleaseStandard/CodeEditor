@@ -55,6 +55,7 @@ import io.github.rosemoe.editor.widget.schemes.HTMLScheme;
 import io.github.rosemoe.editor.widget.schemes.SchemeDarcula;
 import io.github.rosemoe.editor.widget.schemes.SchemeEclipse;
 import io.github.rosemoe.editor.widget.schemes.SchemeGitHub;
+import io.github.rosemoe.editor.widget.schemes.SchemeNano;
 import io.github.rosemoe.editor.widget.schemes.SchemeNotepadXX;
 import io.github.rosemoe.editor.widget.schemes.SchemeVS2019;
 
@@ -120,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
         setEditorLanguage(new JavaLanguage());
+        setEditorLanguage(new MkshLanguage(),"mksh.txt");
+        editor.setColorScheme(new SchemeNano());
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
 
@@ -239,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.switch_colors:
                 String[] themes = new String[]{"Default", "GitHub", "Eclipse",
-                        "Darcula", "VS2019", "NotepadXX", "HTML"};
+                        "Darcula", "VS2019", "NotepadXX", "HTML", "Nano"};
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(themes, -1, (dialog, which) -> {
@@ -264,6 +267,9 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 case 6:
                                     editor.setColorScheme(new HTMLScheme());
+                                    break;
+                                case 7:
+                                    editor.setColorScheme(new SchemeNano());
                                     break;
                             }
                             dialog.dismiss();
