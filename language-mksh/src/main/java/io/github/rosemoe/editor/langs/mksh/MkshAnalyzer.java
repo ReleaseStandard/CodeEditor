@@ -140,7 +140,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterInstruction(MkshParser.InstructionContext ctx) {
-                setTokenColor(colors,ctx.getStart(),COMMENT);
+                //setTokenColor(colors,ctx.getStart(),COMMENT);
             }
 
             @Override
