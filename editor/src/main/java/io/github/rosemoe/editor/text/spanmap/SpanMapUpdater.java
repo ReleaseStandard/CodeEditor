@@ -110,67 +110,31 @@ public class SpanMapUpdater {
         }
     }
 
+    /**
+     * Called when user insert on a single line : eg newline on its input.
+     * @param map the map to work on.
+     * @param line index 0..n-1 the line to modify.
+     * @param startCol index 0..n-1 the start column of modification.
+     * @param endCol index 0..n-1 the end column of modification.
+     */
     public static void shiftSpansOnSingleLineInsert(SpanMap map, int line, int startCol, int endCol) {
-        if (map == null || map.isEmpty()) {
-            return;
-        }
-        SpanLine spanList = map.get(line);
-        int index = findSpanIndexFor(spanList, 0, startCol);
-        if (index == -1) {
-            return;
-        }
-        int originIndex = index;
-        // Shift spans after insert position
-        int delta = endCol - startCol;
-        while (index < spanList.size()) {
-            spanList.get(index++).column += delta;
-        }
-        // Add extra span for line start
-        if (originIndex == 0) {
-            Span first = spanList.get(0);
-            if (first.colorId == EditorColorScheme.TEXT_NORMAL && first.underlineColor == 0) {
-                first.column = 0;
-            } else {
-                spanList.add(0, Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
-            }
-        }
+        Logger.debug("line=",line,",startCol=",startCol,",endCol=",endCol);
+        map.insertContent(line,startCol,endCol-startCol);
     }
 
+    /**
+     * Called when user insert on multiple lines : eg newline, copy paste into.
+     * @param map SpanMap to update.
+     * @param startLine start of insert line index.
+     * @param startColumn start of insert column index.
+     * @param endLine end of insert line index.
+     * @param endColumn end of insert column index.
+     */
     public static void shiftSpansOnMultiLineInsert(SpanMap map, int startLine, int startColumn, int endLine, int endColumn) {
-        // Find extended span
-        SpanLine startLineSpans = map.get(startLine);
-        int extendedSpanIndex = findSpanIndexFor(startLineSpans, 0, startColumn);
-        if (extendedSpanIndex == -1) {
-            extendedSpanIndex = startLineSpans.size() - 1;
-        }
-        if (startLineSpans.get(extendedSpanIndex).column > startColumn) {
-            extendedSpanIndex--;
-        }
-        Span extendedSpan;
-        if (extendedSpanIndex < 0 || extendedSpanIndex >= startLineSpans.size()) {
-            extendedSpan = Span.obtain(0, EditorColorScheme.TEXT_NORMAL);
-        } else {
-            extendedSpan = startLineSpans.get(extendedSpanIndex);
-        }
-        // Create map link for new lines
-        for (int i = 0; i < endLine - startLine; i++) {
-            SpanLine list = new SpanLine();
-            list.add(extendedSpan.copy().setColumn(0));
-            map.add(startLine + 1, list);
-        }
-        // Add original spans to new line
-        SpanLine endLineSpans = map.get(endLine);
-        if (endColumn == 0 && extendedSpanIndex + 1 < startLineSpans.size()) {
-            endLineSpans.clear();
-        }
-        int delta = Integer.MIN_VALUE;
-        while (extendedSpanIndex + 1 < startLineSpans.size()) {
-            Span span = startLineSpans.remove(extendedSpanIndex + 1);
-            if (delta == Integer.MIN_VALUE) {
-                delta = span.column;
-            }
-            endLineSpans.add(span.setColumn(span.column - delta + endColumn));
-        }
+
+        Logger.debug("startLine=",startLine,",startColumn=",startColumn,",endLine=",endLine,",endColumn=",endColumn);
+        int cutSize = endLine-startLine;
+        map.cutDown(startLine,startColumn,cutSize);
     }
 
     private static int findSpanIndexFor(SpanLine spans, int initialPosition, int targetCol) {

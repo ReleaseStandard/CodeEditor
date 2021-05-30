@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.text.spanmap;
 
+import java.util.Collection;
 import java.util.TreeMap;
 
 import io.github.rosemoe.editor.struct.Span;
@@ -23,6 +24,8 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**
  * The class handle one line in the text editor.
+ *
+ * @author Release Standard
  */
 public class SpanLine {
     /**
@@ -43,6 +46,11 @@ public class SpanLine {
     }
     public void add(Span span) {
         add(span.column,span);
+    }
+    public void add(SpanLine line) {
+        for(Span span : line.concurrentSafeGetValues()){
+            add(span);
+        }
     }
 
     /**
@@ -72,14 +80,19 @@ public class SpanLine {
 
     /**
      * Remove a span from the span line.
-     * @param i
+     * @param i line index 0..n-1
      * @return
      */
     public Span remove(int i) {
         return line.remove(i);
     }
+    /**
+     * Remove a span from the span line.
+     * @param span the span to remove, span.column 0..n-1
+     * @return
+     */
     public Span remove(Span span) {
-        return line.remove(span.column);
+        return remove(span.column);
     }
     /**
      * Clear the span line.
@@ -91,12 +104,78 @@ public class SpanLine {
      * Dump the current state of the SpanLine.
      */
     public void dump() {
-        Logger.debug("line number=",line.values().size());
+        dump("");
+    }
+    public void dump(String offset) {
+        Logger.debug(offset + "span in the line="+size());
     }
 
+    /**
+     * Split the line at given column index.
+     * @param col index 0..n-1
+     * @return newly created SpanLine with the column index updated.
+     */
+    public SpanLine[] split(int col) {
+        SpanLine[] parts = new SpanLine[2];
+        parts[0]=new SpanLine();
+        parts[1]=new SpanLine();
+        int columnIndex = 0;
+        for(Span span : concurrentSafeGetValues()) {
+            if ( span.column < col ) {
+                parts[0].add(span);
+            } else {
+                int length = span.column - col;
+                span.setColumn(columnIndex);
+                columnIndex += length;
+                parts[1].add(span);
+            }
+        }
+        return parts;
+    }
+
+    /**
+     * Insert content into the SpanLine at specified position.
+     * @param span the span to insert
+     * @param col index 0..n-1
+     * @param sz size 0..n
+     */
+    public void insertContent(Span span,int col,int sz) {
+
+        for(Span s : concurrentSafeGetValues()) {
+            if ( s.column >= col ) {
+                line.remove(s.column);
+                s.setColumn(s.column+sz);
+                line.put(s.column,span);
+            }
+        }
+        span.setColumn(col);
+        line.put(col,span);
+    }
+    /**
+     * Empty spanline.
+     * @return returns an empty spanline
+     */
     public static SpanLine EMPTY() {
         SpanLine line = new SpanLine();
         line.add(Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
         return line;
+    }
+
+    /**
+     * This function is used to avoid concurrent exception when working with Collections.
+     * @return
+     */
+    public Span[] concurrentSafeGetValues() {
+        Span[] spans = null;
+        while (spans == null ) {
+            try {
+                spans = line.values().toArray(new Span[size()]);
+            } catch (java.util.ConcurrentModificationException e) {
+                Logger.debug("This error is harmless if not repeat to much");
+                e.printStackTrace();
+                spans=null;
+            }
+        }
+        return spans;
     }
 }

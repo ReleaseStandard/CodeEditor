@@ -20,6 +20,9 @@ import android.util.Log;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.util.Logger;
+
 public class SpanRecycler {
 
     private static SpanRecycler INSTANCE;
@@ -63,14 +66,16 @@ public class SpanRecycler {
                     try {
                         SpanMap spanMap = taskQueue.take();
                         int count = 0;
-                        for (SpanLine spans : spanMap.getLines()) {
-                            int size = spans.size();
+                        for (SpanLine line : spanMap.getLines()) {
+                            int size = line.size();
                             for (int i = 0; i < size; i++) {
-                                spans.remove(size - 1 - i).recycle();
+                                Span span = line.remove(size - 1 - i);
+                                if ( span == null ) { continue; }
+                                span.recycle();
                                 count++;
                             }
                         }
-                        //Log.i(LOG_TAG, "Recycled " + count + " spans");
+                        Logger.debug("Recycled " + count + " spans");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         break;
@@ -79,7 +84,7 @@ public class SpanRecycler {
             } catch (Exception e) {
                 Log.w(LOG_TAG, e);
             }
-            Log.i(LOG_TAG, "Recycler exited");
+            Logger.debug("Recycler exited");
         }
 
     }

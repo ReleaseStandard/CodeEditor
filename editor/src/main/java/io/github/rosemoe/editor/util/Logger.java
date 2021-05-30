@@ -20,6 +20,7 @@ import android.util.Log;
 public class Logger {
     public static boolean DEBUG = true;
     public static String PREFIX = "TEST";
+    public static String OFFSET = "    ";
     public static void debug() {
         debug("");
     }

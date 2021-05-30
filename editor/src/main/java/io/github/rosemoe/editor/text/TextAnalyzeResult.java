@@ -158,6 +158,11 @@ public class TextAnalyzeResult {
     public SpanMap getSpanMap() {
         return mSpanMap;
     }
+
+    /**
+     * Add text line in the span line if there is nothing in the map.
+     * @return
+     */
     public SpanLine addNormalIfNull() {
         mSpanMap.appendLines(1);
         return mSpanMap.get(0);

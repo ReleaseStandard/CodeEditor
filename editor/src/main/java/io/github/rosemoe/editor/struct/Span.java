@@ -33,6 +33,9 @@ public class Span {
     public int colorId;
     public int underlineColor = 0;
 
+    public static Span EMPTY() {
+        return obtain(0, EditorColorScheme.TEXT_NORMAL);
+    }
     /**
      * Create a new span
      *
@@ -56,7 +59,7 @@ public class Span {
         }
     }
 
-    public static void recycleAll(Collection<Span> spans) {
+    public static void recycleAll(Span[] spans) {
         for (Span span : spans) {
             if (!span.recycle()) {
                 return;
