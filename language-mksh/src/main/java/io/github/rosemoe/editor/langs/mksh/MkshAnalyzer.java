@@ -36,6 +36,7 @@ import io.github.rosemoe.editor.interfaces.EditorLanguage;
 import io.github.rosemoe.editor.struct.Span;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 import static io.github.rosemoe.editor.langs.mksh.MkshLexer.*;
@@ -43,7 +44,6 @@ import static io.github.rosemoe.editor.widget.EditorColorScheme.*;
 
 public class MkshAnalyzer implements CodeAnalyzer {
 
-    private boolean DEBUG = true;
     private void _addColorNoCheck(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
         colors.add(spanLine,Span.obtain(column, colorId));
     }
@@ -59,9 +59,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
     }
     private void setTokenColor(TextAnalyzeResult colors, Token token, int color) {
         if ( token == null ) { return ; }
-        if ( DEBUG ) {
-            Log.v("TEST","Add color for token " + token.getText() + ",color=" + color + " at line=" + token.getLine() + ",col=" + token.getCharPositionInLine());
-        }
+        Logger.debug("Add color for token " + token.getText() + ",color=" + color + " at line=" + token.getLine() + ",col=" + token.getCharPositionInLine());
         addColor(colors,token.getLine()-1,token.getCharPositionInLine(),color);
     }
     private void resetTerminalSymbolColor(TextAnalyzeResult colors,TerminalNode tn) {
@@ -140,7 +138,10 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterInstruction(MkshParser.InstructionContext ctx) {
+                Logger.debug();
                 //setTokenColor(colors,ctx.getStart(),COMMENT);
+                setTokenColor(colors,ctx.getStart(),COMMENT);
+                resetTokenColor(colors,ctx.getStop());
             }
 
             @Override
@@ -205,12 +206,14 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterWhile_do(MkshParser.While_doContext ctx) {
+                Logger.debug();
                 setTerminalSymbolColor(colors, ctx.WHILE(), KEYWORD);
                 resetTokenColor(colors,ctx.WHILE().getSymbol());
                 setTerminalSymbolColor(colors, ctx.DO(), KEYWORD);
                 resetTokenColor(colors,ctx.DO().getSymbol());
                 setTerminalSymbolColor(colors, ctx.DONE(), KEYWORD);
                 resetTokenColor(colors,ctx.DONE().getSymbol());
+
             }
 
             @Override
