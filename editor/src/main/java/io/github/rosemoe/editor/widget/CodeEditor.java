@@ -1105,41 +1105,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             // Draw text here
             {
                 SpanLine spanLine = spanMap.getAddIfNeeded(line);
-
-                //Span span = spans.get(spanOffset);
-                // Draw by spans
-                /*while (lastVisibleChar > span.column) {
-                    int spanEnd = spanOffset + 1 >= spans.size() ? columnCount : spans.get(spanOffset + 1).column;
-
-                    int paintStart = Math.max(firstVisibleChar, span.column);
-                    int paintEnd = Math.min(lastVisibleChar, spanEnd);
-
-                    float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
-
-                    // Draw text
-                    drawRegionText(canvas, paintingOffset, getRowBaseline(row) - getOffsetY(), line, paintStart, paintEnd, columnCount, mColors.getColor(span.colorId));
-
-                    // Draw underline
-                    if (span.underlineColor != 0) {
-                        mRect.bottom = getRowBottom(line) - getOffsetY() - mDpUnit * 1;
-                        mRect.top = mRect.bottom - getRowHeight() * 0.08f;
-                        mRect.left = paintingOffset;
-                        mRect.right = paintingOffset + width;
-                        drawColor(canvas, span.underlineColor, mRect);
-                    }
-
-                    paintingOffset += width;
-
-                    if (paintEnd == lastVisibleChar) {
-                        break;
-                    }
-                    spanOffset++;
-                    if (spanOffset < spans.size()) {
-                        span = spans.get(spanOffset);
-                    } else {
-                        spanOffset--;
-                    }
-                }*/
+                
                 Map.Entry<Integer, Span> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
                 for (int a = 0; a < keys.length; a=a+1) {
                     Span span = keys[a].getValue();

@@ -128,12 +128,12 @@ public class SpanMap {
     }
 
     /**
-     * Cut the specified line at specified position and put it down.
+     * Split the specified line at specified position and put it down.
      * @param line index 0..n-1
      * @param col index 0..n-1
      * @param cutSize size 1..n the cut size, eg a cut of one will split a line in to lines, a cut of two will split line in two lines plus insert an empty line.
      */
-    public void cutDown(int line,int col,int cutSize) {
+    public void splitLine(int line, int col, int cutSize) {
         dump();
         Logger.debug("cutDown line=",line,",col=",col,",cutSize=",cutSize);
         SpanLine startLine = map.get(line);
@@ -155,10 +155,34 @@ public class SpanMap {
      * @param col index 0..n-1
      */
     public void insertLines(SpanLine[]lines, int line, int col) {
-        cutDown(line,col,lines.length);
+        splitLine(line,col,lines.length);
         for(int i = 0; i < lines.length;i=i+1) {
             SpanLine spanLine = map.get(line+i);
             spanLine.add(lines[i]);
+        }
+    }
+
+    /**
+     * Remove spans and lines of all lines found between bounds.
+     * @param startLine index 0..n-1 of the start line
+     * @param startColumn index 0..n-1 of the start column
+     * @param endLine index 0..n-1 of the end line
+     * @param endColumn index 0..n-1 of the end column
+     */
+    public void cutLines(int startLine, int startColumn, int endLine, int endColumn) {
+        SpanLine startSpanLine = map.get(startLine);
+        SpanLine stopSpanLine = map.get(endLine);
+        startSpanLine.removeContent(startColumn,Integer.MAX_VALUE);
+        stopSpanLine.removeContent(0,endColumn);
+        SpanLine newLine = SpanLine.merge(startSpanLine,stopSpanLine);
+        map.put(startLine,newLine);
+
+        for(int i = startLine + 1; i <= endLine; i=i+1) {
+            remove(i);
+        }
+        for(int i = endLine ; i < map.size();i=i+1) {
+            SpanLine line = map.remove(i);
+            map.put(i - (endLine-startLine),line);
         }
     }
     public void insertContent(int line, int col, int sz) {

@@ -132,6 +132,27 @@ public class SpanLine {
         }
         return parts;
     }
+    /**
+     * This function merge two SpanLines together and returns the merged span line.
+     * @param one
+     * @param two
+     * @return
+     */
+    public static SpanLine merge(SpanLine one,SpanLine two) {
+        int index = 0;
+        if ( one.size() > 0) {
+            Span lastSpan = one.line.lastEntry().getValue();
+            index = lastSpan.column;
+        }
+        int lastCol = 0;
+        for(Span span : two.concurrentSafeGetValues()) {
+            lastCol = span.column - lastCol;
+            index += lastCol;
+            span.setColumn(index);
+            one.add(index,span);
+        }
+        return one;
+    }
 
     /**
      * Insert content into the SpanLine at specified position.
@@ -140,7 +161,6 @@ public class SpanLine {
      * @param sz size 0..n
      */
     public void insertContent(Span span,int col,int sz) {
-
         for(Span s : concurrentSafeGetValues()) {
             if ( s.column >= col ) {
                 line.remove(s.column);
@@ -150,6 +170,25 @@ public class SpanLine {
         }
         span.setColumn(col);
         line.put(col,span);
+    }
+
+    /**
+     * Remove spans on affected region by the deletion.
+     * @param col index 0..n-1
+     * @param sz size 0..n
+     */
+    public void removeContent(int col,int sz) {
+        for(Span span : concurrentSafeGetValues()) {
+            if ( span.column < col) {
+
+            } else {
+                if ( span.column < col+sz) {
+                    remove(span);
+                } else {
+                    span.setColumn(span.column-sz);
+                }
+            }
+        }
     }
     /**
      * Empty spanline.

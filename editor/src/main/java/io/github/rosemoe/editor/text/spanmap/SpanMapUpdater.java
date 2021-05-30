@@ -17,7 +17,6 @@ package io.github.rosemoe.editor.text.spanmap;
 
 import io.github.rosemoe.editor.struct.Span;
 import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**
  * Update spans on text change event
@@ -26,88 +25,30 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  */
 public class SpanMapUpdater {
 
+    /**
+     * Called when user delete a newline, select and cut on multiple lines.
+     * @param map
+     * @param startLine
+     * @param startColumn
+     * @param endLine
+     * @param endColumn
+     */
     public static void shiftSpansOnMultiLineDelete(SpanMap map, int startLine, int startColumn, int endLine, int endColumn) {
         Logger.debug("startLine=",startLine,",startColumn=",startColumn,",endLine=",endLine,",endColumn=",endColumn);
-        int lineCount = endLine - startLine - 1;
-        // Remove unrelated lines
-        while (lineCount > 0) {
-            map.remove(startLine + 1);
-            lineCount--;
-        }
-        // Clean up start line
-        SpanLine startLineSpans = map.get(startLine);
-        int index = startLineSpans.size() - 1;
-        while (index > 0) {
-            if (startLineSpans.get(index).column >= startColumn) {
-                startLineSpans.remove(index).recycle();
-                index--;
-            } else {
-                break;
-            }
-        }
-        // Shift end line
-        SpanLine endLineSpans = map.get(startLine + 1);
-        while (endLineSpans.size() > 1) {
-            Span first = endLineSpans.get(0);
-            if (first.column >= endColumn) {
-                break;
-            } else {
-                int spanEnd = endLineSpans.get(1).column;
-                if (spanEnd <= endColumn) {
-                    endLineSpans.remove(first);
-                    first.recycle();
-                } else {
-                    break;
-                }
-            }
-        }
-        for (int i = 0; i < endLineSpans.size(); i++) {
-            Span span = endLineSpans.get(i);
-            if (span.column < endColumn) {
-                span.column = 0;
-            } else {
-                span.column -= endColumn;
-            }
-        }
+        map.cutLines(startLine,startColumn,endLine,endColumn);
     }
 
+    /**
+     * Called when user delete characters on a single line.
+     * @param map
+     * @param line
+     * @param startCol
+     * @param endCol
+     */
     public static void shiftSpansOnSingleLineDelete(SpanMap map, int line, int startCol, int endCol) {
         Logger.debug("line=",line,",startCol=",startCol,",endCol=",endCol);
-        if (map == null || map.isEmpty()) {
-            return;
-        }
-        SpanLine spanList = map.get(line);
-        int startIndex = findSpanIndexFor(spanList, 0, startCol);
-        if (startIndex == -1) {
-            //No span is to be updated
-            return;
-        }
-        int endIndex = findSpanIndexFor(spanList, startIndex, endCol);
-        if (endIndex == -1) {
-            endIndex = spanList.size();
-        }
-        // Remove spans inside delete text
-        int removeCount = endIndex - startIndex;
-        for (int i = 0; i < removeCount; i++) {
-            spanList.remove(startIndex).recycle();
-        }
-        // Shift spans
-        int delta = endCol - startCol;
-        while (startIndex < spanList.size()) {
-            spanList.get(startIndex).column -= delta;
-            startIndex++;
-        }
-        // Ensure there is span
-        if (spanList.isEmpty() || spanList.get(0).column != 0) {
-            spanList.add(0, Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
-        }
-        // Remove spans with length 0
-        for (int i = 0; i + 1 < spanList.size(); i++) {
-            if (spanList.get(i).column >= spanList.get(i + 1).column) {
-                spanList.remove(i).recycle();
-                i--;
-            }
-        }
+        SpanLine spanLine = map.get(line);
+        spanLine.removeContent(startCol,endCol-startCol);
     }
 
     /**
@@ -134,17 +75,7 @@ public class SpanMapUpdater {
 
         Logger.debug("startLine=",startLine,",startColumn=",startColumn,",endLine=",endLine,",endColumn=",endColumn);
         int cutSize = endLine-startLine;
-        map.cutDown(startLine,startColumn,cutSize);
-    }
-
-    private static int findSpanIndexFor(SpanLine spans, int initialPosition, int targetCol) {
-
-        for (int i = initialPosition; i < spans.size(); i++) {
-            if (spans.get(i).column >= targetCol) {
-                return i;
-            }
-        }
-        return -1;
+        map.splitLine(startLine,startColumn,cutSize);
     }
 
 }
