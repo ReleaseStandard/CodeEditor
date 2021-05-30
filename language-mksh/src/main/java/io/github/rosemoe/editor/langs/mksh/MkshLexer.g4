@@ -112,6 +112,20 @@ ARIT_PLUS                 : '+';
 ARIT_MINUS                : '-';
 ARIT_ONE                  : '1';
 
+ARIT_A                    : '=';
+ARIT_A_PLUS               : '+=';
+ARIT_A_MINUS              : '-=';
+ARIT_A_STAR               : '*=';
+ARIT_A_DIV                : '/=';
+ARIT_A_MOD                : '%=';
+ARIT_A_L_SHIFT            : '<<=';
+ARIT_A_R_SHIFT            : '>>=';
+ARIT_A_L_ROTATE           : '<<<=';
+ARIT_A_R_ROTATE           : '>>>=';
+ARIT_A_XOR                : '^=';
+ARIT_A_AND                : '&=';
+ARIT_A_OR                 : '|=';
+
 // Punctuations
 //CAT_PUNCTUATIONS            : P_SEMI | P_INTERO | P_L_BRACKET | P_R_BRACKET | P_L_PARENTHESIS | P_R_PARENTHESIS;
 P_SEMI                    : ';';
@@ -136,8 +150,8 @@ STRING                             : '"' ~[.]* '"' | '\'' ~[.]* '\'';
 IDENTIFIER                         : LETTER (LETTER | UNICODE_DIGIT)*;
 
 WS                                 : [ \t]+             -> channel(HIDDEN);
-TERMINATOR                         : [\r\n]+            -> channel(HIDDEN);
-LINE_COMMENT                       : '#' ~[\r\n]*;
+TERMINATOR                         : [\r\n]+ ;
+LINE_COMMENT                       : '#' ~[\r\n]* ;
 
 
 

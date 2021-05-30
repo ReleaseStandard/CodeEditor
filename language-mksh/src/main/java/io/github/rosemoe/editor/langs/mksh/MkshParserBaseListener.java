@@ -184,18 +184,6 @@ public class MkshParserBaseListener implements MkshParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterA_operator(MkshParser.A_operatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitA_operator(MkshParser.A_operatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterA_immediate(MkshParser.A_immediateContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -208,6 +196,18 @@ public class MkshParserBaseListener implements MkshParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterA_operand(MkshParser.A_operandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitA_operand(MkshParser.A_operandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterA_expr(MkshParser.A_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -215,6 +215,30 @@ public class MkshParserBaseListener implements MkshParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitA_expr(MkshParser.A_exprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterA_operator_binary(MkshParser.A_operator_binaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitA_operator_binary(MkshParser.A_operator_binaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterA_operator_unary(MkshParser.A_operator_unaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitA_operator_unary(MkshParser.A_operator_unaryContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

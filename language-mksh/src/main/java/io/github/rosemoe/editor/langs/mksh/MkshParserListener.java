@@ -148,16 +148,6 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitArit(MkshParser.AritContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#a_operator}.
-	 * @param ctx the parse tree
-	 */
-	void enterA_operator(MkshParser.A_operatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MkshParser#a_operator}.
-	 * @param ctx the parse tree
-	 */
-	void exitA_operator(MkshParser.A_operatorContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MkshParser#a_immediate}.
 	 * @param ctx the parse tree
 	 */
@@ -168,6 +158,16 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitA_immediate(MkshParser.A_immediateContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MkshParser#a_operand}.
+	 * @param ctx the parse tree
+	 */
+	void enterA_operand(MkshParser.A_operandContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#a_operand}.
+	 * @param ctx the parse tree
+	 */
+	void exitA_operand(MkshParser.A_operandContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MkshParser#a_expr}.
 	 * @param ctx the parse tree
 	 */
@@ -177,4 +177,24 @@ public interface MkshParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitA_expr(MkshParser.A_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#a_operator_binary}.
+	 * @param ctx the parse tree
+	 */
+	void enterA_operator_binary(MkshParser.A_operator_binaryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#a_operator_binary}.
+	 * @param ctx the parse tree
+	 */
+	void exitA_operator_binary(MkshParser.A_operator_binaryContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#a_operator_unary}.
+	 * @param ctx the parse tree
+	 */
+	void enterA_operator_unary(MkshParser.A_operator_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#a_operator_unary}.
+	 * @param ctx the parse tree
+	 */
+	void exitA_operator_unary(MkshParser.A_operator_unaryContext ctx);
 }

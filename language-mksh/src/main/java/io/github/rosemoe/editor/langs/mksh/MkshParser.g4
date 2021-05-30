@@ -37,25 +37,29 @@ options {
 
 start                : file ;
 file                 : expr EOF ;
-expr                 : ( arit | execution_control | instruction | comment) expression_end expr? ;
+expr                 : ( ( arit | execution_control | instruction ) expression_end | comment | TERMINATOR+ ) expr? ;
 instruction          : TRUE P_SEMI? ;
 expression_end       : P_SEMI | TERMINATOR ; 
 comment              : LINE_COMMENT ;
 
 // execution flow control
 execution_control    : for_do_done | if_then_else | select_in | until_do | while_do | function ;
-for_do_done          : FOR IDENTIFIER ( IN STRING* )? DO expr DONE ;
+for_do_done          : FOR IDENTIFIER ( IN STRING* )? expression_end DO expr DONE ;
 if_then_else         : IF expr THEN expr (ELIF expr THEN expr)* (ELSE expr)? FI ;
-select_in            : SELECT IDENTIFIER (IN STRING*) DO expr DONE ;
+select_in            : SELECT IDENTIFIER (IN STRING*) expression_end DO expr DONE ;
 until_do             : UNTIL expr DO expr DONE;
 while_do             : WHILE expr DO expr DONE;
 function             : FUNCTION IDENTIFIER P_L_PARENTHESIS (IDENTIFIER (P_COMMA IDENTIFIER)*)? P_R_PARENTHESIS P_L_BRACKET expr P_R_BRACKET;
 
 // arithmetic expression
 arit                 : LET a_expr | ARIT_OPERATOR_L a_expr ARIT_OPERATOR_R;
-a_operator           : ARIT_PLUS | ARIT_MINUS;
 a_immediate          : ARIT_ONE;
-a_expr               : a_immediate a_operator a_immediate;
+a_operand            : a_immediate | IDENTIFIER;
+a_expr               : a_expr a_operator_binary | a_expr a_operator_binary a_expr | a_operand;
+a_operator_binary    : ARIT_A | ARIT_A_PLUS | ARIT_A_MINUS | ARIT_A_DIV | ARIT_A_MOD | ARIT_A_L_SHIFT | 
+			ARIT_A_R_SHIFT | ARIT_A_L_ROTATE | ARIT_A_R_ROTATE | ARIT_A_XOR | ARIT_A_AND | ARIT_A_OR | ARIT_A_STAR | P_COMMA;
+a_operator_unary     : ;
+
 
 
 

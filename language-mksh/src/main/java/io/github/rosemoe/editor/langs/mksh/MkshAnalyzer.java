@@ -228,16 +228,6 @@ public class MkshAnalyzer extends CodeAnalyzer {
             }
 
             @Override
-            public void enterA_operator(MkshParser.A_operatorContext ctx) {
-                processKeyword(colors,ctx.ARIT_MINUS(),ctx.ARIT_PLUS());
-            }
-
-            @Override
-            public void exitA_operator(MkshParser.A_operatorContext ctx) {
-
-            }
-
-            @Override
             public void enterA_immediate(MkshParser.A_immediateContext ctx) {
                 processNodes(colors,LITERAL,ctx.ARIT_ONE());
             }
@@ -248,12 +238,42 @@ public class MkshAnalyzer extends CodeAnalyzer {
             }
 
             @Override
+            public void enterA_operand(MkshParser.A_operandContext ctx) {
+
+            }
+
+            @Override
+            public void exitA_operand(MkshParser.A_operandContext ctx) {
+
+            }
+
+            @Override
             public void enterA_expr(MkshParser.A_exprContext ctx) {
 
             }
 
             @Override
             public void exitA_expr(MkshParser.A_exprContext ctx) {
+
+            }
+
+            @Override
+            public void enterA_operator_binary(MkshParser.A_operator_binaryContext ctx) {
+
+            }
+
+            @Override
+            public void exitA_operator_binary(MkshParser.A_operator_binaryContext ctx) {
+
+            }
+
+            @Override
+            public void enterA_operator_unary(MkshParser.A_operator_unaryContext ctx) {
+
+            }
+
+            @Override
+            public void exitA_operator_unary(MkshParser.A_operator_unaryContext ctx) {
 
             }
         };
