@@ -51,7 +51,7 @@ public class TextAnalyzer {
             throw new IllegalArgumentException();
         }
         mResult = new TextAnalyzeResult();
-        mResult.addNormalIfNull();
+        //mResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
     }
 
@@ -141,13 +141,14 @@ public class TextAnalyzer {
      */
     static class RecycleObjContainer {
 
-        List<List<Span>> spanMap;
+        SpanMap spanMap;
 
         List<BlockLine> blockLines;
 
         void recycle() {
             ObjectAllocator.recycleBlockLine(blockLines);
             SpanRecycler.getInstance().recycle(spanMap);
+
             clear();
         }
 
@@ -204,7 +205,7 @@ public class TextAnalyzer {
                     mObjContainer.blockLines = mResult.mBlocks;
                     mObjContainer.spanMap = mResult.mSpanMap;
                     mResult = colors;
-                    colors.addNormalIfNull();
+                    //colors.addNormalIfNull();
                     try {
                         if (mCallback != null)
                             mCallback.onAnalyzeDone(TextAnalyzer.this);

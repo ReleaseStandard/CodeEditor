@@ -20,6 +20,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import io.github.rosemoe.editor.struct.BlockLine;
 import io.github.rosemoe.editor.struct.NavigationItem;
@@ -33,7 +34,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 public class TextAnalyzeResult {
 
     protected final List<BlockLine> mBlocks;
-    protected final List<List<Span>> mSpanMap;
+    public final SpanMap mSpanMap;
     public Object mExtra;
     protected List<NavigationItem> mLabels;
     protected Span mLast;
@@ -44,7 +45,7 @@ public class TextAnalyzeResult {
      */
     public TextAnalyzeResult() {
         mLast = null;
-        mSpanMap = new ArrayList<>(2048);
+        mSpanMap = new SpanMap();
         mBlocks = new ArrayList<>(1024);
     }
 
@@ -68,14 +69,8 @@ public class TextAnalyzeResult {
      * @param span     The span
      */
     public void add(int spanLine, Span span) {
-        while(mSpanMap.size() <= spanLine) {
-            List<Span> lineSpans = new ArrayList<>();
-            lineSpans.add(Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
-            mSpanMap.add(lineSpans);
-        }
-        List<Span> lineSpans = mSpanMap.get(spanLine);
-        lineSpans.add(span);
-        Logger.debug("spanLine=",spanLine,",mSpanMapLine=",mSpanMap.size(),",spans in the line=",lineSpans.size());
+        mSpanMap.getAddIfNeeded(spanLine).add(span);
+        mSpanMap.dump();
     }
 
     /**
@@ -84,17 +79,7 @@ public class TextAnalyzeResult {
      * @param line The line is the line last of text
      */
     public void determine(int line) {
-        int mapLine = mSpanMap.size() - 1;
-        Span extendedSpan = mLast;
-        if (mLast == null) {
-            extendedSpan = Span.obtain(0, EditorColorScheme.TEXT_NORMAL);
-        }
-        while (mapLine < line) {
-            List<Span> lineSpans = new ArrayList<>();
-            lineSpans.add(extendedSpan.copy().setColumn(0));
-            mSpanMap.add(lineSpans);
-            mapLine++;
-        }
+        mSpanMap.appendLines(line);
     }
 
     /**
@@ -125,16 +110,6 @@ public class TextAnalyzeResult {
         return mBlocks;
     }
 
-    /**
-     * Ensure the list not empty
-     */
-    public void addNormalIfNull() {
-        if (mSpanMap.isEmpty()) {
-            List<Span> spanList = new ArrayList<>();
-            spanList.add(Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
-            mSpanMap.add(spanList);
-        }
-    }
 
     /**
      * Get code navigation list
@@ -183,11 +158,11 @@ public class TextAnalyzeResult {
     public void setSuppressSwitch(int suppressSwitch) {
         mSuppressSwitch = suppressSwitch;
     }
-
-    /**
-     * Get span map
-     */
-    public List<List<Span>> getSpanMap() {
+    public SpanMap getSpanMap() {
         return mSpanMap;
+    }
+    public SpanLine addNormalIfNull() {
+        mSpanMap.appendLines(1);
+        return mSpanMap.get(0);
     }
 }

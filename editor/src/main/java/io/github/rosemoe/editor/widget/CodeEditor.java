@@ -80,6 +80,8 @@ import io.github.rosemoe.editor.text.Cursor;
 import io.github.rosemoe.editor.text.FontCache;
 import io.github.rosemoe.editor.text.FormatThread;
 import io.github.rosemoe.editor.text.LineRemoveListener;
+import io.github.rosemoe.editor.text.SpanLine;
+import io.github.rosemoe.editor.text.SpanMap;
 import io.github.rosemoe.editor.text.SpanMapUpdater;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
@@ -1021,7 +1023,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
         List<Span> temporaryEmptySpans = null;
-        List<List<Span>> spanMap = mSpanner.getResult().getSpanMap();
+        SpanMap spanMap = mSpanner.getResult().mSpanMap;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = mCursor.isSelected() ? -1 : mCursor.getLeftLine();
         int currentLineBgColor = mColors.getColor(EditorColorScheme.CURRENT_LINE);
@@ -1030,7 +1032,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         int leadingWhitespaceEnd = 0;
         int trailingWhitespaceStart = 0;
         float circleRadius = 0f;
-        Logger.debug("Start with spanMap.size()=",spanMap.size());
+
         if (shouldInitializeNonPrintable()) {
             float spaceWidth = mFontCache.measureChar(' ', mPaint);
             float maxD = Math.min(getRowHeight(), spaceWidth);
@@ -1106,18 +1108,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
 
             // Draw text here
             {
-                // Get spans
-                List<Span> spans = null;
-                if (line < spanMap.size() && line >= 0) {
-                    spans = spanMap.get(line);
-                }
-                if (spans == null || spans.size() == 0) {
-                    if (temporaryEmptySpans == null) {
-                        temporaryEmptySpans = new LinkedList<>();
-                        temporaryEmptySpans.add(Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
-                    }
-                    spans = temporaryEmptySpans;
-                }
+                SpanLine spanLine = spanMap.getAddIfNeeded(line);
 
                 //Span span = spans.get(spanOffset);
                 // Draw by spans
@@ -1153,13 +1144,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                         spanOffset--;
                     }
                 }*/
-                Logger.debug("Spans in the initial pool");
-                TreeMap<Integer,Span> sorted = new TreeMap<>();
-                for(Span span : spans) {
-                    Logger.debug("col=",span.column);
-                    sorted.put(span.column,span);
-                }
-                Map.Entry<Integer, Span> [] keys = sorted.entrySet().toArray(new Map.Entry[sorted.keySet().size()]);
+                Map.Entry<Integer, Span> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
                 for (int a = 0; a < keys.length; a=a+1) {
                     Span span = keys[a].getValue();
                     int colStart = span.column;
@@ -1184,8 +1169,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
                     paintingOffset += width;
                 }
-
-                Logger.debug("Drawing span for line=",line,",spans in the line=",spans.size(),",firstVisibleChar=",firstVisibleChar,",spanOffset=",spanOffset);
+                Logger.debug("Drawing span for line=",line,",spans in the line=",spanLine.size(),",firstVisibleChar=",firstVisibleChar,",spanOffset=",spanOffset);
             }
 
             // Draw hard wrap
@@ -2181,7 +2165,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * Whether span map is valid
      */
     private boolean isSpanMapPrepared(boolean insert, int delta) {
-        List<List<Span>> map = mSpanner.getResult().getSpanMap();
+        SpanMap map = mSpanner.getResult().getSpanMap();
         if (map != null) {
             if (insert) {
                 return map.size() == getLineCount() - delta;

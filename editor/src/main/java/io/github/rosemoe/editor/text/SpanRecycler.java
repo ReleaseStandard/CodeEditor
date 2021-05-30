@@ -26,7 +26,7 @@ import io.github.rosemoe.editor.struct.Span;
 public class SpanRecycler {
 
     private static SpanRecycler INSTANCE;
-    private final BlockingQueue<List<List<Span>>> taskQueue;
+    private final BlockingQueue<SpanMap> taskQueue;
     private Thread recycleThread;
     private SpanRecycler() {
         taskQueue = new ArrayBlockingQueue<>(8);
@@ -39,7 +39,7 @@ public class SpanRecycler {
         return INSTANCE;
     }
 
-    public void recycle(List<List<Span>> spans) {
+    public void recycle(SpanMap spans) {
         if (spans == null) {
             return;
         }
@@ -64,9 +64,9 @@ public class SpanRecycler {
             try {
                 while (!isInterrupted()) {
                     try {
-                        List<List<Span>> spanMap = taskQueue.take();
+                        SpanMap spanMap = taskQueue.take();
                         int count = 0;
-                        for (List<Span> spans : spanMap) {
+                        for (SpanLine spans : spanMap.getLines()) {
                             int size = spans.size();
                             for (int i = 0; i < size; i++) {
                                 spans.remove(size - 1 - i).recycle();
