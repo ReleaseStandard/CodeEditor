@@ -196,6 +196,16 @@ public class MkshAnalyzer implements CodeAnalyzer {
             }
 
             @Override
+            public void enterComment(MkshParser.CommentContext ctx) {
+                processNodes(colors,COMMENT,ctx.LINE_COMMENT());
+            }
+
+            @Override
+            public void exitComment(MkshParser.CommentContext ctx) {
+
+            }
+
+            @Override
             public void enterExecution_control(MkshParser.Execution_controlContext ctx) {
             }
 
@@ -269,7 +279,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterArit(MkshParser.AritContext ctx) {
-
+                processKeyword(colors,ctx.LET(),ctx.ARIT_OPERATOR_L(),ctx.ARIT_OPERATOR_R());
             }
 
             @Override
@@ -279,7 +289,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterA_operator(MkshParser.A_operatorContext ctx) {
-
+                processKeyword(colors,ctx.ARIT_MINUS(),ctx.ARIT_PLUS());
             }
 
             @Override
@@ -289,7 +299,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterA_immediate(MkshParser.A_immediateContext ctx) {
-
+                processNodes(colors,LITERAL,ctx.ARIT_ONE());
             }
 
             @Override

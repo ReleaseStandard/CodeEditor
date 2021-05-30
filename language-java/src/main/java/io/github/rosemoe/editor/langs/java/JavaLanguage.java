@@ -21,7 +21,7 @@ import io.github.rosemoe.editor.interfaces.EditorLanguage;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
-import io.github.rosemoe.editor.text.TextUtils;
+import io.github.rosemoe.editor.langs.helpers.TextUtils;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 /**

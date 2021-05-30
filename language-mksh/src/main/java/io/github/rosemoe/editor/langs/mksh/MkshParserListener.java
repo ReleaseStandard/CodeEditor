@@ -58,6 +58,16 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitExpression_end(MkshParser.Expression_endContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MkshParser#comment}.
+	 * @param ctx the parse tree
+	 */
+	void enterComment(MkshParser.CommentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#comment}.
+	 * @param ctx the parse tree
+	 */
+	void exitComment(MkshParser.CommentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MkshParser#execution_control}.
 	 * @param ctx the parse tree
 	 */

@@ -21,8 +21,9 @@ import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.struct.BlockLine;
-import io.github.rosemoe.editor.text.spanmap.SpanMap;
-import io.github.rosemoe.editor.text.spanmap.SpanRecycler;
+import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.struct.SpanMap;
+import io.github.rosemoe.editor.text.spanmap.Recycler;
 
 /**
  * This is a manager of analyzing text
@@ -52,7 +53,7 @@ public class TextAnalyzer {
             throw new IllegalArgumentException();
         }
         mResult = new TextAnalyzeResult();
-        //mResult.addNormalIfNull();
+        mResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
     }
 
@@ -148,7 +149,7 @@ public class TextAnalyzer {
 
         void recycle() {
             ObjectAllocator.recycleBlockLine(blockLines);
-            SpanRecycler.getInstance().recycle(spanMap);
+            Recycler.getInstance().recycle(spanMap);
 
             clear();
         }
@@ -206,7 +207,7 @@ public class TextAnalyzer {
                     mObjContainer.blockLines = mResult.mBlocks;
                     mObjContainer.spanMap = mResult.mSpanMap;
                     mResult = colors;
-                    //colors.addNormalIfNull();
+                    colors.addNormalIfNull();
                     try {
                         if (mCallback != null)
                             mCallback.onAnalyzeDone(TextAnalyzer.this);

@@ -137,7 +137,7 @@ IDENTIFIER                         : LETTER (LETTER | UNICODE_DIGIT)*;
 
 WS                                 : [ \t]+             -> channel(HIDDEN);
 TERMINATOR                         : [\r\n]+            -> channel(HIDDEN);
-LINE_COMMENT                       : '#' ~[\r\n]*       -> channel(HIDDEN);
+LINE_COMMENT                       : '#' ~[\r\n]*;
 
 
 

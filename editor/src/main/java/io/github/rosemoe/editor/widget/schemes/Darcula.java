@@ -22,7 +22,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  * picked from Android Studio
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public class SchemeDarcula extends EditorColorScheme {
+public class Darcula extends EditorColorScheme {
 
     @Override
     public void applyDefault() {

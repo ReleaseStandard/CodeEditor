@@ -18,8 +18,8 @@ package io.github.rosemoe.editor.widget;
 import android.app.ProgressDialog;
 import android.widget.Toast;
 
-import io.github.rosemoe.editor.text.Content;
-import io.github.rosemoe.editor.text.Cursor;
+import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.text.content.Cursor;
 
 /**
  * Search text in editor

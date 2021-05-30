@@ -21,12 +21,13 @@ import java.util.List;
 import io.github.rosemoe.editor.struct.BlockLine;
 import io.github.rosemoe.editor.struct.NavigationItem;
 import io.github.rosemoe.editor.struct.Span;
-import io.github.rosemoe.editor.text.spanmap.SpanLine;
-import io.github.rosemoe.editor.text.spanmap.SpanMap;
+import io.github.rosemoe.editor.struct.SpanLine;
+import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
- * The result of analysis
+ * The result of analysis.
+ * Update spans in response to the analysis.
  */
 public class TextAnalyzeResult {
 

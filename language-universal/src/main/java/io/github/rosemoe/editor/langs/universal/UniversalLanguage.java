@@ -22,7 +22,7 @@ import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
 import io.github.rosemoe.editor.struct.BlockLine;
-import io.github.rosemoe.editor.text.LineNumberCalculator;
+import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.widget.EditorColorScheme;

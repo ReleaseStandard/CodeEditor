@@ -15,7 +15,8 @@
  */
 package io.github.rosemoe.editor.text.spanmap;
 
-import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.struct.SpanLine;
+import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -23,7 +24,7 @@ import io.github.rosemoe.editor.util.Logger;
  *
  * @author Rose
  */
-public class SpanMapUpdater {
+public class Updater {
 
     /**
      * Called when user delete a newline, select and cut on multiple lines.

@@ -22,7 +22,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  * picked from Visual Studio 2019
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public class SchemeVS2019 extends EditorColorScheme {
+public class VS2019 extends EditorColorScheme {
 
     @Override
     public void applyDefault() {

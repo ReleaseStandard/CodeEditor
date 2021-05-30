@@ -16,6 +16,7 @@
 package io.github.rosemoe.editor.text;
 
 import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.text.content.Content;
 
 public class FormatThread extends Thread {
 

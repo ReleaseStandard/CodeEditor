@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.widget;
 
-import io.github.rosemoe.editor.text.Cursor;
+import io.github.rosemoe.editor.text.content.Cursor;
 
 /**
  * A channel to insert symbols in {@link CodeEditor}

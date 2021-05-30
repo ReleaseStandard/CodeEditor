@@ -15,7 +15,8 @@
  */
 package io.github.rosemoe.editor.interfaces;
 
-import io.github.rosemoe.editor.text.Content;
+import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.text.content.ContentListener;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -50,19 +51,19 @@ public interface EditorEventListener {
     void onNewTextSet(CodeEditor editor);
 
     /**
-     * @see io.github.rosemoe.editor.text.ContentListener#afterDelete(Content, int, int, int, int, CharSequence)
+     * @see ContentListener#afterDelete(Content, int, int, int, int, CharSequence)
      * Note:do not change content at this time
      */
     void afterDelete(CodeEditor editor, CharSequence content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent);
 
     /**
-     * @see io.github.rosemoe.editor.text.ContentListener#afterInsert(Content, int, int, int, int, CharSequence)
+     * @see ContentListener#afterInsert(Content, int, int, int, int, CharSequence)
      * Note:do not change content at this time
      */
     void afterInsert(CodeEditor editor, CharSequence content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent);
 
     /**
-     * @see io.github.rosemoe.editor.text.ContentListener#beforeReplace(Content)
+     * @see ContentListener#beforeReplace(Content)
      * Note:do not change content at this time
      */
     void beforeReplace(CodeEditor editor, CharSequence content);

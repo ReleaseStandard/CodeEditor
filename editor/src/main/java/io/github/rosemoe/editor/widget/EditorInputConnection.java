@@ -25,9 +25,9 @@ import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 
-import io.github.rosemoe.editor.text.CharPosition;
-import io.github.rosemoe.editor.text.Content;
-import io.github.rosemoe.editor.text.Cursor;
+import io.github.rosemoe.editor.text.content.CharPosition;
+import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.text.content.Cursor;
 
 /**
  * Connection between input method and editor

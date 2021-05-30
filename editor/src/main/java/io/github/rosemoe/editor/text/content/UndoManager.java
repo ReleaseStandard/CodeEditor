@@ -13,10 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.text.content;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.text.content.ContentListener;
 
 /**
  * Helper class for Content to take down modification

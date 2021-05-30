@@ -15,8 +15,9 @@
  */
 package io.github.rosemoe.editor.widget;
 
-import io.github.rosemoe.editor.text.ContentListener;
-import io.github.rosemoe.editor.text.LineRemoveListener;
+
+import io.github.rosemoe.editor.text.content.ContentListener;
+import io.github.rosemoe.editor.text.content.LineRemoveListener;
 
 /**
  * Layout is a manager class for editor to display text

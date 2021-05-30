@@ -22,7 +22,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  * picked from Notepad++ v7.8.1
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public final class SchemeNotepadXX extends EditorColorScheme {
+public final class NotepadXX extends EditorColorScheme {
 
     @Override
     public void applyDefault() {

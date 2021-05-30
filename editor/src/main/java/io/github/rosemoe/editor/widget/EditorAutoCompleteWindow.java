@@ -30,8 +30,8 @@ import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.editor.struct.CompletionItem;
-import io.github.rosemoe.editor.text.CharPosition;
-import io.github.rosemoe.editor.text.Cursor;
+import io.github.rosemoe.editor.text.content.CharPosition;
+import io.github.rosemoe.editor.text.content.Cursor;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 
 /**

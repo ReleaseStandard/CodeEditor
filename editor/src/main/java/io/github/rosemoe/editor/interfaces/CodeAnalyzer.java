@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.interfaces;
 
-import io.github.rosemoe.editor.text.Content;
+import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 

@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.langs.java;
 import io.github.rosemoe.editor.langs.internal.TrieTree;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
-import io.github.rosemoe.editor.text.LineNumberCalculator;
+import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;

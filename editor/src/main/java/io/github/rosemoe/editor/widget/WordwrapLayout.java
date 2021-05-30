@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import io.github.rosemoe.editor.text.Content;
-import io.github.rosemoe.editor.text.ContentLine;
+import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.util.IntPair;
 
 /**

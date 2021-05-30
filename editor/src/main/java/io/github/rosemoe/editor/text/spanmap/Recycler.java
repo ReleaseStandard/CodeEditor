@@ -21,20 +21,22 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.struct.SpanLine;
+import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.util.Logger;
 
-public class SpanRecycler {
+public class Recycler {
 
-    private static SpanRecycler INSTANCE;
+    private static Recycler INSTANCE;
     private final BlockingQueue<SpanMap> taskQueue;
     private Thread recycleThread;
-    private SpanRecycler() {
+    private Recycler() {
         taskQueue = new ArrayBlockingQueue<>(8);
     }
 
-    public static synchronized SpanRecycler getInstance() {
+    public static synchronized Recycler getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new SpanRecycler();
+            INSTANCE = new Recycler();
         }
         return INSTANCE;
     }

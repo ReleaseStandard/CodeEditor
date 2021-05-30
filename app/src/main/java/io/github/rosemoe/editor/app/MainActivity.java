@@ -16,7 +16,6 @@
 package io.github.rosemoe.editor.app;
 
 import android.app.AlertDialog;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,13 +52,13 @@ import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 import io.github.rosemoe.editor.widget.SymbolInputView;
-import io.github.rosemoe.editor.widget.schemes.HTMLScheme;
-import io.github.rosemoe.editor.widget.schemes.SchemeDarcula;
-import io.github.rosemoe.editor.widget.schemes.SchemeEclipse;
-import io.github.rosemoe.editor.widget.schemes.SchemeGitHub;
-import io.github.rosemoe.editor.widget.schemes.SchemeNano;
-import io.github.rosemoe.editor.widget.schemes.SchemeNotepadXX;
-import io.github.rosemoe.editor.widget.schemes.SchemeVS2019;
+import io.github.rosemoe.editor.widget.schemes.HTML;
+import io.github.rosemoe.editor.widget.schemes.Darcula;
+import io.github.rosemoe.editor.widget.schemes.Eclipse;
+import io.github.rosemoe.editor.widget.schemes.GitHub;
+import io.github.rosemoe.editor.widget.schemes.Nano;
+import io.github.rosemoe.editor.widget.schemes.NotepadXX;
+import io.github.rosemoe.editor.widget.schemes.VS2019;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityModel mam = new MainActivityModel();
     private HashMap<String,EditorColorScheme> themes = new HashMap<String, EditorColorScheme>() {{
         put("Default",new EditorColorScheme());
-        put("GitHub",new SchemeGitHub());
-        put("Eclipse",new SchemeEclipse());
-        put("Darcula",new SchemeDarcula());
-        put("VS2019",new SchemeVS2019());
-        put("NotepadXX",new SchemeNotepadXX());
-        put("HTML",new HTMLScheme());
-        put("Nano",new SchemeNano());
+        put("GitHub",new GitHub());
+        put("Eclipse",new Eclipse());
+        put("Darcula",new Darcula());
+        put("VS2019",new VS2019());
+        put("NotepadXX",new NotepadXX());
+        put("HTML",new HTML());
+        put("Nano",new Nano());
     }};
     private HashMap<String,EditorLanguage> languages = new HashMap<String,EditorLanguage>() {{
         put("C",new UniversalLanguage(new CDescription()));
@@ -148,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
         setEditorLanguage(new JavaLanguage());
         setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh_while.txt");
-        editor.setColorScheme(new SchemeNano());
+        editor.setColorScheme(new Nano());
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
 

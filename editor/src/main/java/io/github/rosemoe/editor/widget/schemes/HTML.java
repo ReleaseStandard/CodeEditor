@@ -20,7 +20,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 /**
  * ColorScheme for HTML Language for editor
  */
-public class HTMLScheme extends EditorColorScheme {
+public class HTML extends EditorColorScheme {
 
     @Override
     public void applyDefault() {

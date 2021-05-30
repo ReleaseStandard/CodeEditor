@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.text.content;
 
 /**
  * A helper class for ITextContent to transform (line,column) and index

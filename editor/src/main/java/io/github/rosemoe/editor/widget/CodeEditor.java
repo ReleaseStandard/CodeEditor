@@ -68,17 +68,17 @@ import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.struct.BlockLine;
 import io.github.rosemoe.editor.struct.Span;
-import io.github.rosemoe.editor.text.CharPosition;
-import io.github.rosemoe.editor.text.Content;
-import io.github.rosemoe.editor.text.ContentLine;
-import io.github.rosemoe.editor.text.ContentListener;
-import io.github.rosemoe.editor.text.Cursor;
+import io.github.rosemoe.editor.text.content.CharPosition;
+import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.text.content.ContentLine;
+import io.github.rosemoe.editor.text.content.ContentListener;
+import io.github.rosemoe.editor.text.content.Cursor;
 import io.github.rosemoe.editor.text.FontCache;
 import io.github.rosemoe.editor.text.FormatThread;
-import io.github.rosemoe.editor.text.LineRemoveListener;
-import io.github.rosemoe.editor.text.spanmap.SpanLine;
-import io.github.rosemoe.editor.text.spanmap.SpanMap;
-import io.github.rosemoe.editor.text.spanmap.SpanMapUpdater;
+import io.github.rosemoe.editor.text.content.LineRemoveListener;
+import io.github.rosemoe.editor.struct.SpanLine;
+import io.github.rosemoe.editor.struct.SpanMap;
+import io.github.rosemoe.editor.text.spanmap.Updater;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.util.IntPair;
@@ -3922,9 +3922,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
-                SpanMapUpdater.shiftSpansOnSingleLineInsert(mSpanner.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                Updater.shiftSpansOnSingleLineInsert(mSpanner.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                SpanMapUpdater.shiftSpansOnMultiLineInsert(mSpanner.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                Updater.shiftSpansOnMultiLineInsert(mSpanner.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -3981,9 +3981,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     public void afterDelete(Content content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
-                SpanMapUpdater.shiftSpansOnSingleLineDelete(mSpanner.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                Updater.shiftSpansOnSingleLineDelete(mSpanner.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                SpanMapUpdater.shiftSpansOnMultiLineDelete(mSpanner.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                Updater.shiftSpansOnMultiLineDelete(mSpanner.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 

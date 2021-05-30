@@ -13,30 +13,21 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.text.content;
 
 /**
- * Indexer without cache
+ * A listener to know when a ContentLine object is removed from Content object
  *
  * @author Rose
  */
-public final class NoCacheIndexer extends CachedIndexer implements Indexer {
+public interface LineRemoveListener {
 
     /**
-     * Create a indexer without cache
+     * When a ContentLine is removed from Content, this method is called
      *
-     * @param content Target content
+     * @param content Caller Content
+     * @param line    ContentLine object removed
      */
-    public NoCacheIndexer(Content content) {
-        super(content);
-        //Disable dynamic indexing
-        if (super.getMaxCacheSize() != 0) {
-            super.setMaxCacheSize(0);
-        }
-        if (super.isHandleEvent()) {
-            super.setHandleEvent(false);
-        }
-    }
+    void onRemove(Content content, ContentLine line);
 
 }
-

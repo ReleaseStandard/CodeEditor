@@ -13,12 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.spanmap;
+package io.github.rosemoe.editor.struct;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.text.spanmap.Recycler;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -121,7 +121,7 @@ public class SpanMap {
      * Recycle spans in the map.
      */
     public void recyle() {
-        SpanRecycler.getInstance().recycle(this);
+        Recycler.getInstance().recycle(this);
     }
     public SpanLine[] getLines() {
         return concurrentSafeGetValues();
@@ -185,6 +185,13 @@ public class SpanMap {
             map.put(i - (endLine-startLine),line);
         }
     }
+
+    /**
+     * Insert some content(a Span) into the desired line.
+     * @param line
+     * @param col
+     * @param sz
+     */
     public void insertContent(int line, int col, int sz) {
         insertContent(Span.EMPTY(),line,col,sz);
     }

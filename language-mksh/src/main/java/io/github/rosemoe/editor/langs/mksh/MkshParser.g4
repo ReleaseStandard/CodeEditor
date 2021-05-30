@@ -25,7 +25,6 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
 /*
  * From the man pages here : https://linux.die.net/man/1/mksh
  * CAT_* are a basic parsing definition.
@@ -38,9 +37,10 @@ options {
 
 start                : file ;
 file                 : expr EOF ;
-expr                 : ( execution_control | instruction ) expression_end expr? ;
+expr                 : ( arit | execution_control | instruction | comment) expression_end expr? ;
 instruction          : TRUE P_SEMI? ;
 expression_end       : P_SEMI | TERMINATOR ; 
+comment              : LINE_COMMENT ;
 
 // execution flow control
 execution_control    : for_do_done | if_then_else | select_in | until_do | while_do | function ;
