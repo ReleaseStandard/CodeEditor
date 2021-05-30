@@ -84,7 +84,7 @@ public class EmptyLanguage implements EditorLanguage {
 
     }
 
-    private static class EmptyCodeAnalyzer implements CodeAnalyzer {
+    private static class EmptyCodeAnalyzer extends CodeAnalyzer {
 
         @Override
         public void analyze(CharSequence content, TextAnalyzeResult colors, Delegate delegate) {

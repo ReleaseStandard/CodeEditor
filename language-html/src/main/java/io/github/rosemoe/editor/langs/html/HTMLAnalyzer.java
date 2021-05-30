@@ -12,7 +12,7 @@ import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
-public class HTMLAnalyzer implements CodeAnalyzer {
+public class HTMLAnalyzer extends CodeAnalyzer {
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
         try {

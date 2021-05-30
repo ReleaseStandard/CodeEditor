@@ -34,7 +34,7 @@ import java.util.Stack;
  *
  * @author Rose
  */
-public class JavaCodeAnalyzer implements CodeAnalyzer {
+public class JavaCodeAnalyzer extends CodeAnalyzer {
 
     private final static Object OBJECT = new Object();
 

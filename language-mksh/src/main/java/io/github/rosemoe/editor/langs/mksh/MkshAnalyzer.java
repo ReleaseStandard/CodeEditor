@@ -43,68 +43,8 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 import static io.github.rosemoe.editor.langs.mksh.MkshLexer.*;
 import static io.github.rosemoe.editor.widget.EditorColorScheme.*;
 
-public class MkshAnalyzer implements CodeAnalyzer {
+public class MkshAnalyzer extends CodeAnalyzer {
 
-    private static int antlrLineIndexToCodeEditor(int line) {
-        return line-1;
-    }
-    private void _addColorNoCheck(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
-        colors.add(spanLine,Span.obtain(column, colorId));
-    }
-    private void __addColorIfNeeded(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
-        colors.addIfNeeded(spanLine,column,colorId);
-    }
-    private void addColor(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
-        __addColorIfNeeded(colors,spanLine,column,colorId);
-    }
-    private void setTerminalSymbolColor(TextAnalyzeResult colors, TerminalNode tn, int color) {
-        if ( tn == null ) { return ; }
-        setTokenColor(colors,tn.getSymbol(),color);
-    }
-    private void setTokenColor(TextAnalyzeResult colors, Token token, int color) {
-        if ( token == null ) {
-            Logger.debug("token was null");
-            return ;
-        }
-        Logger.debug("Add color for token=" + token.getText() + ",color=" + color + ",line=" + token.getLine() + ",col=" + token.getCharPositionInLine());
-        addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine(),color);
-    }
-    private void resetTerminalSymbolColor(TextAnalyzeResult colors,TerminalNode tn) {
-        if ( tn == null ) {
-            return;
-        }
-        resetTokenColor(colors,tn.getSymbol());
-    }
-    private void resetTokenColor(TextAnalyzeResult colors,Token token) {
-        if (token == null) {
-            return;
-        }
-        addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
-    }
-    private void processKeyword(TextAnalyzeResult colors,TerminalNode ...nodes) {
-        processNodes(colors,KEYWORD,nodes);
-    }
-    private void processKeyword(TextAnalyzeResult colors, List<TerminalNode> nodes) {
-        processNodes(colors,KEYWORD,nodes);
-    }
-    private void processStrings(TextAnalyzeResult colors, List<TerminalNode> nodes) {
-        processNodes(colors,STRING,nodes);
-    }
-    private void processStrings(TextAnalyzeResult colors, TerminalNode ...nodes) {
-        processNodes(colors,STRING,nodes);
-    }
-    private void processNodes(TextAnalyzeResult colors,int color,TerminalNode ...nodes) {
-        for(TerminalNode node : nodes) {
-            setTerminalSymbolColor(colors,node,color);
-            resetTerminalSymbolColor(colors,node);
-        }
-    }
-    private void processNodes(TextAnalyzeResult colors, int color, List<TerminalNode> nodes) {
-        for(TerminalNode node : nodes) {
-            setTerminalSymbolColor(colors,node,color);
-            resetTerminalSymbolColor(colors,node);
-        }
-    }
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
 

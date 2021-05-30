@@ -37,7 +37,7 @@ import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;
  *
  * @author Rose
  */
-public class UniversalLanguage implements EditorLanguage, CodeAnalyzer {
+public class UniversalLanguage extends CodeAnalyzer implements EditorLanguage {
 
     private final LanguageDescription mLanguage;
     private final UniversalTokenizer tokenizer;

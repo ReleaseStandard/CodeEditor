@@ -29,7 +29,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 import static io.github.rosemoe.editor.langs.golang.GoLangLexer.*;
 
-public class GoLangAnalyzer implements CodeAnalyzer {
+public class GoLangAnalyzer extends CodeAnalyzer {
 
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
