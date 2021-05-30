@@ -1105,7 +1105,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             // Draw text here
             {
                 SpanLine spanLine = spanMap.getAddIfNeeded(line);
-                
+
                 Map.Entry<Integer, Span> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
                 for (int a = 0; a < keys.length; a=a+1) {
                     Span span = keys[a].getValue();
