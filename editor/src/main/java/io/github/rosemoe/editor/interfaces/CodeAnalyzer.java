@@ -94,6 +94,18 @@ public abstract class CodeAnalyzer {
     public void processStrings(TextAnalyzeResult colors, TerminalNode ...nodes) {
         //processNodes(colors,STRING,nodes);
     }
+    public void processToken(TextAnalyzeResult colors,int color,Token ...nodes) {
+        for(Token token : nodes) {
+            setTokenColor(colors,token,color);
+            resetTokenColor(colors,token);
+        }
+    }
+    public void processToken(TextAnalyzeResult colors, int color, List<Token> nodes) {
+        for(Token token : nodes) {
+            setTokenColor(colors,token,color);
+            resetTokenColor(colors,token);
+        }
+    }
     public void processNodes(TextAnalyzeResult colors,int color,TerminalNode ...nodes) {
         for(TerminalNode node : nodes) {
             setTerminalSymbolColor(colors,node,color);

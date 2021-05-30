@@ -259,7 +259,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
             @Override
             public void enterA_operator_binary(MkshParser.A_operator_binaryContext ctx) {
-
+                processToken(colors,KEYWORD,ctx.getStart());
             }
 
             @Override
