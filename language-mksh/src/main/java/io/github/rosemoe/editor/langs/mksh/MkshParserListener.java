@@ -127,4 +127,44 @@ public interface MkshParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(MkshParser.FunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#arit}.
+	 * @param ctx the parse tree
+	 */
+	void enterArit(MkshParser.AritContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#arit}.
+	 * @param ctx the parse tree
+	 */
+	void exitArit(MkshParser.AritContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#a_operator}.
+	 * @param ctx the parse tree
+	 */
+	void enterA_operator(MkshParser.A_operatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#a_operator}.
+	 * @param ctx the parse tree
+	 */
+	void exitA_operator(MkshParser.A_operatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#a_immediate}.
+	 * @param ctx the parse tree
+	 */
+	void enterA_immediate(MkshParser.A_immediateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#a_immediate}.
+	 * @param ctx the parse tree
+	 */
+	void exitA_immediate(MkshParser.A_immediateContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#a_expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterA_expr(MkshParser.A_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#a_expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitA_expr(MkshParser.A_exprContext ctx);
 }

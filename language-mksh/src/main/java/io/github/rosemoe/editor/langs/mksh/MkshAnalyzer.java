@@ -30,6 +30,7 @@ import org.antlr.v4.runtime.tree.Trees;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.interfaces.EditorLanguage;
@@ -81,8 +82,26 @@ public class MkshAnalyzer implements CodeAnalyzer {
         addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
     }
     private void processKeyword(TextAnalyzeResult colors,TerminalNode ...nodes) {
+        processNodes(colors,KEYWORD,nodes);
+    }
+    private void processKeyword(TextAnalyzeResult colors, List<TerminalNode> nodes) {
+        processNodes(colors,KEYWORD,nodes);
+    }
+    private void processStrings(TextAnalyzeResult colors, List<TerminalNode> nodes) {
+        processNodes(colors,STRING,nodes);
+    }
+    private void processStrings(TextAnalyzeResult colors, TerminalNode ...nodes) {
+        processNodes(colors,STRING,nodes);
+    }
+    private void processNodes(TextAnalyzeResult colors,int color,TerminalNode ...nodes) {
         for(TerminalNode node : nodes) {
-            setTerminalSymbolColor(colors,node,KEYWORD);
+            setTerminalSymbolColor(colors,node,color);
+            resetTerminalSymbolColor(colors,node);
+        }
+    }
+    private void processNodes(TextAnalyzeResult colors, int color, List<TerminalNode> nodes) {
+        for(TerminalNode node : nodes) {
+            setTerminalSymbolColor(colors,node,color);
             resetTerminalSymbolColor(colors,node);
         }
     }
@@ -188,6 +207,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
             @Override
             public void enterFor_do_done(MkshParser.For_do_doneContext ctx) {
                 processKeyword(colors, ctx.FOR(), ctx.DO(), ctx.DONE(), ctx.IN());
+                processStrings(colors,ctx.STRING());
             }
 
             @Override
@@ -244,6 +264,46 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void exitFunction(MkshParser.FunctionContext ctx) {
+
+            }
+
+            @Override
+            public void enterArit(MkshParser.AritContext ctx) {
+
+            }
+
+            @Override
+            public void exitArit(MkshParser.AritContext ctx) {
+
+            }
+
+            @Override
+            public void enterA_operator(MkshParser.A_operatorContext ctx) {
+
+            }
+
+            @Override
+            public void exitA_operator(MkshParser.A_operatorContext ctx) {
+
+            }
+
+            @Override
+            public void enterA_immediate(MkshParser.A_immediateContext ctx) {
+
+            }
+
+            @Override
+            public void exitA_immediate(MkshParser.A_immediateContext ctx) {
+
+            }
+
+            @Override
+            public void enterA_expr(MkshParser.A_exprContext ctx) {
+
+            }
+
+            @Override
+            public void exitA_expr(MkshParser.A_exprContext ctx) {
 
             }
         };

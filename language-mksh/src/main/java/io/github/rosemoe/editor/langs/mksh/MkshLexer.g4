@@ -106,6 +106,11 @@ SQ_BRACKET_OPEN           : '[';
 SQ_BRACKET_CLOSE          : ']';
 PERIOD                    : '.';
 COLON                     : ':';
+ARIT_OPERATOR_L           : '((';
+ARIT_OPERATOR_R           : '))';
+ARIT_PLUS                 : '+';
+ARIT_MINUS                : '-';
+ARIT_ONE                  : '1';
 
 // Punctuations
 //CAT_PUNCTUATIONS            : P_SEMI | P_INTERO | P_L_BRACKET | P_R_BRACKET | P_L_PARENTHESIS | P_R_PARENTHESIS;
