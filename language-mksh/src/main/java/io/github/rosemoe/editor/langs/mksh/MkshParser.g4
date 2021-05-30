@@ -36,16 +36,19 @@ options {
 	tokenVocab = MkshLexer;
 }
 
-start                : expr EOF ;
-keyword              : CASE | ELSE | FUNCTION | THEN | DO | ESAC | IF | TIME | DONE | FI | IN | UNTIL | ELIF | FOR | SELECT | WHILE ;
-expr                 : ( execution_control | instruction ) expr? ;
-instruction          : TRUE (P_SEMI | TERMINATOR)? ;
+start                : file ;
+file                 : expr EOF ;
+expr                 : ( execution_control | instruction ) expression_end expr? ;
+instruction          : TRUE P_SEMI? ;
+expression_end       : P_SEMI | TERMINATOR ; 
+
+// execution flow control
 execution_control    : for_do_done | if_then_else | select_in | until_do | while_do | function ;
-for_do_done          : FOR IDENTIFIER (IN STRING*)? P_SEMI DO expr DONE ;
-if_then_else         : IF expr P_SEMI THEN expr (ELIF expr P_SEMI THEN expr)* (ELSE expr)? FI ;
-select_in            : SELECT IDENTIFIER (IN STRING*) P_SEMI DO expr DONE ;
-until_do             : UNTIL expr P_SEMI DO expr DONE;
-while_do             : WHILE expr P_SEMI DO expr DONE;
+for_do_done          : FOR IDENTIFIER (IN STRING*)? DO expr DONE ;
+if_then_else         : IF expr THEN expr (ELIF expr THEN expr)* (ELSE expr)? FI ;
+select_in            : SELECT IDENTIFIER (IN STRING*) DO expr DONE ;
+until_do             : UNTIL expr DO expr DONE;
+while_do             : WHILE expr DO expr DONE;
 function             : FUNCTION IDENTIFIER P_L_PARENTHESIS (IDENTIFIER (P_COMMA IDENTIFIER)*)? P_R_PARENTHESIS P_L_BRACKET expr P_R_BRACKET;
 
 

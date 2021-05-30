@@ -80,7 +80,12 @@ public class MkshAnalyzer implements CodeAnalyzer {
         }
         addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
     }
-
+    private void processKeyword(TextAnalyzeResult colors,TerminalNode ...nodes) {
+        for(TerminalNode node : nodes) {
+            setTerminalSymbolColor(colors,node,KEYWORD);
+            resetTerminalSymbolColor(colors,node);
+        }
+    }
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
 
@@ -130,13 +135,13 @@ public class MkshAnalyzer implements CodeAnalyzer {
             }
 
             @Override
-            public void enterKeyword(MkshParser.KeywordContext ctx) {
-                Logger.debug();
+            public void enterFile(MkshParser.FileContext ctx) {
+
             }
 
             @Override
-            public void exitKeyword(MkshParser.KeywordContext ctx) {
-                Logger.debug();
+            public void exitFile(MkshParser.FileContext ctx) {
+
             }
 
             @Override
@@ -162,8 +167,17 @@ public class MkshAnalyzer implements CodeAnalyzer {
             }
 
             @Override
-            public void enterExecution_control(MkshParser.Execution_controlContext ctx) {
+            public void enterExpression_end(MkshParser.Expression_endContext ctx) {
 
+            }
+
+            @Override
+            public void exitExpression_end(MkshParser.Expression_endContext ctx) {
+
+            }
+
+            @Override
+            public void enterExecution_control(MkshParser.Execution_controlContext ctx) {
             }
 
             @Override
@@ -173,7 +187,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterFor_do_done(MkshParser.For_do_doneContext ctx) {
-
+                processKeyword(colors, ctx.FOR(), ctx.DO(), ctx.DONE(), ctx.IN());
             }
 
             @Override
@@ -183,12 +197,10 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterIf_then_else(MkshParser.If_then_elseContext ctx) {
-                setTerminalSymbolColor(colors,ctx.IF(),KEYWORD);
-                for(TerminalNode tn : ctx.ELIF()) {
-                    setTerminalSymbolColor(colors,tn,KEYWORD);
-                }
-                setTerminalSymbolColor(colors,ctx.ELSE(),KEYWORD);
-                setTerminalSymbolColor(colors,ctx.FI(),KEYWORD);
+                Logger.debug();
+                for(TerminalNode tn : ctx.ELIF()) { processKeyword(colors,tn); }
+                for(TerminalNode tn : ctx.THEN()) { processKeyword(colors,tn); }
+                processKeyword(colors,ctx.IF(),ctx.ELSE(),ctx.FI());
             }
 
             @Override
@@ -198,7 +210,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterSelect_in(MkshParser.Select_inContext ctx) {
-
+                processKeyword(colors, ctx.SELECT(), ctx.IN(), ctx.DONE(), ctx.DO());
             }
 
             @Override
@@ -208,7 +220,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterUntil_do(MkshParser.Until_doContext ctx) {
-
+                processKeyword(colors, ctx.UNTIL(), ctx.DO(), ctx.DONE());
             }
 
             @Override
@@ -218,25 +230,16 @@ public class MkshAnalyzer implements CodeAnalyzer {
 
             @Override
             public void enterWhile_do(MkshParser.While_doContext ctx) {
-                Logger.debug();
-                setTerminalSymbolColor(colors, ctx.WHILE(), KEYWORD);
-                resetTerminalSymbolColor(colors,ctx.WHILE());
-                setTerminalSymbolColor(colors, ctx.DO(), KEYWORD);
-                resetTerminalSymbolColor(colors,ctx.DO());
-                setTerminalSymbolColor(colors, ctx.DONE(), KEYWORD);
-                resetTerminalSymbolColor(colors,ctx.DONE());
-                setTerminalSymbolColor(colors, ctx.P_SEMI(), KEYWORD);
-                resetTerminalSymbolColor(colors,ctx.P_SEMI());
+                processKeyword(colors, ctx.WHILE(), ctx.DO(), ctx.DONE());
             }
 
             @Override
             public void exitWhile_do(MkshParser.While_doContext ctx) {
-                Logger.debug();
             }
 
             @Override
             public void enterFunction(MkshParser.FunctionContext ctx) {
-
+                processKeyword(colors, ctx.FUNCTION(),ctx.P_L_BRACKET(),ctx.P_L_PARENTHESIS(),ctx.P_R_PARENTHESIS(),ctx.P_R_BRACKET());
             }
 
             @Override

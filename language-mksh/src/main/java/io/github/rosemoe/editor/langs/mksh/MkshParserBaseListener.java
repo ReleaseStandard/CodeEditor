@@ -28,13 +28,13 @@ public class MkshParserBaseListener implements MkshParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterKeyword(MkshParser.KeywordContext ctx) { }
+	@Override public void enterFile(MkshParser.FileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitKeyword(MkshParser.KeywordContext ctx) { }
+	@Override public void exitFile(MkshParser.FileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -59,6 +59,18 @@ public class MkshParserBaseListener implements MkshParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInstruction(MkshParser.InstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpression_end(MkshParser.Expression_endContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpression_end(MkshParser.Expression_endContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
