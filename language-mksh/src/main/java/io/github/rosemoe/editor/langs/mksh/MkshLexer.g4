@@ -117,14 +117,6 @@ P_R_BRACKET               : '}';
 P_L_PARENTHESIS           : '(';
 P_R_PARENTHESIS           : ')';
 
-IDENTIFIER                         : LETTER (LETTER | UNICODE_DIGIT)*;
-
-WS                                 : [ \t]+             -> channel(HIDDEN);
-TERMINATOR                         : [\r\n]+            -> channel(HIDDEN);
-LINE_COMMENT                       : '#' ~[\r\n]*       -> channel(HIDDEN);
-
-// types
-STRING                             : '"' ~[.]* '"' | '\'' ~[.]* '\'';
 
 // operators
 L_SHIFT                   : '<<';
@@ -132,6 +124,15 @@ R_SHIFT                   : '>>';
 GT                        : '>';
 LT                        : '<';
 //OPERATORS                 : L_SHIFT | R_SHIFT | GT | LT;
+
+STRING                             : '"' ~[.]* '"' | '\'' ~[.]* '\'';
+
+
+IDENTIFIER                         : LETTER (LETTER | UNICODE_DIGIT)*;
+
+WS                                 : [ \t]+             -> channel(HIDDEN);
+TERMINATOR                         : [\r\n]+            -> channel(HIDDEN);
+LINE_COMMENT                       : '#' ~[\r\n]*       -> channel(HIDDEN);
 
 
 

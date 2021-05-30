@@ -24,6 +24,7 @@ import java.util.List;
 import io.github.rosemoe.editor.struct.BlockLine;
 import io.github.rosemoe.editor.struct.NavigationItem;
 import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**
@@ -55,9 +56,7 @@ public class TextAnalyzeResult {
      * @param colorId  Type
      */
     public void addIfNeeded(int spanLine, int column, int colorId) {
-        if (mLast != null && mLast.colorId == colorId) {
-            return;
-        }
+        Logger.debug("spanLine=",spanLine,",column=",column,",colorId=",colorId);
         add(spanLine, Span.obtain(column, colorId));
     }
     /**
@@ -69,29 +68,14 @@ public class TextAnalyzeResult {
      * @param span     The span
      */
     public void add(int spanLine, Span span) {
-        int mapLine = mSpanMap.size() - 1;
-        if (spanLine == mapLine) {
-            mSpanMap.get(spanLine).add(span);
-        } else if (spanLine > mapLine) {
-            Span extendedSpan = mLast;
-            if (extendedSpan == null) {
-                extendedSpan = Span.obtain(0, EditorColorScheme.TEXT_NORMAL);
-            }
-            while (spanLine > mapLine) {
-                List<Span> lineSpans = new ArrayList<>();
-                lineSpans.add(extendedSpan.copy().setColumn(0));
-                mSpanMap.add(lineSpans);
-                mapLine++;
-            }
-            List<Span> lineSpans = mSpanMap.get(spanLine);
-            if (span.column == 0) {
-                lineSpans.clear();
-            }
-            lineSpans.add(span);
-        } else {
-            throw new IllegalStateException("Invalid position");
+        while(mSpanMap.size() <= spanLine) {
+            List<Span> lineSpans = new ArrayList<>();
+            lineSpans.add(Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
+            mSpanMap.add(lineSpans);
         }
-        mLast = span;
+        List<Span> lineSpans = mSpanMap.get(spanLine);
+        lineSpans.add(span);
+        Logger.debug("spanLine=",spanLine,",mSpanMapLine=",mSpanMap.size(),",spans in the line=",lineSpans.size());
     }
 
     /**

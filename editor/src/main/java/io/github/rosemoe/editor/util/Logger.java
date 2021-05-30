@@ -23,10 +23,12 @@ public class Logger {
     public static void debug() {
         debug("");
     }
-    public static void debug(String ...args) {
+    public static void debug(Object ...args) {
         if (! DEBUG ) { return ; }
-        for(String arg : args) {
-            Log.v(PREFIX + "/" + CallStack.getLastCaller(), arg);
+        String msg = "";
+        for(Object arg : args) {
+            msg += arg.toString();
         }
+        Log.v(PREFIX + "/" + CallStack.getLastCaller(), msg);
     }
 }

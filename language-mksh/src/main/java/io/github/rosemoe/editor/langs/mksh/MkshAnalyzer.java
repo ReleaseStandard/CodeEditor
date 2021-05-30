@@ -44,6 +44,9 @@ import static io.github.rosemoe.editor.widget.EditorColorScheme.*;
 
 public class MkshAnalyzer implements CodeAnalyzer {
 
+    private static int antlrLineIndexToCodeEditor(int line) {
+        return line-1;
+    }
     private void _addColorNoCheck(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
         colors.add(spanLine,Span.obtain(column, colorId));
     }
@@ -58,9 +61,12 @@ public class MkshAnalyzer implements CodeAnalyzer {
         setTokenColor(colors,tn.getSymbol(),color);
     }
     private void setTokenColor(TextAnalyzeResult colors, Token token, int color) {
-        if ( token == null ) { return ; }
-        Logger.debug("Add color for token " + token.getText() + ",color=" + color + " at line=" + token.getLine() + ",col=" + token.getCharPositionInLine());
-        addColor(colors,token.getLine()-1,token.getCharPositionInLine(),color);
+        if ( token == null ) {
+            Logger.debug("token was null");
+            return ;
+        }
+        Logger.debug("Add color for token=" + token.getText() + ",color=" + color + ",line=" + token.getLine() + ",col=" + token.getCharPositionInLine());
+        addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine(),color);
     }
     private void resetTerminalSymbolColor(TextAnalyzeResult colors,TerminalNode tn) {
         if ( tn == null ) {
@@ -72,7 +78,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
         if (token == null) {
             return;
         }
-        colors.addIfNeeded(token.getLine()-1,token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
+        addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
     }
 
     @Override
@@ -90,40 +96,47 @@ public class MkshAnalyzer implements CodeAnalyzer {
         MkshParserListener walkListener = new MkshParserListener() {
             @Override
             public void visitTerminal(TerminalNode node) {
+                Token token = node.getSymbol();
+                if ( token != null ) {
+                    Logger.debug(token.getText());
+                } else {
+                    Logger.debug("Token was null");
+                }
             }
 
             @Override
             public void visitErrorNode(ErrorNode node) {
-
+                Logger.debug();
             }
 
             @Override
             public void enterEveryRule(ParserRuleContext ctx) {
-
+                Logger.debug();
             }
 
             @Override
             public void exitEveryRule(ParserRuleContext ctx) {
+                Logger.debug();
             }
 
             @Override
             public void enterStart(MkshParser.StartContext ctx) {
-
+                Logger.debug();
             }
 
             @Override
             public void exitStart(MkshParser.StartContext ctx) {
-
+                Logger.debug();
             }
 
             @Override
             public void enterKeyword(MkshParser.KeywordContext ctx) {
-
+                Logger.debug();
             }
 
             @Override
             public void exitKeyword(MkshParser.KeywordContext ctx) {
-
+                Logger.debug();
             }
 
             @Override
@@ -139,14 +152,13 @@ public class MkshAnalyzer implements CodeAnalyzer {
             @Override
             public void enterInstruction(MkshParser.InstructionContext ctx) {
                 Logger.debug();
-                //setTokenColor(colors,ctx.getStart(),COMMENT);
                 setTokenColor(colors,ctx.getStart(),COMMENT);
                 resetTokenColor(colors,ctx.getStop());
             }
 
             @Override
             public void exitInstruction(MkshParser.InstructionContext ctx) {
-                //resetTokenColor(colors,ctx.getStop());
+                Logger.debug();
             }
 
             @Override
@@ -208,16 +220,20 @@ public class MkshAnalyzer implements CodeAnalyzer {
             public void enterWhile_do(MkshParser.While_doContext ctx) {
                 Logger.debug();
                 setTerminalSymbolColor(colors, ctx.WHILE(), KEYWORD);
+                enterExpr(ctx.expr().get(0));
                 resetTokenColor(colors,ctx.WHILE().getSymbol());
                 setTerminalSymbolColor(colors, ctx.DO(), KEYWORD);
                 resetTokenColor(colors,ctx.DO().getSymbol());
+                enterExpr(ctx.expr().get(1));
                 setTerminalSymbolColor(colors, ctx.DONE(), KEYWORD);
                 resetTokenColor(colors,ctx.DONE().getSymbol());
-
+                setTerminalSymbolColor(colors, ctx.P_SEMI(), KEYWORD);
+                resetTokenColor(colors,ctx.P_SEMI().getSymbol());
             }
 
             @Override
             public void exitWhile_do(MkshParser.While_doContext ctx) {
+                Logger.debug();
             }
 
             @Override

@@ -27,8 +27,8 @@ public class MkshParser extends Parser {
 		SUSPEND=56, TEST=57, ULIMIT=58, UMASK=59, UNALIAS=60, WHENCE=61, SQ_BRACKET_OPEN=62, 
 		SQ_BRACKET_CLOSE=63, PERIOD=64, COLON=65, P_SEMI=66, P_INTERO=67, P_COMMA=68, 
 		P_L_BRACKET=69, P_R_BRACKET=70, P_L_PARENTHESIS=71, P_R_PARENTHESIS=72, 
-		IDENTIFIER=73, WS=74, TERMINATOR=75, LINE_COMMENT=76, STRING=77, L_SHIFT=78, 
-		R_SHIFT=79, GT=80, LT=81;
+		L_SHIFT=73, R_SHIFT=74, GT=75, LT=76, STRING=77, IDENTIFIER=78, WS=79, 
+		TERMINATOR=80, LINE_COMMENT=81;
 	public static final int
 		RULE_start = 0, RULE_keyword = 1, RULE_expr = 2, RULE_instruction = 3, 
 		RULE_execution_control = 4, RULE_for_do_done = 5, RULE_if_then_else = 6, 
@@ -52,8 +52,8 @@ public class MkshParser extends Parser {
 			"'fg'", "'getopts'", "'jobs'", "'kill'", "'let'", "'mknod'", "'print'", 
 			"'pwd'", "'read'", "'realpath'", "'rename'", "'sleep'", "'suspend'", 
 			"'test'", "'ulimit'", "'umask'", "'unalias'", "'whence'", "'['", "']'", 
-			"'.'", "':'", "';'", "'?'", "','", "'{'", "'}'", "'('", "')'", null, 
-			null, null, null, null, "'<<'", "'>>'", "'>'", "'<'"
+			"'.'", "':'", "';'", "'?'", "','", "'{'", "'}'", "'('", "')'", "'<<'", 
+			"'>>'", "'>'", "'<'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -68,8 +68,8 @@ public class MkshParser extends Parser {
 			"READ", "REALPATH", "RENAME", "SLEEP", "SUSPEND", "TEST", "ULIMIT", "UMASK", 
 			"UNALIAS", "WHENCE", "SQ_BRACKET_OPEN", "SQ_BRACKET_CLOSE", "PERIOD", 
 			"COLON", "P_SEMI", "P_INTERO", "P_COMMA", "P_L_BRACKET", "P_R_BRACKET", 
-			"P_L_PARENTHESIS", "P_R_PARENTHESIS", "IDENTIFIER", "WS", "TERMINATOR", 
-			"LINE_COMMENT", "STRING", "L_SHIFT", "R_SHIFT", "GT", "LT"
+			"P_L_PARENTHESIS", "P_R_PARENTHESIS", "L_SHIFT", "R_SHIFT", "GT", "LT", 
+			"STRING", "IDENTIFIER", "WS", "TERMINATOR", "LINE_COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -935,7 +935,7 @@ public class MkshParser extends Parser {
 		"\t\3\t\3\t\3\t\7\t[\n\t\f\t\16\t^\13\t\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n"+
 		"\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3"+
 		"\f\3\f\7\fy\n\f\f\f\16\f|\13\f\5\f~\n\f\3\f\3\f\3\f\3\f\3\f\3\f\2\2\r"+
-		"\2\4\6\b\n\f\16\20\22\24\26\2\4\3\2\3\22\4\2DDMM\2\u0088\2\30\3\2\2\2"+
+		"\2\4\6\b\n\f\16\20\22\24\26\2\4\3\2\3\22\4\2DDRR\2\u0088\2\30\3\2\2\2"+
 		"\4\33\3\2\2\2\6\37\3\2\2\2\b$\3\2\2\2\n.\3\2\2\2\f\60\3\2\2\2\16@\3\2"+
 		"\2\2\20V\3\2\2\2\22d\3\2\2\2\24k\3\2\2\2\26r\3\2\2\2\30\31\5\6\4\2\31"+
 		"\32\7\2\2\3\32\3\3\2\2\2\33\34\t\2\2\2\34\5\3\2\2\2\35 \5\n\6\2\36 \5"+
@@ -943,18 +943,18 @@ public class MkshParser extends Parser {
 		"\3\2\2\2#\7\3\2\2\2$&\7,\2\2%\'\t\3\2\2&%\3\2\2\2&\'\3\2\2\2\'\t\3\2\2"+
 		"\2(/\5\f\7\2)/\5\16\b\2*/\5\20\t\2+/\5\22\n\2,/\5\24\13\2-/\5\26\f\2."+
 		"(\3\2\2\2.)\3\2\2\2.*\3\2\2\2.+\3\2\2\2.,\3\2\2\2.-\3\2\2\2/\13\3\2\2"+
-		"\2\60\61\7\20\2\2\619\7K\2\2\62\66\7\r\2\2\63\65\7O\2\2\64\63\3\2\2\2"+
+		"\2\60\61\7\20\2\2\619\7P\2\2\62\66\7\r\2\2\63\65\7O\2\2\64\63\3\2\2\2"+
 		"\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67:\3\2\2\28\66\3\2\2\29\62\3"+
 		"\2\2\29:\3\2\2\2:;\3\2\2\2;<\7D\2\2<=\7\7\2\2=>\5\6\4\2>?\7\13\2\2?\r"+
 		"\3\2\2\2@A\7\t\2\2AB\5\6\4\2BC\7D\2\2CD\7\6\2\2DM\5\6\4\2EF\7\17\2\2F"+
 		"G\5\6\4\2GH\7D\2\2HI\7\6\2\2IJ\5\6\4\2JL\3\2\2\2KE\3\2\2\2LO\3\2\2\2M"+
 		"K\3\2\2\2MN\3\2\2\2NR\3\2\2\2OM\3\2\2\2PQ\7\4\2\2QS\5\6\4\2RP\3\2\2\2"+
-		"RS\3\2\2\2ST\3\2\2\2TU\7\f\2\2U\17\3\2\2\2VW\7\21\2\2WX\7K\2\2X\\\7\r"+
+		"RS\3\2\2\2ST\3\2\2\2TU\7\f\2\2U\17\3\2\2\2VW\7\21\2\2WX\7P\2\2X\\\7\r"+
 		"\2\2Y[\7O\2\2ZY\3\2\2\2[^\3\2\2\2\\Z\3\2\2\2\\]\3\2\2\2]_\3\2\2\2^\\\3"+
 		"\2\2\2_`\7D\2\2`a\7\7\2\2ab\5\6\4\2bc\7\13\2\2c\21\3\2\2\2de\7\16\2\2"+
 		"ef\5\6\4\2fg\7D\2\2gh\7\7\2\2hi\5\6\4\2ij\7\13\2\2j\23\3\2\2\2kl\7\22"+
 		"\2\2lm\5\6\4\2mn\7D\2\2no\7\7\2\2op\5\6\4\2pq\7\13\2\2q\25\3\2\2\2rs\7"+
-		"\5\2\2st\7K\2\2t}\7I\2\2uz\7K\2\2vw\7F\2\2wy\7K\2\2xv\3\2\2\2y|\3\2\2"+
+		"\5\2\2st\7P\2\2t}\7I\2\2uz\7P\2\2vw\7F\2\2wy\7P\2\2xv\3\2\2\2y|\3\2\2"+
 		"\2zx\3\2\2\2z{\3\2\2\2{~\3\2\2\2|z\3\2\2\2}u\3\2\2\2}~\3\2\2\2~\177\3"+
 		"\2\2\2\177\u0080\7J\2\2\u0080\u0081\7G\2\2\u0081\u0082\5\6\4\2\u0082\u0083"+
 		"\7H\2\2\u0083\27\3\2\2\2\r\37\"&.\669MR\\z}";

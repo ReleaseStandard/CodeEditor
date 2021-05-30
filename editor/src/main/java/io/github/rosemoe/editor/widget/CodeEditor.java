@@ -58,8 +58,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.interfaces.EditorEventListener;
@@ -80,6 +84,7 @@ import io.github.rosemoe.editor.text.SpanMapUpdater;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.util.IntPair;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
 
 /**
@@ -1025,13 +1030,13 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         int leadingWhitespaceEnd = 0;
         int trailingWhitespaceStart = 0;
         float circleRadius = 0f;
+        Logger.debug("Start with spanMap.size()=",spanMap.size());
         if (shouldInitializeNonPrintable()) {
             float spaceWidth = mFontCache.measureChar(' ', mPaint);
             float maxD = Math.min(getRowHeight(), spaceWidth);
             maxD *= 0.18f;
             circleRadius = maxD / 2;
         }
-
         for (int row = getFirstVisibleRow(); row <= getLastVisibleRow() && rowIterator.hasNext(); row++) {
             Row rowInf = rowIterator.next();
             int line = rowInf.lineIndex;
@@ -1113,20 +1118,15 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                     }
                     spans = temporaryEmptySpans;
                 }
-                // Seek for first span
-                while (spanOffset + 1 < spans.size()) {
-                    if (spans.get(spanOffset + 1).column <= firstVisibleChar) {
-                        spanOffset++;
-                    } else {
-                        break;
-                    }
-                }
-                Span span = spans.get(spanOffset);
+
+                //Span span = spans.get(spanOffset);
                 // Draw by spans
-                while (lastVisibleChar > span.column) {
+                /*while (lastVisibleChar > span.column) {
                     int spanEnd = spanOffset + 1 >= spans.size() ? columnCount : spans.get(spanOffset + 1).column;
+
                     int paintStart = Math.max(firstVisibleChar, span.column);
                     int paintEnd = Math.min(lastVisibleChar, spanEnd);
+
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
 
                     // Draw text
@@ -1152,7 +1152,40 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                     } else {
                         spanOffset--;
                     }
+                }*/
+                Logger.debug("Spans in the initial pool");
+                TreeMap<Integer,Span> sorted = new TreeMap<>();
+                for(Span span : spans) {
+                    Logger.debug("col=",span.column);
+                    sorted.put(span.column,span);
                 }
+                Map.Entry<Integer, Span> [] keys = sorted.entrySet().toArray(new Map.Entry[sorted.keySet().size()]);
+                for (int a = 0; a < keys.length; a=a+1) {
+                    Span span = keys[a].getValue();
+                    int colStart = span.column;
+                    int colStop  = lastVisibleChar;
+                    if ( a+1 < keys.length) {
+                        colStop = keys[a+1].getValue().column;
+                    }
+                    int colSpan = colStop - colStart;
+                    int paintStart = Math.max(firstVisibleChar, colStart);
+                    int paintEnd = Math.min(lastVisibleChar, colStop);
+
+                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",colorId=",span.colorId);
+                    // We ignore the span if it begins in the invisible zone
+                    if ( colStart < firstVisibleChar || colStop > lastVisibleChar) { continue; }
+                    drawRegionText(canvas,paintingOffset,
+                             getRowBaseline(row) - getOffsetY(),line,
+                            colStart,
+                            colStop,
+                            colSpan,
+                            mColors.getColor(span.colorId));
+
+                    float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
+                    paintingOffset += width;
+                }
+
+                Logger.debug("Drawing span for line=",line,",spans in the line=",spans.size(),",firstVisibleChar=",firstVisibleChar,",spanOffset=",spanOffset);
             }
 
             // Draw hard wrap
