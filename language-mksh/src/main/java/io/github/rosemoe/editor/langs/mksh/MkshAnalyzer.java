@@ -153,7 +153,7 @@ public class MkshAnalyzer implements CodeAnalyzer {
             public void enterInstruction(MkshParser.InstructionContext ctx) {
                 Logger.debug();
                 setTokenColor(colors,ctx.getStart(),COMMENT);
-                resetTokenColor(colors,ctx.getStop());
+                resetTokenColor(colors,ctx.getStart());
             }
 
             @Override
@@ -220,15 +220,13 @@ public class MkshAnalyzer implements CodeAnalyzer {
             public void enterWhile_do(MkshParser.While_doContext ctx) {
                 Logger.debug();
                 setTerminalSymbolColor(colors, ctx.WHILE(), KEYWORD);
-                enterExpr(ctx.expr().get(0));
-                resetTokenColor(colors,ctx.WHILE().getSymbol());
+                resetTerminalSymbolColor(colors,ctx.WHILE());
                 setTerminalSymbolColor(colors, ctx.DO(), KEYWORD);
-                resetTokenColor(colors,ctx.DO().getSymbol());
-                enterExpr(ctx.expr().get(1));
+                resetTerminalSymbolColor(colors,ctx.DO());
                 setTerminalSymbolColor(colors, ctx.DONE(), KEYWORD);
-                resetTokenColor(colors,ctx.DONE().getSymbol());
+                resetTerminalSymbolColor(colors,ctx.DONE());
                 setTerminalSymbolColor(colors, ctx.P_SEMI(), KEYWORD);
-                resetTokenColor(colors,ctx.P_SEMI().getSymbol());
+                resetTerminalSymbolColor(colors,ctx.P_SEMI());
             }
 
             @Override
