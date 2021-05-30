@@ -38,23 +38,28 @@ options {
 start                : file ;
 file                 : expr EOF ;
 expr                 : ( ( arit | execution_control | instruction ) expression_end | comment | TERMINATOR+ ) expr? ;
-instruction          : TRUE P_SEMI? ;
+instruction          : primary_keyword | secondary_keyword ;
 expression_end       : P_SEMI | TERMINATOR ; 
 comment              : LINE_COMMENT ;
+identifier           : IDENTIFIER | primary_keyword | secondary_keyword ;
+primary_keyword      : CASE | ELSE | FUNCTION | THEN | DO | ESAC | IF | TIME | DONE | FI | IN | UNTIL | ELIF | FOR | SELECT | WHILE ;
+secondary_keyword    : BREAK | CONTINUE | EVAL | EXEC | EXIT | EXPORT | READONLY | RETURN | SET | SHIFT | TIMES | TRAP | UNSET | BUILTIN | GLOBAL |
+                        TYPESET | WAIT | ALIAS | BG | BIND | CAT | CD | COMMAND | ECHO | FALSE | TRUE | FC | FG | GETOPTS | JOBS | KILL | LET |
+                        MKNOD | PRINT | PWD | READ | REALPATH | RENAME | SLEEP | SUSPEND | TEST | ULIMIT | UMASK | UNALIAS | WHENCE ;
 
 // execution flow control
 execution_control    : for_do_done | if_then_else | select_in | until_do | while_do | function ;
-for_do_done          : FOR IDENTIFIER ( IN STRING* )? expression_end DO expr DONE ;
+for_do_done          : FOR identifier ( IN STRING* )? expression_end DO expr DONE ;
 if_then_else         : IF expr THEN expr (ELIF expr THEN expr)* (ELSE expr)? FI ;
-select_in            : SELECT IDENTIFIER (IN STRING*) expression_end DO expr DONE ;
+select_in            : SELECT identifier (IN STRING*) expression_end DO expr DONE ;
 until_do             : UNTIL expr DO expr DONE;
 while_do             : WHILE expr DO expr DONE;
-function             : FUNCTION IDENTIFIER P_L_PARENTHESIS (IDENTIFIER (P_COMMA IDENTIFIER)*)? P_R_PARENTHESIS P_L_BRACKET expr P_R_BRACKET;
+function             : FUNCTION identifier P_L_PARENTHESIS (identifier (P_COMMA identifier)*)? P_R_PARENTHESIS P_L_BRACKET expr P_R_BRACKET;
 
 // arithmetic expression
 arit                 : LET a_expr | ARIT_OPERATOR_L a_expr ARIT_OPERATOR_R;
 a_immediate          : ARIT_ONE;
-a_operand            : a_immediate | IDENTIFIER;
+a_operand            : a_immediate | identifier;
 a_expr               : a_expr a_operator_binary | a_expr a_operator_binary a_expr | a_operand;
 a_operator_binary    : ARIT_A | ARIT_A_PLUS | ARIT_A_MINUS | ARIT_A_DIV | ARIT_A_MOD | ARIT_A_L_SHIFT | 
 			ARIT_A_R_SHIFT | ARIT_A_L_ROTATE | ARIT_A_R_ROTATE | ARIT_A_XOR | ARIT_A_AND | ARIT_A_OR | ARIT_A_STAR | P_COMMA;

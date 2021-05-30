@@ -68,6 +68,36 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitComment(MkshParser.CommentContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MkshParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(MkshParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(MkshParser.IdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#primary_keyword}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimary_keyword(MkshParser.Primary_keywordContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#primary_keyword}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimary_keyword(MkshParser.Primary_keywordContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#secondary_keyword}.
+	 * @param ctx the parse tree
+	 */
+	void enterSecondary_keyword(MkshParser.Secondary_keywordContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#secondary_keyword}.
+	 * @param ctx the parse tree
+	 */
+	void exitSecondary_keyword(MkshParser.Secondary_keywordContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MkshParser#execution_control}.
 	 * @param ctx the parse tree
 	 */

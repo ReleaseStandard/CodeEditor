@@ -34,16 +34,17 @@ public class MkshParser extends Parser {
 		LT=94, STRING=95, IDENTIFIER=96, WS=97, TERMINATOR=98, LINE_COMMENT=99;
 	public static final int
 		RULE_start = 0, RULE_file = 1, RULE_expr = 2, RULE_instruction = 3, RULE_expression_end = 4, 
-		RULE_comment = 5, RULE_execution_control = 6, RULE_for_do_done = 7, RULE_if_then_else = 8, 
-		RULE_select_in = 9, RULE_until_do = 10, RULE_while_do = 11, RULE_function = 12, 
-		RULE_arit = 13, RULE_a_immediate = 14, RULE_a_operand = 15, RULE_a_expr = 16, 
-		RULE_a_operator_binary = 17, RULE_a_operator_unary = 18;
+		RULE_comment = 5, RULE_identifier = 6, RULE_primary_keyword = 7, RULE_secondary_keyword = 8, 
+		RULE_execution_control = 9, RULE_for_do_done = 10, RULE_if_then_else = 11, 
+		RULE_select_in = 12, RULE_until_do = 13, RULE_while_do = 14, RULE_function = 15, 
+		RULE_arit = 16, RULE_a_immediate = 17, RULE_a_operand = 18, RULE_a_expr = 19, 
+		RULE_a_operator_binary = 20, RULE_a_operator_unary = 21;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"start", "file", "expr", "instruction", "expression_end", "comment", 
-			"execution_control", "for_do_done", "if_then_else", "select_in", "until_do", 
-			"while_do", "function", "arit", "a_immediate", "a_operand", "a_expr", 
-			"a_operator_binary", "a_operator_unary"
+			"identifier", "primary_keyword", "secondary_keyword", "execution_control", 
+			"for_do_done", "if_then_else", "select_in", "until_do", "while_do", "function", 
+			"arit", "a_immediate", "a_operand", "a_expr", "a_operator_binary", "a_operator_unary"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -160,7 +161,7 @@ public class MkshParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38);
+			setState(44);
 			file();
 			}
 		}
@@ -200,9 +201,9 @@ public class MkshParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(40);
+			setState(46);
 			expr();
-			setState(41);
+			setState(47);
 			match(EOF);
 			}
 		}
@@ -257,67 +258,111 @@ public class MkshParser extends Parser {
 	public final ExprContext expr() throws RecognitionException {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_expr);
-		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56);
+			setState(62);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
+			case CASE:
+			case ELSE:
 			case FUNCTION:
+			case THEN:
+			case DO:
+			case ESAC:
 			case IF:
+			case TIME:
+			case DONE:
+			case FI:
+			case IN:
 			case UNTIL:
+			case ELIF:
 			case FOR:
 			case SELECT:
 			case WHILE:
+			case BREAK:
+			case CONTINUE:
+			case EVAL:
+			case EXEC:
+			case EXIT:
+			case EXPORT:
+			case READONLY:
+			case RETURN:
+			case SET:
+			case SHIFT:
+			case TIMES:
+			case TRAP:
+			case UNSET:
+			case BUILTIN:
+			case GLOBAL:
+			case TYPESET:
+			case WAIT:
+			case ALIAS:
+			case BG:
+			case BIND:
+			case CAT:
+			case CD:
+			case COMMAND:
+			case ECHO:
+			case FALSE:
 			case TRUE:
+			case FC:
+			case FG:
+			case GETOPTS:
+			case JOBS:
+			case KILL:
 			case LET:
+			case MKNOD:
+			case PRINT:
+			case PWD:
+			case READ:
+			case REALPATH:
+			case RENAME:
+			case SLEEP:
+			case SUSPEND:
+			case TEST:
+			case ULIMIT:
+			case UMASK:
+			case UNALIAS:
+			case WHENCE:
 			case ARIT_OPERATOR_L:
 				{
-				setState(46);
+				setState(52);
 				_errHandler.sync(this);
-				switch (_input.LA(1)) {
-				case LET:
-				case ARIT_OPERATOR_L:
+				switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
+				case 1:
 					{
-					setState(43);
+					setState(49);
 					arit();
 					}
 					break;
-				case FUNCTION:
-				case IF:
-				case UNTIL:
-				case FOR:
-				case SELECT:
-				case WHILE:
+				case 2:
 					{
-					setState(44);
+					setState(50);
 					execution_control();
 					}
 					break;
-				case TRUE:
+				case 3:
 					{
-					setState(45);
+					setState(51);
 					instruction();
 					}
 					break;
-				default:
-					throw new NoViableAltException(this);
 				}
-				setState(48);
+				setState(54);
 				expression_end();
 				}
 				break;
 			case LINE_COMMENT:
 				{
-				setState(50);
+				setState(56);
 				comment();
 				}
 				break;
 			case TERMINATOR:
 				{
-				setState(52); 
+				setState(58); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -325,7 +370,7 @@ public class MkshParser extends Parser {
 					case 1:
 						{
 						{
-						setState(51);
+						setState(57);
 						match(TERMINATOR);
 						}
 						}
@@ -333,7 +378,7 @@ public class MkshParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(54); 
+					setState(60); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -342,16 +387,16 @@ public class MkshParser extends Parser {
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(59);
+			setState(65);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << FUNCTION) | (1L << IF) | (1L << UNTIL) | (1L << FOR) | (1L << SELECT) | (1L << WHILE) | (1L << TRUE) | (1L << LET))) != 0) || ((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & ((1L << (ARIT_OPERATOR_L - 66)) | (1L << (TERMINATOR - 66)) | (1L << (LINE_COMMENT - 66)))) != 0)) {
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
 				{
-				setState(58);
+				setState(64);
 				expr();
 				}
+				break;
 			}
-
 			}
 		}
 		catch (RecognitionException re) {
@@ -366,8 +411,12 @@ public class MkshParser extends Parser {
 	}
 
 	public static class InstructionContext extends ParserRuleContext {
-		public TerminalNode TRUE() { return getToken(MkshParser.TRUE, 0); }
-		public TerminalNode P_SEMI() { return getToken(MkshParser.P_SEMI, 0); }
+		public Primary_keywordContext primary_keyword() {
+			return getRuleContext(Primary_keywordContext.class,0);
+		}
+		public Secondary_keywordContext secondary_keyword() {
+			return getRuleContext(Secondary_keywordContext.class,0);
+		}
 		public InstructionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -386,20 +435,84 @@ public class MkshParser extends Parser {
 		InstructionContext _localctx = new InstructionContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_instruction);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(61);
-			match(TRUE);
-			setState(63);
+			setState(69);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case CASE:
+			case ELSE:
+			case FUNCTION:
+			case THEN:
+			case DO:
+			case ESAC:
+			case IF:
+			case TIME:
+			case DONE:
+			case FI:
+			case IN:
+			case UNTIL:
+			case ELIF:
+			case FOR:
+			case SELECT:
+			case WHILE:
+				enterOuterAlt(_localctx, 1);
 				{
-				setState(62);
-				match(P_SEMI);
+				setState(67);
+				primary_keyword();
 				}
 				break;
-			}
+			case BREAK:
+			case CONTINUE:
+			case EVAL:
+			case EXEC:
+			case EXIT:
+			case EXPORT:
+			case READONLY:
+			case RETURN:
+			case SET:
+			case SHIFT:
+			case TIMES:
+			case TRAP:
+			case UNSET:
+			case BUILTIN:
+			case GLOBAL:
+			case TYPESET:
+			case WAIT:
+			case ALIAS:
+			case BG:
+			case BIND:
+			case CAT:
+			case CD:
+			case COMMAND:
+			case ECHO:
+			case FALSE:
+			case TRUE:
+			case FC:
+			case FG:
+			case GETOPTS:
+			case JOBS:
+			case KILL:
+			case LET:
+			case MKNOD:
+			case PRINT:
+			case PWD:
+			case READ:
+			case REALPATH:
+			case RENAME:
+			case SLEEP:
+			case SUSPEND:
+			case TEST:
+			case ULIMIT:
+			case UMASK:
+			case UNALIAS:
+			case WHENCE:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(68);
+				secondary_keyword();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -437,7 +550,7 @@ public class MkshParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
+			setState(71);
 			_la = _input.LA(1);
 			if ( !(_la==P_SEMI || _la==TERMINATOR) ) {
 			_errHandler.recoverInline(this);
@@ -482,8 +595,283 @@ public class MkshParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(67);
+			setState(73);
 			match(LINE_COMMENT);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class IdentifierContext extends ParserRuleContext {
+		public TerminalNode IDENTIFIER() { return getToken(MkshParser.IDENTIFIER, 0); }
+		public Primary_keywordContext primary_keyword() {
+			return getRuleContext(Primary_keywordContext.class,0);
+		}
+		public Secondary_keywordContext secondary_keyword() {
+			return getRuleContext(Secondary_keywordContext.class,0);
+		}
+		public IdentifierContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_identifier; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MkshParserListener ) ((MkshParserListener)listener).enterIdentifier(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MkshParserListener ) ((MkshParserListener)listener).exitIdentifier(this);
+		}
+	}
+
+	public final IdentifierContext identifier() throws RecognitionException {
+		IdentifierContext _localctx = new IdentifierContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_identifier);
+		try {
+			setState(78);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case IDENTIFIER:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(75);
+				match(IDENTIFIER);
+				}
+				break;
+			case CASE:
+			case ELSE:
+			case FUNCTION:
+			case THEN:
+			case DO:
+			case ESAC:
+			case IF:
+			case TIME:
+			case DONE:
+			case FI:
+			case IN:
+			case UNTIL:
+			case ELIF:
+			case FOR:
+			case SELECT:
+			case WHILE:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(76);
+				primary_keyword();
+				}
+				break;
+			case BREAK:
+			case CONTINUE:
+			case EVAL:
+			case EXEC:
+			case EXIT:
+			case EXPORT:
+			case READONLY:
+			case RETURN:
+			case SET:
+			case SHIFT:
+			case TIMES:
+			case TRAP:
+			case UNSET:
+			case BUILTIN:
+			case GLOBAL:
+			case TYPESET:
+			case WAIT:
+			case ALIAS:
+			case BG:
+			case BIND:
+			case CAT:
+			case CD:
+			case COMMAND:
+			case ECHO:
+			case FALSE:
+			case TRUE:
+			case FC:
+			case FG:
+			case GETOPTS:
+			case JOBS:
+			case KILL:
+			case LET:
+			case MKNOD:
+			case PRINT:
+			case PWD:
+			case READ:
+			case REALPATH:
+			case RENAME:
+			case SLEEP:
+			case SUSPEND:
+			case TEST:
+			case ULIMIT:
+			case UMASK:
+			case UNALIAS:
+			case WHENCE:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(77);
+				secondary_keyword();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Primary_keywordContext extends ParserRuleContext {
+		public TerminalNode CASE() { return getToken(MkshParser.CASE, 0); }
+		public TerminalNode ELSE() { return getToken(MkshParser.ELSE, 0); }
+		public TerminalNode FUNCTION() { return getToken(MkshParser.FUNCTION, 0); }
+		public TerminalNode THEN() { return getToken(MkshParser.THEN, 0); }
+		public TerminalNode DO() { return getToken(MkshParser.DO, 0); }
+		public TerminalNode ESAC() { return getToken(MkshParser.ESAC, 0); }
+		public TerminalNode IF() { return getToken(MkshParser.IF, 0); }
+		public TerminalNode TIME() { return getToken(MkshParser.TIME, 0); }
+		public TerminalNode DONE() { return getToken(MkshParser.DONE, 0); }
+		public TerminalNode FI() { return getToken(MkshParser.FI, 0); }
+		public TerminalNode IN() { return getToken(MkshParser.IN, 0); }
+		public TerminalNode UNTIL() { return getToken(MkshParser.UNTIL, 0); }
+		public TerminalNode ELIF() { return getToken(MkshParser.ELIF, 0); }
+		public TerminalNode FOR() { return getToken(MkshParser.FOR, 0); }
+		public TerminalNode SELECT() { return getToken(MkshParser.SELECT, 0); }
+		public TerminalNode WHILE() { return getToken(MkshParser.WHILE, 0); }
+		public Primary_keywordContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_primary_keyword; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MkshParserListener ) ((MkshParserListener)listener).enterPrimary_keyword(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MkshParserListener ) ((MkshParserListener)listener).exitPrimary_keyword(this);
+		}
+	}
+
+	public final Primary_keywordContext primary_keyword() throws RecognitionException {
+		Primary_keywordContext _localctx = new Primary_keywordContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_primary_keyword);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(80);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CASE) | (1L << ELSE) | (1L << FUNCTION) | (1L << THEN) | (1L << DO) | (1L << ESAC) | (1L << IF) | (1L << TIME) | (1L << DONE) | (1L << FI) | (1L << IN) | (1L << UNTIL) | (1L << ELIF) | (1L << FOR) | (1L << SELECT) | (1L << WHILE))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Secondary_keywordContext extends ParserRuleContext {
+		public TerminalNode BREAK() { return getToken(MkshParser.BREAK, 0); }
+		public TerminalNode CONTINUE() { return getToken(MkshParser.CONTINUE, 0); }
+		public TerminalNode EVAL() { return getToken(MkshParser.EVAL, 0); }
+		public TerminalNode EXEC() { return getToken(MkshParser.EXEC, 0); }
+		public TerminalNode EXIT() { return getToken(MkshParser.EXIT, 0); }
+		public TerminalNode EXPORT() { return getToken(MkshParser.EXPORT, 0); }
+		public TerminalNode READONLY() { return getToken(MkshParser.READONLY, 0); }
+		public TerminalNode RETURN() { return getToken(MkshParser.RETURN, 0); }
+		public TerminalNode SET() { return getToken(MkshParser.SET, 0); }
+		public TerminalNode SHIFT() { return getToken(MkshParser.SHIFT, 0); }
+		public TerminalNode TIMES() { return getToken(MkshParser.TIMES, 0); }
+		public TerminalNode TRAP() { return getToken(MkshParser.TRAP, 0); }
+		public TerminalNode UNSET() { return getToken(MkshParser.UNSET, 0); }
+		public TerminalNode BUILTIN() { return getToken(MkshParser.BUILTIN, 0); }
+		public TerminalNode GLOBAL() { return getToken(MkshParser.GLOBAL, 0); }
+		public TerminalNode TYPESET() { return getToken(MkshParser.TYPESET, 0); }
+		public TerminalNode WAIT() { return getToken(MkshParser.WAIT, 0); }
+		public TerminalNode ALIAS() { return getToken(MkshParser.ALIAS, 0); }
+		public TerminalNode BG() { return getToken(MkshParser.BG, 0); }
+		public TerminalNode BIND() { return getToken(MkshParser.BIND, 0); }
+		public TerminalNode CAT() { return getToken(MkshParser.CAT, 0); }
+		public TerminalNode CD() { return getToken(MkshParser.CD, 0); }
+		public TerminalNode COMMAND() { return getToken(MkshParser.COMMAND, 0); }
+		public TerminalNode ECHO() { return getToken(MkshParser.ECHO, 0); }
+		public TerminalNode FALSE() { return getToken(MkshParser.FALSE, 0); }
+		public TerminalNode TRUE() { return getToken(MkshParser.TRUE, 0); }
+		public TerminalNode FC() { return getToken(MkshParser.FC, 0); }
+		public TerminalNode FG() { return getToken(MkshParser.FG, 0); }
+		public TerminalNode GETOPTS() { return getToken(MkshParser.GETOPTS, 0); }
+		public TerminalNode JOBS() { return getToken(MkshParser.JOBS, 0); }
+		public TerminalNode KILL() { return getToken(MkshParser.KILL, 0); }
+		public TerminalNode LET() { return getToken(MkshParser.LET, 0); }
+		public TerminalNode MKNOD() { return getToken(MkshParser.MKNOD, 0); }
+		public TerminalNode PRINT() { return getToken(MkshParser.PRINT, 0); }
+		public TerminalNode PWD() { return getToken(MkshParser.PWD, 0); }
+		public TerminalNode READ() { return getToken(MkshParser.READ, 0); }
+		public TerminalNode REALPATH() { return getToken(MkshParser.REALPATH, 0); }
+		public TerminalNode RENAME() { return getToken(MkshParser.RENAME, 0); }
+		public TerminalNode SLEEP() { return getToken(MkshParser.SLEEP, 0); }
+		public TerminalNode SUSPEND() { return getToken(MkshParser.SUSPEND, 0); }
+		public TerminalNode TEST() { return getToken(MkshParser.TEST, 0); }
+		public TerminalNode ULIMIT() { return getToken(MkshParser.ULIMIT, 0); }
+		public TerminalNode UMASK() { return getToken(MkshParser.UMASK, 0); }
+		public TerminalNode UNALIAS() { return getToken(MkshParser.UNALIAS, 0); }
+		public TerminalNode WHENCE() { return getToken(MkshParser.WHENCE, 0); }
+		public Secondary_keywordContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_secondary_keyword; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MkshParserListener ) ((MkshParserListener)listener).enterSecondary_keyword(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MkshParserListener ) ((MkshParserListener)listener).exitSecondary_keyword(this);
+		}
+	}
+
+	public final Secondary_keywordContext secondary_keyword() throws RecognitionException {
+		Secondary_keywordContext _localctx = new Secondary_keywordContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_secondary_keyword);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(82);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BREAK) | (1L << CONTINUE) | (1L << EVAL) | (1L << EXEC) | (1L << EXIT) | (1L << EXPORT) | (1L << READONLY) | (1L << RETURN) | (1L << SET) | (1L << SHIFT) | (1L << TIMES) | (1L << TRAP) | (1L << UNSET) | (1L << BUILTIN) | (1L << GLOBAL) | (1L << TYPESET) | (1L << WAIT) | (1L << ALIAS) | (1L << BG) | (1L << BIND) | (1L << CAT) | (1L << CD) | (1L << COMMAND) | (1L << ECHO) | (1L << FALSE) | (1L << TRUE) | (1L << FC) | (1L << FG) | (1L << GETOPTS) | (1L << JOBS) | (1L << KILL) | (1L << LET) | (1L << MKNOD) | (1L << PRINT) | (1L << PWD) | (1L << READ) | (1L << REALPATH) | (1L << RENAME) | (1L << SLEEP) | (1L << SUSPEND) | (1L << TEST) | (1L << ULIMIT) | (1L << UMASK) | (1L << UNALIAS) | (1L << WHENCE))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -532,50 +920,50 @@ public class MkshParser extends Parser {
 
 	public final Execution_controlContext execution_control() throws RecognitionException {
 		Execution_controlContext _localctx = new Execution_controlContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_execution_control);
+		enterRule(_localctx, 18, RULE_execution_control);
 		try {
-			setState(75);
+			setState(90);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case FOR:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(69);
+				setState(84);
 				for_do_done();
 				}
 				break;
 			case IF:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(70);
+				setState(85);
 				if_then_else();
 				}
 				break;
 			case SELECT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(71);
+				setState(86);
 				select_in();
 				}
 				break;
 			case UNTIL:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(72);
+				setState(87);
 				until_do();
 				}
 				break;
 			case WHILE:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(73);
+				setState(88);
 				while_do();
 				}
 				break;
 			case FUNCTION:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(74);
+				setState(89);
 				function();
 				}
 				break;
@@ -596,7 +984,9 @@ public class MkshParser extends Parser {
 
 	public static class For_do_doneContext extends ParserRuleContext {
 		public TerminalNode FOR() { return getToken(MkshParser.FOR, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(MkshParser.IDENTIFIER, 0); }
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
+		}
 		public Expression_endContext expression_end() {
 			return getRuleContext(Expression_endContext.class,0);
 		}
@@ -626,46 +1016,46 @@ public class MkshParser extends Parser {
 
 	public final For_do_doneContext for_do_done() throws RecognitionException {
 		For_do_doneContext _localctx = new For_do_doneContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_for_do_done);
+		enterRule(_localctx, 20, RULE_for_do_done);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77);
+			setState(92);
 			match(FOR);
-			setState(78);
-			match(IDENTIFIER);
-			setState(86);
+			setState(93);
+			identifier();
+			setState(101);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==IN) {
 				{
-				setState(79);
+				setState(94);
 				match(IN);
-				setState(83);
+				setState(98);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==STRING) {
 					{
 					{
-					setState(80);
+					setState(95);
 					match(STRING);
 					}
 					}
-					setState(85);
+					setState(100);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(88);
+			setState(103);
 			expression_end();
-			setState(89);
+			setState(104);
 			match(DO);
-			setState(90);
+			setState(105);
 			expr();
-			setState(91);
+			setState(106);
 			match(DONE);
 			}
 		}
@@ -714,52 +1104,52 @@ public class MkshParser extends Parser {
 
 	public final If_then_elseContext if_then_else() throws RecognitionException {
 		If_then_elseContext _localctx = new If_then_elseContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_if_then_else);
+		enterRule(_localctx, 22, RULE_if_then_else);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(93);
+			setState(108);
 			match(IF);
-			setState(94);
+			setState(109);
 			expr();
-			setState(95);
+			setState(110);
 			match(THEN);
-			setState(96);
+			setState(111);
 			expr();
-			setState(104);
+			setState(119);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==ELIF) {
 				{
 				{
-				setState(97);
+				setState(112);
 				match(ELIF);
-				setState(98);
+				setState(113);
 				expr();
-				setState(99);
+				setState(114);
 				match(THEN);
-				setState(100);
+				setState(115);
 				expr();
 				}
 				}
-				setState(106);
+				setState(121);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(109);
+			setState(124);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ELSE) {
 				{
-				setState(107);
+				setState(122);
 				match(ELSE);
-				setState(108);
+				setState(123);
 				expr();
 				}
 			}
 
-			setState(111);
+			setState(126);
 			match(FI);
 			}
 		}
@@ -776,7 +1166,9 @@ public class MkshParser extends Parser {
 
 	public static class Select_inContext extends ParserRuleContext {
 		public TerminalNode SELECT() { return getToken(MkshParser.SELECT, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(MkshParser.IDENTIFIER, 0); }
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
+		}
 		public Expression_endContext expression_end() {
 			return getRuleContext(Expression_endContext.class,0);
 		}
@@ -806,40 +1198,40 @@ public class MkshParser extends Parser {
 
 	public final Select_inContext select_in() throws RecognitionException {
 		Select_inContext _localctx = new Select_inContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_select_in);
+		enterRule(_localctx, 24, RULE_select_in);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113);
+			setState(128);
 			match(SELECT);
-			setState(114);
-			match(IDENTIFIER);
+			setState(129);
+			identifier();
 			{
-			setState(115);
+			setState(130);
 			match(IN);
-			setState(119);
+			setState(134);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==STRING) {
 				{
 				{
-				setState(116);
+				setState(131);
 				match(STRING);
 				}
 				}
-				setState(121);
+				setState(136);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
 			}
-			setState(122);
+			setState(137);
 			expression_end();
-			setState(123);
+			setState(138);
 			match(DO);
-			setState(124);
+			setState(139);
 			expr();
-			setState(125);
+			setState(140);
 			match(DONE);
 			}
 		}
@@ -880,19 +1272,19 @@ public class MkshParser extends Parser {
 
 	public final Until_doContext until_do() throws RecognitionException {
 		Until_doContext _localctx = new Until_doContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_until_do);
+		enterRule(_localctx, 26, RULE_until_do);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(127);
+			setState(142);
 			match(UNTIL);
-			setState(128);
+			setState(143);
 			expr();
-			setState(129);
+			setState(144);
 			match(DO);
-			setState(130);
+			setState(145);
 			expr();
-			setState(131);
+			setState(146);
 			match(DONE);
 			}
 		}
@@ -933,19 +1325,19 @@ public class MkshParser extends Parser {
 
 	public final While_doContext while_do() throws RecognitionException {
 		While_doContext _localctx = new While_doContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_while_do);
+		enterRule(_localctx, 28, RULE_while_do);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(133);
+			setState(148);
 			match(WHILE);
-			setState(134);
+			setState(149);
 			expr();
-			setState(135);
+			setState(150);
 			match(DO);
-			setState(136);
+			setState(151);
 			expr();
-			setState(137);
+			setState(152);
 			match(DONE);
 			}
 		}
@@ -962,9 +1354,11 @@ public class MkshParser extends Parser {
 
 	public static class FunctionContext extends ParserRuleContext {
 		public TerminalNode FUNCTION() { return getToken(MkshParser.FUNCTION, 0); }
-		public List<TerminalNode> IDENTIFIER() { return getTokens(MkshParser.IDENTIFIER); }
-		public TerminalNode IDENTIFIER(int i) {
-			return getToken(MkshParser.IDENTIFIER, i);
+		public List<IdentifierContext> identifier() {
+			return getRuleContexts(IdentifierContext.class);
+		}
+		public IdentifierContext identifier(int i) {
+			return getRuleContext(IdentifierContext.class,i);
 		}
 		public TerminalNode P_L_PARENTHESIS() { return getToken(MkshParser.P_L_PARENTHESIS, 0); }
 		public TerminalNode P_R_PARENTHESIS() { return getToken(MkshParser.P_R_PARENTHESIS, 0); }
@@ -993,50 +1387,50 @@ public class MkshParser extends Parser {
 
 	public final FunctionContext function() throws RecognitionException {
 		FunctionContext _localctx = new FunctionContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_function);
+		enterRule(_localctx, 30, RULE_function);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(139);
+			setState(154);
 			match(FUNCTION);
-			setState(140);
-			match(IDENTIFIER);
-			setState(141);
+			setState(155);
+			identifier();
+			setState(156);
 			match(P_L_PARENTHESIS);
-			setState(150);
+			setState(165);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==IDENTIFIER) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CASE) | (1L << ELSE) | (1L << FUNCTION) | (1L << THEN) | (1L << DO) | (1L << ESAC) | (1L << IF) | (1L << TIME) | (1L << DONE) | (1L << FI) | (1L << IN) | (1L << UNTIL) | (1L << ELIF) | (1L << FOR) | (1L << SELECT) | (1L << WHILE) | (1L << BREAK) | (1L << CONTINUE) | (1L << EVAL) | (1L << EXEC) | (1L << EXIT) | (1L << EXPORT) | (1L << READONLY) | (1L << RETURN) | (1L << SET) | (1L << SHIFT) | (1L << TIMES) | (1L << TRAP) | (1L << UNSET) | (1L << BUILTIN) | (1L << GLOBAL) | (1L << TYPESET) | (1L << WAIT) | (1L << ALIAS) | (1L << BG) | (1L << BIND) | (1L << CAT) | (1L << CD) | (1L << COMMAND) | (1L << ECHO) | (1L << FALSE) | (1L << TRUE) | (1L << FC) | (1L << FG) | (1L << GETOPTS) | (1L << JOBS) | (1L << KILL) | (1L << LET) | (1L << MKNOD) | (1L << PRINT) | (1L << PWD) | (1L << READ) | (1L << REALPATH) | (1L << RENAME) | (1L << SLEEP) | (1L << SUSPEND) | (1L << TEST) | (1L << ULIMIT) | (1L << UMASK) | (1L << UNALIAS) | (1L << WHENCE))) != 0) || _la==IDENTIFIER) {
 				{
-				setState(142);
-				match(IDENTIFIER);
-				setState(147);
+				setState(157);
+				identifier();
+				setState(162);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==P_COMMA) {
 					{
 					{
-					setState(143);
+					setState(158);
 					match(P_COMMA);
-					setState(144);
-					match(IDENTIFIER);
+					setState(159);
+					identifier();
 					}
 					}
-					setState(149);
+					setState(164);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(152);
+			setState(167);
 			match(P_R_PARENTHESIS);
-			setState(153);
+			setState(168);
 			match(P_L_BRACKET);
-			setState(154);
+			setState(169);
 			expr();
-			setState(155);
+			setState(170);
 			match(P_R_BRACKET);
 			}
 		}
@@ -1074,28 +1468,28 @@ public class MkshParser extends Parser {
 
 	public final AritContext arit() throws RecognitionException {
 		AritContext _localctx = new AritContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_arit);
+		enterRule(_localctx, 32, RULE_arit);
 		try {
-			setState(163);
+			setState(178);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LET:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(157);
+				setState(172);
 				match(LET);
-				setState(158);
+				setState(173);
 				a_expr(0);
 				}
 				break;
 			case ARIT_OPERATOR_L:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(159);
+				setState(174);
 				match(ARIT_OPERATOR_L);
-				setState(160);
+				setState(175);
 				a_expr(0);
-				setState(161);
+				setState(176);
 				match(ARIT_OPERATOR_R);
 				}
 				break;
@@ -1132,11 +1526,11 @@ public class MkshParser extends Parser {
 
 	public final A_immediateContext a_immediate() throws RecognitionException {
 		A_immediateContext _localctx = new A_immediateContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_a_immediate);
+		enterRule(_localctx, 34, RULE_a_immediate);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(165);
+			setState(180);
 			match(ARIT_ONE);
 			}
 		}
@@ -1155,7 +1549,9 @@ public class MkshParser extends Parser {
 		public A_immediateContext a_immediate() {
 			return getRuleContext(A_immediateContext.class,0);
 		}
-		public TerminalNode IDENTIFIER() { return getToken(MkshParser.IDENTIFIER, 0); }
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
+		}
 		public A_operandContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1172,23 +1568,84 @@ public class MkshParser extends Parser {
 
 	public final A_operandContext a_operand() throws RecognitionException {
 		A_operandContext _localctx = new A_operandContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_a_operand);
+		enterRule(_localctx, 36, RULE_a_operand);
 		try {
-			setState(169);
+			setState(184);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ARIT_ONE:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(167);
+				setState(182);
 				a_immediate();
 				}
 				break;
+			case CASE:
+			case ELSE:
+			case FUNCTION:
+			case THEN:
+			case DO:
+			case ESAC:
+			case IF:
+			case TIME:
+			case DONE:
+			case FI:
+			case IN:
+			case UNTIL:
+			case ELIF:
+			case FOR:
+			case SELECT:
+			case WHILE:
+			case BREAK:
+			case CONTINUE:
+			case EVAL:
+			case EXEC:
+			case EXIT:
+			case EXPORT:
+			case READONLY:
+			case RETURN:
+			case SET:
+			case SHIFT:
+			case TIMES:
+			case TRAP:
+			case UNSET:
+			case BUILTIN:
+			case GLOBAL:
+			case TYPESET:
+			case WAIT:
+			case ALIAS:
+			case BG:
+			case BIND:
+			case CAT:
+			case CD:
+			case COMMAND:
+			case ECHO:
+			case FALSE:
+			case TRUE:
+			case FC:
+			case FG:
+			case GETOPTS:
+			case JOBS:
+			case KILL:
+			case LET:
+			case MKNOD:
+			case PRINT:
+			case PWD:
+			case READ:
+			case REALPATH:
+			case RENAME:
+			case SLEEP:
+			case SUSPEND:
+			case TEST:
+			case ULIMIT:
+			case UMASK:
+			case UNALIAS:
+			case WHENCE:
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(168);
-				match(IDENTIFIER);
+				setState(183);
+				identifier();
 				}
 				break;
 			default:
@@ -1242,37 +1699,37 @@ public class MkshParser extends Parser {
 		int _parentState = getState();
 		A_exprContext _localctx = new A_exprContext(_ctx, _parentState);
 		A_exprContext _prevctx = _localctx;
-		int _startState = 32;
-		enterRecursionRule(_localctx, 32, RULE_a_expr, _p);
+		int _startState = 38;
+		enterRecursionRule(_localctx, 38, RULE_a_expr, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(172);
+			setState(187);
 			a_operand();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(182);
+			setState(197);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(180);
+					setState(195);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 					case 1:
 						{
 						_localctx = new A_exprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_a_expr);
-						setState(174);
+						setState(189);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(175);
+						setState(190);
 						a_operator_binary();
-						setState(176);
+						setState(191);
 						a_expr(3);
 						}
 						break;
@@ -1280,18 +1737,18 @@ public class MkshParser extends Parser {
 						{
 						_localctx = new A_exprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_a_expr);
-						setState(178);
+						setState(193);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(179);
+						setState(194);
 						a_operator_binary();
 						}
 						break;
 					}
 					} 
 				}
-				setState(184);
+				setState(199);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			}
 			}
 		}
@@ -1337,12 +1794,12 @@ public class MkshParser extends Parser {
 
 	public final A_operator_binaryContext a_operator_binary() throws RecognitionException {
 		A_operator_binaryContext _localctx = new A_operator_binaryContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_a_operator_binary);
+		enterRule(_localctx, 40, RULE_a_operator_binary);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(185);
+			setState(200);
 			_la = _input.LA(1);
 			if ( !(((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (ARIT_A - 71)) | (1L << (ARIT_A_PLUS - 71)) | (1L << (ARIT_A_MINUS - 71)) | (1L << (ARIT_A_STAR - 71)) | (1L << (ARIT_A_DIV - 71)) | (1L << (ARIT_A_MOD - 71)) | (1L << (ARIT_A_L_SHIFT - 71)) | (1L << (ARIT_A_R_SHIFT - 71)) | (1L << (ARIT_A_L_ROTATE - 71)) | (1L << (ARIT_A_R_ROTATE - 71)) | (1L << (ARIT_A_XOR - 71)) | (1L << (ARIT_A_AND - 71)) | (1L << (ARIT_A_OR - 71)) | (1L << (P_COMMA - 71)))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1382,7 +1839,7 @@ public class MkshParser extends Parser {
 
 	public final A_operator_unaryContext a_operator_unary() throws RecognitionException {
 		A_operator_unaryContext _localctx = new A_operator_unaryContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_a_operator_unary);
+		enterRule(_localctx, 42, RULE_a_operator_unary);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -1401,7 +1858,7 @@ public class MkshParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 16:
+		case 19:
 			return a_expr_sempred((A_exprContext)_localctx, predIndex);
 		}
 		return true;
@@ -1417,61 +1874,68 @@ public class MkshParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3e\u00c0\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3e\u00cf\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\3\2\3\2\3\3\3\3\3\3\3\4\3\4\3\4\5\4\61\n\4\3\4\3"+
-		"\4\3\4\3\4\6\4\67\n\4\r\4\16\48\5\4;\n\4\3\4\5\4>\n\4\3\5\3\5\5\5B\n\5"+
-		"\3\6\3\6\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\5\bN\n\b\3\t\3\t\3\t\3\t\7\t"+
-		"T\n\t\f\t\16\tW\13\t\5\tY\n\t\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n"+
-		"\3\n\3\n\3\n\3\n\7\ni\n\n\f\n\16\nl\13\n\3\n\3\n\5\np\n\n\3\n\3\n\3\13"+
-		"\3\13\3\13\3\13\7\13x\n\13\f\13\16\13{\13\13\3\13\3\13\3\13\3\13\3\13"+
-		"\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3"+
-		"\16\3\16\7\16\u0094\n\16\f\16\16\16\u0097\13\16\5\16\u0099\n\16\3\16\3"+
-		"\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u00a6\n\17\3\20"+
-		"\3\20\3\21\3\21\5\21\u00ac\n\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22"+
-		"\3\22\7\22\u00b7\n\22\f\22\16\22\u00ba\13\22\3\23\3\23\3\24\3\24\3\24"+
-		"\2\3\"\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\4\4\2VVdd\4\2"+
-		"IUXX\2\u00c3\2(\3\2\2\2\4*\3\2\2\2\6:\3\2\2\2\b?\3\2\2\2\nC\3\2\2\2\f"+
-		"E\3\2\2\2\16M\3\2\2\2\20O\3\2\2\2\22_\3\2\2\2\24s\3\2\2\2\26\u0081\3\2"+
-		"\2\2\30\u0087\3\2\2\2\32\u008d\3\2\2\2\34\u00a5\3\2\2\2\36\u00a7\3\2\2"+
-		"\2 \u00ab\3\2\2\2\"\u00ad\3\2\2\2$\u00bb\3\2\2\2&\u00bd\3\2\2\2()\5\4"+
-		"\3\2)\3\3\2\2\2*+\5\6\4\2+,\7\2\2\3,\5\3\2\2\2-\61\5\34\17\2.\61\5\16"+
-		"\b\2/\61\5\b\5\2\60-\3\2\2\2\60.\3\2\2\2\60/\3\2\2\2\61\62\3\2\2\2\62"+
-		"\63\5\n\6\2\63;\3\2\2\2\64;\5\f\7\2\65\67\7d\2\2\66\65\3\2\2\2\678\3\2"+
-		"\2\28\66\3\2\2\289\3\2\2\29;\3\2\2\2:\60\3\2\2\2:\64\3\2\2\2:\66\3\2\2"+
-		"\2;=\3\2\2\2<>\5\6\4\2=<\3\2\2\2=>\3\2\2\2>\7\3\2\2\2?A\7,\2\2@B\7V\2"+
-		"\2A@\3\2\2\2AB\3\2\2\2B\t\3\2\2\2CD\t\2\2\2D\13\3\2\2\2EF\7e\2\2F\r\3"+
-		"\2\2\2GN\5\20\t\2HN\5\22\n\2IN\5\24\13\2JN\5\26\f\2KN\5\30\r\2LN\5\32"+
-		"\16\2MG\3\2\2\2MH\3\2\2\2MI\3\2\2\2MJ\3\2\2\2MK\3\2\2\2ML\3\2\2\2N\17"+
-		"\3\2\2\2OP\7\20\2\2PX\7b\2\2QU\7\r\2\2RT\7a\2\2SR\3\2\2\2TW\3\2\2\2US"+
-		"\3\2\2\2UV\3\2\2\2VY\3\2\2\2WU\3\2\2\2XQ\3\2\2\2XY\3\2\2\2YZ\3\2\2\2Z"+
-		"[\5\n\6\2[\\\7\7\2\2\\]\5\6\4\2]^\7\13\2\2^\21\3\2\2\2_`\7\t\2\2`a\5\6"+
-		"\4\2ab\7\6\2\2bj\5\6\4\2cd\7\17\2\2de\5\6\4\2ef\7\6\2\2fg\5\6\4\2gi\3"+
-		"\2\2\2hc\3\2\2\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2ko\3\2\2\2lj\3\2\2\2mn\7"+
-		"\4\2\2np\5\6\4\2om\3\2\2\2op\3\2\2\2pq\3\2\2\2qr\7\f\2\2r\23\3\2\2\2s"+
-		"t\7\21\2\2tu\7b\2\2uy\7\r\2\2vx\7a\2\2wv\3\2\2\2x{\3\2\2\2yw\3\2\2\2y"+
-		"z\3\2\2\2z|\3\2\2\2{y\3\2\2\2|}\5\n\6\2}~\7\7\2\2~\177\5\6\4\2\177\u0080"+
-		"\7\13\2\2\u0080\25\3\2\2\2\u0081\u0082\7\16\2\2\u0082\u0083\5\6\4\2\u0083"+
-		"\u0084\7\7\2\2\u0084\u0085\5\6\4\2\u0085\u0086\7\13\2\2\u0086\27\3\2\2"+
-		"\2\u0087\u0088\7\22\2\2\u0088\u0089\5\6\4\2\u0089\u008a\7\7\2\2\u008a"+
-		"\u008b\5\6\4\2\u008b\u008c\7\13\2\2\u008c\31\3\2\2\2\u008d\u008e\7\5\2"+
-		"\2\u008e\u008f\7b\2\2\u008f\u0098\7[\2\2\u0090\u0095\7b\2\2\u0091\u0092"+
-		"\7X\2\2\u0092\u0094\7b\2\2\u0093\u0091\3\2\2\2\u0094\u0097\3\2\2\2\u0095"+
-		"\u0093\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0099\3\2\2\2\u0097\u0095\3\2"+
-		"\2\2\u0098\u0090\3\2\2\2\u0098\u0099\3\2\2\2\u0099\u009a\3\2\2\2\u009a"+
-		"\u009b\7\\\2\2\u009b\u009c\7Y\2\2\u009c\u009d\5\6\4\2\u009d\u009e\7Z\2"+
-		"\2\u009e\33\3\2\2\2\u009f\u00a0\7\62\2\2\u00a0\u00a6\5\"\22\2\u00a1\u00a2"+
-		"\7D\2\2\u00a2\u00a3\5\"\22\2\u00a3\u00a4\7E\2\2\u00a4\u00a6\3\2\2\2\u00a5"+
-		"\u009f\3\2\2\2\u00a5\u00a1\3\2\2\2\u00a6\35\3\2\2\2\u00a7\u00a8\7H\2\2"+
-		"\u00a8\37\3\2\2\2\u00a9\u00ac\5\36\20\2\u00aa\u00ac\7b\2\2\u00ab\u00a9"+
-		"\3\2\2\2\u00ab\u00aa\3\2\2\2\u00ac!\3\2\2\2\u00ad\u00ae\b\22\1\2\u00ae"+
-		"\u00af\5 \21\2\u00af\u00b8\3\2\2\2\u00b0\u00b1\f\4\2\2\u00b1\u00b2\5$"+
-		"\23\2\u00b2\u00b3\5\"\22\5\u00b3\u00b7\3\2\2\2\u00b4\u00b5\f\5\2\2\u00b5"+
-		"\u00b7\5$\23\2\u00b6\u00b0\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b7\u00ba\3\2"+
-		"\2\2\u00b8\u00b6\3\2\2\2\u00b8\u00b9\3\2\2\2\u00b9#\3\2\2\2\u00ba\u00b8"+
-		"\3\2\2\2\u00bb\u00bc\t\3\2\2\u00bc%\3\2\2\2\u00bd\u00be\3\2\2\2\u00be"+
-		"\'\3\2\2\2\23\608:=AMUXjoy\u0095\u0098\u00a5\u00ab\u00b6\u00b8";
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\3\2\3\2\3\3\3\3\3\3"+
+		"\3\4\3\4\3\4\5\4\67\n\4\3\4\3\4\3\4\3\4\6\4=\n\4\r\4\16\4>\5\4A\n\4\3"+
+		"\4\5\4D\n\4\3\5\3\5\5\5H\n\5\3\6\3\6\3\7\3\7\3\b\3\b\3\b\5\bQ\n\b\3\t"+
+		"\3\t\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\5\13]\n\13\3\f\3\f\3\f\3\f"+
+		"\7\fc\n\f\f\f\16\ff\13\f\5\fh\n\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r"+
+		"\3\r\3\r\3\r\3\r\3\r\7\rx\n\r\f\r\16\r{\13\r\3\r\3\r\5\r\177\n\r\3\r\3"+
+		"\r\3\16\3\16\3\16\3\16\7\16\u0087\n\16\f\16\16\16\u008a\13\16\3\16\3\16"+
+		"\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20"+
+		"\3\20\3\21\3\21\3\21\3\21\3\21\3\21\7\21\u00a3\n\21\f\21\16\21\u00a6\13"+
+		"\21\5\21\u00a8\n\21\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\22"+
+		"\3\22\5\22\u00b5\n\22\3\23\3\23\3\24\3\24\5\24\u00bb\n\24\3\25\3\25\3"+
+		"\25\3\25\3\25\3\25\3\25\3\25\3\25\7\25\u00c6\n\25\f\25\16\25\u00c9\13"+
+		"\25\3\26\3\26\3\27\3\27\3\27\2\3(\30\2\4\6\b\n\f\16\20\22\24\26\30\32"+
+		"\34\36 \"$&(*,\2\6\4\2VVdd\3\2\3\22\3\2\23?\4\2IUXX\2\u00d1\2.\3\2\2\2"+
+		"\4\60\3\2\2\2\6@\3\2\2\2\bG\3\2\2\2\nI\3\2\2\2\fK\3\2\2\2\16P\3\2\2\2"+
+		"\20R\3\2\2\2\22T\3\2\2\2\24\\\3\2\2\2\26^\3\2\2\2\30n\3\2\2\2\32\u0082"+
+		"\3\2\2\2\34\u0090\3\2\2\2\36\u0096\3\2\2\2 \u009c\3\2\2\2\"\u00b4\3\2"+
+		"\2\2$\u00b6\3\2\2\2&\u00ba\3\2\2\2(\u00bc\3\2\2\2*\u00ca\3\2\2\2,\u00cc"+
+		"\3\2\2\2./\5\4\3\2/\3\3\2\2\2\60\61\5\6\4\2\61\62\7\2\2\3\62\5\3\2\2\2"+
+		"\63\67\5\"\22\2\64\67\5\24\13\2\65\67\5\b\5\2\66\63\3\2\2\2\66\64\3\2"+
+		"\2\2\66\65\3\2\2\2\678\3\2\2\289\5\n\6\29A\3\2\2\2:A\5\f\7\2;=\7d\2\2"+
+		"<;\3\2\2\2=>\3\2\2\2><\3\2\2\2>?\3\2\2\2?A\3\2\2\2@\66\3\2\2\2@:\3\2\2"+
+		"\2@<\3\2\2\2AC\3\2\2\2BD\5\6\4\2CB\3\2\2\2CD\3\2\2\2D\7\3\2\2\2EH\5\20"+
+		"\t\2FH\5\22\n\2GE\3\2\2\2GF\3\2\2\2H\t\3\2\2\2IJ\t\2\2\2J\13\3\2\2\2K"+
+		"L\7e\2\2L\r\3\2\2\2MQ\7b\2\2NQ\5\20\t\2OQ\5\22\n\2PM\3\2\2\2PN\3\2\2\2"+
+		"PO\3\2\2\2Q\17\3\2\2\2RS\t\3\2\2S\21\3\2\2\2TU\t\4\2\2U\23\3\2\2\2V]\5"+
+		"\26\f\2W]\5\30\r\2X]\5\32\16\2Y]\5\34\17\2Z]\5\36\20\2[]\5 \21\2\\V\3"+
+		"\2\2\2\\W\3\2\2\2\\X\3\2\2\2\\Y\3\2\2\2\\Z\3\2\2\2\\[\3\2\2\2]\25\3\2"+
+		"\2\2^_\7\20\2\2_g\5\16\b\2`d\7\r\2\2ac\7a\2\2ba\3\2\2\2cf\3\2\2\2db\3"+
+		"\2\2\2de\3\2\2\2eh\3\2\2\2fd\3\2\2\2g`\3\2\2\2gh\3\2\2\2hi\3\2\2\2ij\5"+
+		"\n\6\2jk\7\7\2\2kl\5\6\4\2lm\7\13\2\2m\27\3\2\2\2no\7\t\2\2op\5\6\4\2"+
+		"pq\7\6\2\2qy\5\6\4\2rs\7\17\2\2st\5\6\4\2tu\7\6\2\2uv\5\6\4\2vx\3\2\2"+
+		"\2wr\3\2\2\2x{\3\2\2\2yw\3\2\2\2yz\3\2\2\2z~\3\2\2\2{y\3\2\2\2|}\7\4\2"+
+		"\2}\177\5\6\4\2~|\3\2\2\2~\177\3\2\2\2\177\u0080\3\2\2\2\u0080\u0081\7"+
+		"\f\2\2\u0081\31\3\2\2\2\u0082\u0083\7\21\2\2\u0083\u0084\5\16\b\2\u0084"+
+		"\u0088\7\r\2\2\u0085\u0087\7a\2\2\u0086\u0085\3\2\2\2\u0087\u008a\3\2"+
+		"\2\2\u0088\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\u008b\3\2\2\2\u008a"+
+		"\u0088\3\2\2\2\u008b\u008c\5\n\6\2\u008c\u008d\7\7\2\2\u008d\u008e\5\6"+
+		"\4\2\u008e\u008f\7\13\2\2\u008f\33\3\2\2\2\u0090\u0091\7\16\2\2\u0091"+
+		"\u0092\5\6\4\2\u0092\u0093\7\7\2\2\u0093\u0094\5\6\4\2\u0094\u0095\7\13"+
+		"\2\2\u0095\35\3\2\2\2\u0096\u0097\7\22\2\2\u0097\u0098\5\6\4\2\u0098\u0099"+
+		"\7\7\2\2\u0099\u009a\5\6\4\2\u009a\u009b\7\13\2\2\u009b\37\3\2\2\2\u009c"+
+		"\u009d\7\5\2\2\u009d\u009e\5\16\b\2\u009e\u00a7\7[\2\2\u009f\u00a4\5\16"+
+		"\b\2\u00a0\u00a1\7X\2\2\u00a1\u00a3\5\16\b\2\u00a2\u00a0\3\2\2\2\u00a3"+
+		"\u00a6\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a8\3\2"+
+		"\2\2\u00a6\u00a4\3\2\2\2\u00a7\u009f\3\2\2\2\u00a7\u00a8\3\2\2\2\u00a8"+
+		"\u00a9\3\2\2\2\u00a9\u00aa\7\\\2\2\u00aa\u00ab\7Y\2\2\u00ab\u00ac\5\6"+
+		"\4\2\u00ac\u00ad\7Z\2\2\u00ad!\3\2\2\2\u00ae\u00af\7\62\2\2\u00af\u00b5"+
+		"\5(\25\2\u00b0\u00b1\7D\2\2\u00b1\u00b2\5(\25\2\u00b2\u00b3\7E\2\2\u00b3"+
+		"\u00b5\3\2\2\2\u00b4\u00ae\3\2\2\2\u00b4\u00b0\3\2\2\2\u00b5#\3\2\2\2"+
+		"\u00b6\u00b7\7H\2\2\u00b7%\3\2\2\2\u00b8\u00bb\5$\23\2\u00b9\u00bb\5\16"+
+		"\b\2\u00ba\u00b8\3\2\2\2\u00ba\u00b9\3\2\2\2\u00bb\'\3\2\2\2\u00bc\u00bd"+
+		"\b\25\1\2\u00bd\u00be\5&\24\2\u00be\u00c7\3\2\2\2\u00bf\u00c0\f\4\2\2"+
+		"\u00c0\u00c1\5*\26\2\u00c1\u00c2\5(\25\5\u00c2\u00c6\3\2\2\2\u00c3\u00c4"+
+		"\f\5\2\2\u00c4\u00c6\5*\26\2\u00c5\u00bf\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c6"+
+		"\u00c9\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8)\3\2\2\2"+
+		"\u00c9\u00c7\3\2\2\2\u00ca\u00cb\t\5\2\2\u00cb+\3\2\2\2\u00cc\u00cd\3"+
+		"\2\2\2\u00cd-\3\2\2\2\24\66>@CGP\\dgy~\u0088\u00a4\u00a7\u00b4\u00ba\u00c5"+
+		"\u00c7";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

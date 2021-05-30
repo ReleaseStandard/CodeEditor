@@ -115,9 +115,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
             @Override
             public void enterInstruction(MkshParser.InstructionContext ctx) {
-                Logger.debug();
-                setTokenColor(colors,ctx.getStart(),COMMENT);
-                resetTokenColor(colors,ctx.getStart());
+
             }
 
             @Override
@@ -142,6 +140,35 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
             @Override
             public void exitComment(MkshParser.CommentContext ctx) {
+
+            }
+
+            @Override
+            public void enterIdentifier(MkshParser.IdentifierContext ctx) {
+
+            }
+
+            @Override
+            public void exitIdentifier(MkshParser.IdentifierContext ctx) {
+
+            }
+
+            @Override
+            public void enterPrimary_keyword(MkshParser.Primary_keywordContext ctx) {
+
+            }
+
+            @Override
+            public void exitPrimary_keyword(MkshParser.Primary_keywordContext ctx) {
+            }
+
+            @Override
+            public void enterSecondary_keyword(MkshParser.Secondary_keywordContext ctx) {
+                processToken(colors,KEYWORD,ctx.getStart());
+            }
+
+            @Override
+            public void exitSecondary_keyword(MkshParser.Secondary_keywordContext ctx) {
 
             }
 
