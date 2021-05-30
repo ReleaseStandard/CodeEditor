@@ -58,12 +58,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.interfaces.EditorEventListener;
@@ -80,9 +76,9 @@ import io.github.rosemoe.editor.text.Cursor;
 import io.github.rosemoe.editor.text.FontCache;
 import io.github.rosemoe.editor.text.FormatThread;
 import io.github.rosemoe.editor.text.LineRemoveListener;
-import io.github.rosemoe.editor.text.SpanLine;
-import io.github.rosemoe.editor.text.SpanMap;
-import io.github.rosemoe.editor.text.SpanMapUpdater;
+import io.github.rosemoe.editor.text.spanmap.SpanLine;
+import io.github.rosemoe.editor.text.spanmap.SpanMap;
+import io.github.rosemoe.editor.text.spanmap.SpanMapUpdater;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.util.IntPair;

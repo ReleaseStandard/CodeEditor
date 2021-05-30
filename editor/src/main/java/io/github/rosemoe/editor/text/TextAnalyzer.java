@@ -21,7 +21,8 @@ import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.struct.BlockLine;
-import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.text.spanmap.SpanMap;
+import io.github.rosemoe.editor.text.spanmap.SpanRecycler;
 
 /**
  * This is a manager of analyzing text

@@ -15,18 +15,15 @@
  */
 package io.github.rosemoe.editor.text;
 
-import android.text.SpannableString;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 import io.github.rosemoe.editor.struct.BlockLine;
 import io.github.rosemoe.editor.struct.NavigationItem;
 import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.text.spanmap.SpanLine;
+import io.github.rosemoe.editor.text.spanmap.SpanMap;
 import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**
  * The result of analysis

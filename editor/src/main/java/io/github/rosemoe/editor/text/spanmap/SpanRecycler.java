@@ -13,15 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.text.spanmap;
 
 import android.util.Log;
 
-import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-
-import io.github.rosemoe.editor.struct.Span;
 
 public class SpanRecycler {
 

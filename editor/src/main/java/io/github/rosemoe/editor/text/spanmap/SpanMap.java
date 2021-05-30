@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.text.spanmap;
 
 import java.util.Collection;
 import java.util.Map;
@@ -21,7 +21,6 @@ import java.util.TreeMap;
 
 import io.github.rosemoe.editor.struct.Span;
 import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**
  * This class is a SpanLine container (line displayed to the screen).

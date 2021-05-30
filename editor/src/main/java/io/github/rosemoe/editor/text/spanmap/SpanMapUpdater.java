@@ -13,12 +13,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
-
-import java.util.ArrayList;
-import java.util.List;
+package io.github.rosemoe.editor.text.spanmap;
 
 import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**
@@ -29,6 +27,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 public class SpanMapUpdater {
 
     public static void shiftSpansOnMultiLineDelete(SpanMap map, int startLine, int startColumn, int endLine, int endColumn) {
+        Logger.debug("startLine=",startLine,",startColumn=",startColumn,",endLine=",endLine,",endColumn=",endColumn);
         int lineCount = endLine - startLine - 1;
         // Remove unrelated lines
         while (lineCount > 0) {
@@ -73,6 +72,7 @@ public class SpanMapUpdater {
     }
 
     public static void shiftSpansOnSingleLineDelete(SpanMap map, int line, int startCol, int endCol) {
+        Logger.debug("line=",line,",startCol=",startCol,",endCol=",endCol);
         if (map == null || map.isEmpty()) {
             return;
         }
