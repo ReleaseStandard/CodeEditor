@@ -38,7 +38,7 @@ options {
 start                : file ;
 file                 : expr EOF ;
 expr                 : ( ( arit | execution_control | instruction ) expression_end | comment | TERMINATOR+ ) expr? ;
-instruction          : ( primary_keyword | secondary_keyword ) STRING* ;
+instruction          : ( primary_keyword | secondary_keyword ) ;
 expression_end       : P_SEMI | TERMINATOR ; 
 comment              : LINE_COMMENT ;
 identifier           : IDENTIFIER | primary_keyword | secondary_keyword ;
