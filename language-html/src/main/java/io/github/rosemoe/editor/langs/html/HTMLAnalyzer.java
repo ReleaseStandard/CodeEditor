@@ -15,6 +15,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 public class HTMLAnalyzer extends CodeAnalyzer {
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+        super.analyze(content,colors,delegate);
         try {
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
             HTMLLexer lexer = new HTMLLexer(stream);

@@ -95,6 +95,7 @@ public class UniversalLanguage extends CodeAnalyzer implements EditorLanguage {
 
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+        super.analyze(content,colors,delegate);
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         tokenizer.setInput(text);
         LineNumberCalculator helper = new LineNumberCalculator(text);

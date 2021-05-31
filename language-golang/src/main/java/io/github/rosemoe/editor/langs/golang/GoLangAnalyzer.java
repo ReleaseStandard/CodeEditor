@@ -33,7 +33,7 @@ public class GoLangAnalyzer extends CodeAnalyzer {
 
     @Override
     public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
-
+        super.analyze(content,colors,delegate);
         CodePointCharStream stream = null;
         try {
             stream = CharStreams.fromReader(new StringReader(content.toString()));
