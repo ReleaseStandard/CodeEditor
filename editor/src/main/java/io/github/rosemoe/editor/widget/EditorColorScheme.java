@@ -36,18 +36,19 @@ public class EditorColorScheme {
      * That's our color scheme, no matter what it correspond to in the language, we just need colors.
      * The it's up to the analyzer to apply colors on keywords and so on.
      * By default the theme do nothing on the text.
+     * If you want a specific behaviour in your theme, eg that the selected text color not follow rules, please override the method getTextSelected()
      */
     // Background tone
     public int base03 = DEFAULT;
     public int base02 = DEFAULT;
     // Content tone
     public int base01 = DEFAULT;
-    public int base00 = DEFAULT;
+    public int base00 = DEFAULT; // textNormal, textSelected
     public int base0 = DEFAULT;
-    public int base1 = DEFAULT;
+    public int base1 = DEFAULT; // line number text
     // Background tone
-    public int base2 = DEFAULT;
-    public int base3 = DEFAULT;
+    public int base2 = DEFAULT; // line number panel, line number background, currentline, selected text background
+    public int base3 = DEFAULT; // whole background
     // Accent colors
     public int accent1 = DEFAULT;
     public int accent2 = DEFAULT;
@@ -75,6 +76,7 @@ public class EditorColorScheme {
     /**
      * Here we colors that do not depends on which language is parsed.
      * All language inserted into CodeEditor must have theses.
+     * Override it in your theme if you want to change the behaviour.
      */
     public int getLineNumberPanel() {
         return base2;
@@ -86,10 +88,10 @@ public class EditorColorScheme {
         return base2;
     }
     public int getTextSelected() {
-        return base00;
+        return base2;
     }
     public int getSelectedTextBackground() {
-        return base2;
+        return base00;
     }
     public int getLineNumberPanelText() {
         return base1;
@@ -100,25 +102,21 @@ public class EditorColorScheme {
     public int getTextNormal() {
         return base00;
     }
+    public int getComment() { return base1; }
+    public int getMatchedTextBackground() { return accent1; }
 
     //-----------------Highlight colors-----------
 
-    public static final int ATTRIBUTE_VALUE = 33;
-    public static final int ATTRIBUTE_NAME = 32;
-    public static final int HTML_TAG = 31;
     public static final int ANNOTATION = 28;
     public static final int FUNCTION_NAME = 27;
     public static final int IDENTIFIER_NAME = 26;
-    public static final int IDENTIFIER_VAR = 25;
     public static final int LITERAL = 24;
     public static final int OPERATOR = 23;
-    public static final int COMMENT = 22;
     public static final int KEYWORD = 21;
 
     //-------------View colors---------------------
 
     public static final int NON_PRINTABLE_CHAR = 31;
-    public static final int TEXT_SELECTED = 30;
     public static final int MATCHED_TEXT_BACKGROUND = 29;
     public static final int AUTO_COMP_PANEL_CORNER = 20;
     public static final int AUTO_COMP_PANEL_BG = 19;
@@ -128,8 +126,6 @@ public class EditorColorScheme {
      */
     public static final int LINE_BLOCK_LABEL = 18;
 
-    public static final int LINE_NUMBER_PANEL_TEXT = 17;
-    public static final int LINE_NUMBER_PANEL = 16;
     public static final int BLOCK_LINE_CURRENT = 15;
     public static final int BLOCK_LINE = 14;
     public static final int SCROLL_BAR_TRACK = 13;
@@ -140,8 +136,6 @@ public class EditorColorScheme {
     public static final int SELECTION_HANDLE = 8;
     public static final int SELECTION_INSERT = 7;
     public static final int SELECTED_TEXT_BACKGROUND = 6;
-    public static final int TEXT_NORMAL = 5;
-    public static final int WHOLE_BACKGROUND = 4;
     public static final int LINE_NUMBER_BACKGROUND = 3;
     public static final int LINE_NUMBER = 2;
     public static final int LINE_DIVIDER = 1;
@@ -219,18 +213,12 @@ public class EditorColorScheme {
             case LINE_NUMBER_BACKGROUND:
                 color = 0xfff0f0f0;
                 break;
-            case WHOLE_BACKGROUND:
-            case LINE_NUMBER_PANEL_TEXT:
             case AUTO_COMP_PANEL_BG:
             case AUTO_COMP_PANEL_CORNER:
-            case TEXT_SELECTED:
                 color = 0xffffffff;
                 break;
             case OPERATOR:
                 color = 0xFF0066D6;
-                break;
-            case TEXT_NORMAL:
-                color = 0xFF333333;
                 break;
             case SELECTION_INSERT:
                 color = 0xFF03EBEB;
@@ -247,14 +235,8 @@ public class EditorColorScheme {
             case CURRENT_LINE:
                 color = 0x10000000;
                 break;
-            case SELECTED_TEXT_BACKGROUND:
-                color = 0xFF9E9E9E;
-                break;
             case KEYWORD:
                 color = 0xFF2196F3;
-                break;
-            case COMMENT:
-                color = 0xffa8a8a8;
                 break;
             case LITERAL:
                 color = 0xFF008080;
@@ -272,25 +254,20 @@ public class EditorColorScheme {
             case SCROLL_BAR_TRACK:
                 color = 0;
                 break;
-            case LINE_NUMBER_PANEL:
-                color = 0xdd000000;
-                break;
             case BLOCK_LINE_CURRENT:
                 color = 0xff999999;
                 break;
-            case IDENTIFIER_VAR:
             case IDENTIFIER_NAME:
             case FUNCTION_NAME:
                 color = 0xff333333;
-                break;
-            case MATCHED_TEXT_BACKGROUND:
-                color = 0xffffff00;
                 break;
             case NON_PRINTABLE_CHAR:
                 color = 0xff505050;
                 break;
             default:
-                throw new IllegalArgumentException("Unexpected type:" + type);
+                color=0;
+            //default:
+            //    throw new IllegalArgumentException("Unexpected type:" + type);
         }
         setColor(type, color);
     }

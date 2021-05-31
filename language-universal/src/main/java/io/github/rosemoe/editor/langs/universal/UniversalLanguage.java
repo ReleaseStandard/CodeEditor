@@ -126,7 +126,7 @@ public class UniversalLanguage extends CodeAnalyzer implements EditorLanguage {
                         break;
                     case LINE_COMMENT:
                     case LONG_COMMENT:
-                        colors.addIfNeeded(line, column, EditorColorScheme.COMMENT);
+                        colors.addIfNeeded(line, column, theme.getComment());
                         break;
                     case OPERATOR:
                         colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);

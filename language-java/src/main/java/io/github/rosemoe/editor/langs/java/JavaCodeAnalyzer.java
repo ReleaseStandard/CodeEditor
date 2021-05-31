@@ -36,6 +36,7 @@ import java.util.Stack;
  */
 public class JavaCodeAnalyzer extends CodeAnalyzer {
 
+    public static final int IDENTIFIER_VAR = 0xff333333;
     private final static Object OBJECT = new Object();
 
     @Override
@@ -117,11 +118,11 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                     }
                     if (classNamePrevious) {
                         //Var name
-                        colors.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_VAR);
+                        colors.addIfNeeded(line, column, IDENTIFIER_VAR);
                         classNamePrevious = false;
                         break;
                     }
-                    colors.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
+                    colors.addIfNeeded(line, column, theme.getTextNormal());
                     break;
                 case CHARACTER_LITERAL:
                 case STRING:
@@ -220,7 +221,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                 }
                 case LINE_COMMENT:
                 case LONG_COMMENT:
-                    colors.addIfNeeded(line, column, EditorColorScheme.COMMENT);
+                    colors.addIfNeeded(line, column, theme.getComment());
                     break;
                 default:
                     if (token == Tokens.LBRACK || (token == Tokens.RBRACK && previous == Tokens.LBRACK)) {

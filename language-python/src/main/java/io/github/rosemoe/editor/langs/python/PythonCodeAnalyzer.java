@@ -94,7 +94,7 @@ public class PythonCodeAnalyzer extends CodeAnalyzer {
                         colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
                         break;
                     case PythonLexer.COMMENT:
-                        colors.addIfNeeded(line, column, EditorColorScheme.COMMENT);
+                        colors.addIfNeeded(line, column, theme.getComment());
                         break;
                     case PythonLexer.STRING:
                         colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
@@ -153,7 +153,7 @@ public class PythonCodeAnalyzer extends CodeAnalyzer {
                         break;
                     case PythonLexer.NAME: {
                         if (previous == null) {
-                            colors.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
+                            colors.addIfNeeded(line, column, theme.getTextNormal());
                             break;
                         } else if (previous.getType() == PythonLexer.DEF) {
                             colors.addIfNeeded(line, column, EditorColorScheme.FUNCTION_NAME);
@@ -164,7 +164,7 @@ public class PythonCodeAnalyzer extends CodeAnalyzer {
                         }
                     }
                     default:
-                        colors.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                 }
                 first = false;

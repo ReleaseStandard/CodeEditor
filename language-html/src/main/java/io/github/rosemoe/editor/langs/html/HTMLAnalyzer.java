@@ -11,6 +11,7 @@ import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.widget.schemes.HTML;
 
 public class HTMLAnalyzer extends CodeAnalyzer {
     @Override
@@ -47,22 +48,22 @@ public class HTMLAnalyzer extends CodeAnalyzer {
                         break;
                     case HTMLLexer.TAG_NAME:
                     case HTMLLexer.XML:
-                        colors.addIfNeeded(line, column, EditorColorScheme.HTML_TAG);
+                        colors.addIfNeeded(line, column, HTML.HTML_TAG);
                         break;
                     case HTMLLexer.CDATA:
                     case HTMLLexer.ATTRIBUTE:
-                        colors.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_NAME);
+                        colors.addIfNeeded(line, column, HTML.ATTRIBUTE_NAME);
                         break;
                     case HTMLLexer.ATTVALUE_VALUE:
-                        colors.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_VALUE);
+                        colors.addIfNeeded(line, column, HTML.ATTRIBUTE_VALUE);
                         break;
                     case HTMLLexer.HTML_CONDITIONAL_COMMENT:
                     case HTMLLexer.HTML_COMMENT:
-                        colors.addIfNeeded(line, column, EditorColorScheme.COMMENT);
+                        colors.addIfNeeded(line, column, theme.getComment());
                         break;
                     case HTMLLexer.HTML_TEXT:
                     default:
-                        colors.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                 }
 

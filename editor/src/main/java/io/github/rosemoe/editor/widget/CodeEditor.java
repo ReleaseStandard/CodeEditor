@@ -1082,7 +1082,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             // Draw matched text background
             if (!matchedPositions.isEmpty()) {
                 for (int position : matchedPositions) {
-                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.mSearchText.length(), mColors.getColor(EditorColorScheme.MATCHED_TEXT_BACKGROUND));
+                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.mSearchText.length(), mColors.getMatchedTextBackground());
                 }
             }
 
@@ -2464,10 +2464,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         return mHighlightSelectedText;
     }
 
-    /**
-     * Use color {@link EditorColorScheme#TEXT_SELECTED} to draw selected text
-     * instead of color specified by its span
-     */
     public void setHighlightSelectedText(boolean highlightSelected) {
         mHighlightSelectedText = highlightSelected;
         invalidate();

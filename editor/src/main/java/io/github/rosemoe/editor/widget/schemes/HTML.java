@@ -21,6 +21,9 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  * ColorScheme for HTML Language for editor
  */
 public class HTML extends EditorColorScheme {
+    public static final int HTML_TAG = 31;
+    public static final int ATTRIBUTE_NAME = 0xff333333;
+    public static final int ATTRIBUTE_VALUE = 0xff8bc34a;
 
     @Override
     public void applyDefault() {
@@ -35,13 +38,10 @@ public class HTML extends EditorColorScheme {
         setColor(LINE_NUMBER, 0xff2b9eaf);
         setColor(LINE_DIVIDER, 0xff2b9eaf);
         setColor(LINE_NUMBER_BACKGROUND, 0xff1e1e1e);
-        setColor(WHOLE_BACKGROUND, 0xff212121);
-        setColor(ATTRIBUTE_VALUE, 0xff8bc34a);
-        setColor(ATTRIBUTE_NAME, 0xff333333);
-        setColor(HTML_TAG, 0xffff6060);
-        setColor(TEXT_NORMAL, 0xffffffff);
+        base3 = 0xff212121;
         setColor(IDENTIFIER_NAME, 0xfff0be4b);
-        setColor(COMMENT, 0xffbdbdbd);
+        base00 = 0xffffffff;
+        base1 = 0xffbdbdbd;
     }
 
 }

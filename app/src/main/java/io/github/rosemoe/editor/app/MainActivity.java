@@ -55,7 +55,6 @@ import io.github.rosemoe.editor.widget.SymbolInputView;
 import io.github.rosemoe.editor.widget.schemes.HTML;
 import io.github.rosemoe.editor.widget.schemes.Darcula;
 import io.github.rosemoe.editor.widget.schemes.Eclipse;
-import io.github.rosemoe.editor.widget.schemes.Nano;
 import io.github.rosemoe.editor.widget.schemes.NotepadXX;
 import io.github.rosemoe.editor.widget.schemes.Solarized;
 import io.github.rosemoe.editor.widget.schemes.VS2019;
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         put("VS2019",new VS2019());
         put("NotepadXX",new NotepadXX());
         put("HTML",new HTML());
-        put("Nano",new Nano());
         put("Solarized",new Solarized());
     }};
     private HashMap<String,EditorLanguage> languages = new HashMap<String,EditorLanguage>() {{

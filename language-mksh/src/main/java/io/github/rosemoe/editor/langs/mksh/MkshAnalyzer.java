@@ -127,7 +127,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
             @Override
             public void enterExpression_end(MkshParser.Expression_endContext ctx) {
-
+                processNodes(theme.accent3,ctx.getStart());
             }
 
             @Override
