@@ -1494,7 +1494,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         resultRect.right = right;
         resultRect.top = top;
         resultRect.bottom = bottom;
-        mPaint.setColor(mColors.getColor(EditorColorScheme.SELECTION_HANDLE));
+        mPaint.setColor(mColors.getSelectionHandle());
         canvas.drawCircle(centerX, (top + bottom) / 2, radius, mPaint);
     }
 
@@ -1536,7 +1536,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                     mRect.bottom = Math.min(getHeight(), getRowTop(block.endLine) - getOffsetY());
                     mRect.left = centerX - mDpUnit * mBlockLineWidth / 2;
                     mRect.right = centerX + mDpUnit * mBlockLineWidth / 2;
-                    drawColor(canvas, mColors.getColor(curr == cursorIdx ? EditorColorScheme.BLOCK_LINE_CURRENT : EditorColorScheme.BLOCK_LINE), mRect);
+                    drawColor(canvas, mColors.getColor(curr == cursorIdx ? EditorColorScheme.BLOCK_LINE_CURRENT : mColors.getBlockLine()), mRect);
                 } catch (IndexOutOfBoundsException e) {
                     //Ignored
                     //Because the exception usually occurs when the content changed.
@@ -1689,7 +1689,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
             mRect.right = centerX + mInsertSelWidth / 2f;
-            drawColor(canvas, mColors.getColor(EditorColorScheme.SELECTION_INSERT), mRect);
+            drawColor(canvas, mColors.getSelectionInsert(), mRect);
         }
         if (handle != null) {
             drawHandle(canvas, row, centerX, handle, -1);
@@ -1705,7 +1705,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
             mRect.right = centerX + mInsertSelWidth / 2f;
-            drawColor(canvas, mColors.getColor(EditorColorScheme.SELECTION_INSERT), mRect);
+            drawColor(canvas, mColors.getSelectionInsert(), mRect);
         }
         if (handle != null) {
             drawHandle(canvas, row, centerX, handle, handleType);

@@ -100,7 +100,7 @@ public class PythonCodeAnalyzer extends CodeAnalyzer {
                         colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
                         break;
                     case PythonLexer.DECIMAL_INTEGER:
-                        colors.addIfNeeded(line, column, EditorColorScheme.LINE_NUMBER);
+                        colors.addIfNeeded(line, column, theme.getLineNumberPanelText());
                         break;
                     case PythonLexer.OPEN_BRACE:
                     case PythonLexer.CLOSE_BRACE:

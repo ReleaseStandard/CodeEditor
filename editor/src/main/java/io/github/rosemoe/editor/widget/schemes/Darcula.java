@@ -27,19 +27,12 @@ public class Darcula extends EditorColorScheme {
     @Override
     public void applyDefault() {
         super.applyDefault();
-        setColor(ANNOTATION, 0xffbbb529);
-        setColor(FUNCTION_NAME, 0xffffffff);
-        setColor(IDENTIFIER_NAME, 0xffffffff);
-        setColor(LITERAL, 0xff6a8759);
-        setColor(OPERATOR, 0xffffffff);
-        setColor(KEYWORD, 0xffcc7832);
-        setColor(SCROLL_BAR_THUMB, 0xffa6a6a6);
-        setColor(SCROLL_BAR_THUMB_PRESSED, 0xff565656);
-        setColor(SELECTION_INSERT, 0xffffffff);
-        setColor(SELECTION_HANDLE, 0xffffffff);
-        setColor(BLOCK_LINE, 0xff575757);
-        setColor(BLOCK_LINE_CURRENT, 0xdd575757);
-        setColor(NON_PRINTABLE_CHAR, 0xffdddddd);
+
+
+        setColor(SCROLL_BAR_THUMB, 0xffff0000);
+        setColor(SCROLL_BAR_THUMB_PRESSED, 0xff00ff00);
+        setColor(BLOCK_LINE_CURRENT, 0xffff00ff);
+        setColor(NON_PRINTABLE_CHAR, 0xfff0f0f0);
 
         accent1 = 0xff32593d;
         base00 = 0xffffffff;
@@ -47,10 +40,9 @@ public class Darcula extends EditorColorScheme {
         base2 = 0xff323232;
         base3 = 0xff2b2b2b;
     }
-
-    @Override public int getComment() {
-        return 0xff808080;
-    }
+    @Override public int getSelectionInsert() { return 0xff0000ff; }
+    @Override public int getComment() { return 0xff808080; }
     @Override public int getMatchedTextBackground() { return 0xff32593d; }
     @Override public int getSelectedTextBackground(){return 0xff3676b8;}
+    @Override public int getSelectionHandle(){ return 0xffff0000; }
 }

@@ -27,30 +27,17 @@ public class VS2019 extends EditorColorScheme {
     @Override
     public void applyDefault() {
         super.applyDefault();
-        setColor(ANNOTATION, 0xff4ec9b0);
-        setColor(FUNCTION_NAME, 0xffdcdcdc);
-        setColor(IDENTIFIER_NAME, 0xff4ec9b0);
-        setColor(LITERAL, 0xffd69d85);
-        setColor(OPERATOR, 0xffdcdcdc);
-        setColor(KEYWORD, 0xff569cd6);
         base1 = 0xff57a64a;
         base3 = 0xff1e1e1e;
         base00 = 0xffdcdcdc;
-        setColor(LINE_NUMBER_BACKGROUND, 0xff1e1e1e);
-        setColor(LINE_NUMBER, 0xff2b9eaf);
-
-        setColor(LINE_DIVIDER, 0xff2b9eaf);
         setColor(SCROLL_BAR_THUMB, 0xff3e3e42);
         setColor(SCROLL_BAR_THUMB_PRESSED, 0xff9e9e9e);
-        setColor(CURRENT_LINE, 0xff464646);
-        setColor(SELECTION_INSERT, 0xffffffff);
-        setColor(SELECTION_HANDLE, 0xffffffff);
-        setColor(BLOCK_LINE, 0xff717171);
         setColor(BLOCK_LINE_CURRENT, 0);
         setColor(NON_PRINTABLE_CHAR, 0xffdddddd);
     }
     @Override public int getMatchedTextBackground() { return 0xff653306; }
     @Override public int getSelectedTextBackground(){return 0xff3676b8;}
-
+    @Override public int getSelectionInsert(){return 0xffffffff;}
+    @Override public int getSelectionHandle() { return 0xffffffff;  }
 
 }

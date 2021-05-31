@@ -24,6 +24,7 @@ import io.github.rosemoe.editor.widget.schemes.Solarized;
  * This class manages the colors of editor.
  * Colors scheme must be very simple, eg: we define colors types.
  * Then it's up to the language analysis to apply and on which part of the text.
+ * Themes cannot have language specific colors except by overriding getters below.
  * https://github.com/altercation/solarized
  * @author Rose
  */
@@ -31,7 +32,7 @@ public class EditorColorScheme {
 
     public static EditorColorScheme DEFAULT() { return new Solarized(); }
     public static final int TODO = 0xFFFF0000;
-    private final int DEFAULT = 0x00000000;
+    private final int DEFAULT = TODO;
     /**
      * That's our color scheme, no matter what it correspond to in the language, we just need colors.
      * The it's up to the analyzer to apply colors on keywords and so on.
@@ -104,6 +105,9 @@ public class EditorColorScheme {
     }
     public int getComment() { return base1; }
     public int getMatchedTextBackground() { return accent1; }
+    public int getBlockLine() { return base1; }
+    public int getSelectionInsert() { return getTextNormal(); }
+    public int getSelectionHandle() { return getTextNormal(); }
 
     //-----------------Highlight colors-----------
 
@@ -127,17 +131,11 @@ public class EditorColorScheme {
     public static final int LINE_BLOCK_LABEL = 18;
 
     public static final int BLOCK_LINE_CURRENT = 15;
-    public static final int BLOCK_LINE = 14;
     public static final int SCROLL_BAR_TRACK = 13;
     public static final int SCROLL_BAR_THUMB_PRESSED = 12;
     public static final int SCROLL_BAR_THUMB = 11;
     public static final int UNDERLINE = 10;
     public static final int CURRENT_LINE = 9;
-    public static final int SELECTION_HANDLE = 8;
-    public static final int SELECTION_INSERT = 7;
-    public static final int SELECTED_TEXT_BACKGROUND = 6;
-    public static final int LINE_NUMBER_BACKGROUND = 3;
-    public static final int LINE_NUMBER = 2;
     public static final int LINE_DIVIDER = 1;
 
     /**
@@ -207,12 +205,6 @@ public class EditorColorScheme {
             case LINE_DIVIDER:
                 color = 0xFFdddddd;
                 break;
-            case LINE_NUMBER:
-                color = 0xFF808080;
-                break;
-            case LINE_NUMBER_BACKGROUND:
-                color = 0xfff0f0f0;
-                break;
             case AUTO_COMP_PANEL_BG:
             case AUTO_COMP_PANEL_CORNER:
                 color = 0xffffffff;
@@ -220,14 +212,8 @@ public class EditorColorScheme {
             case OPERATOR:
                 color = 0xFF0066D6;
                 break;
-            case SELECTION_INSERT:
-                color = 0xFF03EBEB;
-                break;
             case UNDERLINE:
                 color = 0xff000000;
-                break;
-            case SELECTION_HANDLE:
-                color = 0xff03ebff;
                 break;
             case ANNOTATION:
                 color = 0xFF03A9F4;
@@ -246,9 +232,6 @@ public class EditorColorScheme {
                 break;
             case SCROLL_BAR_THUMB_PRESSED:
                 color = 0xFF27292A;
-                break;
-            case BLOCK_LINE:
-                color = 0xffdddddd;
                 break;
             case LINE_BLOCK_LABEL:
             case SCROLL_BAR_TRACK:
