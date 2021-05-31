@@ -24,13 +24,13 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  */
 public class VS2019 extends EditorColorScheme {
 
-    public VS2019() {
+    @Override
+    public void initTheme() {
         base00 = 0xffdcdcdc;
         base1 = 0xff57a64a;
         base2 = 0xff3676b8;
         base3 = 0xff1e1e1e;
         setColor(BLOCK_LINE_CURRENT, 0);
-        setColor(NON_PRINTABLE_CHAR, 0xffdddddd);
     }
     @Override public int getMatchedTextBackground() { return 0xff653306; }
     @Override public int getSelectedTextBackground(){return 0xff3676b8;}
@@ -38,4 +38,5 @@ public class VS2019 extends EditorColorScheme {
     @Override public int getSelectionHandle() { return 0xffffffff;  }
     @Override public int getScrollBarThumb() { return 0xff3e3e42; }
     @Override public int getScrollBarThumbPressed() { return 0xff9e9e9e; }
+    @Override public int getNonPrintableChar() { return 0xffdddddd; }
 }

@@ -24,7 +24,8 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  */
 public final class NotepadXX extends EditorColorScheme {
 
-    public NotepadXX() {
+    @Override
+    public void initTheme() {
         base1 = 0xff008000;
         base3 = 0xffffffff;
         base00 = 0xff000000;

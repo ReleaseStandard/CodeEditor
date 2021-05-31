@@ -21,9 +21,9 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  * ColorScheme for HTML Language for editor
  */
 public class HTML extends EditorColorScheme {
-    public void HTML() {
+    @Override
+    public void initTheme() {
         setColor(BLOCK_LINE_CURRENT, 0xffffffff);
-        setColor(NON_PRINTABLE_CHAR, 0xffdddddd);
         base00 = 0xffffffff;
         base1 = 0xffbdbdbd;
         base2 = 0xff464646;
@@ -31,5 +31,5 @@ public class HTML extends EditorColorScheme {
     }
     @Override public int getSelectionInsert() { return 0xffffffff; }
     @Override public int getSelectionHandle() { return 0xffffffff; }
-
+    @Override public int getNonPrintableChar() { return 0xffdddddd; }
 }

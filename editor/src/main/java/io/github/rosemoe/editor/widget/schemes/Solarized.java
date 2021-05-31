@@ -22,7 +22,8 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  * https://github.com/altercation/solarized
  */
 public class Solarized extends EditorColorScheme {
-    public Solarized() {
+    @Override
+    public void initTheme() {
         theme_name        = "Solarized";
         theme_description = "Extracted from https://github.com/altercation/solarized";
         base03    = 0xFF002b36;

@@ -15,8 +15,10 @@
  */
 package io.github.rosemoe.editor.widget;
 
+import android.util.Log;
 import android.util.SparseIntArray;
 
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.Objects;
 import io.github.rosemoe.editor.widget.schemes.Solarized;
 
@@ -110,10 +112,10 @@ public class EditorColorScheme {
     public int getSelectionHandle() { return getTextNormal(); }
     public int getScrollBarThumb() { return base1; }
     public int getScrollBarThumbPressed() { return base2; }
+    public int getNonPrintableChar() { return 0x00000000; }
 
     //-------------View colors---------------------
 
-    public static final int NON_PRINTABLE_CHAR = 31;
     public static final int AUTO_COMP_PANEL_CORNER = 20;
     public static final int AUTO_COMP_PANEL_BG = 19;
 
@@ -136,21 +138,22 @@ public class EditorColorScheme {
      */
     private CodeEditor mEditor;
 
-    /**
-     * Create a new ColorScheme for the given editor
-     *
-     * @param editor Host editor
-     */
-    EditorColorScheme(CodeEditor editor) {
-        mEditor = editor;
-        mColors = new SparseIntArray();
+    public void initTheme() {
+        Logger.debug("You must implement the init function of your theme in order to act on the text");
     }
-
     /**
      * For sub classes
      */
     public EditorColorScheme() {
         mColors = new SparseIntArray();
+        initTheme();
+    }
+    public EditorColorScheme(boolean invert) {
+        mColors = new SparseIntArray();
+        initTheme();
+        if ( invert ) {
+            invertColorScheme();
+        }
     }
 
     /**
