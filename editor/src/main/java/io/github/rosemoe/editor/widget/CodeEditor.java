@@ -62,6 +62,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
+import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.interfaces.EditorEventListener;
 import io.github.rosemoe.editor.interfaces.EditorLanguage;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
@@ -478,7 +479,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         mStartedActionMode = ACTION_MODE_NONE;
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
-        mColors = new EditorColorScheme(this);
+        mColors = EditorColorScheme.DEFAULT();
         mEventHandler = new EditorTouchEventHandler(this);
         mBasicDetector = new GestureDetector(getContext(), mEventHandler);
         mBasicDetector.setOnDoubleTapListener(mEventHandler);
@@ -656,7 +657,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             mSpanner.shutdown();
             mSpanner.setCallback(null);
         }
-        mSpanner = new TextAnalyzer(lang.getAnalyzer());
+        CodeAnalyzer analyzer = lang.getAnalyzer();
+        analyzer.setTheme(mColors);
+        mSpanner = new TextAnalyzer(analyzer);
         mSpanner.setCallback(this);
         if (mText != null) {
             mSpanner.analyze(mText);
@@ -1126,7 +1129,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                             colStart,
                             colStop,
                             colSpan,
-                            mColors.getColor(span.colorId));
+                            span.colorId);
 
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
                     paintingOffset += width;
@@ -3407,7 +3410,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             mSpanner.setCallback(null);
             mSpanner.shutdown();
         }
-        mSpanner = new TextAnalyzer(mLanguage.getAnalyzer());
+        CodeAnalyzer analyzer = mLanguage.getAnalyzer();
+        analyzer.setTheme(mColors);
+        mSpanner = new TextAnalyzer(analyzer);
         mSpanner.setCallback(this);
 
         TextAnalyzeResult colors = mSpanner.getResult();

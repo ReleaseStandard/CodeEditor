@@ -20,7 +20,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
-import io.github.rosemoe.editor.struct.Span;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
@@ -31,10 +30,18 @@ import static io.github.rosemoe.editor.widget.EditorColorScheme.*;
 
 /**
  * Interface for analyzing highlight
+ * Role of this class is to apply colors to language's syntaxe (i.e. produced by antlr).
  *
  * @author Rose
  */
 public abstract class CodeAnalyzer {
+
+    public static EditorColorScheme theme = EditorColorScheme.DEFAULT();
+    private TextAnalyzeResult colors = null;
+
+    public void setTheme(EditorColorScheme theme) {
+        this.theme = theme;
+    }
 
     /**
      * Analyze spans for the given input
@@ -45,78 +52,48 @@ public abstract class CodeAnalyzer {
      * @see TextAnalyzer#analyze(Content)
      * @see TextAnalyzer.AnalyzeThread.Delegate#shouldAnalyze()
      */
-    public abstract void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate);
+    public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+        this.colors = colors;
+    }
     public static int antlrLineIndexToCodeEditor(int line) {
         return line-1;
     }
-    public void _addColorNoCheck(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
-        colors.add(spanLine, Span.obtain(column, colorId));
-    }
-    public void __addColorIfNeeded(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
+
+    private void addColor(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
         colors.addIfNeeded(spanLine,column,colorId);
     }
-    public void addColor(TextAnalyzeResult colors, int spanLine, int column, int colorId) {
-        __addColorIfNeeded(colors,spanLine,column,colorId);
-    }
-    public void setTerminalSymbolColor(TextAnalyzeResult colors, TerminalNode tn, int color) {
-        if ( tn == null ) { return ; }
-        setTokenColor(colors,tn.getSymbol(),color);
-    }
-    public void setTokenColor(TextAnalyzeResult colors, Token token, int color) {
+    private void processToken(TextAnalyzeResult colors,int color,Token token) {
         if ( token == null ) {
             Logger.debug("token was null");
             return ;
         }
         Logger.debug("Add color for token=" + token.getText() + ",color=" + color + ",line=" + token.getLine() + ",col=" + token.getCharPositionInLine());
         addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine(),color);
-    }
-    public void resetTerminalSymbolColor(TextAnalyzeResult colors,TerminalNode tn) {
-        if ( tn == null ) {
-            return;
-        }
-        resetTokenColor(colors,tn.getSymbol());
-    }
-    public void resetTokenColor(TextAnalyzeResult colors,Token token) {
-        if (token == null) {
-            return;
-        }
         addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
     }
-    public void processKeyword(TextAnalyzeResult colors,TerminalNode ...nodes) {
-        processNodes(colors,KEYWORD,nodes);
+    public void processNodes(int color, List<Object> objs) {
+        processNodes(color,objs.toArray());
     }
-    public void processKeyword(TextAnalyzeResult colors, List<TerminalNode> nodes) {
-        processNodes(colors,KEYWORD,nodes);
-    }
-    public void processStrings(TextAnalyzeResult colors, List<TerminalNode> nodes) {
-        //processNodes(colors,STRING,nodes);
-    }
-    public void processStrings(TextAnalyzeResult colors, TerminalNode ...nodes) {
-        //processNodes(colors,STRING,nodes);
-    }
-    public void processToken(TextAnalyzeResult colors,int color,Token ...nodes) {
-        for(Token token : nodes) {
-            setTokenColor(colors,token,color);
-            resetTokenColor(colors,token);
+    public void processNodes(int color,Object... nodes) {
+        Logger.debug("nodes.length=",nodes.length);
+        Logger.debug("nodes[0] is null ",nodes.length==0 || nodes[0]==null);
+        for( int a = 0; a < nodes.length ; a = a + 1 ) {
+            Object node = nodes[a];
+            Logger.debug("node==null?=",node==null);
+            if ( node instanceof Token ) {
+                Token token = (Token) node;
+                processToken(colors,color,token);
+                Logger.debug("Found a token");
+            } else {
+                if ( node instanceof TerminalNode ) {
+                    TerminalNode tn = (TerminalNode) node;
+                    Token token = tn.getSymbol();
+                    processToken(colors,color,token);
+                    Logger.debug("Found a TerminalNode");
+                } else {
+                    Logger.debug("No corresponding found, it's probably an error");
+                }
+            }
         }
     }
-    public void processToken(TextAnalyzeResult colors, int color, List<Token> nodes) {
-        for(Token token : nodes) {
-            setTokenColor(colors,token,color);
-            resetTokenColor(colors,token);
-        }
-    }
-    public void processNodes(TextAnalyzeResult colors,int color,TerminalNode ...nodes) {
-        for(TerminalNode node : nodes) {
-            setTerminalSymbolColor(colors,node,color);
-            resetTerminalSymbolColor(colors,node);
-        }
-    }
-    public void processNodes(TextAnalyzeResult colors, int color, List<TerminalNode> nodes) {
-        for(TerminalNode node : nodes) {
-            setTerminalSymbolColor(colors,node,color);
-            resetTerminalSymbolColor(colors,node);
-        }
-    }
-
 }
