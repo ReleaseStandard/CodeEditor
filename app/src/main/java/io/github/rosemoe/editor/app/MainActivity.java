@@ -58,6 +58,7 @@ import io.github.rosemoe.editor.widget.schemes.Eclipse;
 import io.github.rosemoe.editor.widget.schemes.GitHub;
 import io.github.rosemoe.editor.widget.schemes.Nano;
 import io.github.rosemoe.editor.widget.schemes.NotepadXX;
+import io.github.rosemoe.editor.widget.schemes.Solarized;
 import io.github.rosemoe.editor.widget.schemes.VS2019;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         put("NotepadXX",new NotepadXX());
         put("HTML",new HTML());
         put("Nano",new Nano());
+        put("Solarized",new Solarized());
     }};
     private HashMap<String,EditorLanguage> languages = new HashMap<String,EditorLanguage>() {{
         put("C",new UniversalLanguage(new CDescription()));

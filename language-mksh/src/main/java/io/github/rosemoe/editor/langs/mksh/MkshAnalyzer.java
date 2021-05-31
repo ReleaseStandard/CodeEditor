@@ -115,7 +115,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
             @Override
             public void enterInstruction(MkshParser.InstructionContext ctx) {
-
+                processToken(colors,KEYWORD,ctx.getStart());
             }
 
             @Override
@@ -155,7 +155,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
             @Override
             public void enterPrimary_keyword(MkshParser.Primary_keywordContext ctx) {
-
+                
             }
 
             @Override
@@ -163,9 +163,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
             }
 
             @Override
-            public void enterSecondary_keyword(MkshParser.Secondary_keywordContext ctx) {
-                processToken(colors,KEYWORD,ctx.getStart());
-            }
+            public void enterSecondary_keyword(MkshParser.Secondary_keywordContext ctx) { }
 
             @Override
             public void exitSecondary_keyword(MkshParser.Secondary_keywordContext ctx) {

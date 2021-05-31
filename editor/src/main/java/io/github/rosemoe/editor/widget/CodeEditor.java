@@ -919,10 +919,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         if (mFormatThread != null) {
             String text = "Formatting your code...";
             float centerY = getHeight() / 2f;
-            drawColor(canvas, mColors.getColor(EditorColorScheme.LINE_NUMBER_PANEL), mRect);
+            drawColor(canvas, mColors.getLineNumberPanel(), mRect);
             float baseline = centerY - getRowHeight() / 2f + getRowBaseline(0);
             float centerX = getWidth() / 2f;
-            mPaint.setColor(mColors.getColor(EditorColorScheme.LINE_NUMBER_PANEL_TEXT));
+            mPaint.setColor(mColors.getLineNumberPanelText());
             mPaint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(text, centerX, baseline, mPaint);
             mPaint.setTextAlign(Paint.Align.LEFT);
@@ -932,7 +932,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         getCursor().updateCache(getFirstVisibleLine());
 
         EditorColorScheme color = mColors;
-        drawColor(canvas, color.getColor(EditorColorScheme.WHOLE_BACKGROUND), mViewRect);
+        drawColor(canvas, mColors.getWholeBackground(), mViewRect);
 
         float lineNumberWidth = measureLineNumber();
         float offsetX = -getOffsetX() + measureTextRegionOffset();
@@ -968,7 +968,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         if (isLineNumberEnabled()) {
             drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, color.getColor(EditorColorScheme.LINE_NUMBER_BACKGROUND));
             drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin, color.getColor(EditorColorScheme.LINE_DIVIDER));
-            int lineNumberColor = mColors.getColor(EditorColorScheme.LINE_NUMBER);
+            int lineNumberColor = mColors.getLineNumberPanelText();
             for (int i = 0; i < postDrawLineNumbers.size(); i++) {
                 long packed = postDrawLineNumbers.get(i);
                 drawLineNumber(canvas, IntPair.getFirst(packed), IntPair.getSecond(packed), offsetX, lineNumberWidth, lineNumberColor);
@@ -1022,7 +1022,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         SpanMap spanMap = mSpanner.getResult().mSpanMap;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = mCursor.isSelected() ? -1 : mCursor.getLeftLine();
-        int currentLineBgColor = mColors.getColor(EditorColorScheme.CURRENT_LINE);
+        int currentLineBgColor = mColors.getCurrentLine();
         int lastPreparedLine = -1;
         int spanOffset = 0;
         int leadingWhitespaceEnd = 0;
@@ -1094,7 +1094,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                 if (line == mCursor.getRightLine()) {
                     selectionEnd = mCursor.getRightColumn();
                 }
-                drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, selectionStart, selectionEnd, mColors.getColor(EditorColorScheme.SELECTED_TEXT_BACKGROUND));
+                drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, selectionStart, selectionEnd, mColors.getTextSelected());
             }
 
             // Draw current line background
@@ -1372,7 +1372,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                         drawText(canvas, mBuffer, startIndex, selectionStart - startIndex, offsetX, baseline);
                         float deltaX = measureText(mBuffer, startIndex, selectionStart - startIndex);
                         //selectionStart - selectionEnd
-                        mPaint.setColor(mColors.getColor(EditorColorScheme.TEXT_SELECTED));
+                        mPaint.setColor(mColors.getTextSelected());
                         drawText(canvas, mBuffer, selectionStart, selectionEnd - selectionStart, offsetX + deltaX, baseline);
                         deltaX += measureText(mBuffer, selectionStart, selectionEnd - selectionStart);
                         //selectionEnd - endIndex
@@ -1383,7 +1383,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                         //startIndex - selectionStart
                         drawText(canvas, mBuffer, startIndex, selectionStart - startIndex, offsetX, baseline);
                         //selectionStart - endIndex
-                        mPaint.setColor(mColors.getColor(EditorColorScheme.TEXT_SELECTED));
+                        mPaint.setColor(mColors.getTextSelected());
                         drawText(canvas, mBuffer, selectionStart, endIndex - selectionStart, offsetX + measureText(mBuffer, startIndex, selectionStart - startIndex), baseline);
                     }
                 } else {
@@ -1393,11 +1393,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                         //selectionEnd - endIndex
                         drawText(canvas, mBuffer, selectionEnd, endIndex - selectionEnd, offsetX + measureText(mBuffer, startIndex, selectionEnd - startIndex), baseline);
                         //startIndex - selectionEnd
-                        mPaint.setColor(mColors.getColor(EditorColorScheme.TEXT_SELECTED));
+                        mPaint.setColor(mColors.getTextSelected());
                         drawText(canvas, mBuffer, startIndex, selectionEnd - startIndex, offsetX, baseline);
                     } else {
                         //One region
-                        mPaint.setColor(mColors.getColor(EditorColorScheme.TEXT_SELECTED));
+                        mPaint.setColor(mColors.getTextSelected());
                         drawText(canvas, mBuffer, startIndex, endIndex - startIndex, offsetX, baseline);
                     }
                 }
@@ -1632,10 +1632,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         mRect.bottom = centerY + getRowHeight() / 2f + expand;
         mRect.right = rightX;
         mRect.left = rightX - expand * 2 - textWidth;
-        drawColor(canvas, mColors.getColor(EditorColorScheme.LINE_NUMBER_PANEL), mRect);
+        drawColor(canvas, mColors.getLineNumberPanel(), mRect);
         float baseline = centerY - getRowHeight() / 2f + getRowBaseline(0);
         float centerX = (mRect.left + mRect.right) / 2;
-        mPaint.setColor(mColors.getColor(EditorColorScheme.LINE_NUMBER_PANEL_TEXT));
+        mPaint.setColor(mColors.getLineNumberPanelText());
         mPaint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(text, centerX, baseline, mPaint);
         mPaint.setTextAlign(Paint.Align.LEFT);

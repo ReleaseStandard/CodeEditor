@@ -21,36 +21,81 @@ import io.github.rosemoe.editor.util.Objects;
 
 /**
  * This class manages the colors of editor.
- * You can use color ids that are not in pre-defined id pool due to new languages.
- * <p>
- * This is also the default color scheme of editor.
- * Be careful to change this class, because this can cause its
- * subclasses behave differently and some subclasses did not apply
- * their default colors to some color ids. So change to this can cause
- * sub themes to change as well.
- * <p>
- * Typically, you can use this class to set color of editor directly
- * with {@link #setColor(int, int)} in a thread with looper.
- * <p>
- * However, we also accept you to extend this class to customize
- * your own ColorScheme to use different default colors.
- * Subclasses is expected to override {@link #applyDefault()}
- * to define colors, though other methods are not final.
- * After overriding this method, you will have to call super class's
- * applyDefault() and then a series of {@link #setColor(int, int)} calls
- * to apply your colors.
- * <p>
- * Note that new colors can be added in newer version of editor,
- * it is dangerous not to call super.applyDefault(), which can cause
- * newer editor works wrongly.
- * <p>
- * For more pre-defined color schemes, please turn to package io.github.rosemoe.editor.widget.schemes
- * <p>
- * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu) for contribution to color schemes
- *
+ * Colors scheme must be very simple, eg: we define colors types.
+ * Then it's up to the language analysis to apply and on which part of the text.
+ * https://github.com/altercation/solarized
  * @author Rose
  */
 public class EditorColorScheme {
+
+    private final int DEFAULT = 0x00000000;
+    /**
+     * That's our color scheme, no matter what it correspond to in the language, we just need colors.
+     * The it's up to the analyzer to apply colors on keywords and so on.
+     * By default the theme do nothing on the text.
+     */
+    // Background tone
+    public int base03 = DEFAULT;
+    public int base02 = DEFAULT;
+    // Content tone
+    public int base01 = DEFAULT;
+    public int base00 = DEFAULT;
+    public int base0 = DEFAULT;
+    public int base1 = DEFAULT;
+    // Background tone
+    public int base2 = DEFAULT;
+    public int base3 = DEFAULT;
+    // Accent colors
+    public int accent1 = DEFAULT;
+    public int accent2 = DEFAULT;
+    public int accent3 = DEFAULT;
+    public int accent4 = DEFAULT;
+    public int accent5 = DEFAULT;
+    public int accent6 = DEFAULT;
+    public int accent7 = DEFAULT;
+    public int accent8 = DEFAULT;
+    /**
+     * We can choose to invert the color scheme.
+     * Assuming Theme editor put white variant, isInverted <=> is black theme.
+     */
+    protected boolean isInverted = false;
+    public void invertColorScheme() {
+        int aux  = base03;
+        base03 = base3; base3 = aux;
+        aux = base02 ; base02 = base2 ; base2 = aux;
+        aux = base01 ; base01 = base1 ; base1 = aux;
+        aux = base00 ; base00 = base0 ; base0 = aux;
+        isInverted = true;
+    }
+    /**
+     * Here we colors that do not depends on which language is parsed.
+     * All language inserted into CodeEditor must have theses.
+     */
+    public int getLineNumberPanel() {
+        return base2;
+    }
+    public int getLineNumberBackground() {
+        return base2;
+    }
+    public int getCurrentLine() {
+        return base2;
+    }
+    public int getTextSelected() {
+        return base00;
+    }
+    public int getSelectedTextBackground() {
+        return base2;
+    }
+    public int getLineNumberPanelText() {
+        return base1;
+    }
+    public int getWholeBackground() {
+        return base3;
+    }
+    public int getTextNormal() {
+        return base00;
+    }
+
     //-----------------Highlight colors-----------
 
     public static final int ATTRIBUTE_VALUE = 33;
