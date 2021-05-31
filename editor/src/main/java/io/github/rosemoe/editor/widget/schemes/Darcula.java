@@ -24,13 +24,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  */
 public class Darcula extends EditorColorScheme {
 
-    @Override
-    public void applyDefault() {
-        super.applyDefault();
-
-
-        setColor(SCROLL_BAR_THUMB, 0xffff0000);
-        setColor(SCROLL_BAR_THUMB_PRESSED, 0xff00ff00);
+    public Darcula() {
         setColor(BLOCK_LINE_CURRENT, 0xffff00ff);
         setColor(NON_PRINTABLE_CHAR, 0xfff0f0f0);
 
@@ -45,4 +39,6 @@ public class Darcula extends EditorColorScheme {
     @Override public int getMatchedTextBackground() { return 0xff32593d; }
     @Override public int getSelectedTextBackground(){return 0xff3676b8;}
     @Override public int getSelectionHandle(){ return 0xffff0000; }
+    @Override public int getScrollBarThumb() { return 0xffff0000; }
+    @Override public int getScrollBarThumbPressed() { return 0xff00ff00; }
 }

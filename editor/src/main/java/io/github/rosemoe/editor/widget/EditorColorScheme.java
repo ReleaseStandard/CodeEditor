@@ -108,6 +108,8 @@ public class EditorColorScheme {
     public int getBlockLine() { return base1; }
     public int getSelectionInsert() { return getTextNormal(); }
     public int getSelectionHandle() { return getTextNormal(); }
+    public int getScrollBarThumb() { return base1; }
+    public int getScrollBarThumbPressed() { return base2; }
 
     //-----------------Highlight colors-----------
 
@@ -132,21 +134,9 @@ public class EditorColorScheme {
 
     public static final int BLOCK_LINE_CURRENT = 15;
     public static final int SCROLL_BAR_TRACK = 13;
-    public static final int SCROLL_BAR_THUMB_PRESSED = 12;
-    public static final int SCROLL_BAR_THUMB = 11;
     public static final int UNDERLINE = 10;
-    public static final int CURRENT_LINE = 9;
     public static final int LINE_DIVIDER = 1;
 
-    /**
-     * Min pre-defined color id
-     */
-    protected static final int START_COLOR_ID = 1;
-
-    /**
-     * Max pre-defined color id
-     */
-    protected static final int END_COLOR_ID = 31;
     /**
      * Real color saver
      */
@@ -164,7 +154,6 @@ public class EditorColorScheme {
     EditorColorScheme(CodeEditor editor) {
         mEditor = editor;
         mColors = new SparseIntArray();
-        applyDefault();
     }
 
     /**
@@ -172,7 +161,6 @@ public class EditorColorScheme {
      */
     public EditorColorScheme() {
         mColors = new SparseIntArray();
-        applyDefault();
     }
 
     /**
@@ -183,76 +171,6 @@ public class EditorColorScheme {
             throw new IllegalStateException("A editor is already attached to this ColorScheme object");
         }
         mEditor = Objects.requireNonNull(editor);
-    }
-
-    /**
-     * Apply default colors
-     */
-    public void applyDefault() {
-        for (int i = START_COLOR_ID; i <= END_COLOR_ID; i++) {
-            applyDefault(i);
-        }
-    }
-
-    /**
-     * Apply default color for the given type
-     *
-     * @param type The type
-     */
-    private void applyDefault(int type) {
-        int color;
-        switch (type) {
-            case LINE_DIVIDER:
-                color = 0xFFdddddd;
-                break;
-            case AUTO_COMP_PANEL_BG:
-            case AUTO_COMP_PANEL_CORNER:
-                color = 0xffffffff;
-                break;
-            case OPERATOR:
-                color = 0xFF0066D6;
-                break;
-            case UNDERLINE:
-                color = 0xff000000;
-                break;
-            case ANNOTATION:
-                color = 0xFF03A9F4;
-                break;
-            case CURRENT_LINE:
-                color = 0x10000000;
-                break;
-            case KEYWORD:
-                color = 0xFF2196F3;
-                break;
-            case LITERAL:
-                color = 0xFF008080;
-                break;
-            case SCROLL_BAR_THUMB:
-                color = 0xffd8d8d8;
-                break;
-            case SCROLL_BAR_THUMB_PRESSED:
-                color = 0xFF27292A;
-                break;
-            case LINE_BLOCK_LABEL:
-            case SCROLL_BAR_TRACK:
-                color = 0;
-                break;
-            case BLOCK_LINE_CURRENT:
-                color = 0xff999999;
-                break;
-            case IDENTIFIER_NAME:
-            case FUNCTION_NAME:
-                color = 0xff333333;
-                break;
-            case NON_PRINTABLE_CHAR:
-                color = 0xff505050;
-                break;
-            default:
-                color=0;
-            //default:
-            //    throw new IllegalArgumentException("Unexpected type:" + type);
-        }
-        setColor(type, color);
     }
 
     /**

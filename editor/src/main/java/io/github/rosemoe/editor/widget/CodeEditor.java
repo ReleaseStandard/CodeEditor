@@ -1611,7 +1611,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         mRect.top = topY;
         mRect.bottom = topY + length;
         mVerticalScrollBar.set(mRect);
-        drawColor(canvas, mColors.getColor(mEventHandler.holdVerticalScrollBar() ? EditorColorScheme.SCROLL_BAR_THUMB_PRESSED : EditorColorScheme.SCROLL_BAR_THUMB), mRect);
+        drawColor(canvas, mColors.getColor(mEventHandler.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb()), mRect);
     }
 
     /**
@@ -1677,7 +1677,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         mRect.right = leftX + length;
         mRect.left = leftX;
         mHorizontalScrollBar.set(mRect);
-        drawColor(canvas, mColors.getColor(mEventHandler.holdHorizontalScrollBar() ? EditorColorScheme.SCROLL_BAR_THUMB_PRESSED : EditorColorScheme.SCROLL_BAR_THUMB), mRect);
+        drawColor(canvas, mColors.getColor(mEventHandler.holdHorizontalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb()), mRect);
     }
 
     /**

@@ -24,10 +24,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  */
 public final class Eclipse extends EditorColorScheme {
 
-    @Override
-    public void applyDefault() {
-        super.applyDefault();
-
+    public Eclipse() {
         base3 = 0xffffffff;
         base2 = 0xffe8f2fe;
         setColor(BLOCK_LINE_CURRENT, 0);

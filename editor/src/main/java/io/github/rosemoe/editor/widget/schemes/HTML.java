@@ -21,10 +21,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  * ColorScheme for HTML Language for editor
  */
 public class HTML extends EditorColorScheme {
-
-    @Override
-    public void applyDefault() {
-        super.applyDefault();
+    public void HTML() {
         setColor(BLOCK_LINE_CURRENT, 0xffffffff);
         setColor(NON_PRINTABLE_CHAR, 0xffdddddd);
         base00 = 0xffffffff;
