@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.widget;
 import android.util.SparseIntArray;
 
 import io.github.rosemoe.editor.util.Objects;
+import io.github.rosemoe.editor.widget.schemes.Solarized;
 
 /**
  * This class manages the colors of editor.
@@ -28,6 +29,7 @@ import io.github.rosemoe.editor.util.Objects;
  */
 public class EditorColorScheme {
 
+    public static EditorColorScheme DEFAULT() { return new Solarized(); }
     private final int DEFAULT = 0x00000000;
     /**
      * That's our color scheme, no matter what it correspond to in the language, we just need colors.
@@ -67,6 +69,8 @@ public class EditorColorScheme {
         aux = base00 ; base00 = base0 ; base0 = aux;
         isInverted = true;
     }
+    public String theme_name = "Default";
+    public String theme_description = "Default description";
     /**
      * Here we colors that do not depends on which language is parsed.
      * All language inserted into CodeEditor must have theses.
