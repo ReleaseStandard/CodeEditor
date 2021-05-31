@@ -36,7 +36,6 @@ import java.util.Stack;
  */
 public class JavaCodeAnalyzer extends CodeAnalyzer {
 
-    public static final int IDENTIFIER_VAR = 0xff333333;
     private final static Object OBJECT = new Object();
 
     @Override
@@ -87,7 +86,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                     identifiers.addIdentifier(text.substring(tokenizer.getIndex(), tokenizer.getTokenLength() + tokenizer.getIndex()));
                     //The previous so this will be the annotation's type name
                     if (previous == Tokens.AT) {
-                        colors.addIfNeeded(line, column, EditorColorScheme.ANNOTATION);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                     }
                     //Here we have to get next token to see if it is function
@@ -96,7 +95,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                     Tokens next = tokenizer.directNextToken();
                     //The next is LPAREN,so this is function name or type name
                     if (next == Tokens.LPAREN) {
-                        colors.addIfNeeded(line, column, EditorColorScheme.FUNCTION_NAME);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         tokenizer.pushBack(tokenizer.getTokenLength());
                         break;
                     }
@@ -104,21 +103,21 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                     tokenizer.pushBack(tokenizer.getTokenLength());
                     //This is a class definition
                     if (previous == Tokens.CLASS) {
-                        colors.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_NAME);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         //Add class name
                         classNames.put(text, thisIndex, thisLength, OBJECT);
                         break;
                     }
                     //Has class name
                     if (classNames.get(text, thisIndex, thisLength) == OBJECT) {
-                        colors.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_NAME);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         //Mark it
                         classNamePrevious = true;
                         break;
                     }
                     if (classNamePrevious) {
                         //Var name
-                        colors.addIfNeeded(line, column, IDENTIFIER_VAR);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         classNamePrevious = false;
                         break;
                     }
@@ -129,7 +128,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                 case FLOATING_POINT_LITERAL:
                 case INTEGER_LITERAL:
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
+                    colors.addIfNeeded(line, column, theme.accent7);
                     break;
                 case INT:
                 case LONG:
@@ -141,7 +140,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                 case SHORT:
                 case VOID:
                     classNamePrevious = true;
-                    colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
+                    colors.addIfNeeded(line, column, theme.accent1);
                     break;
                 case ABSTRACT:
                 case ASSERT:
@@ -188,11 +187,11 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                 case FALSE:
                 case NULL:
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
+                    colors.addIfNeeded(line, column, theme.accent1);
                     break;
                 case LBRACE: {
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
+                    colors.addIfNeeded(line, column, theme.getTextNormal());
                     if (stack.isEmpty()) {
                         if (currSwitch > maxSwitch) {
                             maxSwitch = currSwitch;
@@ -208,7 +207,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                 }
                 case RBRACE: {
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
+                    colors.addIfNeeded(line, column, theme.getTextNormal());
                     if (!stack.isEmpty()) {
                         BlockLine block = stack.pop();
                         block.endLine = line;
@@ -225,11 +224,11 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                     break;
                 default:
                     if (token == Tokens.LBRACK || (token == Tokens.RBRACK && previous == Tokens.LBRACK)) {
-                        colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                     }
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
+                    colors.addIfNeeded(line, column, theme.getTextNormal());
             }
             first = false;
             helper.update(thisLength);

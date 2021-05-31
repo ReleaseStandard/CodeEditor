@@ -123,7 +123,6 @@ public class EditorColorScheme {
     //-------------View colors---------------------
 
     public static final int NON_PRINTABLE_CHAR = 31;
-    public static final int MATCHED_TEXT_BACKGROUND = 29;
     public static final int AUTO_COMP_PANEL_CORNER = 20;
     public static final int AUTO_COMP_PANEL_BG = 19;
 
