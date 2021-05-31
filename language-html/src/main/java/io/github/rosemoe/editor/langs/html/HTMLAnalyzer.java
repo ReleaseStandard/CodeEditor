@@ -43,15 +43,13 @@ public class HTMLAnalyzer extends CodeAnalyzer {
                     case HTMLLexer.TAG_SLASH:
                     case HTMLLexer.TAG_SLASH_CLOSE:
                     case HTMLLexer.TAG_CLOSE:
-                    case HTMLLexer.TAG_EQUALS:
-                        colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
-                        break;
                     case HTMLLexer.TAG_NAME:
                     case HTMLLexer.XML:
                         colors.addIfNeeded(line, column, theme.accent6);
                         break;
                     case HTMLLexer.CDATA:
                     case HTMLLexer.ATTRIBUTE:
+                    case HTMLLexer.TAG_EQUALS:
                         colors.addIfNeeded(line, column, theme.accent1);
                         break;
                     case HTMLLexer.ATTVALUE_VALUE:

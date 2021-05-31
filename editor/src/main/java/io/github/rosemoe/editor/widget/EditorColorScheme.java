@@ -111,15 +111,6 @@ public class EditorColorScheme {
     public int getScrollBarThumb() { return base1; }
     public int getScrollBarThumbPressed() { return base2; }
 
-    //-----------------Highlight colors-----------
-
-    public static final int ANNOTATION = 28;
-    public static final int FUNCTION_NAME = 27;
-    public static final int IDENTIFIER_NAME = 26;
-    public static final int LITERAL = 24;
-    public static final int OPERATOR = 23;
-    public static final int KEYWORD = 21;
-
     //-------------View colors---------------------
 
     public static final int NON_PRINTABLE_CHAR = 31;

@@ -115,21 +115,21 @@ public class UniversalLanguage extends CodeAnalyzer implements EditorLanguage {
                 int column = helper.getColumn();
                 switch (token) {
                     case KEYWORD:
-                        colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
+                        colors.addIfNeeded(line, column, theme.accent1);
                         break;
                     case IDENTIFIER:
                         identifiers.addIdentifier(text.substring(index, index + tokenizer.getTokenLength()));
                         colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                     case LITERAL:
-                        colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
+                        colors.addIfNeeded(line, column, theme.accent7);
                         break;
                     case LINE_COMMENT:
                     case LONG_COMMENT:
                         colors.addIfNeeded(line, column, theme.getComment());
                         break;
                     case OPERATOR:
-                        colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         if (mLanguage.isSupportBlockLine()) {
                             String op = text.substring(index, index + tokenizer.getTokenLength());
                             if (mLanguage.isBlockStart(op)) {
@@ -164,7 +164,7 @@ public class UniversalLanguage extends CodeAnalyzer implements EditorLanguage {
                         colors.addNormalIfNull();
                         break;
                     case UNKNOWN:
-                        colors.addIfNeeded(line, column, EditorColorScheme.ANNOTATION);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                 }
                 helper.update(tokenizer.getTokenLength());

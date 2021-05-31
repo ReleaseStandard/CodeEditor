@@ -91,13 +91,13 @@ public class PythonCodeAnalyzer extends CodeAnalyzer {
                     case PythonLexer.BREAK:
                     case PythonLexer.ASYNC:
                     case PythonLexer.AWAIT:
-                        colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
+                        colors.addIfNeeded(line, column, theme.accent2);
                         break;
                     case PythonLexer.COMMENT:
                         colors.addIfNeeded(line, column, theme.getComment());
                         break;
                     case PythonLexer.STRING:
-                        colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
+                        colors.addIfNeeded(line, column, theme.accent7);
                         break;
                     case PythonLexer.DECIMAL_INTEGER:
                         colors.addIfNeeded(line, column, theme.getLineNumberPanelText());
@@ -149,17 +149,17 @@ public class PythonCodeAnalyzer extends CodeAnalyzer {
                     case PythonLexer.RIGHT_SHIFT_ASSIGN:
                     case PythonLexer.POWER_ASSIGN:
                     case PythonLexer.IDIV_ASSIGN:
-                        colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                     case PythonLexer.NAME: {
                         if (previous == null) {
                             colors.addIfNeeded(line, column, theme.getTextNormal());
                             break;
                         } else if (previous.getType() == PythonLexer.DEF) {
-                            colors.addIfNeeded(line, column, EditorColorScheme.FUNCTION_NAME);
+                            colors.addIfNeeded(line, column, theme.accent6);
                             break;
                         } else if (previous.getType() == PythonLexer.CLASS) {
-                            colors.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_NAME);
+                            colors.addIfNeeded(line, column, theme.accent6);
                             break;
                         }
                     }
