@@ -185,7 +185,6 @@ public class MkshAnalyzer extends CodeAnalyzer {
             @Override
             public void enterFor_do_done(MkshParser.For_do_doneContext ctx) {
                 processKeyword(ctx.FOR(), ctx.DO(), ctx.DONE(), ctx.IN());
-                processStrings(ctx.STRING());
             }
 
             @Override
@@ -246,6 +245,16 @@ public class MkshAnalyzer extends CodeAnalyzer {
             }
 
             @Override
+            public void enterString(MkshParser.StringContext ctx) {
+                processStrings(ctx.STRING());
+            }
+
+            @Override
+            public void exitString(MkshParser.StringContext ctx) {
+
+            }
+
+            @Override
             public void enterArit(MkshParser.AritContext ctx) {
                 processKeyword(ctx.LET(),ctx.ARIT_OPERATOR_L(),ctx.ARIT_OPERATOR_R());
             }
@@ -257,7 +266,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
             @Override
             public void enterA_immediate(MkshParser.A_immediateContext ctx) {
-                processNodes(LITERAL,ctx.ARIT_ONE());
+                processNodes(theme.accent4,ctx.getStart());
             }
 
             @Override
@@ -306,48 +315,6 @@ public class MkshAnalyzer extends CodeAnalyzer {
             }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.start());
-
-        /*
-        Token token = null;
-        int line = 0;
-        int column = 0;
-        int lastLine = 0;
-        while(delegate.shouldAnalyze()) {
-            token = lexer.nextToken();
-            if (token == null) break;
-            if (token.getType() == MkshLexer.EOF) {
-                lastLine = token.getLine() - 1;
-                break;
-            }
-            line = token.getLine() - 1;
-            lastLine = line;
-            column = token.getCharPositionInLine();
-            Log.v("TEST",token.getText());
-            switch (token.getType()) {
-                case CAT_KEYWORDS:
-                case CAT_ADDITIONNAL_BUILTINS:
-                    colors.addIfNeeded(line,column, EditorColorScheme.KEYWORD);
-                    break;
-
-                case LINE_COMMENT:
-                    colors.addIfNeeded(line,column,EditorColorScheme.COMMENT);
-                    break;
-
-                case OPERATORS:
-                case CAT_PUNCTUATIONS:
-                    colors.addIfNeeded(line,column,EditorColorScheme.OPERATOR);
-                    break;
-
-                case STRING:
-                    colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
-                    break;
-
-                default:
-                    colors.addIfNeeded(line,column,EditorColorScheme.TEXT_NORMAL);
-            }
-        }
-        colors.determine(lastLine);
-        */
     }
 
 }

@@ -194,7 +194,7 @@ public class SpanLine {
      */
     public static SpanLine EMPTY() {
         SpanLine line = new SpanLine();
-        line.add(Span.obtain(0, EditorColorScheme.TEXT_NORMAL));
+        line.add(Span.obtain(0, EditorColorScheme.DEFAULT().getTextNormal()));
         return line;
     }
 

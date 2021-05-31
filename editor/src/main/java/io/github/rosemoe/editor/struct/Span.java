@@ -34,7 +34,7 @@ public class Span {
     public int underlineColor = 0;
 
     public static Span EMPTY() {
-        return obtain(0, EditorColorScheme.TEXT_NORMAL);
+        return obtain(0, EditorColorScheme.DEFAULT().getTextNormal());
     }
     /**
      * Create a new span

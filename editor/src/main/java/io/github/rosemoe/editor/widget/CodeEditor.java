@@ -969,7 +969,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         offsetX = -getOffsetX();
 
         if (isLineNumberEnabled()) {
-            drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, color.getColor(EditorColorScheme.LINE_NUMBER_BACKGROUND));
+
+            drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, color.getColor(mColors.getLineNumberBackground()));
             drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin, color.getColor(EditorColorScheme.LINE_DIVIDER));
             int lineNumberColor = mColors.getLineNumberPanelText();
             for (int i = 0; i < postDrawLineNumbers.size(); i++) {

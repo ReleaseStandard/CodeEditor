@@ -38,7 +38,7 @@ options {
 start                : file ;
 file                 : expr EOF ;
 expr                 : ( ( arit | execution_control | instruction ) expression_end | comment | TERMINATOR+ ) expr? ;
-instruction          : primary_keyword | secondary_keyword ;
+instruction          : ( primary_keyword | secondary_keyword ) STRING* ;
 expression_end       : P_SEMI | TERMINATOR ; 
 comment              : LINE_COMMENT ;
 identifier           : IDENTIFIER | primary_keyword | secondary_keyword ;
@@ -49,12 +49,13 @@ secondary_keyword    : BREAK | CONTINUE | EVAL | EXEC | EXIT | EXPORT | READONLY
 
 // execution flow control
 execution_control    : for_do_done | if_then_else | select_in | until_do | while_do | function ;
-for_do_done          : FOR identifier ( IN STRING* )? expression_end DO expr DONE ;
+for_do_done          : FOR identifier ( IN string* )? expression_end DO expr DONE ;
 if_then_else         : IF expr THEN expr (ELIF expr THEN expr)* (ELSE expr)? FI ;
-select_in            : SELECT identifier (IN STRING*) expression_end DO expr DONE ;
+select_in            : SELECT identifier (IN string*) expression_end DO expr DONE ;
 until_do             : UNTIL expr DO expr DONE;
 while_do             : WHILE expr DO expr DONE;
 function             : FUNCTION identifier P_L_PARENTHESIS (identifier (P_COMMA identifier)*)? P_R_PARENTHESIS P_L_BRACKET expr P_R_BRACKET;
+string               : STRING ;
 
 // arithmetic expression
 arit                 : LET a_expr | ARIT_OPERATOR_L a_expr ARIT_OPERATOR_R;

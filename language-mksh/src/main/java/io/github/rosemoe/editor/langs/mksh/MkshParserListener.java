@@ -168,6 +168,16 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitFunction(MkshParser.FunctionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MkshParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void enterString(MkshParser.StringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void exitString(MkshParser.StringContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MkshParser#arit}.
 	 * @param ctx the parse tree
 	 */

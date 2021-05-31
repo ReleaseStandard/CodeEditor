@@ -69,7 +69,7 @@ public abstract class CodeAnalyzer {
         }
         Logger.debug("Add color for token=" + token.getText() + ",color=" + color + ",line=" + token.getLine() + ",col=" + token.getCharPositionInLine());
         addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine(),color);
-        addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),TEXT_NORMAL);
+        addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),theme.getTextNormal());
     }
     public void processNodes(int color, List<Object> objs) {
         processNodes(color,objs.toArray());

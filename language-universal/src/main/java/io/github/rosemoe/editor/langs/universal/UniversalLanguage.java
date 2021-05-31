@@ -119,7 +119,7 @@ public class UniversalLanguage extends CodeAnalyzer implements EditorLanguage {
                         break;
                     case IDENTIFIER:
                         identifiers.addIdentifier(text.substring(index, index + tokenizer.getTokenLength()));
-                        colors.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
+                        colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                     case LITERAL:
                         colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);

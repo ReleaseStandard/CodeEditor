@@ -30,6 +30,7 @@ import io.github.rosemoe.editor.widget.schemes.Solarized;
 public class EditorColorScheme {
 
     public static EditorColorScheme DEFAULT() { return new Solarized(); }
+    public static final int TODO = 0xFFFF0000;
     private final int DEFAULT = 0x00000000;
     /**
      * That's our color scheme, no matter what it correspond to in the language, we just need colors.

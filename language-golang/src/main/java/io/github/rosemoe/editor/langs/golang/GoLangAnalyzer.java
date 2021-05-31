@@ -61,7 +61,7 @@ public class GoLangAnalyzer extends CodeAnalyzer {
                 case GO: case MAP: case STRUCT: case CHAN: case ELSE: case GOTO: case PACKAGE:
                 case SWITCH: case CONST: case FALLTHROUGH: case IF: case RANGE: case TYPE:
                 case CONTINUE: case FOR: case IMPORT: case RETURN: case VAR:
-                    colors.addIfNeeded(line,column, EditorColorScheme.KEYWORD);
+                    colors.addIfNeeded(line,column, EditorColorScheme.TODO);
                     break;
 
                 case PLUS:  case MINUS: case STAR: case DIV: case MOD:
@@ -74,20 +74,20 @@ public class GoLangAnalyzer extends CodeAnalyzer {
                 case NOT_EQUALS: case LESS_OR_EQUALS:case GREATER_OR_EQUALS: case DECLARE_ASSIGN:
                 case ELLIPSIS: case L_PAREN: case R_PAREN: case L_CURLY: case R_CURLY: case L_BRACKET: case R_BRACKET:
                 case COMMA: case SEMI: case DOT: case COLON:
-                    colors.addIfNeeded(line,column,EditorColorScheme.OPERATOR);
+                    colors.addIfNeeded(line,column,EditorColorScheme.TODO);
                     break;
 
                 case COMMENT: case LINE_COMMENT:
-                    colors.addIfNeeded(line,column,EditorColorScheme.COMMENT);
+                    colors.addIfNeeded(line,column,EditorColorScheme.TODO);
                     break;
 
                 case DECIMAL_LIT: case BINARY_LIT: case DECIMAL_FLOAT_LIT: case FLOAT_LIT:
                 case HEX_FLOAT_LIT: case HEX_LIT: case IMAGINARY_LIT: case INTERPRETED_STRING_LIT: case NIL_LIT:
                 case OCTAL_LIT: case RAW_STRING_LIT: case RUNE_LIT:
-                    colors.addIfNeeded(line,column,EditorColorScheme.LITERAL);
+                    colors.addIfNeeded(line,column,EditorColorScheme.TODO);
 
                 default:
-                    colors.addIfNeeded(line,column,EditorColorScheme.TEXT_NORMAL);
+                    colors.addIfNeeded(line,column,theme.getTextNormal());
             }
         }
         colors.determine(lastLine);
