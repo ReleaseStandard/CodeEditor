@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class MainActivityModel {
 
-    public String [] themes = new String[]{"Default", "GitHub", "Eclipse", "Darcula", "VS2019", "NotepadXX", "HTML", "Nano","Solarized"};
+    public String [] themes = new String[]{"Default", "Eclipse", "Darcula", "VS2019", "NotepadXX", "HTML", "Nano","Solarized"};
     public int checkedTheme = 0;
 
     public String[] languages = new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh"};

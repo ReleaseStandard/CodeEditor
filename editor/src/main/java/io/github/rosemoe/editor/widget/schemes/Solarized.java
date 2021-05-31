@@ -17,8 +17,14 @@ package io.github.rosemoe.editor.widget.schemes;
 
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
+/**
+ * Solarized theme
+ * https://github.com/altercation/solarized
+ */
 public class Solarized extends EditorColorScheme {
     public Solarized() {
+        theme_name        = "Solarized";
+        theme_description = "Extracted from https://github.com/altercation/solarized";
         base03    = 0xFF002b36;
         base02    = 0xFF073642;
         base01    = 0xFF586e75;

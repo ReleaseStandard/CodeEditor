@@ -55,7 +55,6 @@ import io.github.rosemoe.editor.widget.SymbolInputView;
 import io.github.rosemoe.editor.widget.schemes.HTML;
 import io.github.rosemoe.editor.widget.schemes.Darcula;
 import io.github.rosemoe.editor.widget.schemes.Eclipse;
-import io.github.rosemoe.editor.widget.schemes.GitHub;
 import io.github.rosemoe.editor.widget.schemes.Nano;
 import io.github.rosemoe.editor.widget.schemes.NotepadXX;
 import io.github.rosemoe.editor.widget.schemes.Solarized;
@@ -69,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainActivityModel mam = new MainActivityModel();
     private HashMap<String,EditorColorScheme> themes = new HashMap<String, EditorColorScheme>() {{
-        put("Default",new EditorColorScheme());
-        put("GitHub",new GitHub());
+        put("Default",EditorColorScheme.DEFAULT());
         put("Eclipse",new Eclipse());
         put("Darcula",new Darcula());
         put("VS2019",new VS2019());
@@ -146,9 +144,7 @@ public class MainActivity extends AppCompatActivity {
         //editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
-        setEditorLanguage(new JavaLanguage());
-        setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh_while.txt");
-        editor.setColorScheme(new Nano());
+        setEditorLanguage(new MkshLanguage(), "samples/mksh/simplecomment.txt");
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
 
@@ -244,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
-                            editor.setColorScheme(themes.get(mam.themes[which]));
+                            EditorColorScheme theme = themes.get(mam.themes[which]);
+                            editor.setColorScheme(theme);
                             mam.checkedTheme=which;
                             dialog.dismiss();
                         })
