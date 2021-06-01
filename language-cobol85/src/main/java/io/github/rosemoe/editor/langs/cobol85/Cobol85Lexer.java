@@ -1,6 +1,5 @@
-// Generated from Cobol85Language.g4 by ANTLR 4.9.2
 package io.github.rosemoe.editor.langs.cobol85;
-
+// Generated from Cobol85.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -407,7 +406,7 @@ public class Cobol85Lexer extends Lexer {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Cobol85Language.g4"; }
+	public String getGrammarFileName() { return "Cobol85.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

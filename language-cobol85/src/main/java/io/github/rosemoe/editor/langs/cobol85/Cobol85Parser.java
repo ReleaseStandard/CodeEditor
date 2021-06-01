@@ -1,6 +1,5 @@
-// Generated from Cobol85Language.g4 by ANTLR 4.9.2
 package io.github.rosemoe.editor.langs.cobol85;
-
+// Generated from Cobol85.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -689,7 +688,7 @@ public class Cobol85Parser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Cobol85Language.g4"; }
+	public String getGrammarFileName() { return "Cobol85.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

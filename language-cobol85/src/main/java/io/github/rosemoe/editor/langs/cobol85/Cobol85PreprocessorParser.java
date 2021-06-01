@@ -1,5 +1,4 @@
 package io.github.rosemoe.editor.langs.cobol85;
-
 // Generated from Cobol85Preprocessor.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
