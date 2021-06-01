@@ -32,7 +32,7 @@ public class MainActivityModel {
         put("Python","samples/python/python.txt");
         put("None","samples/java/java.txt");
         put("GoLang","samples/golang/golang.txt");
-        put("Mksh","samples/mksh/mksh.txt");
+        put("Mksh","samples/mksh/mksh_while.txt");
     }};
     public int checkedLanguage = 0;
 

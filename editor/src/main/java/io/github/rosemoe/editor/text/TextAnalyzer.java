@@ -199,7 +199,6 @@ public class TextAnalyzer {
                             colors.mLast = null;
                             colors.mBlocks.clear();
                             colors.mSuppressSwitch = Integer.MAX_VALUE;
-                            colors.mLabels = null;
                             colors.mExtra = null;
                         }
                     } while (waiting);

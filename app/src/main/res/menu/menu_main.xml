@@ -62,9 +62,6 @@
         </menu>
     </item>
     <item
-        android:id="@+id/code_navigation"
-        android:title="@string/code_navigation" />
-    <item
         android:id="@+id/text_wordwrap"
         android:checkable="true"
         android:title="@string/wordwrap" />

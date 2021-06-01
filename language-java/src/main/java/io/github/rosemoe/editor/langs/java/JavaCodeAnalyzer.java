@@ -23,7 +23,6 @@ import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.struct.BlockLine;
-import io.github.rosemoe.editor.struct.NavigationItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,6 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
         IdentifierAutoComplete.Identifiers identifiers = new IdentifierAutoComplete.Identifiers();
         identifiers.begin();
         Stack<BlockLine> stack = new Stack<>();
-        List<NavigationItem> labels = new ArrayList<>();
         int maxSwitch = 1, currSwitch = 0;
         //Tree to save class names and query
         TrieTree<Object> classNames = new TrieTree<>();
@@ -247,7 +245,6 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
         colors.determine(line);
         colors.mExtra = identifiers;
         colors.setSuppressSwitch(maxSwitch + 10);
-        colors.setNavigation(labels);
     }
 
 }

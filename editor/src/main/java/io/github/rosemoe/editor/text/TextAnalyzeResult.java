@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.struct.BlockLine;
-import io.github.rosemoe.editor.struct.NavigationItem;
 import io.github.rosemoe.editor.struct.Span;
 import io.github.rosemoe.editor.struct.SpanLine;
 import io.github.rosemoe.editor.struct.SpanMap;
@@ -34,7 +33,6 @@ public class TextAnalyzeResult {
     protected final List<BlockLine> mBlocks;
     public final SpanMap mSpanMap;
     public Object mExtra;
-    protected List<NavigationItem> mLabels;
     protected Span mLast;
     protected int mSuppressSwitch = Integer.MAX_VALUE;
 
@@ -106,25 +104,6 @@ public class TextAnalyzeResult {
      */
     public List<BlockLine> getBlocks() {
         return mBlocks;
-    }
-
-
-    /**
-     * Get code navigation list
-     *
-     * @return Current navigation list
-     */
-    public List<NavigationItem> getNavigation() {
-        return mLabels;
-    }
-
-    /**
-     * Set code navigation list
-     *
-     * @param navigation New navigation list
-     */
-    public void setNavigation(List<NavigationItem> navigation) {
-        mLabels = navigation;
     }
 
     /**

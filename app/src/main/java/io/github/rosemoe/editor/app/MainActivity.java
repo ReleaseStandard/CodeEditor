@@ -47,7 +47,6 @@ import io.github.rosemoe.editor.langs.java.JavaLanguage;
 import io.github.rosemoe.editor.langs.mksh.MkshLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
-import io.github.rosemoe.editor.struct.NavigationItem;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
@@ -87,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
         put("Mksh",new MkshLanguage());
     }};
 
-    protected void setEditorLanguage(EditorLanguage el) {
-        setEditorLanguage(el, "samples/java/java.txt");
-    }
     protected void setEditorLanguage(EditorLanguage el, String fname) {
         editor.setEditorLanguage(el);
         new Thread(() -> {
@@ -183,26 +179,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.move_right:
                 editor.moveSelectionRight();
                 break;
-            case R.id.code_navigation: {
-                final List<NavigationItem> labels = editor.getTextAnalyzeResult().getNavigation();
-                if (labels == null) {
-                    Toast.makeText(this, R.string.navi_err_msg, Toast.LENGTH_SHORT).show();
-                } else {
-                    CharSequence[] items = new CharSequence[labels.size()];
-                    for (int i = 0; i < labels.size(); i++) {
-                        items[i] = labels.get(i).label;
-                    }
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.code_navi)
-                            .setSingleChoiceItems(items, 0, (dialog, i) -> {
-                                editor.jumpToLine(labels.get(i).line);
-                                dialog.dismiss();
-                            })
-                            .setPositiveButton(android.R.string.cancel, null)
-                            .show();
-                }
-                break;
-            }
             case R.id.code_format:
                 editor.formatCodeAsync();
                 break;
