@@ -23,7 +23,6 @@ import java.util.List;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**
  * Interface for analyzing highlight
@@ -33,10 +32,10 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  */
 public abstract class CodeAnalyzerController {
 
-    public static EditorColorScheme theme = EditorColorScheme.DEFAULT();
+    public static EditorColorSchemeController theme = EditorColorSchemeController.DEFAULT();
     private TextAnalyzerView colors = null;
 
-    public void setTheme(EditorColorScheme theme) {
+    public void setTheme(EditorColorSchemeController theme) {
         this.theme = theme;
     }
 

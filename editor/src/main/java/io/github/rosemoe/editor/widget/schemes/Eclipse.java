@@ -15,14 +15,14 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 
 /**
  * ColorScheme for editor
  * picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public final class Eclipse extends EditorColorScheme {
+public final class Eclipse extends EditorColorSchemeController {
 
     @Override
     public void initTheme() {

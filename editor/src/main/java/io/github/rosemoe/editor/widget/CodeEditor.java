@@ -63,9 +63,11 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
+import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.controller.widget.EditorSearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
@@ -77,11 +79,10 @@ import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.text.content.CharPosition;
+import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.text.content.ContentListener;
-import io.github.rosemoe.editor.text.content.Cursor;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.text.FormatThread;
 import io.github.rosemoe.editor.text.content.LineRemoveListener;
@@ -209,7 +210,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private RectF mHorizontalScrollBar;
     private ClipboardManager mClipboardManager;
     private InputMethodManager mInputMethodManager;
-    private Cursor mCursor;
+    private CursorController mCursor;
     private Content mText;
     private io.github.rosemoe.editor.mvc.controller.TextAnalyzerController analyzer;
     private Paint mPaint;
@@ -219,7 +220,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private char[] mBuffer2;
     private Matrix mMatrix;
     private Rect mViewRect;
-    private EditorColorScheme mColors;
+    private EditorColorSchemeController mColors;
     private String mLnTip = "Line:";
     private EditorLanguageController mLanguage;
     private long mLastMakeVisible = 0;
@@ -369,7 +370,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Extract text in editor for input method
      */
     protected ExtractedText extractText(@NonNull ExtractedTextRequest request) {
-        Cursor cur = getCursor();
+        CursorController cur = getCursor();
         ExtractedText text = new ExtractedText();
         int selBegin = cur.getLeft();
         int selEnd = cur.getRight();
@@ -485,7 +486,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mStartedActionMode = ACTION_MODE_NONE;
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
-        mColors = EditorColorScheme.DEFAULT();
+        mColors = EditorColorSchemeController.DEFAULT();
         mEventHandler = new EditorTouchEventHandler(this);
         mBasicDetector = new GestureDetector(getContext(), mEventHandler);
         mBasicDetector.setOnDoubleTapListener(mEventHandler);
@@ -686,7 +687,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         }
         mLanguageSymbolPairs.setParent(mOverrideSymbolPairs);
 
-        // Cursor
+        // CursorController
         if (mCursor != null) {
             mCursor.setLanguage(mLanguage);
         }
@@ -940,7 +941,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
 
         getCursor().updateCache(getFirstVisibleLine());
 
-        EditorColorScheme color = mColors;
+        EditorColorSchemeController color = mColors;
         drawColor(canvas, mColors.getWholeBackground(), mViewRect);
 
         float lineNumberWidth = measureLineNumber();
@@ -977,7 +978,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (isLineNumberEnabled()) {
 
             drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, color.getColor(mColors.getLineNumberBackground()));
-            drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin, color.getColor(EditorColorScheme.LINE_DIVIDER));
+            drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin, color.getColor(EditorColorSchemeController.LINE_DIVIDER));
             int lineNumberColor = mColors.getLineNumberPanelText();
             for (int i = 0; i < postDrawLineNumbers.size(); i++) {
                 long packed = postDrawLineNumbers.get(i);
@@ -1176,7 +1177,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                     mRect.bottom = mRect.top + getRowHeight() * 0.06f;
                     mRect.left = paintingOffset + measureText(mBuffer, firstVisibleChar, paintStart - firstVisibleChar);
                     mRect.right = mRect.left + measureText(mBuffer, paintStart, paintEnd - paintStart);
-                    drawColor(canvas, mColors.getColor(EditorColorScheme.UNDERLINE), mRect);
+                    drawColor(canvas, mColors.getColor(EditorColorSchemeController.UNDERLINE), mRect);
                 }
             }
 
@@ -1542,7 +1543,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                     mRect.bottom = Math.min(getHeight(), getRowTop(block.endLine) - getOffsetY());
                     mRect.left = centerX - mDpUnit * mBlockLineWidth / 2;
                     mRect.right = centerX + mDpUnit * mBlockLineWidth / 2;
-                    drawColor(canvas, mColors.getColor(curr == cursorIdx ? EditorColorScheme.BLOCK_LINE_CURRENT : mColors.getBlockLine()), mRect);
+                    drawColor(canvas, mColors.getColor(curr == cursorIdx ? EditorColorSchemeController.BLOCK_LINE_CURRENT : mColors.getBlockLine()), mRect);
                 } catch (IndexOutOfBoundsException e) {
                     //Ignored
                     //Because the exception usually occurs when the content changed.
@@ -1588,7 +1589,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mRect.left = getWidth() - mDpUnit * 10;
             mRect.top = 0;
             mRect.bottom = getHeight();
-            drawColor(canvas, mColors.getColor(EditorColorScheme.SCROLL_BAR_TRACK), mRect);
+            drawColor(canvas, mColors.getColor(EditorColorSchemeController.SCROLL_BAR_TRACK), mRect);
         }
     }
 
@@ -1664,7 +1665,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mRect.bottom = getHeight();
             mRect.right = getWidth();
             mRect.left = 0;
-            drawColor(canvas, mColors.getColor(EditorColorScheme.SCROLL_BAR_TRACK), mRect);
+            drawColor(canvas, mColors.getColor(EditorColorSchemeController.SCROLL_BAR_TRACK), mRect);
         }
     }
 
@@ -2856,7 +2857,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Width for insert cursor
      *
-     * @param width Cursor width
+     * @param width CursorController width
      */
     public void setCursorWidth(float width) {
         if (width < 0) {
@@ -2867,12 +2868,12 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     /**
-     * Get Cursor
+     * Get CursorController
      * Internal method!
      *
-     * @return Cursor of text
+     * @return CursorController of text
      */
-    public Cursor getCursor() {
+    public CursorController getCursor() {
         return mCursor;
     }
 
@@ -3057,7 +3058,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mCompletionWindow.moveDown();
             return;
         }
-        Cursor c = getCursor();
+        CursorController c = getCursor();
         int line = c.getLeftLine();
         int column = c.getLeftColumn();
         int c_line = getText().getLineCount();
@@ -3081,7 +3082,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mCompletionWindow.moveUp();
             return;
         }
-        Cursor c = getCursor();
+        CursorController c = getCursor();
         int line = c.getLeftLine();
         int column = c.getLeftColumn();
         if (line - 1 < 0) {
@@ -3098,7 +3099,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Move the selection left
      */
     public void moveSelectionLeft() {
-        Cursor c = getCursor();
+        CursorController c = getCursor();
         int line = c.getLeftLine();
         int column = c.getLeftColumn();
         if (column - 1 >= 0) {
@@ -3137,7 +3138,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Move the selection right
      */
     public void moveSelectionRight() {
-        Cursor c = getCursor();
+        CursorController c = getCursor();
         int line = c.getLeftLine();
         int column = c.getLeftColumn();
         int c_column = getText().getColumnCount(line);
@@ -3478,20 +3479,20 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @return ColorScheme object using
      */
     @NonNull
-    public EditorColorScheme getColorScheme() {
+    public EditorColorSchemeController getColorScheme() {
         return mColors;
     }
 
     /**
      * Set a new color scheme for editor.
      * <p>
-     * It can be a subclass of {@link EditorColorScheme}.
+     * It can be a subclass of {@link EditorColorSchemeController}.
      * The scheme object can only be applied to one editor instance.
      * Otherwise, an IllegalStateException is thrown.
      *
-     * @param colors A non-null and free EditorColorScheme
+     * @param colors A non-null and free EditorColorSchemeController
      */
-    public void setColorScheme(@NonNull EditorColorScheme colors) {
+    public void setColorScheme(@NonNull EditorColorSchemeController colors) {
         colors.attachEditor(this);
         mColors = colors;
         if (mCompletionWindow != null) {
@@ -3544,8 +3545,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @param type Color type changed
      */
-    protected void onColorUpdated(int type) {
-        if (type == EditorColorScheme.AUTO_COMP_PANEL_BG || type == EditorColorScheme.AUTO_COMP_PANEL_CORNER) {
+    public void onColorUpdated(int type) {
+        if (type == EditorColorSchemeController.AUTO_COMP_PANEL_BG || type == EditorColorSchemeController.AUTO_COMP_PANEL_CORNER) {
             if (mCompletionWindow != null)
                 mCompletionWindow.applyColorScheme();
             return;

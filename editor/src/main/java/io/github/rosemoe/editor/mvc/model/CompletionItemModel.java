@@ -34,7 +34,7 @@ public class CompletionItemModel {
     public String desc;
 
     /**
-     * Cursor offset in {@link CompletionItemModel#commit}
+     * CursorController offset in {@link CompletionItemModel#commit}
      */
     public int cursorOffset;
 

@@ -18,6 +18,8 @@ package io.github.rosemoe.editor.text.content;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
+import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.util.annotations.Experimental;
 import io.github.rosemoe.struct.BlockLinkedList;
 
@@ -43,7 +45,7 @@ public class Content implements CharSequence {
     private List<ContentListener> mListeners;
     private Indexer mIndexer;
     private UndoManager mUndoManager;
-    private Cursor mCursor;
+    private CursorController mCursor;
     private LineRemoveListener mLineListener;
 
     /**
@@ -669,13 +671,13 @@ public class Content implements CharSequence {
     }
 
     /**
-     * Get Cursor for editor (Create if there is not)
+     * Get CursorController for editor (Create if there is not)
      *
-     * @return Cursor
+     * @return CursorController
      */
-    public Cursor getCursor() {
+    public CursorController getCursor() {
         if (mCursor == null) {
-            mCursor = new Cursor(this);
+            mCursor = new CursorController(this);
         }
         return mCursor;
     }

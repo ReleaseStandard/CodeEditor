@@ -24,13 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
-import io.github.rosemoe.editor.text.content.CharPosition;
-import io.github.rosemoe.editor.text.content.Cursor;
+import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.DefaultCompletionItemAdapter;
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.widget.EditorCompletionAdapter;
 
 public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
@@ -69,9 +67,9 @@ public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
             }
         });
     }
-    public void applyColorScheme(EditorColorScheme theme) {
-        mBg.setStroke(1, theme.getColor(EditorColorScheme.AUTO_COMP_PANEL_CORNER));
-        mBg.setColor(theme.getColor(EditorColorScheme.AUTO_COMP_PANEL_BG));
+    public void applyColorScheme(EditorColorSchemeController theme) {
+        mBg.setStroke(1, theme.getColor(EditorColorSchemeController.AUTO_COMP_PANEL_CORNER));
+        mBg.setColor(theme.getColor(EditorColorSchemeController.AUTO_COMP_PANEL_BG));
     }
     public void setAdapter(EditorCompletionAdapter adapter) {
         mAdapter = adapter;
@@ -92,11 +90,11 @@ public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
      * @param pos Index of auto complete item
      */
     public void select(int pos) {
-        Cursor cursor = mEditor.getCursor();
+        CursorController cursor = mEditor.getCursor();
         handleCursorSelect(cursor,pos);
         mEditor.postHideCompletionWindow();
     }
 
     public void handleShow() { }
-    public void handleCursorSelect(Cursor cursor, int pos) { }
+    public void handleCursorSelect(CursorController cursor, int pos) { }
 }

@@ -13,8 +13,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.content;
+package io.github.rosemoe.editor.mvc.model;
 
+
+import io.github.rosemoe.editor.text.content.Content;
 
 /**
  * This a data class of a character position in {@link Content}

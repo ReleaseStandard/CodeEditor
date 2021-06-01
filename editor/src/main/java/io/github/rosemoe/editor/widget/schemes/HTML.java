@@ -15,12 +15,12 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 
 /**
  * ColorScheme for HTML Language for editor
  */
-public class HTML extends EditorColorScheme {
+public class HTML extends EditorColorSchemeController {
     @Override
     public void initTheme() {
         setColor(BLOCK_LINE_CURRENT, 0xffffffff);

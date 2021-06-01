@@ -15,14 +15,14 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 
 /**
  * ColorScheme for editor
  * picked from Android Studio
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public class Darcula extends EditorColorScheme {
+public class Darcula extends EditorColorSchemeController {
 
     @Override
     public void initTheme() {

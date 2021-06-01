@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.spans;
 import java.util.TreeMap;
 
 import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 
 /**
  * The class handle one line in the text editor.
@@ -194,7 +194,7 @@ public class SpanLineController {
      */
     public static SpanLineController EMPTY() {
         SpanLineController line = new SpanLineController();
-        line.add(SpanController.obtain(0, EditorColorScheme.DEFAULT().getTextNormal()));
+        line.add(SpanController.obtain(0, EditorColorSchemeController.DEFAULT().getTextNormal()));
         return line;
     }
 

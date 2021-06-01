@@ -48,7 +48,7 @@ import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.widget.SymbolInputView;
 import io.github.rosemoe.editor.widget.schemes.HTML;
 import io.github.rosemoe.editor.widget.schemes.Darcula;
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText search, replace;
 
     private MainActivityModel mam = new MainActivityModel();
-    private HashMap<String,EditorColorScheme> themes = new HashMap<String, EditorColorScheme>() {{
-        put("Default",EditorColorScheme.DEFAULT());
+    private HashMap<String, EditorColorSchemeController> themes = new HashMap<String, EditorColorSchemeController>() {{
+        put("Default", EditorColorSchemeController.DEFAULT());
         put("Eclipse",new Eclipse());
         put("Darcula",new Darcula());
         put("VS2019",new VS2019());
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
-                            EditorColorScheme theme = themes.get(mam.themes[which]);
+                            EditorColorSchemeController theme = themes.get(mam.themes[which]);
                             editor.setColorScheme(theme);
                             mam.checkedTheme=which;
                             dialog.dismiss();

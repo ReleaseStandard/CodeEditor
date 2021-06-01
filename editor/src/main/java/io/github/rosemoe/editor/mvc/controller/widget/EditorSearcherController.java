@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import io.github.rosemoe.editor.mvc.model.widget.EditorSearcherModel;
 import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.text.content.Cursor;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -56,7 +55,7 @@ public class EditorSearcherController {
     public boolean replaceThis(String newText) {
         checkState();
         Content text = mEditor.getText();
-        Cursor cursor = text.getCursor();
+        CursorController cursor = text.getCursor();
         if (cursor.isSelected()) {
             String selectedText = text.subContent(cursor.getLeftLine(), cursor.getLeftColumn(), cursor.getRightLine(), cursor.getRightColumn()).toString();
             if (selectedText.equals(model.mSearchText)) {
@@ -112,7 +111,7 @@ public class EditorSearcherController {
     private void gotoNext(boolean tip) {
         checkState();
         Content text = mEditor.getText();
-        Cursor cursor = text.getCursor();
+        CursorController cursor = text.getCursor();
         int line = cursor.getRightLine();
         int column = cursor.getRightColumn();
         for (int i = line; i < text.getLineCount(); i++) {
@@ -132,7 +131,7 @@ public class EditorSearcherController {
     public void gotoLast() {
         checkState();
         Content text = mEditor.getText();
-        Cursor cursor = text.getCursor();
+        CursorController cursor = text.getCursor();
         int line = cursor.getLeftLine();
         int column = cursor.getLeftColumn();
         for (int i = line; i >= 0; i--) {

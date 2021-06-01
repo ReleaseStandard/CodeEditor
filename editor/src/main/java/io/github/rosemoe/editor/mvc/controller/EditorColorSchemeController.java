@@ -13,13 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.mvc.controller;
 
-import android.util.Log;
 import android.util.SparseIntArray;
 
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.Objects;
+import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.schemes.Solarized;
 
 /**
@@ -30,9 +30,9 @@ import io.github.rosemoe.editor.widget.schemes.Solarized;
  * https://github.com/altercation/solarized
  * @author Rose
  */
-public class EditorColorScheme {
+public class EditorColorSchemeController {
 
-    public static EditorColorScheme DEFAULT() { return new Solarized(); }
+    public static EditorColorSchemeController DEFAULT() { return new Solarized(); }
     public static final int TODO = 0xFFFF0000;
     private final int DEFAULT = TODO;
     /**
@@ -144,11 +144,11 @@ public class EditorColorScheme {
     /**
      * For sub classes
      */
-    public EditorColorScheme() {
+    public EditorColorSchemeController() {
         mColors = new SparseIntArray();
         initTheme();
     }
-    public EditorColorScheme(boolean invert) {
+    public EditorColorSchemeController(boolean invert) {
         mColors = new SparseIntArray();
         initTheme();
         if ( invert ) {
@@ -159,7 +159,7 @@ public class EditorColorScheme {
     /**
      * Called by editor
      */
-    void attachEditor(CodeEditor editor) {
+    public void attachEditor(CodeEditor editor) {
         if (mEditor != null) {
             throw new IllegalStateException("A editor is already attached to this ColorScheme object");
         }

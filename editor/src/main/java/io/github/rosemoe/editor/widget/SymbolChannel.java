@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.widget;
 
-import io.github.rosemoe.editor.text.content.Cursor;
+import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 
 /**
  * A channel to insert symbols in {@link CodeEditor}
@@ -44,7 +44,7 @@ public class SymbolChannel {
         if (selectionOffset < 0 || selectionOffset > symbolText.length()) {
             throw new IllegalArgumentException("selectionOffset is invalid");
         }
-        Cursor cur = mEditor.getText().getCursor();
+        CursorController cur = mEditor.getText().getCursor();
         if (cur.isSelected()) {
             cur.onDeleteKeyPressed();
             mEditor.notifyExternalCursorChange();

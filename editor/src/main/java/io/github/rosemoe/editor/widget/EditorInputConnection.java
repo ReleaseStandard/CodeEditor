@@ -25,9 +25,9 @@ import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 
-import io.github.rosemoe.editor.text.content.CharPosition;
+import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
+import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.text.content.Cursor;
 
 /**
  * Connection between input method and editor
@@ -74,11 +74,11 @@ class EditorInputConnection extends BaseInputConnection {
 
     /**
      * Private use.
-     * Get the Cursor of Content displaying by Editor
+     * Get the CursorController of Content displaying by Editor
      *
-     * @return Cursor
+     * @return CursorController
      */
-    private Cursor getCursor() {
+    private CursorController getCursor() {
         return mEditor.getCursor();
     }
 

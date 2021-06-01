@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.model.CharPosition;
+
 /**
  * Indexer Impl for Content
  * With cache
@@ -42,7 +44,7 @@ public class CachedIndexer implements Indexer, ContentListener {
      *
      * @param content Content to manage
      */
-    CachedIndexer(Content content) {
+    public CachedIndexer(Content content) {
         mContent = content;
         detectException();
     }

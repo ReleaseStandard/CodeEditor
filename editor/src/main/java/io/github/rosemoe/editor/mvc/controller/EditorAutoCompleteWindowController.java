@@ -21,13 +21,12 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.EditorAutoCompleteWindowModel;
 import io.github.rosemoe.editor.mvc.view.EditorAutoCompleteWindowView;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.text.content.CharPosition;
-import io.github.rosemoe.editor.text.content.Cursor;
+import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
 import io.github.rosemoe.editor.widget.EditorCompletionAdapter;
 
 /**
@@ -59,7 +58,7 @@ public class EditorAutoCompleteWindowController {
                 }
             }
             @Override
-            public void handleCursorSelect(Cursor cursor, int pos) {
+            public void handleCursorSelect(CursorController cursor, int pos) {
                 if (!cursor.isSelected()) {
                     CompletionItemController item = ((EditorCompletionAdapter) mListView.getAdapter()).getItem(pos);
                     model.mCancelShowUp = true;
@@ -113,7 +112,7 @@ public class EditorAutoCompleteWindowController {
      * Apply colors for self
      */
     public void applyColorScheme() {
-        EditorColorScheme colors = mEditor.getColorScheme();
+        EditorColorSchemeController colors = mEditor.getColorScheme();
         view.applyColorScheme(colors);
     }
 

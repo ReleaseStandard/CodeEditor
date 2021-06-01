@@ -13,37 +13,35 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.content;
+package io.github.rosemoe.editor.mvc.controller.widget;
 
 import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
+import io.github.rosemoe.editor.text.content.CachedIndexer;
+import io.github.rosemoe.editor.mvc.model.CharPosition;
+import io.github.rosemoe.editor.text.content.Content;
 
 /**
  * @author Rose
  * Warning:The cursor position will update automatically when the content has been changed by other way
  */
-public final class Cursor {
+public final class CursorController {
 
     private final Content mContent;
     private final CachedIndexer mIndexer;
-    private CharPosition mLeft, mRight;
-    private CharPosition cache0, cache1, cache2;
-    private boolean mAutoIndentEnabled;
     private EditorLanguageController mLanguage;
-    private int mTabWidth;
+    public CursorModel model = new CursorModel();
 	
     /**
-     * Create a new Cursor for Content
+     * Create a new CursorController for Content
      *
      * @param content Target content
      */
-    public Cursor(Content content) {
+    public CursorController(Content content) {
         mContent = content;
         mIndexer = new CachedIndexer(content);
-        mLeft = new CharPosition().zero();
-        mRight = new CharPosition().zero();
-        mTabWidth = 4;
     }
 
     /**
@@ -84,7 +82,7 @@ public final class Cursor {
      * @param column The column position
      */
     public void setLeft(int line, int column) {
-        mLeft = mIndexer.getCharPosition(line, column).fromThis();
+        model.mLeft = mIndexer.getCharPosition(line, column).fromThis();
     }
 
     /**
@@ -94,7 +92,7 @@ public final class Cursor {
      * @param column The column position
      */
     public void setRight(int line, int column) {
-        mRight = mIndexer.getCharPosition(line, column).fromThis();
+        model.mRight = mIndexer.getCharPosition(line, column).fromThis();
     }
 
     /**
@@ -103,7 +101,7 @@ public final class Cursor {
      * @return line of left cursor
      */
     public int getLeftLine() {
-        return mLeft.getLine();
+        return model.mLeft.getLine();
     }
 
     /**
@@ -112,7 +110,7 @@ public final class Cursor {
      * @return column of left cursor
      */
     public int getLeftColumn() {
-        return mLeft.getColumn();
+        return model.mLeft.getColumn();
     }
 
     /**
@@ -121,7 +119,7 @@ public final class Cursor {
      * @return line of right cursor
      */
     public int getRightLine() {
-        return mRight.getLine();
+        return model.mRight.getLine();
     }
 
     /**
@@ -130,7 +128,7 @@ public final class Cursor {
      * @return column of right cursor
      */
     public int getRightColumn() {
-        return mRight.getColumn();
+        return model.mRight.getColumn();
     }
 
     /**
@@ -160,7 +158,7 @@ public final class Cursor {
      * @return index of left cursor
      */
     public int getLeft() {
-        return mLeft.index;
+        return model.mLeft.index;
     }
 
     /**
@@ -169,7 +167,7 @@ public final class Cursor {
      * @return index of right cursor
      */
     public int getRight() {
-        return mRight.index;
+        return model.mRight.index;
     }
 
     /**
@@ -200,7 +198,7 @@ public final class Cursor {
      * @return Whether selected
      */
     public boolean isSelected() {
-        return mLeft.index != mRight.index;
+        return model.mLeft.index != model.mRight.index;
     }
 
     /**
@@ -209,16 +207,16 @@ public final class Cursor {
      * @return Enabled or disabled
      */
     public boolean isAutoIndent() {
-        return mAutoIndentEnabled;
+        return model.mAutoIndentEnabled;
     }
 
     /**
-     * Enable or disable auto indent when insert text through Cursor
+     * Enable or disable auto indent when insert text through CursorController
      *
      * @param enabled Auto Indent state
      */
     public void setAutoIndent(boolean enabled) {
-        mAutoIndentEnabled = enabled;
+        model.mAutoIndentEnabled = enabled;
     }
 
     /**
@@ -236,7 +234,7 @@ public final class Cursor {
      * @param width tab width
      */
     public void setTabWidth(int width) {
-        mTabWidth = width;
+        model.mTabWidth = width;
     }
 
     public void onCommitText(CharSequence text) {
@@ -252,7 +250,7 @@ public final class Cursor {
         if (isSelected()) {
             mContent.replace(getLeftLine(), getLeftColumn(), getRightLine(), getRightColumn(), text);
         } else {
-            if (mAutoIndentEnabled && text.length() != 0 && applyAutoIndent) {
+            if (model.mAutoIndentEnabled && text.length() != 0 && applyAutoIndent) {
                 char first = text.charAt(0);
                 if (first == '\n') {
                     String line = mContent.getLineString(getLeftLine());
@@ -260,7 +258,7 @@ public final class Cursor {
                     while (p < getLeftColumn()) {
                         if (isWhitespace(line.charAt(p))) {
                             if (line.charAt(p) == '\t') {
-                                count += mTabWidth;
+                                count += model.mTabWidth;
                             } else {
                                 count++;
                             }
@@ -294,8 +292,8 @@ public final class Cursor {
         int tab = 0;
         int space;
         if (mLanguage.useTab()) {
-            tab = p / mTabWidth;
-            space = p % mTabWidth;
+            tab = p / model.mTabWidth;
+            space = p % model.mTabWidth;
         } else {
             space = p;
         }
@@ -334,8 +332,8 @@ public final class Cursor {
      * @param startLine   Start line
      * @param startColumn Start column
      */
-    void beforeInsert(int startLine, int startColumn) {
-        cache0 = mIndexer.getCharPosition(startLine, startColumn).fromThis();
+    public void beforeInsert(int startLine, int startColumn) {
+        model.cache0 = mIndexer.getCharPosition(startLine, startColumn).fromThis();
     }
 
     /**
@@ -346,15 +344,15 @@ public final class Cursor {
      * @param endLine     End line
      * @param endColumn   End column
      */
-    void beforeDelete(int startLine, int startColumn, int endLine, int endColumn) {
-        cache1 = mIndexer.getCharPosition(startLine, startColumn).fromThis();
-        cache2 = mIndexer.getCharPosition(endLine, endColumn).fromThis();
+    public void beforeDelete(int startLine, int startColumn, int endLine, int endColumn) {
+        model.cache1 = mIndexer.getCharPosition(startLine, startColumn).fromThis();
+        model.cache2 = mIndexer.getCharPosition(endLine, endColumn).fromThis();
     }
 
     /**
      * Internal call back before replace
      */
-    void beforeReplace() {
+    public void beforeReplace() {
         mIndexer.beforeReplace(mContent);
     }
 
@@ -367,15 +365,15 @@ public final class Cursor {
      * @param endColumn       End column
      * @param insertedContent Inserted content
      */
-    void afterInsert(int startLine, int startColumn, int endLine, int endColumn,
+    public void afterInsert(int startLine, int startColumn, int endLine, int endColumn,
                      CharSequence insertedContent) {
         mIndexer.afterInsert(mContent, startLine, startColumn, endLine, endColumn, insertedContent);
-        int beginIdx = cache0.getIndex();
+        int beginIdx = model.cache0.getIndex();
         if (getLeft() >= beginIdx) {
-            mLeft = mIndexer.getCharPosition(getLeft() + insertedContent.length()).fromThis();
+            model.mLeft = mIndexer.getCharPosition(getLeft() + insertedContent.length()).fromThis();
         }
         if (getRight() >= beginIdx) {
-            mRight = mIndexer.getCharPosition(getRight() + insertedContent.length()).fromThis();
+            model.mRight = mIndexer.getCharPosition(getRight() + insertedContent.length()).fromThis();
         }
     }
 
@@ -388,32 +386,32 @@ public final class Cursor {
      * @param endColumn      End column
      * @param deletedContent Deleted content
      */
-    void afterDelete(int startLine, int startColumn, int endLine, int endColumn,
+    public void afterDelete(int startLine, int startColumn, int endLine, int endColumn,
                      CharSequence deletedContent) {
         mIndexer.afterDelete(mContent, startLine, startColumn, endLine, endColumn, deletedContent);
-        int beginIdx = cache1.getIndex();
-        int endIdx = cache2.getIndex();
+        int beginIdx = model.cache1.getIndex();
+        int endIdx = model.cache2.getIndex();
         int left = getLeft();
         int right = getRight();
         if (beginIdx > right) {
             return;
         }
         if (endIdx <= left) {
-            mLeft = mIndexer.getCharPosition(left - (endIdx - beginIdx)).fromThis();
-            mRight = mIndexer.getCharPosition(right - (endIdx - beginIdx)).fromThis();
+            model.mLeft = mIndexer.getCharPosition(left - (endIdx - beginIdx)).fromThis();
+            model.mRight = mIndexer.getCharPosition(right - (endIdx - beginIdx)).fromThis();
         } else if (/* endIdx > left && */ endIdx < right) {
             if (beginIdx <= left) {
-                mLeft = mIndexer.getCharPosition(beginIdx).fromThis();
-                mRight = mIndexer.getCharPosition(right - (endIdx - Math.max(beginIdx, left))).fromThis();
+                model.mLeft = mIndexer.getCharPosition(beginIdx).fromThis();
+                model.mRight = mIndexer.getCharPosition(right - (endIdx - Math.max(beginIdx, left))).fromThis();
             } else {
-                mRight = mIndexer.getCharPosition(right - (endIdx - beginIdx)).fromThis();
+                model.mRight = mIndexer.getCharPosition(right - (endIdx - beginIdx)).fromThis();
             }
         } else {
             if (beginIdx <= left) {
-                mLeft = mIndexer.getCharPosition(beginIdx).fromThis();
-                mRight = mLeft.fromThis();
+                model.mLeft = mIndexer.getCharPosition(beginIdx).fromThis();
+                model.mRight = model.mLeft.fromThis();
             } else {
-                mRight = mIndexer.getCharPosition(left + (right - beginIdx)).fromThis();
+                model.mRight = mIndexer.getCharPosition(left + (right - beginIdx)).fromThis();
             }
         }
 		/*

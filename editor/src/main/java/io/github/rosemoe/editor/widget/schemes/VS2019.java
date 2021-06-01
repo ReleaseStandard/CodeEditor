@@ -15,14 +15,14 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 
 /**
  * ColorScheme for editor
  * picked from Visual Studio 2019
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public class VS2019 extends EditorColorScheme {
+public class VS2019 extends EditorColorSchemeController {
 
     @Override
     public void initTheme() {
