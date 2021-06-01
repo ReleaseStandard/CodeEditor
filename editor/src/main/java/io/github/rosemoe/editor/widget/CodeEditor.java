@@ -63,10 +63,12 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.EditorSearcherController;
-import io.github.rosemoe.editor.mvc.controller.widget.WordwrapLayoutController;
+import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
+import io.github.rosemoe.editor.mvc.model.RowModel;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
@@ -96,7 +98,7 @@ import io.github.rosemoe.editor.widget.layout.LineBreakLayout;
  * This project in GitHub: https://github.com/Rosemoe/CodeEditor
  * <p>
  * Note:
- * Row and line are different in this editor
+ * RowModel and line are different in this editor
  * When we say 'row', it means a line displayed on screen. It can be a part of a line in the text object.
  * When we say 'line', it means a real line in the original text.
  *
@@ -1045,11 +1047,11 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             circleRadius = maxD / 2;
         }
         for (int row = getFirstVisibleRow(); row <= getLastVisibleRow() && rowIterator.hasNext(); row++) {
-            Row rowInf = rowIterator.next();
-            int line = rowInf.lineIndex;
+            RowController rowInf = rowIterator.next();
+            int line = rowInf.model.lineIndex;
             ContentLine contentLine = mText.getLine(line);
             int columnCount = contentLine.length();
-            if (rowInf.isLeadingRow) {
+            if (rowInf.model.isLeadingRow) {
                 postDrawLineNumbers.add(IntPair.pack(line, row));
             }
 
@@ -1067,7 +1069,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             }
 
             // Get visible region on line
-            float[] charPos = findFirstVisibleChar(offset, rowInf.startColumn, rowInf.endColumn, mBuffer);
+            float[] charPos = findFirstVisibleChar(offset, rowInf.model.startColumn, rowInf.model.endColumn, mBuffer);
             int firstVisibleChar = (int) charPos[0];
             int lastVisibleChar = firstVisibleChar;
             float paintingOffset = charPos[1];
@@ -1082,7 +1084,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 }
                 lastVisibleChar++;
             }
-            lastVisibleChar = Math.min(lastVisibleChar, rowInf.endColumn);
+            lastVisibleChar = Math.min(lastVisibleChar, rowInf.model.endColumn);
 
             // Draw matched text background
             if (!matchedPositions.isEmpty()) {
@@ -2083,7 +2085,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         }
         if (mWordwrap) {
             mCachedLineNumberWidth = (int) measureLineNumber();
-            mLayout = new WordwrapLayoutController(this, mText);
+            mLayout = new WordwrapController(this, mText);
         } else {
             mLayout = new LineBreakLayout(this, mText);
         }
@@ -2937,7 +2939,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Whether this row is visible on screen
      *
-     * @param row Row to check
+     * @param row RowModel to check
      * @return Whether visible
      */
     public boolean isRowVisible(int row) {
@@ -2947,7 +2949,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Get baseline directly
      *
-     * @param row Row
+     * @param row RowModel
      * @return baseline y offset
      */
     public int getRowBaseline(int row) {
@@ -2966,7 +2968,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Get row top y offset
      *
-     * @param row Row
+     * @param row RowModel
      * @return top y offset
      */
     public int getRowTop(int row) {
@@ -2976,7 +2978,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Get row bottom y offset
      *
-     * @param row Row
+     * @param row RowModel
      * @return Bottom y offset
      */
     public int getRowBottom(int row) {
@@ -4140,7 +4142,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     static class CursorPaintAction {
 
         /**
-         * Row position
+         * RowModel position
          */
         final int row;
 

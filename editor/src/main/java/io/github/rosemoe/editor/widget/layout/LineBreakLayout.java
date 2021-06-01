@@ -17,12 +17,13 @@ package io.github.rosemoe.editor.widget.layout;
 
 import java.util.NoSuchElementException;
 
+import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.util.BinaryHeap;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.Row;
+import io.github.rosemoe.editor.mvc.model.RowModel;
 import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
@@ -144,18 +145,18 @@ public class LineBreakLayout extends AbstractLayout {
 
     class LineBreakLayoutRowItr implements RowIterator {
 
-        private final Row result;
+        private final RowModel result;
         private int currentRow;
 
         LineBreakLayoutRowItr(int initialRow) {
             currentRow = initialRow;
-            result = new Row();
+            result = new RowModel();
             result.isLeadingRow = true;
             result.startColumn = 0;
         }
 
         @Override
-        public Row next() {
+        public RowController next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }

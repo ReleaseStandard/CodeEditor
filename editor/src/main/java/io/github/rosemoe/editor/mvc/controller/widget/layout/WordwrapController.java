@@ -13,18 +13,17 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widget;
+package io.github.rosemoe.editor.mvc.controller.widget.layout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import io.github.rosemoe.editor.mvc.model.widget.WordwrapLayoutModel;
+import io.github.rosemoe.editor.mvc.controller.RowController;
+import io.github.rosemoe.editor.mvc.model.widget.layout.WordwrapModel;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
-import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.Row;
 import io.github.rosemoe.editor.widget.RowIterator;
 import io.github.rosemoe.editor.widget.layout.AbstractLayout;
 
@@ -38,22 +37,22 @@ import io.github.rosemoe.editor.widget.layout.AbstractLayout;
  *
  * @author Rose
  */
-public class WordwrapLayoutController extends AbstractLayout {
+public class WordwrapController extends AbstractLayout {
 
 
-    public final WordwrapLayoutModel model;
+    public final WordwrapModel model;
 
-    public WordwrapLayoutController(CodeEditor editor, Content text) {
+    public WordwrapController(CodeEditor editor, Content text) {
         super(editor, text);
-        model = new WordwrapLayoutModel() {
+        model = new WordwrapModel() {
             @Override
             public int measureText(int line, int startColumn, int column) {
-                return (int) WordwrapLayoutController.this.measureText(text.getLine(line), startColumn, column);
+                return (int) WordwrapController.this.measureText(text.getLine(line), startColumn, column);
             }
 
             @Override
             public int orderedFindCharIndex(float xOffset, int line, int startColumn, int endColumn) {
-                return (int) WordwrapLayoutController.this.orderedFindCharIndex(xOffset, text.getLine(line), startColumn, endColumn)[0];
+                return (int) WordwrapController.this.orderedFindCharIndex(xOffset, text.getLine(line), startColumn, endColumn)[0];
 
             }
             @Override
@@ -96,7 +95,7 @@ public class WordwrapLayoutController extends AbstractLayout {
             for (int j = -1; j < breakpoints.size(); j++) {
                 int start = j == -1 ? 0 : breakpoints.get(j);
                 int end = j + 1 < breakpoints.size() ? breakpoints.get(j + 1) : text.getColumnCount(i);
-                model.rowTable.add(new WordwrapLayoutModel.RowRegion(i, start, end));
+                model.rowTable.add(new WordwrapModel.RowRegion(i, start, end));
             }
             breakpoints.clear();
         }
@@ -189,26 +188,24 @@ public class WordwrapLayoutController extends AbstractLayout {
 
     class WordwrapLayoutRowItr implements RowIterator {
 
-        final Row result;
+        final RowController row;
         int currentRow;
 
         WordwrapLayoutRowItr(int initialRow) {
             currentRow = initialRow;
-            result = new Row();
+            row = new RowController();
         }
 
         @Override
-        public Row next() {
+        public RowController next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            WordwrapLayoutModel.RowRegion region = model.rowTable.get(currentRow);
-            result.lineIndex = region.line;
-            result.startColumn = region.startColumn;
-            result.endColumn = region.endColumn;
-            result.isLeadingRow = currentRow <= 0 || model.rowTable.get(currentRow - 1).line != region.line;
+            WordwrapModel.RowRegion currentRegion = model.rowTable.get(currentRow);
+            WordwrapModel.RowRegion previousRegion = model.rowTable.get(currentRow - 1);
+            row.initFromRegion(currentRegion,previousRegion,currentRow);
             currentRow++;
-            return result;
+            return row;
         }
 
         @Override

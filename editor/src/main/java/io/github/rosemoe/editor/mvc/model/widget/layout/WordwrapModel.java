@@ -13,17 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.model.widget;
+package io.github.rosemoe.editor.mvc.model.widget.layout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.widget.WordwrapLayoutController;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.util.IntPair;
-import io.github.rosemoe.editor.widget.CodeEditor;
 
-public class WordwrapLayoutModel {
+public class WordwrapModel {
 
     public int width = 0;
     public List<RowRegion> rowTable;

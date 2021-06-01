@@ -17,9 +17,11 @@ package io.github.rosemoe.editor.widget;
 
 import java.util.NoSuchElementException;
 
+import io.github.rosemoe.editor.mvc.controller.RowController;
+
 /**
- * Row iterator.
- * This iterator is able to return a series of Row objects linearly
+ * RowModel iterator.
+ * This iterator is able to return a series of RowModel objects linearly
  * Editor uses this to get information of rows and paint them accordingly
  *
  * @author Rose
@@ -27,18 +29,18 @@ import java.util.NoSuchElementException;
 public interface RowIterator {
 
     /**
-     * Return next Row object
+     * Return next RowModel object
      * <p>
      * The result should not be stored, because implementing classes will always return the same
      * object due to performance
      *
-     * @return Row object contains the information about a row
+     * @return RowModel object contains the information about a row
      * @throws NoSuchElementException If no more row available
      */
-    Row next();
+    RowController next();
 
     /**
-     * Whether there is more Row object
+     * Whether there is more RowModel object
      *
      * @return Whether more row available
      */
