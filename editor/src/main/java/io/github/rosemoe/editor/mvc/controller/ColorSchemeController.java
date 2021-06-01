@@ -77,7 +77,7 @@ public class ColorSchemeController {
     public String theme_name = "Default";
     public String theme_description = "Default description";
     /**
-     * Here we colors that do not depends on which language is parsed.
+     * Here we put colors that do not depends on which language is parsed.
      * All language inserted into CodeEditor must have theses.
      * Override it in your theme if you want to change the behaviour.
      */
@@ -156,37 +156,4 @@ public class ColorSchemeController {
         }
         mEditor = Objects.requireNonNull(editor);
     }
-
-    /**
-     * Apply a new color for the given type
-     *
-     * @param type  The type
-     * @param color New color
-     */
-    public void setColor(int type, int color) {
-        //Do not change if the old value is the same as new value
-        //due to avoid unnecessary invalidate() calls
-        int old = getColor(type);
-        if (old == color) {
-            return;
-        }
-
-        mColors.put(type, color);
-
-        //Notify the editor
-        if (mEditor != null) {
-            mEditor.onColorUpdated(type);
-        }
-    }
-
-    /**
-     * Get color by type
-     *
-     * @param type The type
-     * @return The color for type
-     */
-    public int getColor(int type) {
-        return mColors.get(type);
-    }
-
 }

@@ -979,7 +979,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
 
         if (isLineNumberEnabled()) {
 
-            drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, color.getColor(mColors.getLineNumberBackground()));
+            drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, mColors.getLineNumberBackground());
             drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin,color.getLineDivider());
             int lineNumberColor = mColors.getLineNumberPanelText();
             for (int i = 0; i < postDrawLineNumbers.size(); i++) {
@@ -1621,7 +1621,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mRect.top = topY;
         mRect.bottom = topY + length;
         mVerticalScrollBar.set(mRect);
-        drawColor(canvas, mColors.getColor(mEventHandler.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb()), mRect);
+        drawColor(canvas, mEventHandler.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
     }
 
     /**
@@ -1687,7 +1687,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mRect.right = leftX + length;
         mRect.left = leftX;
         mHorizontalScrollBar.set(mRect);
-        drawColor(canvas, mColors.getColor(mEventHandler.holdHorizontalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb()), mRect);
+        drawColor(canvas, mEventHandler.holdHorizontalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
     }
 
     /**
