@@ -48,7 +48,7 @@ declare -A mapping;
 mapping["mksh"]="";
 mapping["java"]="";
 mapping["python"]="";
-mapping["golang"]="golang";
+#mapping["golang"]="golang";
 mapping["cobol85"]="cobol85";
 mapping["html"]="";
 
@@ -89,3 +89,5 @@ done
 
 
 
+cd "$rootfolder";
+./gradlew assemble
