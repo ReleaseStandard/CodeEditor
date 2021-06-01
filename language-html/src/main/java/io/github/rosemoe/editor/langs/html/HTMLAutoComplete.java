@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.struct.CompletionItem;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
 
 /**
  * Provides auto complete items for HTML Language
@@ -16,15 +16,15 @@ import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 
 public class HTMLAutoComplete implements AutoCompleteProvider {
     @Override
-    public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerController colors, int line) {
-        List<CompletionItem> items = new ArrayList<>();
+    public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line) {
+        List<CompletionItemController> items = new ArrayList<>();
         for (String key : HTMLLanguage.TAGS)
             if (key.toLowerCase().startsWith(prefix.toLowerCase()))
-                items.add(new CompletionItem(key, "HTML Tag"));
+                items.add(new CompletionItemController(key, "HTML Tag"));
 
         for (String key : HTMLLanguage.TAGS)
             if (key.toLowerCase().startsWith(prefix.toLowerCase()))
-                items.add(new CompletionItem(key, "HTML Attribute"));
+                items.add(new CompletionItemController(key, "HTML Attribute"));
         return items;
     }
 }

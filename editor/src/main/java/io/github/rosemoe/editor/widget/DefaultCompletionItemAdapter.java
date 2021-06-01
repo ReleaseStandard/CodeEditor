@@ -24,7 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.struct.CompletionItem;
+import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
 
 /**
  * Adapter to display results
@@ -44,7 +44,7 @@ class DefaultCompletionItemAdapter extends EditorCompletionAdapter {
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.default_completion_result_item, parent, false);
         }
-        CompletionItem item = getItem(pos);
+        CompletionItemController item = getItem(pos);
         TextView tv = (TextView) view.findViewById(R.id.result_item_label);
         tv.setText(item.label);
         tv = (TextView) view.findViewById(R.id.result_item_desc);

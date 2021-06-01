@@ -67,9 +67,11 @@ import io.github.rosemoe.editor.interfaces.EditorEventListener;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.view.SpanLineController;
-import io.github.rosemoe.editor.mvc.controller.SpanController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.text.content.CharPosition;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
@@ -78,9 +80,7 @@ import io.github.rosemoe.editor.text.content.Cursor;
 import io.github.rosemoe.editor.text.FontCache;
 import io.github.rosemoe.editor.text.FormatThread;
 import io.github.rosemoe.editor.text.content.LineRemoveListener;
-import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.text.spanmap.Updater;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
@@ -1022,7 +1022,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
         List<SpanController> temporaryEmptySpans = null;
-        SpanMap spanMap = analyzer.getResult().spanMap;
+        SpanMapController spanMap = analyzer.getResult().spanMap;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = mCursor.isSelected() ? -1 : mCursor.getLeftLine();
         int currentLineBgColor = mColors.getCurrentLine();
@@ -1514,7 +1514,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            TextAnalyzerController colors = analyzer.getResult();
+            TextAnalyzerView colors = analyzer.getResult();
             if (colors != null) {
                 maxCount = colors.getSuppressSwitch();
             }
@@ -1778,7 +1778,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            TextAnalyzerController result = analyzer.getResult();
+            TextAnalyzerView result = analyzer.getResult();
             if (result != null) {
                 maxCount = result.getSuppressSwitch();
             }
@@ -2130,7 +2130,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Whether span map is valid
      */
     private boolean isSpanMapPrepared(boolean insert, int delta) {
-        SpanMap map = analyzer.getResult().getSpanMap();
+        SpanMapController map = analyzer.getResult().getSpanMap();
         if (map != null) {
             if (insert) {
                 return map.size() == getLineCount() - delta;
@@ -3411,7 +3411,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         this.analyzer = new io.github.rosemoe.editor.mvc.controller.TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
 
-        TextAnalyzerController colors = this.analyzer.getResult();
+        TextAnalyzerView colors = this.analyzer.getResult();
         colors.getSpanMap().clear();
         this.analyzer.analyze(getText());
 
@@ -3521,7 +3521,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * <strong>Do not make changes to it or read concurrently</strong>
      */
     @NonNull
-    public TextAnalyzerController getTextAnalyzeResult() {
+    public TextAnalyzerView getTextAnalyzeResult() {
         return analyzer.getResult();
     }
 

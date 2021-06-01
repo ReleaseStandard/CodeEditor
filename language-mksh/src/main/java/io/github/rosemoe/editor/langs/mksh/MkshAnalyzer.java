@@ -29,7 +29,7 @@ import java.io.StringReader;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -45,7 +45,7 @@ public class MkshAnalyzer extends CodeAnalyzerController {
     public void processComments(Object... nodes) { processNodes(theme.base1,nodes); }
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzerController colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
         CodePointCharStream stream = null;
         try {

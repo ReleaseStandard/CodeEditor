@@ -15,8 +15,8 @@
  */
 package io.github.rosemoe.editor.text.spanmap;
 
-import io.github.rosemoe.editor.mvc.view.SpanLineController;
-import io.github.rosemoe.editor.struct.SpanMap;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -34,7 +34,7 @@ public class Updater {
      * @param endLine
      * @param endColumn
      */
-    public static void shiftSpansOnMultiLineDelete(SpanMap map, int startLine, int startColumn, int endLine, int endColumn) {
+    public static void shiftSpansOnMultiLineDelete(SpanMapController map, int startLine, int startColumn, int endLine, int endColumn) {
         Logger.debug("startLine=",startLine,",startColumn=",startColumn,",endLine=",endLine,",endColumn=",endColumn);
         map.cutLines(startLine,startColumn,endLine,endColumn);
     }
@@ -46,7 +46,7 @@ public class Updater {
      * @param startCol
      * @param endCol
      */
-    public static void shiftSpansOnSingleLineDelete(SpanMap map, int line, int startCol, int endCol) {
+    public static void shiftSpansOnSingleLineDelete(SpanMapController map, int line, int startCol, int endCol) {
         Logger.debug("line=",line,",startCol=",startCol,",endCol=",endCol);
         SpanLineController spanLine = map.get(line);
         spanLine.removeContent(startCol,endCol-startCol);
@@ -59,20 +59,20 @@ public class Updater {
      * @param startCol index 0..n-1 the start column of modification.
      * @param endCol index 0..n-1 the end column of modification.
      */
-    public static void shiftSpansOnSingleLineInsert(SpanMap map, int line, int startCol, int endCol) {
+    public static void shiftSpansOnSingleLineInsert(SpanMapController map, int line, int startCol, int endCol) {
         Logger.debug("line=",line,",startCol=",startCol,",endCol=",endCol);
         map.insertContent(line,startCol,endCol-startCol);
     }
 
     /**
      * Called when user insert on multiple lines : eg newline, copy paste into.
-     * @param map SpanMap to update.
+     * @param map SpanMapController to update.
      * @param startLine start of insert line index.
      * @param startColumn start of insert column index.
      * @param endLine end of insert line index.
      * @param endColumn end of insert column index.
      */
-    public static void shiftSpansOnMultiLineInsert(SpanMap map, int startLine, int startColumn, int endLine, int endColumn) {
+    public static void shiftSpansOnMultiLineInsert(SpanMapController map, int startLine, int startColumn, int endLine, int endColumn) {
 
         Logger.debug("startLine=",startLine,",startColumn=",startColumn,",endLine=",endLine,",endColumn=",endColumn);
         int cutSize = endLine-startLine;

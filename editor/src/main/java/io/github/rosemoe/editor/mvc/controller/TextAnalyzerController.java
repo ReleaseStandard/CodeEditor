@@ -19,15 +19,16 @@ import android.util.Log;
 
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.text.ObjectAllocator;
 import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.text.spanmap.Recycler;
 
 /**
  * This is a manager of analyzing text
- *
+ * It inject data into the TextAnalyzerView
  * @author Rose
  */
 public class TextAnalyzerController {
@@ -39,7 +40,7 @@ public class TextAnalyzerController {
      * Debug:Start time
      */
     public long mOpStartTime;
-    private io.github.rosemoe.editor.mvc.view.TextAnalyzerController currentResult;
+    private TextAnalyzerView currentResult;
     private Callback mCallback;
     private AnalyzeThread mThread;
     private CodeAnalyzerController mCodeAnalyzer;
@@ -52,7 +53,7 @@ public class TextAnalyzerController {
         if (codeAnalyzer0 == null) {
             throw new IllegalArgumentException();
         }
-        currentResult = new io.github.rosemoe.editor.mvc.view.TextAnalyzerController();
+        currentResult = new TextAnalyzerView();
         currentResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
     }
@@ -97,7 +98,7 @@ public class TextAnalyzerController {
     public synchronized void analyze(Content origin) {
         AnalyzeThread thread = this.mThread;
         if (thread == null || !thread.isAlive()) {
-            Log.d("TextAnalyzerController", "Starting a new thread for analyzing");
+            Log.d("TextAnalyzerView", "Starting a new thread for analyzing");
             thread = this.mThread = new AnalyzeThread(mLock, mCodeAnalyzer, origin);
             thread.setName("TextAnalyzeDaemon-" + nextThreadId());
             thread.setDaemon(true);
@@ -115,7 +116,7 @@ public class TextAnalyzerController {
      *
      * @return Result of analysis
      */
-    public io.github.rosemoe.editor.mvc.view.TextAnalyzerController getResult() {
+    public TextAnalyzerView getResult() {
         return currentResult;
     }
 
@@ -130,7 +131,7 @@ public class TextAnalyzerController {
          * Called when analyze result is available
          * Count of calling this method is not always equal to the count you call {@link TextAnalyzerController#analyze(Content)}
          *
-         * @param analyzer Host TextAnalyzerController
+         * @param analyzer Host TextAnalyzerView
          */
         void onAnalyzeDone(TextAnalyzerController analyzer);
 
@@ -143,7 +144,7 @@ public class TextAnalyzerController {
      */
     static class ResultRecycler {
 
-        SpanMap spanMap;
+        SpanMapController spanMap;
         List<BlockLineModel> blockLines;
 
         /**
@@ -160,7 +161,7 @@ public class TextAnalyzerController {
          * Put an analysis result to digestion by the recycler.
          * @param result
          */
-        void putToDigest(io.github.rosemoe.editor.mvc.view.TextAnalyzerController result) {
+        void putToDigest(TextAnalyzerView result) {
             spanMap = result.spanMap;
             blockLines = result.mBlocks;
         }
@@ -196,7 +197,7 @@ public class TextAnalyzerController {
         public void run() {
             try {
                 do {
-                    io.github.rosemoe.editor.mvc.view.TextAnalyzerController newResult = new io.github.rosemoe.editor.mvc.view.TextAnalyzerController();
+                    TextAnalyzerView newResult = new TextAnalyzerView();
                     Delegate d = new Delegate();
                     mOpStartTime = System.currentTimeMillis();
                     do {

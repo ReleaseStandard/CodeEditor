@@ -20,15 +20,15 @@ import android.util.Log;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import io.github.rosemoe.editor.mvc.controller.SpanController;
-import io.github.rosemoe.editor.mvc.view.SpanLineController;
-import io.github.rosemoe.editor.struct.SpanMap;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.util.Logger;
 
 public class Recycler {
 
     private static Recycler INSTANCE;
-    private final BlockingQueue<SpanMap> taskQueue;
+    private final BlockingQueue<SpanMapController> taskQueue;
     private Thread recycleThread;
     private Recycler() {
         taskQueue = new ArrayBlockingQueue<>(8);
@@ -41,7 +41,7 @@ public class Recycler {
         return INSTANCE;
     }
 
-    public void recycle(SpanMap spans) {
+    public void recycle(SpanMapController spans) {
         if (spans == null) {
             return;
         }
@@ -66,7 +66,7 @@ public class Recycler {
             try {
                 while (!isInterrupted()) {
                     try {
-                        SpanMap spanMap = taskQueue.take();
+                        SpanMapController spanMap = taskQueue.take();
                         int count = 0;
                         for (SpanLineController line : spanMap.getLines()) {
                             int size = line.size();

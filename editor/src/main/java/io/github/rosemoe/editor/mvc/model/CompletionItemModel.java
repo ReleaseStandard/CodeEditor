@@ -15,15 +15,33 @@
  */
 package io.github.rosemoe.editor.mvc.model;
 
-/**
- * A span is a column, a color, an underline color.
- */
-public class SpanModel {
-    public int column;
-    public int color;
-    public int underlineColor = 0;
+import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
 
-    public void recycle() {
-        color = column = underlineColor = 0;
+public class CompletionItemModel {
+    /**
+     * Text to commit when selected
+     */
+    public String commit;
+
+    /**
+     * Text to display as title in adapter
+     */
+    public String label;
+
+    /**
+     * Text to display as description in adapter
+     */
+    public String desc;
+
+    /**
+     * Cursor offset in {@link CompletionItemModel#commit}
+     */
+    public int cursorOffset;
+
+    public void cursorOffset(int offset) {
+        if (offset < 0 || offset > commit.length()) {
+            throw new IllegalArgumentException();
+        }
+        cursorOffset = offset;
     }
 }

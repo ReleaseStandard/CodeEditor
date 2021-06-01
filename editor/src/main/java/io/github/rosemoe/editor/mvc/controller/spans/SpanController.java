@@ -13,13 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.spans;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import io.github.rosemoe.editor.mvc.model.SpanModel;
-import io.github.rosemoe.editor.struct.SpanMap;
+import io.github.rosemoe.editor.mvc.model.spans.SpanModel;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 /**

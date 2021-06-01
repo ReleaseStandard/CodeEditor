@@ -22,8 +22,8 @@ import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
-import io.github.rosemoe.editor.struct.CompletionItem;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
@@ -78,7 +78,7 @@ public class EmptyLanguage implements EditorLanguageController {
     public static class EmptyAutoCompleteProvider implements AutoCompleteProvider {
 
         @Override
-        public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerController colors, int line) {
+        public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line) {
             return new ArrayList<>();
         }
 
@@ -87,7 +87,7 @@ public class EmptyLanguage implements EditorLanguageController {
     private static class EmptyCodeAnalyzer extends CodeAnalyzerController {
 
         @Override
-        public void analyze(CharSequence content, TextAnalyzerController colors, Delegate delegate) {
+        public void analyze(CharSequence content, TextAnalyzerView colors, Delegate delegate) {
             colors.addNormalIfNull();
         }
 

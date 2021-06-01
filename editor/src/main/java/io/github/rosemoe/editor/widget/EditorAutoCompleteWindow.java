@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.struct.CompletionItem;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
 import io.github.rosemoe.editor.text.content.CharPosition;
 import io.github.rosemoe.editor.text.content.Cursor;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 
 /**
  * Auto complete window for editing code quicker
@@ -195,7 +195,7 @@ public class EditorAutoCompleteWindow extends EditorBasePopupWindow {
      * @param pos Index of auto complete item
      */
     public void select(int pos) {
-        CompletionItem item = ((EditorCompletionAdapter) mListView.getAdapter()).getItem(pos);
+        CompletionItemController item = ((EditorCompletionAdapter) mListView.getAdapter()).getItem(pos);
         Cursor cursor = mEditor.getCursor();
         if (!cursor.isSelected()) {
             mCancelShowUp = true;
@@ -248,7 +248,7 @@ public class EditorAutoCompleteWindow extends EditorBasePopupWindow {
      * @param results     Items of analysis
      * @param requestTime The time that this thread starts
      */
-    private void displayResults(final List<CompletionItem> results, long requestTime) {
+    private void displayResults(final List<CompletionItemController> results, long requestTime) {
         if (mRequestTime != requestTime) {
             return;
         }
@@ -278,7 +278,7 @@ public class EditorAutoCompleteWindow extends EditorBasePopupWindow {
         private final long mTime;
         private final String mPrefix;
         private final boolean mInner;
-        private final TextAnalyzerController mColors;
+        private final TextAnalyzerView mColors;
         private final int mLine;
         private final AutoCompleteProvider mLocalProvider = mProvider;
 

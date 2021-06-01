@@ -18,9 +18,10 @@ package io.github.rosemoe.editor.mvc.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.SpanController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.text.ObjectAllocator;
 import io.github.rosemoe.editor.util.Logger;
 
@@ -28,18 +29,18 @@ import io.github.rosemoe.editor.util.Logger;
  * Display the result of analysis.
  * Update spans in response to the analysis.
  */
-public class TextAnalyzerController {
+public class TextAnalyzerView {
 
     public final List<BlockLineModel> mBlocks;
-    public final SpanMap spanMap;
+    public final SpanMapController spanMap;
     public Object mExtra;
     protected int mSuppressSwitch = Integer.MAX_VALUE;
 
     /**
      * Create a new result
      */
-    public TextAnalyzerController() {
-        spanMap = new SpanMap();
+    public TextAnalyzerView() {
+        spanMap = new SpanMapController();
         mBlocks = new ArrayList<>(1024);
     }
 
@@ -108,7 +109,7 @@ public class TextAnalyzerController {
      * Returns suppress switch
      *
      * @return suppress switch
-     * @see TextAnalyzerController#setSuppressSwitch(int)
+     * @see TextAnalyzerView#setSuppressSwitch(int)
      */
     public int getSuppressSwitch() {
         return mSuppressSwitch;
@@ -133,7 +134,7 @@ public class TextAnalyzerController {
     public void setSuppressSwitch(int suppressSwitch) {
         mSuppressSwitch = suppressSwitch;
     }
-    public SpanMap getSpanMap() {
+    public SpanMapController getSpanMap() {
         return spanMap;
     }
 

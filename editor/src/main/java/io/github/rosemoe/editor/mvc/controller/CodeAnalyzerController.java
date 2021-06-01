@@ -20,8 +20,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
@@ -34,7 +34,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 public abstract class CodeAnalyzerController {
 
     public static EditorColorScheme theme = EditorColorScheme.DEFAULT();
-    private TextAnalyzerController colors = null;
+    private TextAnalyzerView colors = null;
 
     public void setTheme(EditorColorScheme theme) {
         this.theme = theme;
@@ -49,17 +49,17 @@ public abstract class CodeAnalyzerController {
      * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController#analyze(Content)
      * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate#shouldAnalyze()
      */
-    public void analyze(CharSequence content, TextAnalyzerController colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         this.colors = colors;
     }
     public static int antlrLineIndexToCodeEditor(int line) {
         return line-1;
     }
 
-    private void addColor(TextAnalyzerController colors, int spanLine, int column, int color) {
+    private void addColor(TextAnalyzerView colors, int spanLine, int column, int color) {
         colors.addIfNeeded(spanLine,column,color);
     }
-    private void processToken(TextAnalyzerController colors, int color, Token token) {
+    private void processToken(TextAnalyzerView colors, int color, Token token) {
         if ( token == null ) {
             Logger.debug("token was null");
             return ;

@@ -13,13 +13,11 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.struct;
+package io.github.rosemoe.editor.mvc.controller.spans;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import io.github.rosemoe.editor.mvc.controller.SpanController;
-import io.github.rosemoe.editor.mvc.view.SpanLineController;
 import io.github.rosemoe.editor.text.spanmap.Recycler;
 import io.github.rosemoe.editor.util.Logger;
 
@@ -29,7 +27,7 @@ import io.github.rosemoe.editor.util.Logger;
  *
  * @author Release Standard
  */
-public class SpanMap {
+public class SpanMapController {
 
     /**
      * lineindex, SpanLineController
