@@ -26,7 +26,7 @@ import io.github.rosemoe.editor.text.content.LineRemoveListener;
  *
  * @author Rose
  */
-interface Layout extends LineRemoveListener, ContentListener {
+public interface Layout extends LineRemoveListener, ContentListener {
 
     /**
      * Called by editor to destroy this layout

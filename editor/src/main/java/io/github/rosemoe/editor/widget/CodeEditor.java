@@ -63,6 +63,7 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
@@ -160,9 +161,9 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     static final int ACTION_MODE_NONE = 0;
     static final int ACTION_MODE_SEARCH_TEXT = 1;
     static final int ACTION_MODE_SELECT_TEXT = 2;
-    private static final String LOG_TAG = "CodeEditor";
+    public static final String LOG_TAG = "CodeEditor";
     protected SymbolPairMatch mLanguageSymbolPairs;
-    Layout mLayout;
+    public Layout mLayout;
     int mStartedActionMode;
     private int mTabWidth;
     private int mCursorPosition;
@@ -235,7 +236,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private Paint.FontMetricsInt mTextMetrics;
     private Paint.FontMetricsInt mLineNumberMetrics;
     private Paint.FontMetricsInt mGraphMetrics;
-    private CursorBlink mCursorBlink;
+    private CursorBlinkController mCursorBlink;
     private SymbolPairMatch mOverrideSymbolPairs;
     private LongArrayList mPostDrawLineNumbers = new LongArrayList();
 
@@ -587,11 +588,11 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     public void setCursorBlinkPeriod(int period) {
         if (mCursorBlink == null) {
-            mCursorBlink = new CursorBlink(this, period);
+            mCursorBlink = new CursorBlinkController(this, period);
         } else {
-            int before = mCursorBlink.period;
-            mCursorBlink.setPeriod(period);
-            if (before <= 0 && mCursorBlink.valid && isAttachedToWindow()) {
+            int before = mCursorBlink.model.period;
+            mCursorBlink.model.period = period;
+            if (before <= 0 && mCursorBlink.model.valid && isAttachedToWindow()) {
                 post(mCursorBlink);
             }
         }
@@ -1684,7 +1685,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Draw cursor
      */
     private void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert) {
-        if (!insert || mCursorBlink == null || mCursorBlink.visibility) {
+        if (!insert || mCursorBlink == null || mCursorBlink.model.visibility) {
             mRect.top = getRowTop(row) - getOffsetY();
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
@@ -1700,7 +1701,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Draw cursor
      */
     private void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert, int handleType) {
-        if (!insert || mCursorBlink == null || mCursorBlink.visibility) {
+        if (!insert || mCursorBlink == null || mCursorBlink.model.visibility) {
             mRect.top = getRowTop(row) - getOffsetY();
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
@@ -3876,8 +3877,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mCursorBlink.valid = mCursorBlink.period > 0;
-        if (mCursorBlink.valid) {
+        mCursorBlink.model.valid = mCursorBlink.model.period > 0;
+        if (mCursorBlink.model.valid) {
             post(mCursorBlink);
         }
     }
@@ -3885,7 +3886,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mCursorBlink.valid = false;
+        mCursorBlink.model.valid = false;
     }
 
     @Override

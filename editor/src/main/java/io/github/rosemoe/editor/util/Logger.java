@@ -17,9 +17,10 @@ package io.github.rosemoe.editor.util;
 
 import android.util.Log;
 
+import static io.github.rosemoe.editor.widget.CodeEditor.LOG_TAG;
+
 public class Logger {
     public static boolean DEBUG = true;
-    public static String PREFIX = "TEST";
     public static String OFFSET = "    ";
     public static void debug() {
         debug("");
@@ -30,6 +31,6 @@ public class Logger {
         for(Object arg : args) {
             msg += arg.toString();
         }
-        Log.v(PREFIX + "/" + CallStack.getLastCaller(), msg);
+        Log.v(LOG_TAG + "/" + CallStack.getLastCaller(), msg);
     }
 }
