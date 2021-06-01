@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.text;
 
 import java.util.List;
 
-import io.github.rosemoe.editor.struct.BlockLine;
+import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 
 /**
  * A object provider for speed improvement
@@ -28,9 +28,9 @@ import io.github.rosemoe.editor.struct.BlockLine;
 public class ObjectAllocator {
 
     private static final int RECYCLE_LIMIT = 1024 * 8;
-    private static List<BlockLine> blockLines;
+    private static List<BlockLineModel> blockLines;
 
-    public static void recycleBlockLine(List<BlockLine> src) {
+    public static void recycleBlockLine(List<BlockLineModel> src) {
         if (src == null) {
             return;
         }
@@ -47,8 +47,8 @@ public class ObjectAllocator {
         }
     }
 
-    public static BlockLine obtainBlockLine() {
-        return (blockLines == null || blockLines.isEmpty()) ? new BlockLine() : blockLines.remove(blockLines.size() - 1);
+    public static BlockLineModel obtainBlockLine() {
+        return (blockLines == null || blockLines.isEmpty()) ? new BlockLineModel() : blockLines.remove(blockLines.size() - 1);
     }
 
 }

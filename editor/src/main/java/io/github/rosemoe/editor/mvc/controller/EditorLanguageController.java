@@ -13,8 +13,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.interfaces;
+package io.github.rosemoe.editor.mvc.controller;
 
+import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
+import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 /**
@@ -31,14 +33,14 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public interface EditorLanguage {
+public interface EditorLanguageController {
 
     /**
-     * Get CodeAnalyzer of this language object
+     * Get CodeAnalyzerController of this language object
      *
-     * @return CodeAnalyzer
+     * @return CodeAnalyzerController
      */
-    CodeAnalyzer getAnalyzer();
+    CodeAnalyzerController getAnalyzer();
 
     /**
      * Get AutoCompleteProvider of this language object

@@ -15,9 +15,9 @@
  */
 package io.github.rosemoe.editor.langs.java;
 
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
@@ -30,10 +30,10 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public class JavaLanguage implements EditorLanguage {
+public class JavaLanguage implements EditorLanguageController {
 
     @Override
-    public CodeAnalyzer getAnalyzer() {
+    public CodeAnalyzerController getAnalyzer() {
         return new JavaCodeAnalyzer();
     }
 

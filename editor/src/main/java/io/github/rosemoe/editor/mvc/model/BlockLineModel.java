@@ -13,14 +13,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.struct;
+package io.github.rosemoe.editor.mvc.model;
 
 /**
  * Code block info model
  *
  * @author Rose
  */
-public class BlockLine {
+public class BlockLineModel {
 
     /**
      * Start line of code block

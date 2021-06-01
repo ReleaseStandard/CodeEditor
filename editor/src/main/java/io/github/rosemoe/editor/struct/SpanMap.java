@@ -18,11 +18,13 @@ package io.github.rosemoe.editor.struct;
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.github.rosemoe.editor.mvc.controller.SpanController;
+import io.github.rosemoe.editor.mvc.view.SpanLineController;
 import io.github.rosemoe.editor.text.spanmap.Recycler;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
- * This class is a SpanLine container (line displayed to the screen).
+ * This class is a SpanLineController container (line displayed to the screen).
  * All indexes are from 0 to n
  *
  * @author Release Standard
@@ -30,12 +32,12 @@ import io.github.rosemoe.editor.util.Logger;
 public class SpanMap {
 
     /**
-     * lineindex, SpanLine
+     * lineindex, SpanLineController
      * This associate a TreeMap with each line.
      * This allow row shifting durign analysis.
      * line 0..n-1
      */
-    public TreeMap<Integer,SpanLine> map = new TreeMap<>();
+    public TreeMap<Integer, SpanLineController> map = new TreeMap<>();
     public void SpanMap() {
 
     }
@@ -43,15 +45,15 @@ public class SpanMap {
      * Append an empty line to the span map.
      * @return
      */
-    public SpanLine appendLine() {
+    public SpanLineController appendLine() {
         int newIndex = map.size();
-        map.put(newIndex,SpanLine.EMPTY());
+        map.put(newIndex, SpanLineController.EMPTY());
         return map.get(newIndex);
     }
     /**
-     * Insert a SpanLine at a specific position in the span map.
+     * Insert a SpanLineController at a specific position in the span map.
      */
-    public void add(int index, SpanLine line) {
+    public void add(int index, SpanLineController line) {
         map.put(index,line);
     }
     /**
@@ -70,7 +72,7 @@ public class SpanMap {
      * lineno : 0..n-1 the span line to get
      * @param lineno
      */
-    public SpanLine get(int lineno) {
+    public SpanLineController get(int lineno) {
         return map.get(lineno);
     }
     /**
@@ -79,7 +81,7 @@ public class SpanMap {
      * @param lineno
      * @return
      */
-    public SpanLine getAddIfNeeded(int lineno) {
+    public SpanLineController getAddIfNeeded(int lineno) {
         appendLines(lineno+1);
         return get(lineno);
     }
@@ -108,12 +110,12 @@ public class SpanMap {
     }
 
     /**
-     * Remove the SpanLine at the specified index.
+     * Remove the SpanLineController at the specified index.
      * @param index
      */
     public void remove(int index) {
-        SpanLine sl = map.get(index);
-        Span.recycleAll(sl.concurrentSafeGetValues());
+        SpanLineController sl = map.get(index);
+        SpanController.recycleAll(sl.concurrentSafeGetValues());
         map.remove(index);
     }
 
@@ -123,7 +125,7 @@ public class SpanMap {
     public void recyle() {
         Recycler.getInstance().recycle(this);
     }
-    public SpanLine[] getLines() {
+    public SpanLineController[] getLines() {
         return concurrentSafeGetValues();
     }
 
@@ -136,14 +138,14 @@ public class SpanMap {
     public void splitLine(int line, int col, int cutSize) {
         dump();
         Logger.debug("cutDown line=",line,",col=",col,",cutSize=",cutSize);
-        SpanLine startLine = map.get(line);
-        SpanLine []parts = startLine.split(col);
+        SpanLineController startLine = map.get(line);
+        SpanLineController[]parts = startLine.split(col);
         map.put(line,parts[0]);
         for(int i = size()-1; i > line+cutSize; i=i-1 ) {
             map.put(i,map.get(i-1));
         }
         for(int i = line +1 ; i < line + cutSize ; i=i+1 ) {
-            map.put(i, SpanLine.EMPTY());
+            map.put(i, SpanLineController.EMPTY());
         }
         map.put(line,parts[0]);
         map.put(line+cutSize,parts[1]);
@@ -154,10 +156,10 @@ public class SpanMap {
      * @param line index 0..n-1
      * @param col index 0..n-1
      */
-    public void insertLines(SpanLine[]lines, int line, int col) {
+    public void insertLines(SpanLineController[]lines, int line, int col) {
         splitLine(line,col,lines.length);
         for(int i = 0; i < lines.length;i=i+1) {
-            SpanLine spanLine = map.get(line+i);
+            SpanLineController spanLine = map.get(line+i);
             spanLine.add(lines[i]);
         }
     }
@@ -170,33 +172,33 @@ public class SpanMap {
      * @param endColumn index 0..n-1 of the end column
      */
     public void cutLines(int startLine, int startColumn, int endLine, int endColumn) {
-        SpanLine startSpanLine = map.get(startLine);
-        SpanLine stopSpanLine = map.get(endLine);
+        SpanLineController startSpanLine = map.get(startLine);
+        SpanLineController stopSpanLine = map.get(endLine);
         startSpanLine.removeContent(startColumn,Integer.MAX_VALUE);
         stopSpanLine.removeContent(0,endColumn);
-        SpanLine newLine = SpanLine.merge(startSpanLine,stopSpanLine);
+        SpanLineController newLine = SpanLineController.merge(startSpanLine,stopSpanLine);
         map.put(startLine,newLine);
 
         for(int i = startLine + 1; i <= endLine; i=i+1) {
             remove(i);
         }
         for(int i = endLine ; i < map.size();i=i+1) {
-            SpanLine line = map.remove(i);
+            SpanLineController line = map.remove(i);
             map.put(i - (endLine-startLine),line);
         }
     }
 
     /**
-     * Insert some content(a Span) into the desired line.
+     * Insert some content(a SpanController) into the desired line.
      * @param line
      * @param col
      * @param sz
      */
     public void insertContent(int line, int col, int sz) {
-        insertContent(Span.EMPTY(),line,col,sz);
+        insertContent(SpanController.EMPTY(),line,col,sz);
     }
-    public void insertContent(Span span, int line, int col, int sz) {
-        SpanLine dest = map.get(line);
+    public void insertContent(SpanController span, int line, int col, int sz) {
+        SpanLineController dest = map.get(line);
         dest.insertContent(span,col,sz);
     }
     /**
@@ -208,7 +210,7 @@ public class SpanMap {
     public void dump(String offset) {
         if ( !Logger.DEBUG ) { return; }
         Logger.debug(offset+"number of lines in : "+ map.size());
-        for(Map.Entry<Integer,SpanLine> sl : map.entrySet().toArray(new Map.Entry[map.keySet().size()])) {
+        for(Map.Entry<Integer, SpanLineController> sl : map.entrySet().toArray(new Map.Entry[map.keySet().size()])) {
             Logger.debug(offset+"dump for line index " + sl.getKey());
             sl.getValue().dump(Logger.OFFSET);
         }
@@ -218,11 +220,11 @@ public class SpanMap {
      * This function is used to avoid concurrent exception when working with Collections.
      * @return
      */
-    public SpanLine[] concurrentSafeGetValues() {
-        SpanLine[] lines = null;
+    public SpanLineController[] concurrentSafeGetValues() {
+        SpanLineController[] lines = null;
         while (lines == null ) {
             try {
-                lines = map.values().toArray(new SpanLine[size()]);
+                lines = map.values().toArray(new SpanLineController[size()]);
             } catch (java.util.ConcurrentModificationException e) {
                 Logger.debug("This error is harmless if not repeat to much");
                 e.printStackTrace();

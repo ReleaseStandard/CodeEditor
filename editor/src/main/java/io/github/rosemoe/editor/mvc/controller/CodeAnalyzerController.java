@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.interfaces;
+package io.github.rosemoe.editor.mvc.controller;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -21,8 +21,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.List;
 
 import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.text.TextAnalyzeView;
-import io.github.rosemoe.editor.text.TextAnalyzer;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
@@ -32,10 +31,10 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  *
  * @author Rose
  */
-public abstract class CodeAnalyzer {
+public abstract class CodeAnalyzerController {
 
     public static EditorColorScheme theme = EditorColorScheme.DEFAULT();
-    private TextAnalyzeView colors = null;
+    private TextAnalyzerController colors = null;
 
     public void setTheme(EditorColorScheme theme) {
         this.theme = theme;
@@ -47,20 +46,20 @@ public abstract class CodeAnalyzer {
      * @param content  The input text
      * @param colors   Result dest
      * @param delegate Delegate between thread and analyzer
-     * @see TextAnalyzer#analyze(Content)
-     * @see TextAnalyzer.AnalyzeThread.Delegate#shouldAnalyze()
+     * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController#analyze(Content)
+     * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate#shouldAnalyze()
      */
-    public void analyze(CharSequence content, TextAnalyzeView colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzerController colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         this.colors = colors;
     }
     public static int antlrLineIndexToCodeEditor(int line) {
         return line-1;
     }
 
-    private void addColor(TextAnalyzeView colors, int spanLine, int column, int colorId) {
-        colors.addIfNeeded(spanLine,column,colorId);
+    private void addColor(TextAnalyzerController colors, int spanLine, int column, int color) {
+        colors.addIfNeeded(spanLine,column,color);
     }
-    private void processToken(TextAnalyzeView colors, int color, Token token) {
+    private void processToken(TextAnalyzerController colors, int color, Token token) {
         if ( token == null ) {
             Logger.debug("token was null");
             return ;

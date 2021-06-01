@@ -22,16 +22,15 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
-import io.github.rosemoe.editor.text.TextAnalyzeView;
-import io.github.rosemoe.editor.text.TextAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 
 import static io.github.rosemoe.editor.langs.golang.GoLangLexer.*;
 
-public class GoLangAnalyzer extends CodeAnalyzer {
+public class GoLangAnalyzer extends CodeAnalyzerController {
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzeView colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzerController colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
         CodePointCharStream stream = null;
         try {

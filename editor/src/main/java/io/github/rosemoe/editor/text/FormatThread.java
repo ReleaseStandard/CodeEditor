@@ -15,18 +15,18 @@
  */
 package io.github.rosemoe.editor.text;
 
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.text.content.Content;
 
 public class FormatThread extends Thread {
 
     private CharSequence mText;
 
-    private EditorLanguage mLanguage;
+    private EditorLanguageController mLanguage;
 
     private FormatResultReceiver mReceiver;
 
-    public FormatThread(CharSequence text, EditorLanguage language, FormatResultReceiver receiver) {
+    public FormatThread(CharSequence text, EditorLanguageController language, FormatResultReceiver receiver) {
         mText = text;
         mLanguage = language;
         mReceiver = receiver;

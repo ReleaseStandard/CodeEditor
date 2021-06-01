@@ -13,14 +13,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.mvc.controller;
 
 import android.util.Log;
 
 import java.util.List;
 
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
-import io.github.rosemoe.editor.struct.BlockLine;
+import io.github.rosemoe.editor.mvc.model.BlockLineModel;
+import io.github.rosemoe.editor.text.ObjectAllocator;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.text.spanmap.Recycler;
@@ -30,7 +30,7 @@ import io.github.rosemoe.editor.text.spanmap.Recycler;
  *
  * @author Rose
  */
-public class TextAnalyzer {
+public class TextAnalyzerController {
 
     private static int sThreadId = 0;
     private final ResultRecycler recycler = new ResultRecycler();
@@ -39,20 +39,20 @@ public class TextAnalyzer {
      * Debug:Start time
      */
     public long mOpStartTime;
-    private TextAnalyzeView currentResult;
+    private io.github.rosemoe.editor.mvc.view.TextAnalyzerController currentResult;
     private Callback mCallback;
     private AnalyzeThread mThread;
-    private CodeAnalyzer mCodeAnalyzer;
+    private CodeAnalyzerController mCodeAnalyzer;
     /**
      * Create a new manager for the given codeAnalyzer
      *
      * @param codeAnalyzer0 Target codeAnalyzer
      */
-    public TextAnalyzer(CodeAnalyzer codeAnalyzer0) {
+    public TextAnalyzerController(CodeAnalyzerController codeAnalyzer0) {
         if (codeAnalyzer0 == null) {
             throw new IllegalArgumentException();
         }
-        currentResult = new TextAnalyzeView();
+        currentResult = new io.github.rosemoe.editor.mvc.view.TextAnalyzerController();
         currentResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
     }
@@ -97,7 +97,7 @@ public class TextAnalyzer {
     public synchronized void analyze(Content origin) {
         AnalyzeThread thread = this.mThread;
         if (thread == null || !thread.isAlive()) {
-            Log.d("TextAnalyzer", "Starting a new thread for analyzing");
+            Log.d("TextAnalyzerController", "Starting a new thread for analyzing");
             thread = this.mThread = new AnalyzeThread(mLock, mCodeAnalyzer, origin);
             thread.setName("TextAnalyzeDaemon-" + nextThreadId());
             thread.setDaemon(true);
@@ -115,7 +115,7 @@ public class TextAnalyzer {
      *
      * @return Result of analysis
      */
-    public TextAnalyzeView getResult() {
+    public io.github.rosemoe.editor.mvc.view.TextAnalyzerController getResult() {
         return currentResult;
     }
 
@@ -128,11 +128,11 @@ public class TextAnalyzer {
 
         /**
          * Called when analyze result is available
-         * Count of calling this method is not always equal to the count you call {@link TextAnalyzer#analyze(Content)}
+         * Count of calling this method is not always equal to the count you call {@link TextAnalyzerController#analyze(Content)}
          *
-         * @param analyzer Host TextAnalyzer
+         * @param analyzer Host TextAnalyzerController
          */
-        void onAnalyzeDone(TextAnalyzer analyzer);
+        void onAnalyzeDone(TextAnalyzerController analyzer);
 
     }
 
@@ -144,7 +144,7 @@ public class TextAnalyzer {
     static class ResultRecycler {
 
         SpanMap spanMap;
-        List<BlockLine> blockLines;
+        List<BlockLineModel> blockLines;
 
         /**
          * Process objects currently in the recycler.
@@ -160,7 +160,7 @@ public class TextAnalyzer {
          * Put an analysis result to digestion by the recycler.
          * @param result
          */
-        void putToDigest(TextAnalyzeView result) {
+        void putToDigest(io.github.rosemoe.editor.mvc.view.TextAnalyzerController result) {
             spanMap = result.spanMap;
             blockLines = result.mBlocks;
         }
@@ -172,7 +172,7 @@ public class TextAnalyzer {
      */
     public class AnalyzeThread extends Thread {
 
-        private final CodeAnalyzer codeAnalyzer;
+        private final CodeAnalyzerController codeAnalyzer;
         private final Object lock;
         private volatile boolean waiting = false;
         private Content content;
@@ -180,20 +180,23 @@ public class TextAnalyzer {
         /**
          * Create a new thread
          *
-         * @param a       The CodeAnalyzer to call
+         * @param a       The CodeAnalyzerController to call
          * @param content The Content to analyze
          */
-        public AnalyzeThread(Object lock, CodeAnalyzer a, Content content) {
+        public AnalyzeThread(Object lock, CodeAnalyzerController a, Content content) {
             this.lock = lock;
             codeAnalyzer = a;
             this.content = content;
         }
 
+        /**
+         * Run analysis and update the view according to new values.
+         */
         @Override
         public void run() {
             try {
                 do {
-                    TextAnalyzeView newResult = new TextAnalyzeView();
+                    io.github.rosemoe.editor.mvc.view.TextAnalyzerController newResult = new io.github.rosemoe.editor.mvc.view.TextAnalyzerController();
                     Delegate d = new Delegate();
                     mOpStartTime = System.currentTimeMillis();
                     do {
@@ -210,7 +213,7 @@ public class TextAnalyzer {
                     newResult.addNormalIfNull();
                     try {
                         if (mCallback != null) {
-                            mCallback.onAnalyzeDone(TextAnalyzer.this);
+                            mCallback.onAnalyzeDone(TextAnalyzerController.this);
                         }
                     } catch (NullPointerException e) {
                         e.printStackTrace();

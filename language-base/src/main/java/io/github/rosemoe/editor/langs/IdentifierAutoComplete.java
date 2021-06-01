@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.langs;
 
-import io.github.rosemoe.editor.text.TextAnalyzeView;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.editor.struct.CompletionItem;
 
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Identifier auto-completion
  * You can use it to provide identifiers
- * <strong>Note:</strong> To use this, you must use {@link Identifiers} as {@link TextAnalyzeView#mExtra}
+ * <strong>Note:</strong> To use this, you must use {@link Identifiers} as {@link TextAnalyzerController#mExtra}
  */
 public class IdentifierAutoComplete implements AutoCompleteProvider {
 
@@ -83,7 +83,7 @@ public class IdentifierAutoComplete implements AutoCompleteProvider {
     }
 
     @Override
-    public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzeView colors, int line) {
+    public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerController colors, int line) {
         List<CompletionItem> keywords = new ArrayList<>();
         final String[] keywordArray = mKeywords;
         final boolean lowCase = mKeywordsAreLowCase;

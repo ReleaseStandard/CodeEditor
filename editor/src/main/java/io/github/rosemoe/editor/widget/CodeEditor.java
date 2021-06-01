@@ -62,13 +62,14 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.interfaces.EditorEventListener;
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
-import io.github.rosemoe.editor.struct.BlockLine;
-import io.github.rosemoe.editor.struct.Span;
+import io.github.rosemoe.editor.mvc.model.BlockLineModel;
+import io.github.rosemoe.editor.mvc.view.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.SpanController;
 import io.github.rosemoe.editor.text.content.CharPosition;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
@@ -77,11 +78,9 @@ import io.github.rosemoe.editor.text.content.Cursor;
 import io.github.rosemoe.editor.text.FontCache;
 import io.github.rosemoe.editor.text.FormatThread;
 import io.github.rosemoe.editor.text.content.LineRemoveListener;
-import io.github.rosemoe.editor.struct.SpanLine;
 import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.text.spanmap.Updater;
-import io.github.rosemoe.editor.text.TextAnalyzeView;
-import io.github.rosemoe.editor.text.TextAnalyzer;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
@@ -97,7 +96,7 @@ import io.github.rosemoe.editor.util.LongArrayList;
  *
  * @author Rosemoe
  */
-public class CodeEditor extends View implements ContentListener, TextAnalyzer.Callback, FormatThread.FormatResultReceiver, LineRemoveListener {
+public class CodeEditor extends View implements ContentListener, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.Callback, FormatThread.FormatResultReceiver, LineRemoveListener {
 
     /**
      * The default size when creating the editor object. Unit is sp.
@@ -205,7 +204,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     private InputMethodManager mInputMethodManager;
     private Cursor mCursor;
     private Content mText;
-    private TextAnalyzer mSpanner;
+    private io.github.rosemoe.editor.mvc.controller.TextAnalyzerController analyzer;
     private Paint mPaint;
     private Paint mPaintOther;
     private Paint mPaintGraph;
@@ -215,7 +214,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     private Rect mViewRect;
     private EditorColorScheme mColors;
     private String mLnTip = "Line:";
-    private EditorLanguage mLanguage;
+    private EditorLanguageController mLanguage;
     private long mLastMakeVisible = 0;
     private EditorAutoCompleteWindow mCompletionWindow;
     private EditorTouchEventHandler mEventHandler;
@@ -644,25 +643,25 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * Set the editor's language.
      * A language is a for auto completion,highlight and auto indent analysis.
      *
-     * @param lang New EditorLanguage for editor
+     * @param lang New EditorLanguageController for editor
      */
-    public void setEditorLanguage(@Nullable EditorLanguage lang) {
+    public void setEditorLanguage(@Nullable EditorLanguageController lang) {
         if (lang == null) {
             lang = new EmptyLanguage();
         }
         this.mLanguage = lang;
 
         // Update spanner
-        if (mSpanner != null) {
-            mSpanner.shutdown();
-            mSpanner.setCallback(null);
+        if (analyzer != null) {
+            analyzer.shutdown();
+            analyzer.setCallback(null);
         }
-        CodeAnalyzer analyzer = lang.getAnalyzer();
+        CodeAnalyzerController analyzer = lang.getAnalyzer();
         analyzer.setTheme(mColors);
-        mSpanner = new TextAnalyzer(analyzer);
-        mSpanner.setCallback(this);
+        this.analyzer = new io.github.rosemoe.editor.mvc.controller.TextAnalyzerController(analyzer);
+        this.analyzer.setCallback(this);
         if (mText != null) {
-            mSpanner.analyze(mText);
+            this.analyzer.analyze(mText);
         }
         if (mCompletionWindow != null) {
             mCompletionWindow.hide();
@@ -918,7 +917,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     private void drawView(Canvas canvas) {
         //record();
         //counter = 0;
-        mSpanner.notifyRecycle();
+        analyzer.notifyRecycle();
         if (mFormatThread != null) {
             String text = "Formatting your code...";
             float centerY = getHeight() / 2f;
@@ -1022,8 +1021,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      */
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
-        List<Span> temporaryEmptySpans = null;
-        SpanMap spanMap = mSpanner.getResult().spanMap;
+        List<SpanController> temporaryEmptySpans = null;
+        SpanMap spanMap = analyzer.getResult().spanMap;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = mCursor.isSelected() ? -1 : mCursor.getLeftLine();
         int currentLineBgColor = mColors.getCurrentLine();
@@ -1108,21 +1107,21 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
 
             // Draw text here
             {
-                SpanLine spanLine = spanMap.getAddIfNeeded(line);
+                SpanLineController spanLine = spanMap.getAddIfNeeded(line);
 
-                Map.Entry<Integer, Span> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
+                Map.Entry<Integer, SpanController> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
                 for (int a = 0; a < keys.length; a=a+1) {
-                    Span span = keys[a].getValue();
-                    int colStart = span.column;
+                    SpanController span = keys[a].getValue();
+                    int colStart = span.sm.column;
                     int colStop  = lastVisibleChar;
                     if ( a+1 < keys.length) {
-                        colStop = keys[a+1].getValue().column;
+                        colStop = keys[a+1].getValue().sm.column;
                     }
                     int colSpan = colStop - colStart;
                     int paintStart = Math.max(firstVisibleChar, colStart);
                     int paintEnd = Math.min(lastVisibleChar, colStop);
 
-                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",colorId=",span.colorId);
+                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.sm.color);
                     // We ignore the span if it begins in the invisible zone
                     if ( colStart < firstVisibleChar || colStop > lastVisibleChar) { continue; }
                     drawRegionText(canvas,paintingOffset,
@@ -1130,7 +1129,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
                             colStart,
                             colStop,
                             colSpan,
-                            span.colorId);
+                            span.sm.color);
 
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
                     paintingOffset += width;
@@ -1505,7 +1504,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * @param offsetX The start x offset for text
      */
     private void drawBlockLines(Canvas canvas, float offsetX) {
-        List<BlockLine> blocks = mSpanner == null ? null : mSpanner.getResult().getBlocks();
+        List<BlockLineModel> blocks = analyzer == null ? null : analyzer.getResult().getBlocks();
         if (blocks == null || blocks.isEmpty()) {
             return;
         }
@@ -1514,8 +1513,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         boolean mark = false;
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
-        if (mSpanner != null) {
-            TextAnalyzeView colors = mSpanner.getResult();
+        if (analyzer != null) {
+            TextAnalyzerController colors = analyzer.getResult();
             if (colors != null) {
                 maxCount = colors.getSuppressSwitch();
             }
@@ -1523,7 +1522,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         int mm = binarySearchEndBlock(first, blocks);
         int cursorIdx = mCursorPosition;
         for (int curr = mm; curr < blocks.size(); curr++) {
-            BlockLine block = blocks.get(curr);
+            BlockLineModel block = blocks.get(curr);
             if (hasVisibleRegion(block.startLine, block.endLine, first, last)) {
                 try {
                     CharSequence lineContent = mText.getLine(block.endLine);
@@ -1756,7 +1755,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * If cursor is not in any code block,just -1.
      */
     private int findCursorBlock() {
-        List<BlockLine> blocks = mSpanner == null ? null : mSpanner.getResult().getBlocks();
+        List<BlockLineModel> blocks = analyzer == null ? null : analyzer.getResult().getBlocks();
         if (blocks == null || blocks.isEmpty()) {
             return -1;
         }
@@ -1770,7 +1769,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * @return The smallest code block index.
      * If cursor is not in any code block,just -1.
      */
-    private int findCursorBlock(List<BlockLine> blocks) {
+    private int findCursorBlock(List<BlockLineModel> blocks) {
         int line = mCursor.getLeftLine();
         int min = binarySearchEndBlock(line, blocks);
         int max = blocks.size() - 1;
@@ -1778,14 +1777,14 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         int found = -1;
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
-        if (mSpanner != null) {
-            TextAnalyzeView result = mSpanner.getResult();
+        if (analyzer != null) {
+            TextAnalyzerController result = analyzer.getResult();
             if (result != null) {
                 maxCount = result.getSuppressSwitch();
             }
         }
         for (int i = min; i <= max; i++) {
-            BlockLine block = blocks.get(i);
+            BlockLineModel block = blocks.get(i);
             if (block.endLine >= line && block.startLine <= line) {
                 int dis = block.endLine - block.startLine;
                 if (dis < minDis) {
@@ -1812,7 +1811,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * @param blocks   Current code blocks
      * @return The block we found.Always a valid index(Unless there is no block)
      */
-    private int binarySearchEndBlock(int firstVis, List<BlockLine> blocks) {
+    private int binarySearchEndBlock(int firstVis, List<BlockLineModel> blocks) {
         //end > firstVis
         int left = 0, right = blocks.size() - 1, mid, row;
         int max = right;
@@ -2131,7 +2130,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * Whether span map is valid
      */
     private boolean isSpanMapPrepared(boolean insert, int delta) {
-        SpanMap map = mSpanner.getResult().getSpanMap();
+        SpanMap map = analyzer.getResult().getSpanMap();
         if (map != null) {
             if (insert) {
                 return map.size() == getLineCount() - delta;
@@ -3403,18 +3402,18 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         mText.setUndoEnabled(mUndoEnabled);
         mText.setLineListener(this);
 
-        if (mSpanner != null) {
-            mSpanner.setCallback(null);
-            mSpanner.shutdown();
+        if (analyzer != null) {
+            analyzer.setCallback(null);
+            analyzer.shutdown();
         }
-        CodeAnalyzer analyzer = mLanguage.getAnalyzer();
+        CodeAnalyzerController analyzer = mLanguage.getAnalyzer();
         analyzer.setTheme(mColors);
-        mSpanner = new TextAnalyzer(analyzer);
-        mSpanner.setCallback(this);
+        this.analyzer = new io.github.rosemoe.editor.mvc.controller.TextAnalyzerController(analyzer);
+        this.analyzer.setCallback(this);
 
-        TextAnalyzeView colors = mSpanner.getResult();
+        TextAnalyzerController colors = this.analyzer.getResult();
         colors.getSpanMap().clear();
-        mSpanner.analyze(getText());
+        this.analyzer.analyze(getText());
 
         requestLayout();
 
@@ -3522,8 +3521,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * <strong>Do not make changes to it or read concurrently</strong>
      */
     @NonNull
-    public TextAnalyzeView getTextAnalyzeResult() {
-        return mSpanner.getResult();
+    public TextAnalyzerController getTextAnalyzeResult() {
+        return analyzer.getResult();
     }
 
     /**
@@ -3924,9 +3923,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
-                Updater.shiftSpansOnSingleLineInsert(mSpanner.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                Updater.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                Updater.shiftSpansOnMultiLineInsert(mSpanner.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                Updater.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -3971,7 +3970,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         updateCursorAnchor();
         ensureSelectionVisible();
         // Notify to update highlight
-        mSpanner.analyze(mText);
+        analyzer.analyze(mText);
         mEventHandler.hideInsertHandle();
         // Notify listener
         if (mListener != null) {
@@ -3983,9 +3982,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     public void afterDelete(Content content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
-                Updater.shiftSpansOnSingleLineDelete(mSpanner.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                Updater.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                Updater.shiftSpansOnMultiLineDelete(mSpanner.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                Updater.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -4016,7 +4015,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         if (!mWait) {
             updateCursorAnchor();
             ensureSelectionVisible();
-            mSpanner.analyze(mText);
+            analyzer.analyze(mText);
             mEventHandler.hideInsertHandle();
         }
         if (mListener != null) {
@@ -4056,8 +4055,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     }
 
     @Override
-    public void onAnalyzeDone(TextAnalyzer provider) {
-        if (provider == mSpanner) {
+    public void onAnalyzeDone(io.github.rosemoe.editor.mvc.controller.TextAnalyzerController provider) {
+        if (provider == analyzer) {
             if (mHighlightCurrentBlock) {
                 mCursorPosition = findCursorBlock();
             }

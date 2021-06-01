@@ -18,13 +18,13 @@ package io.github.rosemoe.editor.langs;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.struct.CompletionItem;
-import io.github.rosemoe.editor.text.TextAnalyzeView;
-import io.github.rosemoe.editor.text.TextAnalyzer.AnalyzeThread.Delegate;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 /**
@@ -32,7 +32,7 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public class EmptyLanguage implements EditorLanguage {
+public class EmptyLanguage implements EditorLanguageController {
 
     @Override
     public CharSequence format(CharSequence text) {
@@ -51,7 +51,7 @@ public class EmptyLanguage implements EditorLanguage {
 
 
     @Override
-    public CodeAnalyzer getAnalyzer() {
+    public CodeAnalyzerController getAnalyzer() {
         return new EmptyCodeAnalyzer();
     }
 
@@ -78,16 +78,16 @@ public class EmptyLanguage implements EditorLanguage {
     public static class EmptyAutoCompleteProvider implements AutoCompleteProvider {
 
         @Override
-        public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzeView colors, int line) {
+        public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerController colors, int line) {
             return new ArrayList<>();
         }
 
     }
 
-    private static class EmptyCodeAnalyzer extends CodeAnalyzer {
+    private static class EmptyCodeAnalyzer extends CodeAnalyzerController {
 
         @Override
-        public void analyze(CharSequence content, TextAnalyzeView colors, Delegate delegate) {
+        public void analyze(CharSequence content, TextAnalyzerController colors, Delegate delegate) {
             colors.addNormalIfNull();
         }
 

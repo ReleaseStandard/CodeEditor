@@ -21,16 +21,16 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
+import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
-public class PythonLanguage implements EditorLanguage {
+public class PythonLanguage implements EditorLanguageController {
     private final static String[] keywords = {
             "and", "as", "assert", "break", "class", "continue", "def",
             "del", "elif", "else", "except", "exec", "finally", "for",
@@ -40,7 +40,7 @@ public class PythonLanguage implements EditorLanguage {
     };
 
     @Override
-    public CodeAnalyzer getAnalyzer() {
+    public CodeAnalyzerController getAnalyzer() {
         return new PythonCodeAnalyzer();
     }
 

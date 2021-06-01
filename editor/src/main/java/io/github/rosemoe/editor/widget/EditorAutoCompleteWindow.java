@@ -32,7 +32,7 @@ import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.editor.struct.CompletionItem;
 import io.github.rosemoe.editor.text.content.CharPosition;
 import io.github.rosemoe.editor.text.content.Cursor;
-import io.github.rosemoe.editor.text.TextAnalyzeView;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 
 /**
  * Auto complete window for editing code quicker
@@ -278,7 +278,7 @@ public class EditorAutoCompleteWindow extends EditorBasePopupWindow {
         private final long mTime;
         private final String mPrefix;
         private final boolean mInner;
-        private final TextAnalyzeView mColors;
+        private final TextAnalyzerController mColors;
         private final int mLine;
         private final AutoCompleteProvider mLocalProvider = mProvider;
 

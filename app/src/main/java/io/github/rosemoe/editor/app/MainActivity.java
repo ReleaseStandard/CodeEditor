@@ -34,9 +34,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
 
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
 import io.github.rosemoe.editor.langs.desc.CppDescription;
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         put("HTML",new HTML());
         put("Solarized",new Solarized());
     }};
-    private HashMap<String,EditorLanguage> languages = new HashMap<String,EditorLanguage>() {{
+    private HashMap<String, EditorLanguageController> languages = new HashMap<String, EditorLanguageController>() {{
         put("C",new UniversalLanguage(new CDescription()));
         put("C++",new UniversalLanguage(new CppDescription()));
         put("Java",new JavaLanguage());
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         put("Mksh",new MkshLanguage());
     }};
 
-    protected void setEditorLanguage(EditorLanguage el, String fname) {
+    protected void setEditorLanguage(EditorLanguageController el, String fname) {
         editor.setEditorLanguage(el);
         new Thread(() -> {
             try {

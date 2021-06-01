@@ -20,8 +20,8 @@ import android.util.Log;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import io.github.rosemoe.editor.struct.Span;
-import io.github.rosemoe.editor.struct.SpanLine;
+import io.github.rosemoe.editor.mvc.controller.SpanController;
+import io.github.rosemoe.editor.mvc.view.SpanLineController;
 import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.util.Logger;
 
@@ -54,7 +54,7 @@ public class Recycler {
 
     private class RecycleThread extends Thread {
 
-        private final static String LOG_TAG = "Span Recycle Thread";
+        private final static String LOG_TAG = "SpanController Recycle Thread";
 
         RecycleThread() {
             setDaemon(true);
@@ -68,10 +68,10 @@ public class Recycler {
                     try {
                         SpanMap spanMap = taskQueue.take();
                         int count = 0;
-                        for (SpanLine line : spanMap.getLines()) {
+                        for (SpanLineController line : spanMap.getLines()) {
                             int size = line.size();
                             for (int i = 0; i < size; i++) {
-                                Span span = line.remove(size - 1 - i);
+                                SpanController span = line.remove(size - 1 - i);
                                 if ( span == null ) { continue; }
                                 span.recycle();
                                 count++;

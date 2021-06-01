@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.text.spanmap;
 
-import io.github.rosemoe.editor.struct.SpanLine;
+import io.github.rosemoe.editor.mvc.view.SpanLineController;
 import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.util.Logger;
 
@@ -48,7 +48,7 @@ public class Updater {
      */
     public static void shiftSpansOnSingleLineDelete(SpanMap map, int line, int startCol, int endCol) {
         Logger.debug("line=",line,",startCol=",startCol,",endCol=",endCol);
-        SpanLine spanLine = map.get(line);
+        SpanLineController spanLine = map.get(line);
         spanLine.removeContent(startCol,endCol-startCol);
     }
 

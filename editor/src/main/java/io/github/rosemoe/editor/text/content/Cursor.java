@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.text.content;
 
 import android.util.Log;
 
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 
 /**
  * @author Rose
@@ -30,7 +30,7 @@ public final class Cursor {
     private CharPosition mLeft, mRight;
     private CharPosition cache0, cache1, cache2;
     private boolean mAutoIndentEnabled;
-    private EditorLanguage mLanguage;
+    private EditorLanguageController mLanguage;
     private int mTabWidth;
 	
     /**
@@ -226,7 +226,7 @@ public final class Cursor {
      *
      * @param lang The target language
      */
-    public void setLanguage(EditorLanguage lang) {
+    public void setLanguage(EditorLanguageController lang) {
         mLanguage = lang;
     }
 

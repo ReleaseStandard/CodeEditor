@@ -13,24 +13,24 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.mvc.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.struct.BlockLine;
-import io.github.rosemoe.editor.struct.Span;
-import io.github.rosemoe.editor.struct.SpanLine;
+import io.github.rosemoe.editor.mvc.controller.SpanController;
+import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.struct.SpanMap;
+import io.github.rosemoe.editor.text.ObjectAllocator;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
  * Display the result of analysis.
  * Update spans in response to the analysis.
  */
-public class TextAnalyzeView {
+public class TextAnalyzerController {
 
-    protected final List<BlockLine> mBlocks;
+    public final List<BlockLineModel> mBlocks;
     public final SpanMap spanMap;
     public Object mExtra;
     protected int mSuppressSwitch = Integer.MAX_VALUE;
@@ -38,21 +38,21 @@ public class TextAnalyzeView {
     /**
      * Create a new result
      */
-    public TextAnalyzeView() {
+    public TextAnalyzerController() {
         spanMap = new SpanMap();
         mBlocks = new ArrayList<>(1024);
     }
 
     /**
-     * Add a new span if required (colorId is different from last)
+     * Add a new span if required (color is different from last)
      *
      * @param spanLine Line
      * @param column   Column
-     * @param colorId  Type
+     * @param color  Type
      */
-    public void addIfNeeded(int spanLine, int column, int colorId) {
-        Logger.debug("spanLine=",spanLine,",column=",column,",colorId=",colorId);
-        add(spanLine, Span.obtain(column, colorId));
+    public void addIfNeeded(int spanLine, int column, int color) {
+        Logger.debug("spanLine=",spanLine,",column=",column,",color=",color);
+        add(spanLine, SpanController.obtain(column, color));
     }
     /**
      * Add a span directly
@@ -62,7 +62,7 @@ public class TextAnalyzeView {
      * @param spanLine The line position of span
      * @param span     The span
      */
-    public void add(int spanLine, Span span) {
+    public void add(int spanLine, SpanController span) {
         spanMap.getAddIfNeeded(spanLine).add(span);
         spanMap.dump();
     }
@@ -77,12 +77,12 @@ public class TextAnalyzeView {
     }
 
     /**
-     * Get a new BlockLine object
+     * Get a new BlockLineModel object
      * <strong>It fields maybe not initialized with zero</strong>
      *
-     * @return An idle BlockLine
+     * @return An idle BlockLineModel
      */
-    public BlockLine obtainNewBlock() {
+    public BlockLineModel obtainNewBlock() {
         return ObjectAllocator.obtainBlockLine();
     }
 
@@ -91,7 +91,7 @@ public class TextAnalyzeView {
      *
      * @param block Info of code block
      */
-    public void addBlockLine(BlockLine block) {
+    public void addBlockLine(BlockLineModel block) {
         mBlocks.add(block);
     }
 
@@ -100,7 +100,7 @@ public class TextAnalyzeView {
      *
      * @return code blocks
      */
-    public List<BlockLine> getBlocks() {
+    public List<BlockLineModel> getBlocks() {
         return mBlocks;
     }
 
@@ -108,7 +108,7 @@ public class TextAnalyzeView {
      * Returns suppress switch
      *
      * @return suppress switch
-     * @see TextAnalyzeView#setSuppressSwitch(int)
+     * @see TextAnalyzerController#setSuppressSwitch(int)
      */
     public int getSuppressSwitch() {
         return mSuppressSwitch;
@@ -141,7 +141,7 @@ public class TextAnalyzeView {
      * Add text line in the span line if there is nothing in the map.
      * @return
      */
-    public SpanLine addNormalIfNull() {
+    public SpanLineController addNormalIfNull() {
         spanMap.appendLines(1);
         return spanMap.get(0);
     }

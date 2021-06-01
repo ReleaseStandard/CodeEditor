@@ -16,16 +16,16 @@
 package io.github.rosemoe.editor.langs.golang;
 
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
-import io.github.rosemoe.editor.interfaces.EditorLanguage;
+import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.interfaces.NewlineHandler;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
-public class GoLangLanguage implements EditorLanguage {
+public class GoLangLanguage implements EditorLanguageController {
 
     @Override
-    public CodeAnalyzer getAnalyzer() {
+    public CodeAnalyzerController getAnalyzer() {
         return new GoLangAnalyzer();
     }
 

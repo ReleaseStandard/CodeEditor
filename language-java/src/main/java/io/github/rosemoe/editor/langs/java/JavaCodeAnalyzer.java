@@ -15,13 +15,12 @@
  */
 package io.github.rosemoe.editor.langs.java;
 
+import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.langs.internal.TrieTree;
-import io.github.rosemoe.editor.text.TextAnalyzeView;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerController;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
-import io.github.rosemoe.editor.text.TextAnalyzer;
-import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
-import io.github.rosemoe.editor.struct.BlockLine;
+import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 
 import java.util.Stack;
 
@@ -30,12 +29,12 @@ import java.util.Stack;
  *
  * @author Rose
  */
-public class JavaCodeAnalyzer extends CodeAnalyzer {
+public class JavaCodeAnalyzer extends CodeAnalyzerController {
 
     private final static Object OBJECT = new Object();
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzeView colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzerController colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         JavaTextTokenizer tokenizer = new JavaTextTokenizer(text);
@@ -45,7 +44,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
         LineNumberCalculator helper = new LineNumberCalculator(text);
         IdentifierAutoComplete.Identifiers identifiers = new IdentifierAutoComplete.Identifiers();
         identifiers.begin();
-        Stack<BlockLine> stack = new Stack<>();
+        Stack<BlockLineModel> stack = new Stack<>();
         int maxSwitch = 1, currSwitch = 0;
         //Tree to save class names and query
         TrieTree<Object> classNames = new TrieTree<>();
@@ -194,7 +193,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                         currSwitch = 0;
                     }
                     currSwitch++;
-                    BlockLine block = colors.obtainNewBlock();
+                    BlockLineModel block = colors.obtainNewBlock();
                     block.startLine = line;
                     block.startColumn = column;
                     stack.push(block);
@@ -204,7 +203,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
                     classNamePrevious = false;
                     colors.addIfNeeded(line, column, theme.getTextNormal());
                     if (!stack.isEmpty()) {
-                        BlockLine block = stack.pop();
+                        BlockLineModel block = stack.pop();
                         block.endLine = line;
                         block.endColumn = column;
                         if (block.startLine != block.endLine) {

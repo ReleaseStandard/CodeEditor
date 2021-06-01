@@ -13,10 +13,11 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.struct;
+package io.github.rosemoe.editor.mvc.view;
 
 import java.util.TreeMap;
 
+import io.github.rosemoe.editor.mvc.controller.SpanController;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.EditorColorScheme;
 
@@ -25,12 +26,12 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
  *
  * @author Release Standard
  */
-public class SpanLine {
+public class SpanLineController {
     /**
-     * Column index 0..n-1, Span
+     * Column index 0..n-1, SpanController
      */
-    public TreeMap<Integer, Span> line;
-    public SpanLine() {
+    public TreeMap<Integer, SpanController> line;
+    public SpanLineController() {
         line = new TreeMap<>();
     }
 
@@ -39,14 +40,14 @@ public class SpanLine {
      * @param col column index 0..n-1
      * @param span
      */
-    public void add(int col,Span span) {
+    public void add(int col, SpanController span) {
         line.put(col,span);
     }
-    public void add(Span span) {
-        add(span.column,span);
+    public void add(SpanController span) {
+        add(span.sm.column,span);
     }
-    public void add(SpanLine line) {
-        for(Span span : line.concurrentSafeGetValues()){
+    public void add(SpanLineController line) {
+        for(SpanController span : line.concurrentSafeGetValues()){
             add(span);
         }
     }
@@ -60,16 +61,16 @@ public class SpanLine {
     }
 
     /**
-     * Get the Span to the index i in the SpanLine.
+     * Get the SpanController to the index i in the SpanLineController.
      * @param i
      * @return
      */
-    public Span get(int i) {
+    public SpanController get(int i) {
         return line.get(i);
     }
 
     /**
-     * Test if the span line is empty (contains no Span).
+     * Test if the span line is empty (contains no SpanController).
      * @return
      */
     public boolean isEmpty() {
@@ -81,7 +82,7 @@ public class SpanLine {
      * @param i line index 0..n-1
      * @return
      */
-    public Span remove(int i) {
+    public SpanController remove(int i) {
         return line.remove(i);
     }
     /**
@@ -89,8 +90,8 @@ public class SpanLine {
      * @param span the span to remove, span.column 0..n-1
      * @return
      */
-    public Span remove(Span span) {
-        return remove(span.column);
+    public SpanController remove(SpanController span) {
+        return remove(span.sm.column);
     }
     /**
      * Clear the span line.
@@ -99,7 +100,7 @@ public class SpanLine {
         line.clear();
     }
     /**
-     * Dump the current state of the SpanLine.
+     * Dump the current state of the SpanLineController.
      */
     public void dump() {
         dump("");
@@ -111,18 +112,18 @@ public class SpanLine {
     /**
      * Split the line at given column index.
      * @param col index 0..n-1
-     * @return newly created SpanLine with the column index updated.
+     * @return newly created SpanLineController with the column index updated.
      */
-    public SpanLine[] split(int col) {
-        SpanLine[] parts = new SpanLine[2];
-        parts[0]=new SpanLine();
-        parts[1]=new SpanLine();
+    public SpanLineController[] split(int col) {
+        SpanLineController[] parts = new SpanLineController[2];
+        parts[0]=new SpanLineController();
+        parts[1]=new SpanLineController();
         int columnIndex = 0;
-        for(Span span : concurrentSafeGetValues()) {
-            if ( span.column < col ) {
+        for(SpanController span : concurrentSafeGetValues()) {
+            if ( span.sm.column < col ) {
                 parts[0].add(span);
             } else {
-                int length = span.column - col;
+                int length = span.sm.column - col;
                 span.setColumn(columnIndex);
                 columnIndex += length;
                 parts[1].add(span);
@@ -136,15 +137,15 @@ public class SpanLine {
      * @param two
      * @return
      */
-    public static SpanLine merge(SpanLine one,SpanLine two) {
+    public static SpanLineController merge(SpanLineController one, SpanLineController two) {
         int index = 0;
         if ( one.size() > 0) {
-            Span lastSpan = one.line.lastEntry().getValue();
-            index = lastSpan.column;
+            SpanController lastSpan = one.line.lastEntry().getValue();
+            index = lastSpan.sm.column;
         }
         int lastCol = 0;
-        for(Span span : two.concurrentSafeGetValues()) {
-            lastCol = span.column - lastCol;
+        for(SpanController span : two.concurrentSafeGetValues()) {
+            lastCol = span.sm.column - lastCol;
             index += lastCol;
             span.setColumn(index);
             one.add(index,span);
@@ -153,17 +154,17 @@ public class SpanLine {
     }
 
     /**
-     * Insert content into the SpanLine at specified position.
+     * Insert content into the SpanLineController at specified position.
      * @param span the span to insert
      * @param col index 0..n-1
      * @param sz size 0..n
      */
-    public void insertContent(Span span,int col,int sz) {
-        for(Span s : concurrentSafeGetValues()) {
-            if ( s.column >= col ) {
-                line.remove(s.column);
-                s.setColumn(s.column+sz);
-                line.put(s.column,span);
+    public void insertContent(SpanController span, int col, int sz) {
+        for(SpanController s : concurrentSafeGetValues()) {
+            if ( s.sm.column >= col ) {
+                line.remove(s.sm.column);
+                s.setColumn(s.sm.column+sz);
+                line.put(s.sm.column,span);
             }
         }
         span.setColumn(col);
@@ -176,14 +177,14 @@ public class SpanLine {
      * @param sz size 0..n
      */
     public void removeContent(int col,int sz) {
-        for(Span span : concurrentSafeGetValues()) {
-            if ( span.column < col) {
+        for(SpanController span : concurrentSafeGetValues()) {
+            if ( span.sm.column < col) {
 
             } else {
-                if ( span.column < col+sz) {
+                if ( span.sm.column < col+sz) {
                     remove(span);
                 } else {
-                    span.setColumn(span.column-sz);
+                    span.setColumn(span.sm.column-sz);
                 }
             }
         }
@@ -192,9 +193,9 @@ public class SpanLine {
      * Empty spanline.
      * @return returns an empty spanline
      */
-    public static SpanLine EMPTY() {
-        SpanLine line = new SpanLine();
-        line.add(Span.obtain(0, EditorColorScheme.DEFAULT().getTextNormal()));
+    public static SpanLineController EMPTY() {
+        SpanLineController line = new SpanLineController();
+        line.add(SpanController.obtain(0, EditorColorScheme.DEFAULT().getTextNormal()));
         return line;
     }
 
@@ -202,11 +203,11 @@ public class SpanLine {
      * This function is used to avoid concurrent exception when working with Collections.
      * @return
      */
-    public Span[] concurrentSafeGetValues() {
-        Span[] spans = null;
+    public SpanController[] concurrentSafeGetValues() {
+        SpanController[] spans = null;
         while (spans == null ) {
             try {
-                spans = line.values().toArray(new Span[size()]);
+                spans = line.values().toArray(new SpanController[size()]);
             } catch (java.util.ConcurrentModificationException e) {
                 Logger.debug("This error is harmless if not repeat to much");
                 e.printStackTrace();
