@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Set;
 
+import io.github.rosemoe.editor.langs.cobol85.Cobol85Language;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         put("None",new EmptyLanguage());
         put("GoLang",new GoLangLanguage());
         put("Mksh",new MkshLanguage());
+        put("Cobol85",new Cobol85Language());
     }};
 
     protected void setThemes() {

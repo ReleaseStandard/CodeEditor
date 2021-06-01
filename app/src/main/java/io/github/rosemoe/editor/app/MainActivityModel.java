@@ -22,7 +22,7 @@ public class MainActivityModel {
     public String [] themes = new String[]{"Default", "Eclipse", "Darcula", "VS2019", "NotepadXX", "HTML","Solarized", "SolarizedDark","GitHub"};
     public int checkedTheme = 0;
 
-    public String[] languages = new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh"};
+    public String[] languages = new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh","Cobol85"};
     public HashMap<String,String> languages_samples = new HashMap<String, String>(){{
         put("C","samples/c/c.txt");
         put("C++","samples/cpp/cpp.txt");
@@ -33,6 +33,7 @@ public class MainActivityModel {
         put("None","samples/java/java.txt");
         put("GoLang","samples/golang/golang.txt");
         put("Mksh","samples/mksh/mksh_while.txt");
+        put("Cobol85","samples/cobol85/text.txt");
     }};
     public int checkedLanguage = 0;
 
