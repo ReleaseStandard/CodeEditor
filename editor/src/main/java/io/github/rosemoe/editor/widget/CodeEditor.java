@@ -63,8 +63,10 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.CursorBlinkController;
+import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
+import io.github.rosemoe.editor.mvc.controller.widget.EditorSearcherController;
+import io.github.rosemoe.editor.mvc.controller.widget.WordwrapLayoutController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
@@ -86,6 +88,8 @@ import io.github.rosemoe.editor.text.spanmap.Updater;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
+import io.github.rosemoe.editor.widget.layout.Layout;
+import io.github.rosemoe.editor.widget.layout.LineBreakLayout;
 
 /**
  * CodeEditor is a editor that can highlight text regions by doing basic syntax analyzing
@@ -230,7 +234,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private MaterialEdgeEffect mHorizontalGlow;
     private ExtractedTextRequest mExtracting;
     private FormatThread mFormatThread;
-    private EditorSearcher mSearcher;
+    private EditorSearcherController mSearcher;
     private EditorEventListener mListener;
     private FontCache mFontCache;
     private Paint.FontMetricsInt mTextMetrics;
@@ -424,7 +428,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return The width
      */
-    protected float measureTextRegionOffset() {
+    public float measureTextRegionOffset() {
         return isLineNumberEnabled() ? measureLineNumber() + mDividerMargin * 2 + mDividerWidth : mDpUnit * 5;
     }
 
@@ -468,7 +472,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mPaintOther = new Paint();
         mPaintGraph = new Paint();
         mMatrix = new Matrix();
-        mSearcher = new EditorSearcher(this);
+        mSearcher = new EditorSearcherController(this);
         setCursorBlinkPeriod(DEFAULT_CURSOR_BLINK_PERIOD);
         mAnchorInfoBuilder = new CursorAnchorInfo.Builder();
         mPaint.setAntiAlias(true);
@@ -1083,7 +1087,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             // Draw matched text background
             if (!matchedPositions.isEmpty()) {
                 for (int position : matchedPositions) {
-                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.mSearchText.length(), mColors.getMatchedTextBackground());
+                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.model.mSearchText.length(), mColors.getMatchedTextBackground());
                 }
             }
 
@@ -1287,7 +1291,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     private void computeMatchedPositions(int line, List<Integer> positions) {
         positions.clear();
-        CharSequence pattern = mSearcher.mSearchText;
+        CharSequence pattern = mSearcher.model.mSearchText;
         if (pattern == null || pattern.length() == 0) {
             return;
         }
@@ -2079,7 +2083,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         }
         if (mWordwrap) {
             mCachedLineNumberWidth = (int) measureLineNumber();
-            mLayout = new WordwrapLayout(this, mText);
+            mLayout = new WordwrapLayoutController(this, mText);
         } else {
             mLayout = new LineBreakLayout(this, mText);
         }
@@ -2457,11 +2461,11 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     /**
-     * Get EditorSearcher
+     * Get EditorSearcherController
      *
-     * @return EditorSearcher
+     * @return EditorSearcherController
      */
-    public EditorSearcher getSearcher() {
+    public EditorSearcherController getSearcher() {
         return mSearcher;
     }
 
@@ -2469,7 +2473,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Set selection around the given position
      * It will try to set selection as near as possible (Exactly the position if that position exists)
      */
-    protected void setSelectionAround(int line, int column) {
+    public void setSelectionAround(int line, int column) {
         if (line < getLineCount()) {
             int columnCount = mText.getColumnCount(line);
             if (column > columnCount) {

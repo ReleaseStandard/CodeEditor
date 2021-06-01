@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.widget.layout;
 
 import java.util.NoSuchElementException;
 
@@ -21,6 +21,9 @@ import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.util.BinaryHeap;
 import io.github.rosemoe.editor.util.IntPair;
+import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.widget.Row;
+import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
  * Layout implementation of editor
@@ -28,11 +31,11 @@ import io.github.rosemoe.editor.util.IntPair;
  *
  * @author Rose
  */
-class LineBreakLayout extends AbstractLayout {
+public class LineBreakLayout extends AbstractLayout {
 
     private BinaryHeap widthMaintainer;
 
-    LineBreakLayout(CodeEditor editor, Content text) {
+    public LineBreakLayout(CodeEditor editor, Content text) {
         super(editor, text);
         measureAllLines();
     }

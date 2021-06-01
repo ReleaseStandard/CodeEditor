@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.model;
+package io.github.rosemoe.editor.mvc.model.widget;
 
 public class CursorBlinkModel {
     public long lastSelectionModificationTime = 0;

@@ -13,20 +13,8 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.annotations;
+package io.github.rosemoe.editor.mvc.model.widget;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/**
- * This annotation marks those fields, methods and constructors experimentally created.
- * <p>
- * Methods, fields and constructors with this annotation is very subject to keep or delete.
- * For that reason, they are not stable for production use.
- */
-@Target({ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.METHOD})
-@Retention(RetentionPolicy.SOURCE)
-public @interface Experimental {
+public class EditorSearcherModel {
+    public String mSearchText;
 }

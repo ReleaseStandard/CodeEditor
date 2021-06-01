@@ -13,36 +13,20 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.util.annotations;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * This class represents a 'row' in editor
- * Editor uses this to draw rows
- *
- * @author Rose
+ * This annotation marks those fields, methods and constructors experimentally created.
+ * <p>
+ * Methods, fields and constructors with this annotation is very subject to keep or delete.
+ * For that reason, they are not stable for production use.
  */
-public class Row {
-
-    /**
-     * The index in lines
-     * But not row index
-     */
-    public int lineIndex;
-
-    /**
-     * Whether this row is a start of a line
-     * Editor will draw line number to left of this row to indicate this
-     */
-    public boolean isLeadingRow;
-
-    /**
-     * Start index in target line
-     */
-    public int startColumn;
-
-    /**
-     * End index in target line
-     */
-    public int endColumn;
-
+@Target({ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.METHOD})
+@Retention(RetentionPolicy.SOURCE)
+public @interface Experimental {
 }

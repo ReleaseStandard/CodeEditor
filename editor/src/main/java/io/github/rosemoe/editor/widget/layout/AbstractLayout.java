@@ -13,12 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.widget.layout;
 
 import android.graphics.Paint;
 
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
  * Base layout implementation of {@link Layout}
@@ -26,7 +27,7 @@ import io.github.rosemoe.editor.text.content.Content;
  *
  * @author Rose
  */
-abstract class AbstractLayout implements Layout {
+public abstract class AbstractLayout implements Layout {
 
     protected CodeEditor editor;
     protected Content text;
@@ -40,7 +41,7 @@ abstract class AbstractLayout implements Layout {
         fontCache = new FontCache();
     }
 
-    protected float measureText(CharSequence text, int start, int end) {
+    public float measureText(CharSequence text, int start, int end) {
         int tabCount = 0;
         end = Math.min(text.length(), end);
         for (int i = start; i < end; i++) {
@@ -52,7 +53,7 @@ abstract class AbstractLayout implements Layout {
         return fontCache.measureText(text, start, end, shadowPaint) + tabCount * extraWidth;
     }
 
-    protected float[] orderedFindCharIndex(float targetOffset, CharSequence str, int index, int end) {
+    public float[] orderedFindCharIndex(float targetOffset, CharSequence str, int index, int end) {
         float width = 0f;
         while (index < end && width < targetOffset) {
             float single = fontCache.measureChar(str.charAt(index), shadowPaint);

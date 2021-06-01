@@ -13,13 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.mvc.controller.widget;
 
 import android.app.ProgressDialog;
 import android.widget.Toast;
 
+import io.github.rosemoe.editor.mvc.model.widget.EditorSearcherModel;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.Cursor;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
  * Search text in editor
@@ -27,17 +29,17 @@ import io.github.rosemoe.editor.text.content.Cursor;
  * @author Rose
  */
 @SuppressWarnings("deprecated")
-public class EditorSearcher {
+public class EditorSearcherController {
 
     private final CodeEditor mEditor;
-    protected String mSearchText;
+    public EditorSearcherModel model = new EditorSearcherModel();
 
-    EditorSearcher(CodeEditor editor) {
+    public EditorSearcherController(CodeEditor editor) {
         mEditor = editor;
     }
 
     private void checkState() {
-        if (mSearchText == null) {
+        if (model.mSearchText == null) {
             throw new IllegalStateException("search text has not been set");
         }
     }
@@ -46,7 +48,7 @@ public class EditorSearcher {
         if (text != null && text.length() == 0) {
             text = null;
         }
-        mSearchText = text;
+        model.mSearchText = text;
         mEditor.postInvalidate();
     }
 
@@ -57,7 +59,7 @@ public class EditorSearcher {
         Cursor cursor = text.getCursor();
         if (cursor.isSelected()) {
             String selectedText = text.subContent(cursor.getLeftLine(), cursor.getLeftColumn(), cursor.getRightLine(), cursor.getRightColumn()).toString();
-            if (selectedText.equals(mSearchText)) {
+            if (selectedText.equals(model.mSearchText)) {
                 cursor.onCommitText(newText);
                 mEditor.hideAutoCompleteWindow();
                 gotoNext(false);
@@ -71,7 +73,7 @@ public class EditorSearcher {
     public void replaceAll(final String newText) {
         checkState();
         final ProgressDialog progressDialog = ProgressDialog.show(mEditor.getContext(), "Replacing", "Editor is now replacing texts, please wait", true, false);
-        final String searchText = mSearchText;
+        final String searchText = model.mSearchText;
         new Thread() {
 
             @Override
@@ -114,9 +116,9 @@ public class EditorSearcher {
         int line = cursor.getRightLine();
         int column = cursor.getRightColumn();
         for (int i = line; i < text.getLineCount(); i++) {
-            int idx = column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(mSearchText, column);
+            int idx = column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(model.mSearchText, column);
             if (idx != -1) {
-                mEditor.setSelectionRegion(i, idx, i, idx + mSearchText.length());
+                mEditor.setSelectionRegion(i, idx, i, idx + model.mSearchText.length());
                 return;
             }
             column = 0;
@@ -134,9 +136,9 @@ public class EditorSearcher {
         int line = cursor.getLeftLine();
         int column = cursor.getLeftColumn();
         for (int i = line; i >= 0; i--) {
-            int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(mSearchText, column - 1);
+            int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(model.mSearchText, column - 1);
             if (idx != -1) {
-                mEditor.setSelectionRegion(i, idx, i, idx + mSearchText.length());
+                mEditor.setSelectionRegion(i, idx, i, idx + model.mSearchText.length());
                 return;
             }
             column = i - 1 >= 0 ? text.getColumnCount(i - 1) : 0;

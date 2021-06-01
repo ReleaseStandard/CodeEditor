@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.text.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.annotations.Experimental;
+import io.github.rosemoe.editor.util.annotations.Experimental;
 import io.github.rosemoe.struct.BlockLinkedList;
 
 /**
