@@ -63,9 +63,10 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.interfaces.EditorEventListener;
+import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
+import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
-import io.github.rosemoe.editor.interfaces.NewlineHandler;
+import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
@@ -77,7 +78,7 @@ import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.text.content.ContentListener;
 import io.github.rosemoe.editor.text.content.Cursor;
-import io.github.rosemoe.editor.text.FontCache;
+import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.text.FormatThread;
 import io.github.rosemoe.editor.text.content.LineRemoveListener;
 import io.github.rosemoe.editor.text.spanmap.Updater;
@@ -216,7 +217,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private String mLnTip = "Line:";
     private EditorLanguageController mLanguage;
     private long mLastMakeVisible = 0;
-    private EditorAutoCompleteWindow mCompletionWindow;
+    private EditorAutoCompleteWindowController mCompletionWindow;
     private EditorTouchEventHandler mEventHandler;
     private Paint.Align mLineNumberAlign;
     private GestureDetector mBasicDetector;
@@ -297,20 +298,20 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Hide completion window later
      */
-    protected void postHideCompletionWindow() {
+    public void postHideCompletionWindow() {
         // Avoid meaningless calls
-        if (!mCompletionWindow.isShowing()) {
+        if (!mCompletionWindow.view.isShowing()) {
             return;
         }
         // We do this because if you hide it at once, the editor seems to flash with unknown reason
-        postDelayed(() -> mCompletionWindow.hide(), 50);
+        postDelayed(() -> mCompletionWindow.view.hide(), 50);
     }
 
     /**
-     * Get using EditorAutoCompleteWindow
+     * Get using EditorAutoCompleteWindowController
      */
     @NonNull
-    protected EditorAutoCompleteWindow getAutoCompleteWindow() {
+    protected EditorAutoCompleteWindowController getAutoCompleteWindow() {
         return mCompletionWindow;
     }
 
@@ -508,7 +509,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         setFocusable(true);
         setFocusableInTouchMode(true);
         mConnection = new EditorInputConnection(this);
-        mCompletionWindow = new EditorAutoCompleteWindow(this);
+        mCompletionWindow = new EditorAutoCompleteWindowController(this);
         mVerticalEdgeGlow = new MaterialEdgeEffect();
         mHorizontalGlow = new MaterialEdgeEffect();
         mOverrideSymbolPairs = new SymbolPairMatch();
@@ -575,7 +576,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @param adapter New adapter, maybe null
      */
     public void setAutoCompletionItemAdapter(@Nullable EditorCompletionAdapter adapter) {
-        mCompletionWindow.setAdapter(adapter);
+        mCompletionWindow.view.setAdapter(adapter);
     }
 
     /**
@@ -664,7 +665,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             this.analyzer.analyze(mText);
         }
         if (mCompletionWindow != null) {
-            mCompletionWindow.hide();
+            mCompletionWindow.view.hide();
             mCompletionWindow.setProvider(lang.getAutoCompleteProvider());
         }
 
@@ -1112,16 +1113,16 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 Map.Entry<Integer, SpanController> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
                 for (int a = 0; a < keys.length; a=a+1) {
                     SpanController span = keys[a].getValue();
-                    int colStart = span.sm.column;
+                    int colStart = span.model.column;
                     int colStop  = lastVisibleChar;
                     if ( a+1 < keys.length) {
-                        colStop = keys[a+1].getValue().sm.column;
+                        colStop = keys[a+1].getValue().model.column;
                     }
                     int colSpan = colStop - colStart;
                     int paintStart = Math.max(firstVisibleChar, colStart);
                     int paintEnd = Math.min(lastVisibleChar, colStop);
 
-                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.sm.color);
+                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color);
                     // We ignore the span if it begins in the invisible zone
                     if ( colStart < firstVisibleChar || colStop > lastVisibleChar) { continue; }
                     drawRegionText(canvas,paintingOffset,
@@ -1129,7 +1130,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                             colStart,
                             colStop,
                             colSpan,
-                            span.sm.color);
+                            span.model.color);
 
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
                     paintingOffset += width;
@@ -2170,21 +2171,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             }
             getScroller().startScroll(getOffsetX(), getOffsetY(), 0, (int) offset, 0);
         }
-        mCompletionWindow.setExtendedX(panelX);
-        mCompletionWindow.setExtendedY(panelY);
-        if (getWidth() < 500 * mDpUnit) {
-            //Open center mode
-            mCompletionWindow.setWidth(getWidth() * 7 / 8);
-            mCompletionWindow.setExtendedX(getWidth() / 8f / 2f);
-        } else {
-            //Follow cursor mode
-            mCompletionWindow.setWidth(getWidth() / 3);
-        }
-        if (!mCompletionWindow.isShowing()) {
-            mCompletionWindow.setHeight((int) restY);
-        }
-        mCompletionWindow.setMaxHeight((int) restY);
-        mCompletionWindow.updatePosition();
+        mCompletionWindow.updateCompletionWindowPosition(panelX,panelY,restY,getWidth(),mDpUnit);
     }
 
     /**
@@ -2270,7 +2257,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     public void setAutoCompletionEnabled(boolean autoCompletionEnabled) {
         mAutoCompletionEnabled = autoCompletionEnabled;
         if (!autoCompletionEnabled) {
-            mCompletionWindow.hide();
+            mCompletionWindow.view.hide();
         }
     }
 
@@ -2390,7 +2377,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return 1dp in pixel
      */
-    protected float getDpUnit() {
+    public float getDpUnit() {
         return mDpUnit;
     }
 
@@ -3060,7 +3047,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * If the auto complete panel is shown,move the selection in panel to next
      */
     public void moveSelectionDown() {
-        if (mCompletionWindow.isShowing()) {
+        if (mCompletionWindow.view.isShowing()) {
             mCompletionWindow.moveDown();
             return;
         }
@@ -3084,7 +3071,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * If Auto complete panel is shown,move the selection in panel to last
      */
     public void moveSelectionUp() {
-        if (mCompletionWindow.isShowing()) {
+        if (mCompletionWindow.view.isShowing()) {
             mCompletionWindow.moveUp();
             return;
         }
@@ -3118,17 +3105,17 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 }
             }
             setSelection(line, column - 1);
-            if (mCompletionWindow.isShowing()) {
+            if (mCompletionWindow.view.isShowing()) {
                 String prefix = mCompletionWindow.getPrefix();
                 if (prefix.length() > toLeft) {
                     prefix = prefix.substring(0, prefix.length() - toLeft);
                     mCompletionWindow.setPrefix(prefix);
                 } else {
-                    mCompletionWindow.hide();
+                    mCompletionWindow.view.hide();
                 }
             }
             if (column - 1 <= 0) {
-                mCompletionWindow.hide();
+                mCompletionWindow.view.hide();
             }
         } else {
             if (line == 0) {
@@ -3157,9 +3144,9 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                     column--;
                 }
             }
-            if (!emoji && mCompletionWindow.isShowing()) {
+            if (!emoji && mCompletionWindow.view.isShowing()) {
                 if (!mLanguage.isAutoCompleteChar(ch)) {
-                    mCompletionWindow.hide();
+                    mCompletionWindow.view.hide();
                 } else {
                     String prefix = mCompletionWindow.getPrefix() + ch;
                     mCompletionWindow.setPrefix(prefix);
@@ -3292,7 +3279,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mCursor.setLeft(lineLeft, columnLeft);
         mCursor.setRight(lineRight, columnRight);
         updateCursor();
-        mCompletionWindow.hide();
+        mCompletionWindow.view.hide();
         if (makeRightVisible) {
             ensurePositionVisible(lineRight, columnRight);
         } else {
@@ -3310,7 +3297,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     public void movePageDown() {
         mEventHandler.onScroll(null, null, 0, getHeight());
-        mCompletionWindow.hide();
+        mCompletionWindow.view.hide();
     }
 
     /**
@@ -3318,7 +3305,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     public void movePageUp() {
         mEventHandler.onScroll(null, null, 0, -getHeight());
-        mCompletionWindow.hide();
+        mCompletionWindow.view.hide();
     }
 
     /**
@@ -3530,7 +3517,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     public void hideAutoCompleteWindow() {
         if (mCompletionWindow != null) {
-            mCompletionWindow.hide();
+            mCompletionWindow.view.hide();
         }
     }
 
@@ -3690,7 +3677,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             }
             case KeyEvent.KEYCODE_ENTER: {
                 if (isEditable()) {
-                    if (mCompletionWindow.isShowing()) {
+                    if (mCompletionWindow.view.isShowing()) {
                         mCompletionWindow.select();
                         return true;
                     }
@@ -3953,18 +3940,18 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                     String line = content.getLineString(endLine);
                     String prefix = line.substring(endColumn, end);
                     mCompletionWindow.setPrefix(prefix);
-                    mCompletionWindow.show();
+                    mCompletionWindow.view.show();
                 } else {
                     postHideCompletionWindow();
                 }
             } else {
                 postHideCompletionWindow();
             }
-            if (mCompletionWindow.isShowing()) {
+            if (mCompletionWindow.view.isShowing()) {
                 updateCompletionWindowPosition();
             }
         } else {
-            mCompletionWindow.hide();
+            mCompletionWindow.view.hide();
         }
 
         updateCursorAnchor();
@@ -3995,7 +3982,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         exitSelectModeIfNeeded();
 
         if (isAutoCompletionEnabled()) {
-            if (mConnection.mComposingLine == -1 && mCompletionWindow.isShowing()) {
+            if (mConnection.mComposingLine == -1 && mCompletionWindow.view.isShowing()) {
                 if (startLine != endLine || startColumn != endColumn - 1) {
                     postHideCompletionWindow();
                 }
@@ -4009,7 +3996,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 }
             }
         } else {
-            mCompletionWindow.hide();
+            mCompletionWindow.view.hide();
         }
 
         if (!mWait) {
@@ -4048,7 +4035,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 int column = mCursor.getLeftColumn();
                 mText.replace(0, 0, getLineCount() - 1, mText.getColumnCount(getLineCount() - 1), newText);
                 getScroller().forceFinished(true);
-                mCompletionWindow.hide();
+                mCompletionWindow.view.hide();
                 setSelectionAround(line, column);
             });
         }

@@ -18,10 +18,10 @@ package io.github.rosemoe.editor.langs;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
-import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.interfaces.NewlineHandler;
+import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate;
@@ -56,7 +56,7 @@ public class EmptyLanguage implements EditorLanguageController {
     }
 
     @Override
-    public AutoCompleteProvider getAutoCompleteProvider() {
+    public AutoCompleteProviderController getAutoCompleteProvider() {
         return new EmptyAutoCompleteProvider();
     }
 
@@ -75,7 +75,7 @@ public class EmptyLanguage implements EditorLanguageController {
         return false;
     }
 
-    public static class EmptyAutoCompleteProvider implements AutoCompleteProvider {
+    public static class EmptyAutoCompleteProvider implements AutoCompleteProviderController {
 
         @Override
         public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line) {

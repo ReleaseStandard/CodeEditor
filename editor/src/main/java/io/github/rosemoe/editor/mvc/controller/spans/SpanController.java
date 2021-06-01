@@ -29,7 +29,7 @@ import io.github.rosemoe.editor.widget.EditorColorScheme;
 public class SpanController {
 
     private static final BlockingQueue<SpanController> cacheQueue = new ArrayBlockingQueue<>(8192 * 2);
-    public SpanModel sm = new SpanModel();
+    public SpanModel model = new SpanModel();
 
     public static SpanController EMPTY() {
         return obtain(0, EditorColorScheme.DEFAULT().getTextNormal());
@@ -42,8 +42,8 @@ public class SpanController {
      * @see SpanController#obtain(int, int)
      */
     private SpanController(int column, int color) {
-        sm.column = column;
-        sm.color = color;
+        model.column = column;
+        model.color = color;
     }
 
     public static SpanController obtain(int column, int color) {
@@ -51,8 +51,8 @@ public class SpanController {
         if (span == null) {
             return new SpanController(column, color);
         } else {
-            span.sm.column = column;
-            span.sm.color = color;
+            span.model.column = column;
+            span.model.color = color;
             return span;
         }
     }
@@ -73,7 +73,7 @@ public class SpanController {
      * @return Self
      */
     public SpanController setUnderlineColor(int color) {
-        sm.underlineColor = color;
+        model.underlineColor = color;
         return this;
     }
 
@@ -83,14 +83,14 @@ public class SpanController {
      * @return Start column
      */
     public int getColumn() {
-        return sm.column;
+        return model.column;
     }
 
     /**
      * Set column of this span
      */
     public SpanController setColumn(int column) {
-        sm.column = column;
+        model.column = column;
         return this;
     }
 
@@ -98,13 +98,13 @@ public class SpanController {
      * Make a copy of this span
      */
     public SpanController copy() {
-        SpanController copy = obtain(sm.column, sm.color);
-        copy.setUnderlineColor(sm.underlineColor);
+        SpanController copy = obtain(model.column, model.color);
+        copy.setUnderlineColor(model.underlineColor);
         return copy;
     }
 
     public boolean recycle() {
-        sm.recycle();
+        model.recycle();
         return cacheQueue.offer(this);
     }
 

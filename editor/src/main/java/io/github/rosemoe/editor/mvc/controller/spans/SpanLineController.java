@@ -43,7 +43,7 @@ public class SpanLineController {
         line.put(col,span);
     }
     public void add(SpanController span) {
-        add(span.sm.column,span);
+        add(span.model.column,span);
     }
     public void add(SpanLineController line) {
         for(SpanController span : line.concurrentSafeGetValues()){
@@ -90,7 +90,7 @@ public class SpanLineController {
      * @return
      */
     public SpanController remove(SpanController span) {
-        return remove(span.sm.column);
+        return remove(span.model.column);
     }
     /**
      * Clear the span line.
@@ -119,10 +119,10 @@ public class SpanLineController {
         parts[1]=new SpanLineController();
         int columnIndex = 0;
         for(SpanController span : concurrentSafeGetValues()) {
-            if ( span.sm.column < col ) {
+            if ( span.model.column < col ) {
                 parts[0].add(span);
             } else {
-                int length = span.sm.column - col;
+                int length = span.model.column - col;
                 span.setColumn(columnIndex);
                 columnIndex += length;
                 parts[1].add(span);
@@ -140,11 +140,11 @@ public class SpanLineController {
         int index = 0;
         if ( one.size() > 0) {
             SpanController lastSpan = one.line.lastEntry().getValue();
-            index = lastSpan.sm.column;
+            index = lastSpan.model.column;
         }
         int lastCol = 0;
         for(SpanController span : two.concurrentSafeGetValues()) {
-            lastCol = span.sm.column - lastCol;
+            lastCol = span.model.column - lastCol;
             index += lastCol;
             span.setColumn(index);
             one.add(index,span);
@@ -160,10 +160,10 @@ public class SpanLineController {
      */
     public void insertContent(SpanController span, int col, int sz) {
         for(SpanController s : concurrentSafeGetValues()) {
-            if ( s.sm.column >= col ) {
-                line.remove(s.sm.column);
-                s.setColumn(s.sm.column+sz);
-                line.put(s.sm.column,span);
+            if ( s.model.column >= col ) {
+                line.remove(s.model.column);
+                s.setColumn(s.model.column+sz);
+                line.put(s.model.column,span);
             }
         }
         span.setColumn(col);
@@ -177,13 +177,13 @@ public class SpanLineController {
      */
     public void removeContent(int col,int sz) {
         for(SpanController span : concurrentSafeGetValues()) {
-            if ( span.sm.column < col) {
+            if ( span.model.column < col) {
 
             } else {
-                if ( span.sm.column < col+sz) {
+                if ( span.model.column < col+sz) {
                     remove(span);
                 } else {
-                    span.setColumn(span.sm.column-sz);
+                    span.setColumn(span.model.column-sz);
                 }
             }
         }

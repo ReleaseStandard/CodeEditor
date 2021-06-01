@@ -16,9 +16,12 @@
 package io.github.rosemoe.editor.mvc.controller;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.Comparator;
 
+import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.model.CompletionItemModel;
 import io.github.rosemoe.editor.mvc.view.CompletionItemView;
 
@@ -30,10 +33,10 @@ import io.github.rosemoe.editor.mvc.view.CompletionItemView;
 @SuppressWarnings("CanBeFinal")
 public class CompletionItemController {
 
-    public final static Comparator<CompletionItemController> COMPARATOR_BY_NAME = (p1, p2) -> p1.cim.label.compareTo(p2.cim.label);
+    public final static Comparator<CompletionItemController> COMPARATOR_BY_NAME = (p1, p2) -> p1.model.label.compareTo(p2.model.label);
 
-    public CompletionItemModel cim = new CompletionItemModel();
-    public CompletionItemView civ = new CompletionItemView();
+    public CompletionItemModel model = new CompletionItemModel();
+    public CompletionItemView  view = new CompletionItemView();
 
     public CompletionItemController(String str, String desc) {
         this(str, desc, (Drawable) null);
@@ -48,20 +51,27 @@ public class CompletionItemController {
     }
 
     public CompletionItemController(String label, String commit, String desc, Drawable icon) {
-        cim.label = label;
-        cim.commit = commit;
-        cim.desc = desc;
-        civ.icon = icon;
-        cim.cursorOffset = commit.length();
+        model.label = label;
+        model.commit = commit;
+        model.desc = desc;
+        view.icon = icon;
+        model.cursorOffset = commit.length();
     }
 
     public CompletionItemController shiftCount(int shiftCount) {
-        return cursorOffset(cim.commit.length() - shiftCount);
+        return cursorOffset(model.commit.length() - shiftCount);
     }
 
     public CompletionItemController cursorOffset(int offset) {
-        cim.cursorOffset(offset);
+        model.cursorOffset(offset);
         return this;
+    }
+
+    public void setContent(View root) {
+        TextView tv = (TextView) root.findViewById(R.id.result_item_label);
+        tv.setText(model.label);
+        tv = (TextView) root.findViewById(R.id.result_item_desc);
+        tv.setText(model.desc);
     }
 
 }

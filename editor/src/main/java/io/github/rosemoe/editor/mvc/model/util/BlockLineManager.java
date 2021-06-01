@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.mvc.model.util;
 
 import java.util.List;
 
@@ -25,12 +25,12 @@ import io.github.rosemoe.editor.mvc.model.BlockLineModel;
  *
  * @author Rose
  */
-public class ObjectAllocator {
+public class BlockLineManager {
 
     private static final int RECYCLE_LIMIT = 1024 * 8;
     private static List<BlockLineModel> blockLines;
 
-    public static void recycleBlockLine(List<BlockLineModel> src) {
+    public static void recycle(List<BlockLineModel> src) {
         if (src == null) {
             return;
         }
@@ -47,7 +47,7 @@ public class ObjectAllocator {
         }
     }
 
-    public static BlockLineModel obtainBlockLine() {
+    public static BlockLineModel obtain() {
         return (blockLines == null || blockLines.isEmpty()) ? new BlockLineModel() : blockLines.remove(blockLines.size() - 1);
     }
 

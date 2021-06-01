@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.widget;
 
 import android.graphics.Paint;
 
-import io.github.rosemoe.editor.text.FontCache;
+import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.text.content.Content;
 
 /**

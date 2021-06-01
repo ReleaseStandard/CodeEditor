@@ -22,7 +22,7 @@ import java.util.List;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.text.ObjectAllocator;
+import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.spanmap.Recycler;
 
@@ -151,7 +151,7 @@ public class TextAnalyzerController {
          * Process objects currently in the recycler.
          */
         void recycle() {
-            ObjectAllocator.recycleBlockLine(blockLines);
+            BlockLineManager.recycle(blockLines);
             Recycler.getInstance().recycle(spanMap);
             spanMap = null;
             blockLines = null;

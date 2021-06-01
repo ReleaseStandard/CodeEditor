@@ -32,6 +32,7 @@ import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
  * @author Rose
  */
 @SuppressWarnings("CanBeFinal")
+public
 class DefaultCompletionItemAdapter extends EditorCompletionAdapter {
 
     @Override
@@ -45,10 +46,8 @@ class DefaultCompletionItemAdapter extends EditorCompletionAdapter {
             view = LayoutInflater.from(getContext()).inflate(R.layout.default_completion_result_item, parent, false);
         }
         CompletionItemController item = getItem(pos);
-        TextView tv = (TextView) view.findViewById(R.id.result_item_label);
-        tv.setText(item.label);
-        tv = (TextView) view.findViewById(R.id.result_item_desc);
-        tv.setText(item.desc);
+        item.setContent((TextView) view.findViewById(R.id.result_item_label));
+
         view.setTag(pos);
         if (isCurrentCursorPosition) {
             view.setBackgroundColor(0xffdddddd);
@@ -56,7 +55,7 @@ class DefaultCompletionItemAdapter extends EditorCompletionAdapter {
             view.setBackgroundColor(0xffffffff);
         }
         ImageView iv = (ImageView) view.findViewById(R.id.result_item_image);
-        iv.setImageDrawable(item.icon);
+        iv.setImageDrawable(item.view.icon);
         return view;
     }
 

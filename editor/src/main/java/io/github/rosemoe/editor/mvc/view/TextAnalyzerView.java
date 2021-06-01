@@ -22,7 +22,7 @@ import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.text.ObjectAllocator;
+import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -84,7 +84,7 @@ public class TextAnalyzerView {
      * @return An idle BlockLineModel
      */
     public BlockLineModel obtainNewBlock() {
-        return ObjectAllocator.obtainBlockLine();
+        return BlockLineManager.obtain();
     }
 
     /**

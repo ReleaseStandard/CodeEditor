@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.interfaces;
+package io.github.rosemoe.editor.mvc.view;
 
 /**
  * Perform text processing when user enters '\n' and selection size is 0

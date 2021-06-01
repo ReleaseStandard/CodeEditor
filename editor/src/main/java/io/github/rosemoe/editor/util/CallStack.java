@@ -7,6 +7,9 @@ import java.util.Set;
 
 import static java.lang.Thread.currentThread;
 
+/**
+ * Retrieve a proper caller name from the callstack (useful for debugging).
+ */
 public class CallStack {
 
 

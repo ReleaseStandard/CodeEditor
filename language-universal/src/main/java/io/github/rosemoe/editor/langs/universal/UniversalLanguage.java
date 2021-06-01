@@ -16,9 +16,9 @@
 package io.github.rosemoe.editor.langs.universal;
 
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
-import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
+import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.interfaces.NewlineHandler;
+import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
@@ -53,7 +53,7 @@ public class UniversalLanguage extends CodeAnalyzerController implements EditorL
     }
 
     @Override
-    public AutoCompleteProvider getAutoCompleteProvider() {
+    public AutoCompleteProviderController getAutoCompleteProvider() {
         IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();
         autoComplete.setKeywords(mLanguage.getKeywords());
         return autoComplete;

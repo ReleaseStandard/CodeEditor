@@ -23,6 +23,7 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
 
 /**
  * A class to make custom adapter for auto-completion window
@@ -31,13 +32,13 @@ import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
  */
 public abstract class EditorCompletionAdapter extends BaseAdapter {
 
-    private EditorAutoCompleteWindow mWindow;
+    private EditorAutoCompleteWindowController mWindow;
     private List<CompletionItemController> mItems;
 
     /**
-     * Called by {@link EditorAutoCompleteWindow} to attach some arguments
+     * Called by {@link EditorAutoCompleteWindowController} to attach some arguments
      */
-    public void attachAttributes(EditorAutoCompleteWindow window, List<CompletionItemController> items) {
+    public void attachAttributes(EditorAutoCompleteWindowController window, List<CompletionItemController> items) {
         mWindow = window;
         mItems = items;
     }

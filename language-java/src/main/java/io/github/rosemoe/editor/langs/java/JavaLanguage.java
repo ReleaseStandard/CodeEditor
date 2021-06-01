@@ -16,9 +16,9 @@
 package io.github.rosemoe.editor.langs.java;
 
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
-import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
+import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.interfaces.NewlineHandler;
+import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
@@ -38,7 +38,7 @@ public class JavaLanguage implements EditorLanguageController {
     }
 
     @Override
-    public AutoCompleteProvider getAutoCompleteProvider() {
+    public AutoCompleteProviderController getAutoCompleteProvider() {
         IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();
         autoComplete.setKeywords(JavaTextTokenizer.sKeywords);
         return autoComplete;

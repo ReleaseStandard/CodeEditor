@@ -23,7 +23,7 @@ import android.widget.PopupWindow;
  *
  * @author Rose
  */
-class EditorBasePopupWindow extends PopupWindow {
+public class EditorBasePopupWindow extends PopupWindow {
     private CodeEditor mEditor;
     private int[] mLocation;
     private int mTop;

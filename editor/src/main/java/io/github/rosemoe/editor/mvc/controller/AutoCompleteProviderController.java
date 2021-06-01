@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.interfaces;
+package io.github.rosemoe.editor.mvc.controller;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
  *
  * @author Rose
  */
-public interface AutoCompleteProvider {
+public interface AutoCompleteProviderController {
 
     /**
      * Analyze auto complete items

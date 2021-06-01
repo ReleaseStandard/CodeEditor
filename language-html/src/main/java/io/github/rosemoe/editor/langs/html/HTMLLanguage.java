@@ -6,10 +6,10 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
+import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
-import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.interfaces.NewlineHandler;
+import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 public class HTMLLanguage implements EditorLanguageController {
@@ -22,7 +22,7 @@ public class HTMLLanguage implements EditorLanguageController {
     }
 
     @Override
-    public AutoCompleteProvider getAutoCompleteProvider() {
+    public AutoCompleteProviderController getAutoCompleteProvider() {
         return new HTMLAutoComplete();
     }
 

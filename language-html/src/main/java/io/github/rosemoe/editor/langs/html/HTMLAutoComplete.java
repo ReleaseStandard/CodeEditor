@@ -3,7 +3,7 @@ package io.github.rosemoe.editor.langs.html;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
+import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
 
@@ -14,7 +14,7 @@ import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
  * @author Akash Yadav
  */
 
-public class HTMLAutoComplete implements AutoCompleteProvider {
+public class HTMLAutoComplete implements AutoCompleteProviderController {
     @Override
     public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line) {
         List<CompletionItemController> items = new ArrayList<>();

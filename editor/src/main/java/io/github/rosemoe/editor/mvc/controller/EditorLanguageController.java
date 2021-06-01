@@ -15,8 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
-import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
-import io.github.rosemoe.editor.interfaces.NewlineHandler;
+import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 /**
@@ -43,11 +42,11 @@ public interface EditorLanguageController {
     CodeAnalyzerController getAnalyzer();
 
     /**
-     * Get AutoCompleteProvider of this language object
+     * Get AutoCompleteProviderController of this language object
      *
-     * @return AutoCompleteProvider
+     * @return AutoCompleteProviderController
      */
-    AutoCompleteProvider getAutoCompleteProvider();
+    AutoCompleteProviderController getAutoCompleteProvider();
 
     /**
      * Called by editor to check whether this is a character for auto completion
