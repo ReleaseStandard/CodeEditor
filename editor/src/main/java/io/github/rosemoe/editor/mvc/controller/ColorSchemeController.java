@@ -151,9 +151,6 @@ public class ColorSchemeController {
      * Called by editor
      */
     public void attachEditor(CodeEditor editor) {
-        if (mEditor != null) {
-            throw new IllegalStateException("A editor is already attached to this ColorScheme object");
-        }
         mEditor = Objects.requireNonNull(editor);
     }
 }
