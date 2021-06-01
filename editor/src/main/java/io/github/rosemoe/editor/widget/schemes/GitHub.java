@@ -22,27 +22,22 @@ import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
  * picked from Notepad++ v7.8.1
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public final class NotepadXX extends ColorSchemeController {
+public final class GitHub extends ColorSchemeController {
 
     @Override
     public void initTheme() {
-        base1 = 0xff008000;
+        base1 = 0xff6a737d;
         base3 = 0xffffffff;
-        base00 = 0xff000000;
-        base2 = 0xffe4e4e4;
+        base00 = 0xff24292e;
+        base2 = 0xffbec0c1;
     }
-    @Override public int getComment() { return 0xff008000; }
+    @Override public int getComment() { return 0xff6a737d; }
     @Override public int getWholeBackground() {
         return 0xffffffff;
     }
-    @Override public int getTextNormal() { return 0xff000000; }
-    @Override public int getLineNumberBackground() { return 0xffe4e4e4; }
-    @Override public int getLineNumberPanel() { return 0xff808080; }
-    @Override public int getSelectedTextBackground(){return 0xff75d975;}
-    @Override public int getMatchedTextBackground() { return 0xffc0c0c0; }
-    @Override public int getCurrentLine() { return 0xffe8e8ff; }
-    @Override public int getSelectionInsert() { return 0xff8000ff; }
-    @Override public int getSelectionHandle() { return 0xff8000ff; }
-    @Override public int getBlockLine() { return 0xffc0c0c0; }
-    @Override public int getBlockLineCurrent() { return 0; }
+    @Override public int getTextNormal() { return 0xff24292e; }
+    @Override public int getLineNumberBackground() { return 0xffffffff; }
+    @Override public int getLineNumberPanel() { return 0xffbec0c1; }
+    @Override public int getSelectionInsert() { return 0xffc7edcc; }
+    @Override public int getSelectionHandle() { return 0xffc7edcc; }
 }

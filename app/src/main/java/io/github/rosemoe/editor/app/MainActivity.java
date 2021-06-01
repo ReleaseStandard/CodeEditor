@@ -51,12 +51,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.SymbolInputView;
-import io.github.rosemoe.editor.widget.schemes.HTML;
-import io.github.rosemoe.editor.widget.schemes.Darcula;
-import io.github.rosemoe.editor.widget.schemes.Eclipse;
-import io.github.rosemoe.editor.widget.schemes.NotepadXX;
-import io.github.rosemoe.editor.widget.schemes.Solarized;
-import io.github.rosemoe.editor.widget.schemes.VS2019;
+import io.github.rosemoe.editor.widget.schemes.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         put("NotepadXX",new NotepadXX());
         put("HTML",new HTML());
         put("Solarized",new Solarized());
+        put("GitHub",new GitHub());
     }};
     private HashMap<String, EditorLanguageController> languages = new HashMap<String, EditorLanguageController>() {{
         put("C",new UniversalLanguage(new CDescription()));

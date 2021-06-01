@@ -31,11 +31,18 @@ public final class Eclipse extends ColorSchemeController {
         base00 = 0xff000000;
         base1 = 0xff3f7f5f;
     }
-    @Override public int getMatchedTextBackground() { return 0xffd4d4d4; }
-    @Override public int getSelectedTextBackground() { return 0xff3399ff; }
-    @Override public int getLineNumberPanelText() { return 0xff787878; }
+    @Override public int getComment() { return 0xff3f7f5f; }
+    @Override public int getWholeBackground() {
+        return 0xffffffff;
+    }
+    @Override public int getTextNormal() { return 0xff000000; }
     @Override public int getLineNumberBackground() { return 0xffffffff; }
+    @Override public int getLineNumberPanel() { return 0xff787878; }
+    @Override public int getSelectedTextBackground(){return 0xff3399ff;}
+    @Override public int getMatchedTextBackground() { return 0xffd4d4d4; }
+    @Override public int getCurrentLine() { return 0xffe8f2fe; }
     @Override public int getSelectionInsert() { return 0xff03ebeb; }
     @Override public int getSelectionHandle() { return 0xff03ebeb; }
+    @Override public int getBlockLine() { return 0xffd8d8d8; }
     @Override public int getBlockLineCurrent() { return 0; }
 }

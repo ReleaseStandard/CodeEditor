@@ -28,8 +28,16 @@ public class HTML extends ColorSchemeController {
         base2 = 0xff464646;
         base3 = 0xff212121;
     }
+
+    @Override public int getComment() { return 0xffbdbdbd; }
+    @Override public int getWholeBackground() { return 0xff212121; }
+    @Override public int getTextNormal() { return 0xffffffff; }
+    @Override public int getLineNumberBackground() { return 0xff1e1e1e; }
+    @Override public int getCurrentLine() { return 0xff464646; }
+    @Override public int getNonPrintableChar() { return 0xffdddddd; }
     @Override public int getSelectionInsert() { return 0xffffffff; }
     @Override public int getSelectionHandle() { return 0xffffffff; }
-    @Override public int getNonPrintableChar() { return 0xffdddddd; }
-    @Override public int getBlockLineCurrent() { return 0xffffffff; }
+    @Override public int getLineNumberPanel() { return 0xff2b9eaf; }
+    @Override public int getLineDivider() { return 0xff2b9eaf; }
+
 }
