@@ -20,7 +20,7 @@ import java.util.TreeMap;
 import io.github.rosemoe.editor.mvc.model.spans.SpanLineModel;
 import io.github.rosemoe.editor.mvc.view.spans.SpanLineView;
 import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
 /**
  * The class handle one line in the text editor.
@@ -200,7 +200,7 @@ public class SpanLineController {
      */
     public static SpanLineController EMPTY() {
         SpanLineController line = new SpanLineController();
-        line.add(SpanController.obtain(0, EditorColorSchemeController.DEFAULT().getTextNormal()));
+        line.add(SpanController.obtain(0, ColorSchemeController.DEFAULT().getTextNormal()));
         return line;
     }
 

@@ -15,18 +15,17 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
 /**
  * ColorScheme for editor
  * picked from Android Studio
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public class Darcula extends EditorColorSchemeController {
+public class Darcula extends ColorSchemeController {
 
     @Override
     public void initTheme() {
-        setColor(BLOCK_LINE_CURRENT, 0xffff00ff);
         accent1 = 0xff32593d;
         base00 = 0xffffffff;
         base1 = 0xff606366;
@@ -41,4 +40,5 @@ public class Darcula extends EditorColorSchemeController {
     @Override public int getScrollBarThumb() { return 0xffff0000; }
     @Override public int getScrollBarThumbPressed() { return 0xff00ff00; }
     @Override public int getNonPrintableChar() { return 0xfff0f0f0; }
+    @Override public int getBlockLineCurrent() { return 0xffff00ff; }
 }

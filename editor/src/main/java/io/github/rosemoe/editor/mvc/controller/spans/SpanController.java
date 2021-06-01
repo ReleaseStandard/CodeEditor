@@ -19,7 +19,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import io.github.rosemoe.editor.mvc.model.spans.SpanModel;
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.view.spans.SpanView;
 
 /**
@@ -34,7 +34,7 @@ public class SpanController {
     public SpanView view  = new SpanView();
 
     public static SpanController EMPTY() {
-        return obtain(0, EditorColorSchemeController.DEFAULT().getTextNormal());
+        return obtain(0, ColorSchemeController.DEFAULT().getTextNormal());
     }
     /**
      * Create a new span
@@ -71,7 +71,7 @@ public class SpanController {
      * Set a underline for this region
      * Zero for no underline
      *
-     * @param color Color for this underline (not color id of {@link EditorColorSchemeController})
+     * @param color Color for this underline (not color id of {@link ColorSchemeController})
      * @return Self
      */
     public SpanController setUnderlineColor(int color) {

@@ -15,13 +15,13 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
 /**
  * Solarized theme
  * https://github.com/altercation/solarized
  */
-public class Solarized extends EditorColorSchemeController {
+public class Solarized extends ColorSchemeController {
     @Override
     public void initTheme() {
         theme_name        = "Solarized";

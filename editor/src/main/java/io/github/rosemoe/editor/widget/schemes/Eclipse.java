@@ -15,20 +15,19 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
 /**
  * ColorScheme for editor
  * picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public final class Eclipse extends EditorColorSchemeController {
+public final class Eclipse extends ColorSchemeController {
 
     @Override
     public void initTheme() {
         base3 = 0xffffffff;
         base2 = 0xffe8f2fe;
-        setColor(BLOCK_LINE_CURRENT, 0);
         base00 = 0xff000000;
         base1 = 0xff3f7f5f;
     }
@@ -38,4 +37,5 @@ public final class Eclipse extends EditorColorSchemeController {
     @Override public int getLineNumberBackground() { return 0xffffffff; }
     @Override public int getSelectionInsert() { return 0xff03ebeb; }
     @Override public int getSelectionHandle() { return 0xff03ebeb; }
+    @Override public int getBlockLineCurrent() { return 0; }
 }

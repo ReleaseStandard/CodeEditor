@@ -69,9 +69,13 @@ public class CompletionItemController {
 
     public void setContent(View root) {
         TextView tv = (TextView) root.findViewById(R.id.result_item_label);
-        tv.setText(model.label);
+        if ( tv != null ) {
+            tv.setText(model.label);
+        }
         tv = (TextView) root.findViewById(R.id.result_item_desc);
-        tv.setText(model.desc);
+        if ( tv != null ) {
+            tv.setText(model.desc);
+        }
     }
 
 }

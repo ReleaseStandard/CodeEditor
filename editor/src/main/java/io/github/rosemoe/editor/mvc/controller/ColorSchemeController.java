@@ -30,9 +30,9 @@ import io.github.rosemoe.editor.widget.schemes.Solarized;
  * https://github.com/altercation/solarized
  * @author Rose
  */
-public class EditorColorSchemeController {
+public class ColorSchemeController {
 
-    public static EditorColorSchemeController DEFAULT() { return new Solarized(); }
+    public static ColorSchemeController DEFAULT() { return new Solarized(); }
     public static final int TODO = 0xFFFF0000;
     private final int DEFAULT = TODO;
     /**
@@ -107,27 +107,18 @@ public class EditorColorSchemeController {
     }
     public int getComment() { return base1; }
     public int getMatchedTextBackground() { return accent1; }
-    public int getBlockLine() { return base1; }
+    public int getBlockLine() { return base2; }
+    public int getBlockLineCurrent() { return base2; }
     public int getSelectionInsert() { return getTextNormal(); }
     public int getSelectionHandle() { return getTextNormal(); }
     public int getScrollBarThumb() { return base1; }
     public int getScrollBarThumbPressed() { return base2; }
     public int getNonPrintableChar() { return 0x00000000; }
-
-    //-------------View colors---------------------
-
-    public static final int AUTO_COMP_PANEL_CORNER = 20;
-    public static final int AUTO_COMP_PANEL_BG = 19;
-
-    /**
-     * No longer supported
-     */
-    public static final int LINE_BLOCK_LABEL = 18;
-
-    public static final int BLOCK_LINE_CURRENT = 15;
-    public static final int SCROLL_BAR_TRACK = 13;
-    public static final int UNDERLINE = 10;
-    public static final int LINE_DIVIDER = 1;
+    public int getCompletionPanelBackground() { return base1; }
+    public int getCompletionPanelCorner() { return base2; }
+    public int getScrollBarTrack() { return base0; }
+    public int getUnderline() { return accent3; }
+    public int getLineDivider() { return base1; }
 
     /**
      * Real color saver
@@ -144,11 +135,11 @@ public class EditorColorSchemeController {
     /**
      * For sub classes
      */
-    public EditorColorSchemeController() {
+    public ColorSchemeController() {
         mColors = new SparseIntArray();
         initTheme();
     }
-    public EditorColorSchemeController(boolean invert) {
+    public ColorSchemeController(boolean invert) {
         mColors = new SparseIntArray();
         initTheme();
         if ( invert ) {

@@ -63,7 +63,7 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.widget.SearcherController;
@@ -222,7 +222,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private char[] mBuffer2;
     private Matrix mMatrix;
     private Rect mViewRect;
-    private EditorColorSchemeController mColors;
+    private ColorSchemeController mColors;
     private String mLnTip = "Line:";
     private EditorLanguageController mLanguage;
     private long mLastMakeVisible = 0;
@@ -488,7 +488,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mStartedActionMode = ACTION_MODE_NONE;
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
-        mColors = EditorColorSchemeController.DEFAULT();
+        mColors = ColorSchemeController.DEFAULT();
         mEventHandler = new EditorTouchEventHandler(this);
         mBasicDetector = new GestureDetector(getContext(), mEventHandler);
         mBasicDetector.setOnDoubleTapListener(mEventHandler);
@@ -943,7 +943,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
 
         getCursor().updateCache(getFirstVisibleLine());
 
-        EditorColorSchemeController color = mColors;
+        ColorSchemeController color = mColors;
         drawColor(canvas, mColors.getWholeBackground(), mViewRect);
 
         float lineNumberWidth = measureLineNumber();
@@ -980,7 +980,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (isLineNumberEnabled()) {
 
             drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, color.getColor(mColors.getLineNumberBackground()));
-            drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin, color.getColor(EditorColorSchemeController.LINE_DIVIDER));
+            drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin,color.getLineDivider());
             int lineNumberColor = mColors.getLineNumberPanelText();
             for (int i = 0; i < postDrawLineNumbers.size(); i++) {
                 long packed = postDrawLineNumbers.get(i);
@@ -1179,7 +1179,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                     mRect.bottom = mRect.top + getRowHeight() * 0.06f;
                     mRect.left = paintingOffset + measureText(mBuffer, firstVisibleChar, paintStart - firstVisibleChar);
                     mRect.right = mRect.left + measureText(mBuffer, paintStart, paintEnd - paintStart);
-                    drawColor(canvas, mColors.getColor(EditorColorSchemeController.UNDERLINE), mRect);
+                    drawColor(canvas, mColors.getUnderline(), mRect);
                 }
             }
 
@@ -1545,7 +1545,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                     mRect.bottom = Math.min(getHeight(), getRowTop(block.endLine) - getOffsetY());
                     mRect.left = centerX - mDpUnit * mBlockLineWidth / 2;
                     mRect.right = centerX + mDpUnit * mBlockLineWidth / 2;
-                    drawColor(canvas, mColors.getColor(curr == cursorIdx ? EditorColorSchemeController.BLOCK_LINE_CURRENT : mColors.getBlockLine()), mRect);
+
+                    drawColor(canvas, curr == cursorIdx ? mColors.getBlockLineCurrent() : mColors.getBlockLine(), mRect);
                 } catch (IndexOutOfBoundsException e) {
                     //Ignored
                     //Because the exception usually occurs when the content changed.
@@ -1591,7 +1592,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mRect.left = getWidth() - mDpUnit * 10;
             mRect.top = 0;
             mRect.bottom = getHeight();
-            drawColor(canvas, mColors.getColor(EditorColorSchemeController.SCROLL_BAR_TRACK), mRect);
+            drawColor(canvas, mColors.getScrollBarTrack(), mRect);
         }
     }
 
@@ -1667,7 +1668,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mRect.bottom = getHeight();
             mRect.right = getWidth();
             mRect.left = 0;
-            drawColor(canvas, mColors.getColor(EditorColorSchemeController.SCROLL_BAR_TRACK), mRect);
+            drawColor(canvas, mColors.getScrollBarTrack(), mRect);
         }
     }
 
@@ -3481,20 +3482,20 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @return ColorScheme object using
      */
     @NonNull
-    public EditorColorSchemeController getColorScheme() {
+    public ColorSchemeController getColorScheme() {
         return mColors;
     }
 
     /**
      * Set a new color scheme for editor.
      * <p>
-     * It can be a subclass of {@link EditorColorSchemeController}.
+     * It can be a subclass of {@link ColorSchemeController}.
      * The scheme object can only be applied to one editor instance.
      * Otherwise, an IllegalStateException is thrown.
      *
-     * @param colors A non-null and free EditorColorSchemeController
+     * @param colors A non-null and free ColorSchemeController
      */
-    public void setColorScheme(@NonNull EditorColorSchemeController colors) {
+    public void setColorScheme(@NonNull ColorSchemeController colors) {
         colors.attachEditor(this);
         mColors = colors;
         if (mCompletionWindow != null) {
@@ -3548,7 +3549,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @param type Color type changed
      */
     public void onColorUpdated(int type) {
-        if (type == EditorColorSchemeController.AUTO_COMP_PANEL_BG || type == EditorColorSchemeController.AUTO_COMP_PANEL_CORNER) {
+        if (type == mColors.getCompletionPanelBackground() || type == mColors.getCompletionPanelCorner()) {
             if (mCompletionWindow != null)
                 mCompletionWindow.applyColorScheme();
             return;

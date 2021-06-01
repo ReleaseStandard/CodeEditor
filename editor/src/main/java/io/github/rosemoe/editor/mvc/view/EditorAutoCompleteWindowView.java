@@ -24,11 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.mvc.view.widget.completion.DefaultCompletionItemAdapter;
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 
 public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
@@ -67,9 +67,9 @@ public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
             }
         });
     }
-    public void applyColorScheme(EditorColorSchemeController theme) {
-        mBg.setStroke(1, theme.getColor(EditorColorSchemeController.AUTO_COMP_PANEL_CORNER));
-        mBg.setColor(theme.getColor(EditorColorSchemeController.AUTO_COMP_PANEL_BG));
+    public void applyColorScheme(ColorSchemeController theme) {
+        mBg.setStroke(1, theme.getCompletionPanelCorner());
+        mBg.setColor(theme.getCompletionPanelBackground());
     }
     public void setAdapter(CompletionAdapter adapter) {
         mAdapter = adapter;

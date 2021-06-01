@@ -21,7 +21,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.completion.AutoCompleteWindowModel;
 import io.github.rosemoe.editor.mvc.view.EditorAutoCompleteWindowView;
@@ -112,7 +112,7 @@ public class AutoCompleteWindowController {
      * Apply colors for self
      */
     public void applyColorScheme() {
-        EditorColorSchemeController colors = mEditor.getColorScheme();
+        ColorSchemeController colors = mEditor.getColorScheme();
         view.applyColorScheme(colors);
     }
 

@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
@@ -49,7 +50,6 @@ import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.widget.SymbolInputView;
 import io.github.rosemoe.editor.widget.schemes.HTML;
 import io.github.rosemoe.editor.widget.schemes.Darcula;
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText search, replace;
 
     private MainActivityModel mam = new MainActivityModel();
-    private HashMap<String, EditorColorSchemeController> themes = new HashMap<String, EditorColorSchemeController>() {{
-        put("Default", EditorColorSchemeController.DEFAULT());
+    private HashMap<String, ColorSchemeController> themes = new HashMap<String, ColorSchemeController>() {{
+        put("Default", ColorSchemeController.DEFAULT());
         put("Eclipse",new Eclipse());
         put("Darcula",new Darcula());
         put("VS2019",new VS2019());
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
-                            EditorColorSchemeController theme = themes.get(mam.themes[which]);
+                            ColorSchemeController theme = themes.get(mam.themes[which]);
                             editor.setColorScheme(theme);
                             mam.checkedTheme=which;
                             dialog.dismiss();

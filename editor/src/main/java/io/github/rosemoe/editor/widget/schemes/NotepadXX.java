@@ -15,14 +15,14 @@
  */
 package io.github.rosemoe.editor.widget.schemes;
 
-import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
 /**
  * ColorScheme for editor
  * picked from Notepad++ v7.8.1
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public final class NotepadXX extends EditorColorSchemeController {
+public final class NotepadXX extends ColorSchemeController {
 
     @Override
     public void initTheme() {
@@ -30,11 +30,10 @@ public final class NotepadXX extends EditorColorSchemeController {
         base3 = 0xffffffff;
         base00 = 0xff000000;
         base2 = 0xffe4e4e4;
-        setColor(BLOCK_LINE_CURRENT, 0);
     }
     @Override public int getMatchedTextBackground() { return 0xffc0c0c0; }
     @Override public int getSelectedTextBackground(){return 0xff75d975;}
     @Override public int getSelectionInsert() { return 0xff8000ff; }
     @Override public int getSelectionHandle() { return 0xff8000ff; }
-
+    @Override public int getBlockLineCurrent() { return 0; }
 }
