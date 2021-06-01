@@ -17,6 +17,8 @@ package io.github.rosemoe.editor.mvc.controller.spans;
 
 import java.util.TreeMap;
 
+import io.github.rosemoe.editor.mvc.model.spans.SpanLineModel;
+import io.github.rosemoe.editor.mvc.view.spans.SpanLineView;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 
@@ -26,6 +28,10 @@ import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
  * @author Release Standard
  */
 public class SpanLineController {
+
+    public SpanLineModel model = new SpanLineModel();
+    public SpanLineView  view  = new SpanLineView();
+
     /**
      * Column index 0..n-1, SpanController
      */

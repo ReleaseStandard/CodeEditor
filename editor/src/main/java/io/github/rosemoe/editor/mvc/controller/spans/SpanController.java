@@ -20,6 +20,7 @@ import java.util.concurrent.BlockingQueue;
 
 import io.github.rosemoe.editor.mvc.model.spans.SpanModel;
 import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
+import io.github.rosemoe.editor.mvc.view.spans.SpanView;
 
 /**
  * The span model
@@ -30,6 +31,7 @@ public class SpanController {
 
     private static final BlockingQueue<SpanController> cacheQueue = new ArrayBlockingQueue<>(8192 * 2);
     public SpanModel model = new SpanModel();
+    public SpanView view  = new SpanView();
 
     public static SpanController EMPTY() {
         return obtain(0, EditorColorSchemeController.DEFAULT().getTextNormal());
@@ -104,7 +106,7 @@ public class SpanController {
     }
 
     public boolean recycle() {
-        model.recycle();
+        model.clear();
         return cacheQueue.offer(this);
     }
 

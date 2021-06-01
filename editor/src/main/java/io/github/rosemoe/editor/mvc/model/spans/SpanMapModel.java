@@ -15,15 +15,5 @@
  */
 package io.github.rosemoe.editor.mvc.model.spans;
 
-/**
- * A span is a column, a color, an underline color.
- */
-public class SpanModel {
-    public int column;
-    public int color;
-    public int underlineColor = 0;
-
-    public void clear() {
-        color = column = underlineColor = 0;
-    }
+public class SpanMapModel {
 }

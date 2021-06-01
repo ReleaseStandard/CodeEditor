@@ -18,6 +18,9 @@ package io.github.rosemoe.editor.mvc.controller.content;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.model.content.ContentActionModel;
+import io.github.rosemoe.editor.mvc.view.content.ContentActionView;
+
 /**
  * Helper class for ContentController to take down modification
  * As well as provide Undo/Redo actions
@@ -25,6 +28,9 @@ import java.util.List;
  * @author Rose
  */
 public final class ContentActionController implements ContentListener {
+
+    public ContentActionModel model = new ContentActionModel();
+    public ContentActionView view   = new ContentActionView();
 
     private final ContentController mContent;
     private final List<ContentAction> mActionStack;

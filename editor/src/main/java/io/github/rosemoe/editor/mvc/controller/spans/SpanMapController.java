@@ -18,6 +18,8 @@ package io.github.rosemoe.editor.mvc.controller.spans;
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.github.rosemoe.editor.mvc.model.spans.SpanMapModel;
+import io.github.rosemoe.editor.mvc.view.spans.SpanMapView;
 import io.github.rosemoe.editor.processor.spanmap.Recycler;
 import io.github.rosemoe.editor.util.Logger;
 
@@ -29,6 +31,9 @@ import io.github.rosemoe.editor.util.Logger;
  */
 public class SpanMapController {
 
+    public SpanMapModel model = new SpanMapModel();
+    public SpanMapView view   = new SpanMapView();
+    
     /**
      * lineindex, SpanLineController
      * This associate a TreeMap with each line.

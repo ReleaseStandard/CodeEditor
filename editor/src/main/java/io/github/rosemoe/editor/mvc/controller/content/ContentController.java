@@ -20,6 +20,9 @@ import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
+import io.github.rosemoe.editor.mvc.model.content.ContentActionModel;
+import io.github.rosemoe.editor.mvc.model.content.ContentModel;
+import io.github.rosemoe.editor.mvc.view.content.ContentView;
 import io.github.rosemoe.editor.processor.content.CachedIndexer;
 import io.github.rosemoe.editor.processor.content.Indexer;
 import io.github.rosemoe.editor.processor.content.LineRemoveListener;
@@ -33,6 +36,9 @@ import io.github.rosemoe.struct.BlockLinkedList;
  * @author Rose
  */
 public class ContentController implements CharSequence {
+
+    public ContentModel model = new ContentModel();
+    public ContentView view   = new ContentView();
 
     public final static int DEFAULT_MAX_UNDO_STACK_SIZE = 100;
     public final static int DEFAULT_LIST_CAPACITY = 1000;

@@ -18,10 +18,17 @@ package io.github.rosemoe.editor.mvc.controller.content;
 import android.text.GetChars;
 import android.text.TextUtils;
 
+import io.github.rosemoe.editor.mvc.model.content.ContentLineModel;
+import io.github.rosemoe.editor.mvc.model.content.ContentModel;
+import io.github.rosemoe.editor.mvc.view.content.ContentLineView;
+
 /**
  * One line of content in the ContentController.
  */
 public class ContentLineController implements CharSequence, GetChars {
+
+    public ContentLineModel model = new ContentLineModel();
+    public ContentLineView view   = new ContentLineView();
 
     private char[] value;
 
