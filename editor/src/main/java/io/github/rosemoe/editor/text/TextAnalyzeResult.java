@@ -33,14 +33,12 @@ public class TextAnalyzeResult {
     protected final List<BlockLine> mBlocks;
     public final SpanMap mSpanMap;
     public Object mExtra;
-    protected Span mLast;
     protected int mSuppressSwitch = Integer.MAX_VALUE;
 
     /**
      * Create a new result
      */
     public TextAnalyzeResult() {
-        mLast = null;
         mSpanMap = new SpanMap();
         mBlocks = new ArrayList<>(1024);
     }

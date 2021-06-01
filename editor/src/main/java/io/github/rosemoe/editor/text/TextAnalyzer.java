@@ -196,7 +196,6 @@ public class TextAnalyzer {
                         codeAnalyzer.analyze(c, colors, d);
                         if (waiting) {
                             colors.mSpanMap.clear();
-                            colors.mLast = null;
                             colors.mBlocks.clear();
                             colors.mSuppressSwitch = Integer.MAX_VALUE;
                             colors.mExtra = null;
