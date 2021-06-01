@@ -90,4 +90,6 @@ done
 
 
 cd "$rootfolder";
-./gradlew assemble
+./gradlew assemble || exit 1;
+git add .
+git commit -m "Languages synchronize with https://github.com/antlr/grammars-v4/"
