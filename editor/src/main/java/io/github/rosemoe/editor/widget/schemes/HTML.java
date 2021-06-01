@@ -23,6 +23,8 @@ import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 public class HTML extends ColorSchemeController {
     @Override
     public void initTheme() {
+        theme_name = "HTML";
+        theme_description = "ColorScheme for HTML Language for editor";
         base00 = 0xffffffff;
         base1 = 0xffbdbdbd;
         base2 = 0xff464646;

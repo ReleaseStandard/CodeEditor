@@ -22,6 +22,10 @@ import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
  * https://github.com/altercation/solarized
  */
 public class Solarized extends ColorSchemeController {
+
+    public Solarized(boolean b) { super(b); }
+    public Solarized() { }
+
     @Override
     public void initTheme() {
         theme_name        = "Solarized";

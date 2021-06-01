@@ -26,6 +26,8 @@ public class VS2019 extends ColorSchemeController {
 
     @Override
     public void initTheme() {
+        theme_name = "VS2019";
+        theme_description = "picked from Visual Studio 2019, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
         base00 = 0xffdcdcdc;
         base1 = 0xff57a64a;
         base2 = 0xff3676b8;

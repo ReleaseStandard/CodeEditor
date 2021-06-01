@@ -26,6 +26,8 @@ public final class NotepadXX extends ColorSchemeController {
 
     @Override
     public void initTheme() {
+        theme_name = "NotepadXX";
+        theme_description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
         base1 = 0xff008000;
         base3 = 0xffffffff;
         base00 = 0xff000000;

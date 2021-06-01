@@ -26,6 +26,8 @@ public final class Eclipse extends ColorSchemeController {
 
     @Override
     public void initTheme() {
+        theme_name = "Eclipse";
+        theme_description = "picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)";
         base3 = 0xffffffff;
         base2 = 0xffe8f2fe;
         base00 = 0xff000000;

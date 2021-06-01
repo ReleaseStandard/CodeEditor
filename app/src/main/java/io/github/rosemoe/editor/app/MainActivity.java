@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Set;
 
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText search, replace;
 
     private MainActivityModel mam = new MainActivityModel();
-    private HashMap<String, ColorSchemeController> themes = new HashMap<String, ColorSchemeController>() {{
+    private static HashMap<String, ColorSchemeController> themes = new HashMap<String, ColorSchemeController>() {{
         put("Default", ColorSchemeController.DEFAULT());
         put("Eclipse",new Eclipse());
         put("Darcula",new Darcula());
@@ -68,9 +69,10 @@ public class MainActivity extends AppCompatActivity {
         put("NotepadXX",new NotepadXX());
         put("HTML",new HTML());
         put("Solarized",new Solarized());
+        put("SolarizedDark",new Solarized(true));
         put("GitHub",new GitHub());
     }};
-    private HashMap<String, EditorLanguageController> languages = new HashMap<String, EditorLanguageController>() {{
+    private static HashMap<String, EditorLanguageController> languages = new HashMap<String, EditorLanguageController>() {{
         put("C",new UniversalLanguage(new CDescription()));
         put("C++",new UniversalLanguage(new CppDescription()));
         put("Java",new JavaLanguage());
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         put("Mksh",new MkshLanguage());
     }};
 
+    protected void setThemes() {
+
+    }
     protected void setEditorLanguage(EditorLanguageController el, String fname) {
         editor.setEditorLanguage(el);
         new Thread(() -> {
@@ -103,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CrashHandler.INSTANCE.init(this);
+        setThemes();
         setContentView(R.layout.activity_main);
 
         editor = findViewById(R.id.editor);

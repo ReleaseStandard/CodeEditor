@@ -26,6 +26,8 @@ public class Darcula extends ColorSchemeController {
 
     @Override
     public void initTheme() {
+        theme_name = "Darcula";
+        theme_description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
         accent1 = 0xff32593d;
         base00 = 0xffffffff;
         base1 = 0xff606366;

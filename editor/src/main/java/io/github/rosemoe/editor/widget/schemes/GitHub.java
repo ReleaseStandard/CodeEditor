@@ -26,6 +26,8 @@ public final class GitHub extends ColorSchemeController {
 
     @Override
     public void initTheme() {
+        theme_name = "GitHub";
+        theme_description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
         base1 = 0xff6a737d;
         base3 = 0xffffffff;
         base00 = 0xff24292e;
