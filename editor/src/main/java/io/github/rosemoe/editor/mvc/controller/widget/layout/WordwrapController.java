@@ -25,7 +25,6 @@ import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.RowIterator;
-import io.github.rosemoe.editor.widget.layout.AbstractLayout;
 
 /**
  * Wordwrap layout for editor
@@ -100,11 +99,6 @@ public class WordwrapController extends AbstractLayout {
             breakpoints.clear();
         }
     }
-
-
-
-
-
 
     @Override
     public void beforeReplace(Content content) {

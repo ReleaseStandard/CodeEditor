@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget.layout;
+package io.github.rosemoe.editor.mvc.controller.widget.layout;
 
 import java.util.NoSuchElementException;
 
@@ -23,7 +23,6 @@ import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.util.BinaryHeap;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.mvc.model.RowModel;
 import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
@@ -32,11 +31,11 @@ import io.github.rosemoe.editor.widget.RowIterator;
  *
  * @author Rose
  */
-public class LineBreakLayout extends AbstractLayout {
+public class LineBreakController extends AbstractLayout {
 
     private BinaryHeap widthMaintainer;
 
-    public LineBreakLayout(CodeEditor editor, Content text) {
+    public LineBreakController(CodeEditor editor, Content text) {
         super(editor, text);
         measureAllLines();
     }
@@ -145,14 +144,14 @@ public class LineBreakLayout extends AbstractLayout {
 
     class LineBreakLayoutRowItr implements RowIterator {
 
-        private final RowModel result;
+        private final RowController row;
         private int currentRow;
 
         LineBreakLayoutRowItr(int initialRow) {
             currentRow = initialRow;
-            result = new RowModel();
-            result.isLeadingRow = true;
-            result.startColumn = 0;
+            row = new RowController();
+            row.model.isLeadingRow = true;
+            row.model.startColumn = 0;
         }
 
         @Override
@@ -160,9 +159,9 @@ public class LineBreakLayout extends AbstractLayout {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            result.lineIndex = currentRow;
-            result.endColumn = text.getColumnCount(currentRow++);
-            return result;
+            row.model.lineIndex = currentRow;
+            row.model.endColumn = text.getColumnCount(currentRow++);
+            return row;
         }
 
         @Override
