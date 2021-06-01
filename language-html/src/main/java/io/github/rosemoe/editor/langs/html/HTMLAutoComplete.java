@@ -5,7 +5,7 @@ import java.util.List;
 
 import io.github.rosemoe.editor.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.editor.struct.CompletionItem;
-import io.github.rosemoe.editor.text.TextAnalyzeResult;
+import io.github.rosemoe.editor.text.TextAnalyzeView;
 
 /**
  * Provides auto complete items for HTML Language
@@ -16,7 +16,7 @@ import io.github.rosemoe.editor.text.TextAnalyzeResult;
 
 public class HTMLAutoComplete implements AutoCompleteProvider {
     @Override
-    public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzeResult colors, int line) {
+    public List<CompletionItem> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzeView colors, int line) {
         List<CompletionItem> items = new ArrayList<>();
         for (String key : HTMLLanguage.TAGS)
             if (key.toLowerCase().startsWith(prefix.toLowerCase()))

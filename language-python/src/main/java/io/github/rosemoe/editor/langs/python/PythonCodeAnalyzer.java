@@ -23,13 +23,12 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
-import io.github.rosemoe.editor.text.TextAnalyzeResult;
+import io.github.rosemoe.editor.text.TextAnalyzeView;
 import io.github.rosemoe.editor.text.TextAnalyzer;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
 
 public class PythonCodeAnalyzer extends CodeAnalyzer {
     @Override
-    public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzeView colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
         try {
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));

@@ -25,21 +25,21 @@ import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
- * The result of analysis.
+ * Display the result of analysis.
  * Update spans in response to the analysis.
  */
-public class TextAnalyzeResult {
+public class TextAnalyzeView {
 
     protected final List<BlockLine> mBlocks;
-    public final SpanMap mSpanMap;
+    public final SpanMap spanMap;
     public Object mExtra;
     protected int mSuppressSwitch = Integer.MAX_VALUE;
 
     /**
      * Create a new result
      */
-    public TextAnalyzeResult() {
-        mSpanMap = new SpanMap();
+    public TextAnalyzeView() {
+        spanMap = new SpanMap();
         mBlocks = new ArrayList<>(1024);
     }
 
@@ -63,8 +63,8 @@ public class TextAnalyzeResult {
      * @param span     The span
      */
     public void add(int spanLine, Span span) {
-        mSpanMap.getAddIfNeeded(spanLine).add(span);
-        mSpanMap.dump();
+        spanMap.getAddIfNeeded(spanLine).add(span);
+        spanMap.dump();
     }
 
     /**
@@ -73,7 +73,7 @@ public class TextAnalyzeResult {
      * @param line The line is the line last of text
      */
     public void determine(int line) {
-        mSpanMap.appendLines(line);
+        spanMap.appendLines(line);
     }
 
     /**
@@ -108,7 +108,7 @@ public class TextAnalyzeResult {
      * Returns suppress switch
      *
      * @return suppress switch
-     * @see TextAnalyzeResult#setSuppressSwitch(int)
+     * @see TextAnalyzeView#setSuppressSwitch(int)
      */
     public int getSuppressSwitch() {
         return mSuppressSwitch;
@@ -134,7 +134,7 @@ public class TextAnalyzeResult {
         mSuppressSwitch = suppressSwitch;
     }
     public SpanMap getSpanMap() {
-        return mSpanMap;
+        return spanMap;
     }
 
     /**
@@ -142,7 +142,17 @@ public class TextAnalyzeResult {
      * @return
      */
     public SpanLine addNormalIfNull() {
-        mSpanMap.appendLines(1);
-        return mSpanMap.get(0);
+        spanMap.appendLines(1);
+        return spanMap.get(0);
+    }
+
+    /**
+     * Reset the anaylysis result
+     */
+    public void clear() {
+        spanMap.clear();
+        mBlocks.clear();
+        mSuppressSwitch = Integer.MAX_VALUE;
+        mExtra = null;
     }
 }

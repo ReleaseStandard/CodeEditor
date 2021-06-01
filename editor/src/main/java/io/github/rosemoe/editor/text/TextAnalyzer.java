@@ -33,13 +33,13 @@ import io.github.rosemoe.editor.text.spanmap.Recycler;
 public class TextAnalyzer {
 
     private static int sThreadId = 0;
-    private final RecycleObjContainer mObjContainer = new RecycleObjContainer();
+    private final ResultRecycler recycler = new ResultRecycler();
     private final Object mLock = new Object();
     /**
      * Debug:Start time
      */
     public long mOpStartTime;
-    private TextAnalyzeResult mResult;
+    private TextAnalyzeView currentResult;
     private Callback mCallback;
     private AnalyzeThread mThread;
     private CodeAnalyzer mCodeAnalyzer;
@@ -52,8 +52,8 @@ public class TextAnalyzer {
         if (codeAnalyzer0 == null) {
             throw new IllegalArgumentException();
         }
-        mResult = new TextAnalyzeResult();
-        mResult.addNormalIfNull();
+        currentResult = new TextAnalyzeView();
+        currentResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
     }
 
@@ -86,7 +86,7 @@ public class TextAnalyzer {
      * Called from painting process to recycle outdated objects for reusing
      */
     public void notifyRecycle() {
-        mObjContainer.recycle();
+        recycler.recycle();
     }
 
     /**
@@ -115,8 +115,8 @@ public class TextAnalyzer {
      *
      * @return Result of analysis
      */
-    public TextAnalyzeResult getResult() {
-        return mResult;
+    public TextAnalyzeView getResult() {
+        return currentResult;
     }
 
     /**
@@ -141,22 +141,28 @@ public class TextAnalyzer {
      *
      * @author Rose
      */
-    static class RecycleObjContainer {
+    static class ResultRecycler {
 
         SpanMap spanMap;
-
         List<BlockLine> blockLines;
 
+        /**
+         * Process objects currently in the recycler.
+         */
         void recycle() {
             ObjectAllocator.recycleBlockLine(blockLines);
             Recycler.getInstance().recycle(spanMap);
-
-            clear();
-        }
-
-        void clear() {
             spanMap = null;
             blockLines = null;
+        }
+
+        /**
+         * Put an analysis result to digestion by the recycler.
+         * @param result
+         */
+        void putToDigest(TextAnalyzeView result) {
+            spanMap = result.spanMap;
+            blockLines = result.mBlocks;
         }
 
     }
@@ -187,28 +193,25 @@ public class TextAnalyzer {
         public void run() {
             try {
                 do {
-                    TextAnalyzeResult colors = new TextAnalyzeResult();
+                    TextAnalyzeView newResult = new TextAnalyzeView();
                     Delegate d = new Delegate();
                     mOpStartTime = System.currentTimeMillis();
                     do {
                         waiting = false;
                         StringBuilder c = content.toStringBuilder();
-                        codeAnalyzer.analyze(c, colors, d);
+                        codeAnalyzer.analyze(c, newResult, d);
                         if (waiting) {
-                            colors.mSpanMap.clear();
-                            colors.mBlocks.clear();
-                            colors.mSuppressSwitch = Integer.MAX_VALUE;
-                            colors.mExtra = null;
+                            newResult.clear();
                         }
                     } while (waiting);
 
-                    mObjContainer.blockLines = mResult.mBlocks;
-                    mObjContainer.spanMap = mResult.mSpanMap;
-                    mResult = colors;
-                    colors.addNormalIfNull();
+                    recycler.putToDigest(currentResult);
+                    currentResult = newResult;
+                    newResult.addNormalIfNull();
                     try {
-                        if (mCallback != null)
+                        if (mCallback != null) {
                             mCallback.onAnalyzeDone(TextAnalyzer.this);
+                        }
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }

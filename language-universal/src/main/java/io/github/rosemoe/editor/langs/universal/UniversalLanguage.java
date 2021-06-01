@@ -23,9 +23,8 @@ import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
 import io.github.rosemoe.editor.struct.BlockLine;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
-import io.github.rosemoe.editor.text.TextAnalyzeResult;
+import io.github.rosemoe.editor.text.TextAnalyzeView;
 import io.github.rosemoe.editor.text.TextAnalyzer;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 import java.util.Stack;
@@ -94,7 +93,7 @@ public class UniversalLanguage extends CodeAnalyzer implements EditorLanguage {
     }
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzeView colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         tokenizer.setInput(text);

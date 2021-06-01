@@ -16,16 +16,13 @@
 package io.github.rosemoe.editor.langs.java;
 
 import io.github.rosemoe.editor.langs.internal.TrieTree;
-import io.github.rosemoe.editor.text.TextAnalyzeResult;
-import io.github.rosemoe.editor.widget.EditorColorScheme;
+import io.github.rosemoe.editor.text.TextAnalyzeView;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.interfaces.CodeAnalyzer;
 import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
 import io.github.rosemoe.editor.struct.BlockLine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -38,7 +35,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzer {
     private final static Object OBJECT = new Object();
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzeResult colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzeView colors, TextAnalyzer.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         JavaTextTokenizer tokenizer = new JavaTextTokenizer(text);

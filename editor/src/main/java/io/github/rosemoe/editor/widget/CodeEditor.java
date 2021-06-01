@@ -80,7 +80,7 @@ import io.github.rosemoe.editor.text.content.LineRemoveListener;
 import io.github.rosemoe.editor.struct.SpanLine;
 import io.github.rosemoe.editor.struct.SpanMap;
 import io.github.rosemoe.editor.text.spanmap.Updater;
-import io.github.rosemoe.editor.text.TextAnalyzeResult;
+import io.github.rosemoe.editor.text.TextAnalyzeView;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
@@ -1023,7 +1023,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
         List<Span> temporaryEmptySpans = null;
-        SpanMap spanMap = mSpanner.getResult().mSpanMap;
+        SpanMap spanMap = mSpanner.getResult().spanMap;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = mCursor.isSelected() ? -1 : mCursor.getLeftLine();
         int currentLineBgColor = mColors.getCurrentLine();
@@ -1515,7 +1515,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (mSpanner != null) {
-            TextAnalyzeResult colors = mSpanner.getResult();
+            TextAnalyzeView colors = mSpanner.getResult();
             if (colors != null) {
                 maxCount = colors.getSuppressSwitch();
             }
@@ -1779,7 +1779,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (mSpanner != null) {
-            TextAnalyzeResult result = mSpanner.getResult();
+            TextAnalyzeView result = mSpanner.getResult();
             if (result != null) {
                 maxCount = result.getSuppressSwitch();
             }
@@ -3412,7 +3412,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         mSpanner = new TextAnalyzer(analyzer);
         mSpanner.setCallback(this);
 
-        TextAnalyzeResult colors = mSpanner.getResult();
+        TextAnalyzeView colors = mSpanner.getResult();
         colors.getSpanMap().clear();
         mSpanner.analyze(getText());
 
@@ -3522,7 +3522,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
      * <strong>Do not make changes to it or read concurrently</strong>
      */
     @NonNull
-    public TextAnalyzeResult getTextAnalyzeResult() {
+    public TextAnalyzeView getTextAnalyzeResult() {
         return mSpanner.getResult();
     }
 
