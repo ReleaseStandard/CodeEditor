@@ -31,11 +31,11 @@ import io.github.rosemoe.editor.widget.RowIterator;
  *
  * @author Rose
  */
-public class LineBreakController extends AbstractLayout {
+public class LineBreak extends AbstractLayout {
 
     private BinaryHeap widthMaintainer;
 
-    public LineBreakController(CodeEditor editor, Content text) {
+    public LineBreak(CodeEditor editor, Content text) {
         super(editor, text);
         measureAllLines();
     }

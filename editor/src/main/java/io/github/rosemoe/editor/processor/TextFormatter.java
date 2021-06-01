@@ -13,12 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text;
+package io.github.rosemoe.editor.processor;
 
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.text.content.Content;
 
-public class FormatThread extends Thread {
+/**
+ * Process text formatting.
+ */
+public class TextFormatter extends Thread {
 
     private CharSequence mText;
 
@@ -26,7 +29,7 @@ public class FormatThread extends Thread {
 
     private FormatResultReceiver mReceiver;
 
-    public FormatThread(CharSequence text, EditorLanguageController language, FormatResultReceiver receiver) {
+    public TextFormatter(CharSequence text, EditorLanguageController language, FormatResultReceiver receiver) {
         mText = text;
         mLanguage = language;
         mReceiver = receiver;

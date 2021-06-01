@@ -66,9 +66,10 @@ import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
-import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.controller.widget.EditorSearcherController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
@@ -84,14 +85,14 @@ import io.github.rosemoe.editor.text.content.Content;
 import io.github.rosemoe.editor.text.content.ContentLine;
 import io.github.rosemoe.editor.text.content.ContentListener;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
-import io.github.rosemoe.editor.text.FormatThread;
+import io.github.rosemoe.editor.processor.TextFormatter;
 import io.github.rosemoe.editor.text.content.LineRemoveListener;
-import io.github.rosemoe.editor.text.spanmap.Updater;
+import io.github.rosemoe.editor.processor.TextContentChanged;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.Layout;
-import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreakController;
+import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreak;
 
 /**
  * CodeEditor is a editor that can highlight text regions by doing basic syntax analyzing
@@ -104,7 +105,7 @@ import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreakController
  *
  * @author Rosemoe
  */
-public class CodeEditor extends View implements ContentListener, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.Callback, FormatThread.FormatResultReceiver, LineRemoveListener {
+public class CodeEditor extends View implements ContentListener, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.Callback, TextFormatter.FormatResultReceiver, LineRemoveListener {
 
     /**
      * The default size when creating the editor object. Unit is sp.
@@ -224,7 +225,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private String mLnTip = "Line:";
     private EditorLanguageController mLanguage;
     private long mLastMakeVisible = 0;
-    private EditorAutoCompleteWindowController mCompletionWindow;
+    private AutoCompleteWindowController mCompletionWindow;
     private EditorTouchEventHandler mEventHandler;
     private Paint.Align mLineNumberAlign;
     private GestureDetector mBasicDetector;
@@ -235,7 +236,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private MaterialEdgeEffect mVerticalEdgeGlow;
     private MaterialEdgeEffect mHorizontalGlow;
     private ExtractedTextRequest mExtracting;
-    private FormatThread mFormatThread;
+    private TextFormatter mFormatThread;
     private EditorSearcherController mSearcher;
     private EditorEventListener mListener;
     private FontCache mFontCache;
@@ -315,10 +316,10 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     /**
-     * Get using EditorAutoCompleteWindowController
+     * Get using AutoCompleteWindowController
      */
     @NonNull
-    protected EditorAutoCompleteWindowController getAutoCompleteWindow() {
+    protected AutoCompleteWindowController getAutoCompleteWindow() {
         return mCompletionWindow;
     }
 
@@ -516,7 +517,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         setFocusable(true);
         setFocusableInTouchMode(true);
         mConnection = new EditorInputConnection(this);
-        mCompletionWindow = new EditorAutoCompleteWindowController(this);
+        mCompletionWindow = new AutoCompleteWindowController(this);
         mVerticalEdgeGlow = new MaterialEdgeEffect();
         mHorizontalGlow = new MaterialEdgeEffect();
         mOverrideSymbolPairs = new SymbolPairMatch();
@@ -582,7 +583,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @param adapter New adapter, maybe null
      */
-    public void setAutoCompletionItemAdapter(@Nullable EditorCompletionAdapter adapter) {
+    public void setAutoCompletionItemAdapter(@Nullable CompletionAdapter adapter) {
         mCompletionWindow.view.setAdapter(adapter);
     }
 
@@ -2087,7 +2088,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mCachedLineNumberWidth = (int) measureLineNumber();
             mLayout = new WordwrapController(this, mText);
         } else {
-            mLayout = new LineBreakController(this, mText);
+            mLayout = new LineBreak(this, mText);
         }
         if (mEventHandler != null) {
             mEventHandler.scrollBy(0, 0);
@@ -2496,7 +2497,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (mFormatThread != null || (mListener != null && mListener.onRequestFormat(this, true))) {
             return false;
         }
-        mFormatThread = new FormatThread(mText, mLanguage, this);
+        mFormatThread = new TextFormatter(mText, mLanguage, this);
         mFormatThread.start();
         return true;
     }
@@ -3917,9 +3918,9 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
-                Updater.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                TextContentChanged.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                Updater.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                TextContentChanged.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -3976,9 +3977,9 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     public void afterDelete(Content content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
-                Updater.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                TextContentChanged.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                Updater.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                TextContentChanged.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 

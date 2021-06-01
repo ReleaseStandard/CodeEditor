@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.mvc.view.widget.completion;
 
 import android.content.res.Resources;
 import android.util.TypedValue;
@@ -24,7 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 
 /**
  * Adapter to display results
@@ -33,7 +34,7 @@ import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
  */
 @SuppressWarnings("CanBeFinal")
 public
-class DefaultCompletionItemAdapter extends EditorCompletionAdapter {
+class DefaultCompletionItemAdapter extends CompletionAdapter {
 
     @Override
     public int getItemHeight() {

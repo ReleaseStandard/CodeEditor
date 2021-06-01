@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.widget.completion;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.util.Comparator;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.model.CompletionItemModel;
+import io.github.rosemoe.editor.mvc.model.widget.completion.CompletionItemModel;
 import io.github.rosemoe.editor.mvc.view.CompletionItemView;
 
 /**

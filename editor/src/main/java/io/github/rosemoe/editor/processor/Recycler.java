@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.spanmap;
+package io.github.rosemoe.editor.processor;
 
 import android.util.Log;
 
@@ -25,6 +25,9 @@ import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.util.Logger;
 
+/**
+ * Remove object on an other thread to prevent ui freeze.
+ */
 public class Recycler {
 
     private static Recycler INSTANCE;
@@ -54,8 +57,6 @@ public class Recycler {
 
     private class RecycleThread extends Thread {
 
-        private final static String LOG_TAG = "SpanController Recycle Thread";
-
         RecycleThread() {
             setDaemon(true);
             setName("SpanRecycleDaemon");
@@ -84,7 +85,7 @@ public class Recycler {
                     }
                 }
             } catch (Exception e) {
-                Log.w(LOG_TAG, e);
+                Logger.debug(e.toString());
             }
             Logger.debug("Recycler exited");
         }

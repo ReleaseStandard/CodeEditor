@@ -18,12 +18,12 @@ package io.github.rosemoe.editor.langs;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 

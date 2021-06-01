@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
+import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 

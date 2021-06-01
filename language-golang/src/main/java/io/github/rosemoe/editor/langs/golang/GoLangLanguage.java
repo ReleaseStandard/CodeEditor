@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.langs.golang;
 
-import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;

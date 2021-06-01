@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.mvc.controller.widget.completion;
 
 import android.content.Context;
 import android.view.View;
@@ -22,23 +22,20 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
-import io.github.rosemoe.editor.mvc.controller.EditorAutoCompleteWindowController;
-
 /**
  * A class to make custom adapter for auto-completion window
- * @see EditorCompletionAdapter#getItemHeight()
- * @see EditorCompletionAdapter#getView(int, View, ViewGroup, boolean)
+ * @see CompletionAdapter#getItemHeight()
+ * @see CompletionAdapter#getView(int, View, ViewGroup, boolean)
  */
-public abstract class EditorCompletionAdapter extends BaseAdapter {
+public abstract class CompletionAdapter extends BaseAdapter {
 
-    private EditorAutoCompleteWindowController mWindow;
+    private AutoCompleteWindowController mWindow;
     private List<CompletionItemController> mItems;
 
     /**
-     * Called by {@link EditorAutoCompleteWindowController} to attach some arguments
+     * Called by {@link AutoCompleteWindowController} to attach some arguments
      */
-    public void attachAttributes(EditorAutoCompleteWindowController window, List<CompletionItemController> items) {
+    public void attachAttributes(AutoCompleteWindowController window, List<CompletionItemController> items) {
         mWindow = window;
         mItems = items;
     }

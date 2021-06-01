@@ -24,7 +24,7 @@ import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.text.spanmap.Recycler;
+import io.github.rosemoe.editor.processor.Recycler;
 
 /**
  * This is a manager of analyzing text

@@ -26,13 +26,13 @@ import android.widget.Toast;
 
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.DefaultCompletionItemAdapter;
+import io.github.rosemoe.editor.mvc.view.widget.completion.DefaultCompletionItemAdapter;
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
-import io.github.rosemoe.editor.widget.EditorCompletionAdapter;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 
 public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
-    public EditorCompletionAdapter mAdapter;
+    public CompletionAdapter mAdapter;
     public ListView mListView = null;
     public TextView mTip = null;
     public GradientDrawable mBg = null;
@@ -71,7 +71,7 @@ public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
         mBg.setStroke(1, theme.getColor(EditorColorSchemeController.AUTO_COMP_PANEL_CORNER));
         mBg.setColor(theme.getColor(EditorColorSchemeController.AUTO_COMP_PANEL_BG));
     }
-    public void setAdapter(EditorCompletionAdapter adapter) {
+    public void setAdapter(CompletionAdapter adapter) {
         mAdapter = adapter;
         if (adapter == null) {
             mAdapter = new DefaultCompletionItemAdapter();

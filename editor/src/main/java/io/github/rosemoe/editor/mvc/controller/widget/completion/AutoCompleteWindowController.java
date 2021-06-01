@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.widget.completion;
 
 import android.content.Context;
 import android.view.View;
@@ -21,24 +21,24 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
-import io.github.rosemoe.editor.mvc.model.EditorAutoCompleteWindowModel;
+import io.github.rosemoe.editor.mvc.model.widget.completion.AutoCompleteWindowModel;
 import io.github.rosemoe.editor.mvc.view.EditorAutoCompleteWindowView;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.EditorCompletionAdapter;
 
 /**
  * Auto complete window for editing code quicker
  *
  * @author Rose
  */
-public class EditorAutoCompleteWindowController {
+public class AutoCompleteWindowController {
 
     private final CodeEditor mEditor;
 
-    public EditorAutoCompleteWindowModel      model = new EditorAutoCompleteWindowModel();
+    public AutoCompleteWindowModel model = new AutoCompleteWindowModel();
     public final EditorAutoCompleteWindowView view;
     private AutoCompleteProviderController mProvider;
 
@@ -48,7 +48,7 @@ public class EditorAutoCompleteWindowController {
      *
      * @param editor Target editor
      */
-    public EditorAutoCompleteWindowController(CodeEditor editor) {
+    public AutoCompleteWindowController(CodeEditor editor) {
         mEditor = editor;
         view = new EditorAutoCompleteWindowView(editor) {
             @Override
@@ -60,7 +60,7 @@ public class EditorAutoCompleteWindowController {
             @Override
             public void handleCursorSelect(CursorController cursor, int pos) {
                 if (!cursor.isSelected()) {
-                    CompletionItemController item = ((EditorCompletionAdapter) mListView.getAdapter()).getItem(pos);
+                    CompletionItemController item = ((CompletionAdapter) mListView.getAdapter()).getItem(pos);
                     model.mCancelShowUp = true;
                     mEditor.getText().delete(cursor.getLeftLine(), cursor.getLeftColumn() - model.mLastPrefix.length(), cursor.getLeftLine(), cursor.getLeftColumn());
                     cursor.onCommitText(item.model.commit);
@@ -144,7 +144,7 @@ public class EditorAutoCompleteWindowController {
             return;
         }
         model.mCurrent++;
-        ((EditorCompletionAdapter) view.mListView.getAdapter()).notifyDataSetChanged();
+        ((CompletionAdapter) view.mListView.getAdapter()).notifyDataSetChanged();
         ensurePosition();
     }
 
@@ -156,7 +156,7 @@ public class EditorAutoCompleteWindowController {
             return;
         }
         model.mCurrent--;
-        ((EditorCompletionAdapter) view.mListView.getAdapter()).notifyDataSetChanged();
+        ((CompletionAdapter) view.mListView.getAdapter()).notifyDataSetChanged();
         ensurePosition();
     }
 

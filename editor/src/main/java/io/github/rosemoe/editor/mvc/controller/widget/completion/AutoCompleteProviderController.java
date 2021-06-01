@@ -13,11 +13,11 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.widget.completion;
 
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
 /**

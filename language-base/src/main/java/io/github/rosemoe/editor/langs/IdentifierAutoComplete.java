@@ -15,9 +15,9 @@
  */
 package io.github.rosemoe.editor.langs;
 
-import io.github.rosemoe.editor.mvc.controller.AutoCompleteProviderController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.mvc.controller.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
 
 import java.util.ArrayList;
 import java.util.Collections;

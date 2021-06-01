@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.spans;
 import java.util.Map;
 import java.util.TreeMap;
 
-import io.github.rosemoe.editor.text.spanmap.Recycler;
+import io.github.rosemoe.editor.processor.Recycler;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
