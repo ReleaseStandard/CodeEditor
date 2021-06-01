@@ -19,7 +19,7 @@ import android.app.ProgressDialog;
 import android.widget.Toast;
 
 import io.github.rosemoe.editor.mvc.model.widget.EditorSearcherModel;
-import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -54,7 +54,7 @@ public class EditorSearcherController {
     @SuppressWarnings("UnusedReturnValue")
     public boolean replaceThis(String newText) {
         checkState();
-        Content text = mEditor.getText();
+        ContentController text = mEditor.getText();
         CursorController cursor = text.getCursor();
         if (cursor.isSelected()) {
             String selectedText = text.subContent(cursor.getLeftLine(), cursor.getLeftColumn(), cursor.getRightLine(), cursor.getRightColumn()).toString();
@@ -110,7 +110,7 @@ public class EditorSearcherController {
 
     private void gotoNext(boolean tip) {
         checkState();
-        Content text = mEditor.getText();
+        ContentController text = mEditor.getText();
         CursorController cursor = text.getCursor();
         int line = cursor.getRightLine();
         int column = cursor.getRightColumn();
@@ -130,7 +130,7 @@ public class EditorSearcherController {
 
     public void gotoLast() {
         checkState();
-        Content text = mEditor.getText();
+        ContentController text = mEditor.getText();
         CursorController cursor = text.getCursor();
         int line = cursor.getLeftLine();
         int column = cursor.getLeftColumn();

@@ -27,7 +27,7 @@ import android.view.inputmethod.ExtractedTextRequest;
 
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 
 /**
  * Connection between input method and editor
@@ -74,7 +74,7 @@ class EditorInputConnection extends BaseInputConnection {
 
     /**
      * Private use.
-     * Get the CursorController of Content displaying by Editor
+     * Get the CursorController of ContentController displaying by Editor
      *
      * @return CursorController
      */
@@ -93,7 +93,7 @@ class EditorInputConnection extends BaseInputConnection {
     public synchronized void closeConnection() {
         //Logs.log("close connection");
         super.closeConnection();
-        Content content = mEditor.getText();
+        ContentController content = mEditor.getText();
         while (content.isInBatchEdit()) {
             content.endBatchEdit();
         }
@@ -110,7 +110,7 @@ class EditorInputConnection extends BaseInputConnection {
      * Get content region internally
      */
     private CharSequence getTextRegionInternal(int start, int end, int flags) {
-        Content origin = mEditor.getText();
+        ContentController origin = mEditor.getText();
         if (start > end) {
             int tmp = start;
             start = end;
@@ -125,7 +125,7 @@ class EditorInputConnection extends BaseInputConnection {
         if (end < start) {
             start = end = 0;
         }
-        Content sub = (Content) origin.subSequence(start, end);
+        ContentController sub = (ContentController) origin.subSequence(start, end);
         if (flags == GET_TEXT_WITH_STYLES) {
             sub.beginStreamCharGetting(0);
             SpannableStringBuilder text = new SpannableStringBuilder(sub);
@@ -418,7 +418,7 @@ class EditorInputConnection extends BaseInputConnection {
             end = tmp;
         }
         mEditor.getAutoCompleteWindow().view.hide();
-        Content content = mEditor.getText();
+        ContentController content = mEditor.getText();
         CharPosition startPos = content.getIndexer().getCharPosition(start);
         CharPosition endPos = content.getIndexer().getCharPosition(end);
         mEditor.setSelectionRegion(startPos.line, startPos.column, endPos.line, endPos.column, false);
@@ -441,7 +441,7 @@ class EditorInputConnection extends BaseInputConnection {
             if (start < 0) {
                 start = 0;
             }
-            Content content = mEditor.getText();
+            ContentController content = mEditor.getText();
             if (end > content.length()) {
                 end = content.length();
             }

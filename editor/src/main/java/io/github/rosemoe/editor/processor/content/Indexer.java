@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.content;
+package io.github.rosemoe.editor.processor.content;
 
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 

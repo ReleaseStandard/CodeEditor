@@ -13,12 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.content;
+package io.github.rosemoe.editor.mvc.controller.content;
 
 import android.text.GetChars;
 import android.text.TextUtils;
 
-public class ContentLine implements CharSequence, GetChars {
+/**
+ * One line of content in the ContentController.
+ */
+public class ContentLineController implements CharSequence, GetChars {
 
     private char[] value;
 
@@ -34,16 +37,16 @@ public class ContentLine implements CharSequence, GetChars {
      */
     private int width;
 
-    public ContentLine() {
+    public ContentLineController() {
         this(true);
     }
 
-    public ContentLine(CharSequence text) {
+    public ContentLineController(CharSequence text) {
         this(true);
         insert(0, text);
     }
 
-    private ContentLine(boolean initialize) {
+    private ContentLineController(boolean initialize) {
         if (initialize) {
             length = 0;
             value = new char[32];
@@ -150,7 +153,7 @@ public class ContentLine implements CharSequence, GetChars {
      * @return a reference to this object.
      * @throws IndexOutOfBoundsException if the offset is invalid.
      */
-    public ContentLine insert(int dstOffset, CharSequence s) {
+    public ContentLineController insert(int dstOffset, CharSequence s) {
         if (s == null)
             s = "null";
         if (s instanceof String)
@@ -202,8 +205,8 @@ public class ContentLine implements CharSequence, GetChars {
      *                                   {@code start} is greater than {@code end} or
      *                                   {@code end} is greater than {@code s.length()}
      */
-    public ContentLine insert(int dstOffset, CharSequence s,
-                              int start, int end) {
+    public ContentLineController insert(int dstOffset, CharSequence s,
+                                        int start, int end) {
         if (s == null)
             s = "null";
         if ((dstOffset < 0) || (dstOffset > this.length()))
@@ -236,7 +239,7 @@ public class ContentLine implements CharSequence, GetChars {
      *                                         is negative, greater than {@code length()}, or
      *                                         greater than {@code end}.
      */
-    public ContentLine delete(int start, int end) {
+    public ContentLineController delete(int start, int end) {
         if (start < 0)
             throw new StringIndexOutOfBoundsException(start);
         if (end > length)
@@ -251,7 +254,7 @@ public class ContentLine implements CharSequence, GetChars {
         return this;
     }
 
-    public ContentLine insert(int offset, char c) {
+    public ContentLineController insert(int offset, char c) {
         ensureCapacity(length + 1);
         System.arraycopy(value, offset, value, offset + 1, length - offset);
         value[offset] = c;
@@ -259,7 +262,7 @@ public class ContentLine implements CharSequence, GetChars {
         return this;
     }
 
-    public ContentLine append(CharSequence s, int start, int end) {
+    public ContentLineController append(CharSequence s, int start, int end) {
         if (s == null)
             s = "null";
         if ((start < 0) || (start > end) || (end > s.length()))
@@ -274,7 +277,7 @@ public class ContentLine implements CharSequence, GetChars {
         return this;
     }
 
-    public ContentLine append(CharSequence text) {
+    public ContentLineController append(CharSequence text) {
         return this.insert(length, text);
     }
 
@@ -299,7 +302,7 @@ public class ContentLine implements CharSequence, GetChars {
     }
 
     @Override
-    public ContentLine subSequence(int start, int end) {
+    public ContentLineController subSequence(int start, int end) {
         checkIndex(start);
         checkIndex(end);
         if (end < start) {
@@ -307,7 +310,7 @@ public class ContentLine implements CharSequence, GetChars {
         }
         char[] newValue = new char[end - start + 16];
         System.arraycopy(value, start, newValue, 0, end - start);
-        ContentLine res = new ContentLine(false);
+        ContentLineController res = new ContentLineController(false);
         res.value = newValue;
         res.length = end - start;
         return res;

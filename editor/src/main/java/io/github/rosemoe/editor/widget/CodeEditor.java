@@ -81,13 +81,13 @@ import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.text.content.ContentLine;
-import io.github.rosemoe.editor.text.content.ContentListener;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.processor.TextFormatter;
-import io.github.rosemoe.editor.text.content.LineRemoveListener;
-import io.github.rosemoe.editor.processor.TextContentChanged;
+import io.github.rosemoe.editor.processor.content.LineRemoveListener;
+import io.github.rosemoe.editor.processor.spanmap.Updater;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
@@ -212,7 +212,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private ClipboardManager mClipboardManager;
     private InputMethodManager mInputMethodManager;
     private CursorController mCursor;
-    private Content mText;
+    private ContentController mText;
     private io.github.rosemoe.editor.mvc.controller.TextAnalyzerController analyzer;
     private Paint mPaint;
     private Paint mPaintOther;
@@ -1050,7 +1050,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         for (int row = getFirstVisibleRow(); row <= getLastVisibleRow() && rowIterator.hasNext(); row++) {
             RowController rowInf = rowIterator.next();
             int line = rowInf.model.lineIndex;
-            ContentLine contentLine = mText.getLine(line);
+            ContentLineController contentLine = mText.getLine(line);
             int columnCount = contentLine.length();
             if (rowInf.model.isLeadingRow) {
                 postDrawLineNumbers.add(IntPair.pack(line, row));
@@ -1298,7 +1298,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (pattern == null || pattern.length() == 0) {
             return;
         }
-        ContentLine seq = mText.getLine(line);
+        ContentLineController seq = mText.getLine(line);
         int index = 0;
         while (index != -1) {
             index = seq.indexOf(pattern, index);
@@ -3370,7 +3370,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @see CodeEditor#setText(CharSequence)
      */
     @NonNull
-    public Content getText() {
+    public ContentController getText() {
         return mText;
     }
 
@@ -3388,7 +3388,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mText.removeContentListener(this);
             mText.setLineListener(null);
         }
-        mText = new Content(text);
+        mText = new ContentController(text);
         mCursor = mText.getCursor();
         mCursor.setAutoIndent(mAutoIndentEnabled);
         mCursor.setLanguage(mLanguage);
@@ -3693,7 +3693,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                     if (handlers == null || getCursor().isSelected()) {
                         mCursor.onCommitText("\n", true);
                     } else {
-                        ContentLine line = mText.getLine(mCursor.getLeftLine());
+                        ContentLineController line = mText.getLine(mCursor.getLeftLine());
                         int index = mCursor.getLeftColumn();
                         String beforeText = line.subSequence(0, index).toString();
                         String afterText = line.subSequence(index, line.length()).toString();
@@ -3905,7 +3905,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     @Override
-    public void beforeReplace(Content content) {
+    public void beforeReplace(ContentController content) {
         mWait = true;
         mLayout.beforeReplace(content);
         if (mListener != null) {
@@ -3914,13 +3914,13 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     @Override
-    public void afterInsert(Content content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
+    public void afterInsert(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
-                TextContentChanged.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                Updater.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                TextContentChanged.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                Updater.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -3974,12 +3974,12 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     @Override
-    public void afterDelete(Content content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
+    public void afterDelete(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
-                TextContentChanged.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                Updater.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                TextContentChanged.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                Updater.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -4027,7 +4027,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     @Override
-    public void onRemove(Content content, ContentLine line) {
+    public void onRemove(ContentController content, ContentLineController line) {
         mLayout.onRemove(content, line);
     }
 

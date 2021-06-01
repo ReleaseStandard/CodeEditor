@@ -13,13 +13,17 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.content;
+package io.github.rosemoe.editor.mvc.controller.content;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
+import io.github.rosemoe.editor.processor.content.CachedIndexer;
+import io.github.rosemoe.editor.processor.content.Indexer;
+import io.github.rosemoe.editor.processor.content.LineRemoveListener;
+import io.github.rosemoe.editor.processor.content.NoCacheIndexer;
 import io.github.rosemoe.editor.util.annotations.Experimental;
 import io.github.rosemoe.struct.BlockLinkedList;
 
@@ -28,7 +32,7 @@ import io.github.rosemoe.struct.BlockLinkedList;
  *
  * @author Rose
  */
-public class Content implements CharSequence {
+public class ContentController implements CharSequence {
 
     public final static int DEFAULT_MAX_UNDO_STACK_SIZE = 100;
     public final static int DEFAULT_LIST_CAPACITY = 1000;
@@ -39,12 +43,12 @@ public class Content implements CharSequence {
         setInitialLineCapacity(DEFAULT_LIST_CAPACITY);
     }
 
-    private List<ContentLine> mLines;
+    private List<ContentLineController> mLines;
     private int mTextLength;
     private int mNestedBatchEdit;
     private List<ContentListener> mListeners;
     private Indexer mIndexer;
-    private UndoManager mUndoManager;
+    private ContentActionController mUndoManager;
     private CursorController mCursor;
     private LineRemoveListener mLineListener;
 
@@ -60,19 +64,19 @@ public class Content implements CharSequence {
     public static boolean useBlock = false;
 
     /**
-     * This constructor will create a Content object with no text
+     * This constructor will create a ContentController object with no text
      */
-    public Content() {
+    public ContentController() {
         this(null);
     }
 
     /**
-     * This constructor will create a Content object with the given source
-     * If you give us null,it will just create a empty Content object
+     * This constructor will create a ContentController object with the given source
+     * If you give us null,it will just create a empty ContentController object
      *
-     * @param src The source of Content
+     * @param src The source of ContentController
      */
-    public Content(CharSequence src) {
+    public ContentController(CharSequence src) {
         if (src == null) {
             src = "";
         }
@@ -82,10 +86,10 @@ public class Content implements CharSequence {
             mLines = new ArrayList<>(getInitialLineCapacity());
         else
             mLines = new BlockLinkedList<>(5000);
-        mLines.add(new ContentLine());
+        mLines.add(new ContentLineController());
         mListeners = new ArrayList<>();
-        mUndoManager = new UndoManager(this);
-        setMaxUndoStackSize(Content.DEFAULT_MAX_UNDO_STACK_SIZE);
+        mUndoManager = new ContentActionController(this);
+        setMaxUndoStackSize(ContentController.DEFAULT_MAX_UNDO_STACK_SIZE);
         mIndexer = new NoCacheIndexer(this);
         if (src.length() == 0) {
             setUndoEnabled(true);
@@ -102,7 +106,7 @@ public class Content implements CharSequence {
      * @return Default capacity
      */
     public static int getInitialLineCapacity() {
-        return Content.sInitialListCapacity;
+        return ContentController.sInitialListCapacity;
     }
 
     /**
@@ -118,13 +122,13 @@ public class Content implements CharSequence {
     }
 
     /**
-     * Test whether the two ContentLine have the same content
+     * Test whether the two ContentLineController have the same content
      *
-     * @param a ContentLine
-     * @param b another ContentLine
+     * @param a ContentLineController
+     * @param b another ContentLineController
      * @return Whether equals in content
      */
-    private static boolean equals(ContentLine a, ContentLine b) {
+    private static boolean equals(ContentLineController a, ContentLineController b) {
         if (a.length() != b.length()) {
             return false;
         }
@@ -190,9 +194,9 @@ public class Content implements CharSequence {
      * The result is not expected to be modified
      *
      * @param line Line
-     * @return Raw ContentLine used by Content
+     * @return Raw ContentLineController used by ContentController
      */
-    public ContentLine getLine(int line) {
+    public ContentLineController getLine(int line) {
         return mLines.get(line);
     }
 
@@ -269,11 +273,11 @@ public class Content implements CharSequence {
         if (workIndex == -1) {
             workIndex = 0;
         }
-        ContentLine currLine = mLines.get(workLine);
+        ContentLineController currLine = mLines.get(workLine);
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (c == '\n') {
-                ContentLine newLine = new ContentLine();
+                ContentLineController newLine = new ContentLineController();
                 newLine.append(currLine, workIndex, currLine.length());
                 currLine.delete(workIndex, currLine.length());
                 mLines.add(workLine + 1, newLine);
@@ -325,7 +329,7 @@ public class Content implements CharSequence {
             if (beginIdx > columnOnEndLine) {
                 throw new IllegalArgumentException("start > end");
             }
-            ContentLine curr = mLines.get(startLine);
+            ContentLineController curr = mLines.get(startLine);
             int len = curr.length();
             if (beginIdx < 0 || beginIdx > len || columnOnEndLine > len) {
                 throw new StringIndexOutOfBoundsException("column start or column end is out of bounds");
@@ -345,9 +349,9 @@ public class Content implements CharSequence {
                 if (startLine == 0) {
                     mTextLength++;
                 } else {
-                    ContentLine previous = mLines.get(startLine - 1);
+                    ContentLineController previous = mLines.get(startLine - 1);
                     previous.append(curr);
-                    ContentLine rm = mLines.remove(startLine);
+                    ContentLineController rm = mLines.remove(startLine);
                     if (mLineListener != null) {
                         mLineListener.onRemove(this, rm);
                     }
@@ -365,7 +369,7 @@ public class Content implements CharSequence {
                 mCursor.beforeDelete(startLine, columnOnStartLine, endLine, columnOnEndLine);
 
             for (int i = 0; i < endLine - startLine - 1; i++) {
-                ContentLine line = mLines.remove(startLine + 1);
+                ContentLineController line = mLines.remove(startLine + 1);
                 if (mLineListener != null) {
                     mLineListener.onRemove(this, line);
                 }
@@ -373,8 +377,8 @@ public class Content implements CharSequence {
                 changedContent.append('\n').append(line);
             }
             int currEnd = startLine + 1;
-            ContentLine start = mLines.get(startLine);
-            ContentLine end = mLines.get(currEnd);
+            ContentLineController start = mLines.get(startLine);
+            ContentLineController end = mLines.get(currEnd);
             mTextLength -= start.length() - columnOnStartLine;
             changedContent.insert(0, start, columnOnStartLine, start.length());
             start.delete(columnOnStartLine, start.length());
@@ -382,7 +386,7 @@ public class Content implements CharSequence {
             changedContent.append('\n').append(end, 0, columnOnEndLine);
             end.delete(0, columnOnEndLine);
             mTextLength--;
-            ContentLine r = mLines.remove(currEnd);
+            ContentLineController r = mLines.remove(currEnd);
             if (mLineListener != null) {
                 mLineListener.onRemove(this, r);
             }
@@ -395,7 +399,7 @@ public class Content implements CharSequence {
 
     /**
      * Replace the text in the given region
-     * This action will completed by calling {@link Content#delete(int, int, int, int)} and {@link Content#insert(int, int, CharSequence)}
+     * This action will completed by calling {@link ContentController#delete(int, int, int, int)} and {@link ContentController#insert(int, int, CharSequence)}
      *
      * @param startLine         The start line position
      * @param columnOnStartLine The start column position
@@ -414,7 +418,7 @@ public class Content implements CharSequence {
 
     /**
      * When you are going to use {@link CharSequence#charAt(int)} frequently,you are required to call
-     * this method.Because the way Content save text,it is usually slow to transform index to
+     * this method.Because the way ContentController save text,it is usually slow to transform index to
      * (line,column) from the start of text when the text is big.
      * By calling this method,you will be able to get faster because calling this will
      * cause the ITextContent object use a Indexer with cache.
@@ -438,7 +442,7 @@ public class Content implements CharSequence {
 
     /**
      * Undo the last modification
-     * NOTE:When there are too much modification,old modification will be deleted from UndoManager
+     * NOTE:When there are too much modification,old modification will be deleted from ContentActionController
      */
     public void undo() {
         mUndoManager.undo(this);
@@ -470,27 +474,27 @@ public class Content implements CharSequence {
     }
 
     /**
-     * Get whether UndoManager is enabled
+     * Get whether ContentActionController is enabled
      *
-     * @return Whether UndoManager is enabled
+     * @return Whether ContentActionController is enabled
      */
     public boolean isUndoEnabled() {
         return mUndoManager.isUndoEnabled();
     }
 
     /**
-     * Set whether enable the UndoManager.
+     * Set whether enable the ContentActionController.
      * If false,any modification will not be taken down and previous modification that
-     * is already in UndoManager will be removed.Does not make changes to content.
+     * is already in ContentActionController will be removed.Does not make changes to content.
      *
-     * @param enabled New state for UndoManager
+     * @param enabled New state for ContentActionController
      */
     public void setUndoEnabled(boolean enabled) {
         mUndoManager.setUndoEnabled(enabled);
     }
 
     /**
-     * Get current max stack size of UndoManager
+     * Get current max stack size of ContentActionController
      *
      * @return current max stack size
      */
@@ -499,7 +503,7 @@ public class Content implements CharSequence {
     }
 
     /**
-     * Set the max size of stack in UndoManager
+     * Set the max size of stack in ContentActionController
      *
      * @param maxSize New max size
      */
@@ -509,7 +513,7 @@ public class Content implements CharSequence {
 
     /**
      * A delegate method.
-     * Notify the UndoManager to begin batch edit(enter a new layer).
+     * Notify the ContentActionController to begin batch edit(enter a new layer).
      * NOTE: batch edit in Android can be nested.
      *
      * @return Whether in batch edit
@@ -521,7 +525,7 @@ public class Content implements CharSequence {
 
     /**
      * A delegate method.
-     * Notify the UndoManager to end batch edit(exit current layer).
+     * Notify the ContentActionController to end batch edit(exit current layer).
      *
      * @return Whether in batch edit
      */
@@ -543,7 +547,7 @@ public class Content implements CharSequence {
     }
 
     /**
-     * Add a new {@link ContentListener} to the Content
+     * Add a new {@link ContentListener} to the ContentController
      *
      * @param listener The listener to add
      */
@@ -560,7 +564,7 @@ public class Content implements CharSequence {
     }
 
     /**
-     * Remove the given listener of this Content
+     * Remove the given listener of this ContentController
      *
      * @param listener The listener to remove
      */
@@ -590,21 +594,21 @@ public class Content implements CharSequence {
      * @param startColumn The start column position
      * @param endLine     The end line position
      * @param endColumn   The end column position
-     * @return sub sequence of this Content
+     * @return sub sequence of this ContentController
      */
-    public Content subContent(int startLine, int startColumn, int endLine, int endColumn) {
-        Content c = new Content();
+    public ContentController subContent(int startLine, int startColumn, int endLine, int endColumn) {
+        ContentController c = new ContentController();
         c.setUndoEnabled(false);
         if (startLine == endLine) {
             c.insert(0, 0, mLines.get(startLine).subSequence(startColumn, endColumn));
         } else if (startLine < endLine) {
             c.insert(0, 0, mLines.get(startLine).subSequence(startColumn, mLines.get(startLine).length()));
             for (int i = startLine + 1; i < endLine; i++) {
-                c.mLines.add(new ContentLine(mLines.get(i)));
+                c.mLines.add(new ContentLineController(mLines.get(i)));
                 c.mTextLength += mLines.get(i).length() + 1;
             }
-            ContentLine end = mLines.get(endLine);
-            c.mLines.add(new ContentLine().insert(0, end, 0, endColumn));
+            ContentLineController end = mLines.get(endLine);
+            c.mLines.add(new ContentLineController().insert(0, end, 0, endColumn));
             c.mTextLength += endColumn + 1;
         } else {
             throw new IllegalArgumentException("start > end");
@@ -615,8 +619,8 @@ public class Content implements CharSequence {
 
     @Override
     public boolean equals(Object anotherObject) {
-        if (anotherObject instanceof Content) {
-            Content content = (Content) anotherObject;
+        if (anotherObject instanceof ContentController) {
+            ContentController content = (ContentController) anotherObject;
             if (content.getLineCount() != this.getLineCount()) {
                 return false;
             }
@@ -635,7 +639,7 @@ public class Content implements CharSequence {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (ContentLine line : mLines) {
+        for (ContentLineController line : mLines) {
             if (!first) {
                 sb.append('\n');
             } else {
@@ -651,7 +655,7 @@ public class Content implements CharSequence {
      * Used by TextColorProvider
      * This can improve the speed in char getting for tokenizing
      *
-     * @return StringBuilder form of Content
+     * @return StringBuilder form of ContentController
      */
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
@@ -659,7 +663,7 @@ public class Content implements CharSequence {
         boolean first = true;
         final int lines = getLineCount();
         for (int i = 0; i < lines; i++) {
-            ContentLine line = mLines.get(i);
+            ContentLineController line = mLines.get(i);
             if (!first) {
                 sb.append('\n');
             } else {
@@ -744,7 +748,7 @@ public class Content implements CharSequence {
      *
      * @param index Index to check
      */
-    protected void checkIndex(int index) {
+    public void checkIndex(int index) {
         if (index > length()) {
             throw new StringIndexOutOfBoundsException("Index " + index + " out of bounds. length:" + length());
         }
@@ -768,7 +772,7 @@ public class Content implements CharSequence {
      * @param column     The column to check
      * @param allowEqual Whether allow (column == getColumnCount(line))
      */
-    protected void checkLineAndColumn(int line, int column, boolean allowEqual) {
+    public void checkLineAndColumn(int line, int column, boolean allowEqual) {
         checkLine(line);
         int len = mLines.get(line).length();
         if (column > len || (!allowEqual && column == len)) {

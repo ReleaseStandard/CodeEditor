@@ -13,23 +13,25 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.content;
+package io.github.rosemoe.editor.processor.content;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 
 /**
- * Indexer Impl for Content
+ * Indexer Impl for ContentController
  * With cache
  *
  * @author Rose
  */
 public class CachedIndexer implements Indexer, ContentListener {
 
-    private final Content mContent;
+    private final ContentController mContent;
     private final CharPosition mZeroPoint = new CharPosition().zero();
     private final CharPosition mEndPoint = new CharPosition();
     private final List<CharPosition> mCachePositions = new ArrayList<>();
@@ -42,9 +44,9 @@ public class CachedIndexer implements Indexer, ContentListener {
     /**
      * Create a new CachedIndexer for the given content
      *
-     * @param content Content to manage
+     * @param content ContentController to manage
      */
-    public CachedIndexer(Content content) {
+    public CachedIndexer(ContentController content) {
         mContent = content;
         detectException();
     }
@@ -399,12 +401,12 @@ public class CachedIndexer implements Indexer, ContentListener {
     }
 
     @Override
-    public void beforeReplace(Content content) {
+    public void beforeReplace(ContentController content) {
         //Do nothing
     }
 
     @Override
-    public void afterInsert(Content content, int startLine, int startColumn, int endLine, int endColumn,
+    public void afterInsert(ContentController content, int startLine, int startColumn, int endLine, int endColumn,
                             CharSequence insertedContent) {
         if (isHandleEvent()) {
             for (CharPosition pos : mCachePositions) {
@@ -424,7 +426,7 @@ public class CachedIndexer implements Indexer, ContentListener {
     }
 
     @Override
-    public void afterDelete(Content content, int startLine, int startColumn, int endLine, int endColumn,
+    public void afterDelete(ContentController content, int startLine, int startColumn, int endLine, int endColumn,
                             CharSequence deletedContent) {
         if (isHandleEvent()) {
             List<CharPosition> garbage = new ArrayList<>();

@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.model.widget.layout;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.util.IntPair;
 
 public class WordwrapModel {
@@ -54,7 +54,7 @@ public class WordwrapModel {
         return index;
     }
 
-    public void breakLines(int startLine, int endLine, Content text) {
+    public void breakLines(int startLine, int endLine, ContentController text) {
         int insertPosition = 0;
         while (insertPosition < rowTable.size()) {
             if (rowTable.get(insertPosition).line < startLine) {

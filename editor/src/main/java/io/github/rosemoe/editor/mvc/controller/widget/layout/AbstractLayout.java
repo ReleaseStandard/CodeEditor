@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.widget.layout;
 import android.graphics.Paint;
 
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
-import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -30,11 +30,11 @@ import io.github.rosemoe.editor.widget.CodeEditor;
 public abstract class AbstractLayout implements Layout {
 
     protected CodeEditor editor;
-    protected Content text;
+    protected ContentController text;
     protected Paint shadowPaint;
     protected FontCache fontCache;
 
-    public AbstractLayout(CodeEditor editor, Content text) {
+    public AbstractLayout(CodeEditor editor, ContentController text) {
         this.editor = editor;
         this.text = text;
         shadowPaint = new Paint(editor.getTextPaint());

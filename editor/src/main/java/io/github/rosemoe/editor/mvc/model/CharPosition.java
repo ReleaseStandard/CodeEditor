@@ -16,10 +16,10 @@
 package io.github.rosemoe.editor.mvc.model;
 
 
-import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 
 /**
- * This a data class of a character position in {@link Content}
+ * This a data class of a character position in {@link ContentController}
  *
  * @author Rose
  */

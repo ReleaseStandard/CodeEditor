@@ -60,7 +60,7 @@ public interface EditorLanguageController {
     /**
      * Get advance for indent
      *
-     * @param content Content of a line
+     * @param content ContentController of a line
      * @return Advance space count
      */
     int getIndentAdvance(String content);
@@ -75,7 +75,7 @@ public interface EditorLanguageController {
     /**
      * Format the given content
      *
-     * @param text Content to format
+     * @param text ContentController to format
      * @return Formatted code
      */
     CharSequence format(CharSequence text);

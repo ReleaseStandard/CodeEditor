@@ -19,9 +19,8 @@ import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
-import io.github.rosemoe.editor.text.content.CachedIndexer;
-import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.text.content.Content;
+import io.github.rosemoe.editor.processor.content.CachedIndexer;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 
 /**
  * @author Rose
@@ -29,17 +28,17 @@ import io.github.rosemoe.editor.text.content.Content;
  */
 public final class CursorController {
 
-    private final Content mContent;
+    private final ContentController mContent;
     private final CachedIndexer mIndexer;
     private EditorLanguageController mLanguage;
     public CursorModel model = new CursorModel();
 	
     /**
-     * Create a new CursorController for Content
+     * Create a new CursorController for ContentController
      *
      * @param content Target content
      */
-    public CursorController(Content content) {
+    public CursorController(ContentController content) {
         mContent = content;
         mIndexer = new CachedIndexer(content);
     }

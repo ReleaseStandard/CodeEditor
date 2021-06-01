@@ -18,8 +18,8 @@ package io.github.rosemoe.editor.mvc.controller.widget.layout;
 import java.util.NoSuchElementException;
 
 import io.github.rosemoe.editor.mvc.controller.RowController;
-import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.text.content.ContentLine;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.util.BinaryHeap;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -35,7 +35,7 @@ public class LineBreak extends AbstractLayout {
 
     private BinaryHeap widthMaintainer;
 
-    public LineBreak(CodeEditor editor, Content text) {
+    public LineBreak(CodeEditor editor, ContentController text) {
         super(editor, text);
         measureAllLines();
     }
@@ -47,7 +47,7 @@ public class LineBreak extends AbstractLayout {
         widthMaintainer = new BinaryHeap();
         widthMaintainer.ensureCapacity(text.getLineCount());
         for (int i = 0; i < text.getLineCount(); i++) {
-            ContentLine line = text.getLine(i);
+            ContentLineController line = text.getLine(i);
             int width = (int) measureText(line, 0, line.length());
             line.setWidth(width);
             line.setId(widthMaintainer.push(width));
@@ -59,7 +59,7 @@ public class LineBreak extends AbstractLayout {
             return;
         }
         while (startLine <= endLine && startLine < text.getLineCount()) {
-            ContentLine line = text.getLine(startLine);
+            ContentLineController line = text.getLine(startLine);
             int width = (int) measureText(line, 0, line.length());
             if (line.getId() != -1) {
                 if (line.getWidth() == width) {
@@ -82,22 +82,22 @@ public class LineBreak extends AbstractLayout {
     }
 
     @Override
-    public void beforeReplace(Content content) {
+    public void beforeReplace(ContentController content) {
         // Intentionally empty
     }
 
     @Override
-    public void afterInsert(Content content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
+    public void afterInsert(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
         measureLines(startLine, endLine);
     }
 
     @Override
-    public void afterDelete(Content content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
+    public void afterDelete(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         measureLines(startLine, startLine);
     }
 
     @Override
-    public void onRemove(Content content, ContentLine line) {
+    public void onRemove(ContentController content, ContentLineController line) {
         widthMaintainer.remove(line.getId());
     }
 
@@ -126,7 +126,7 @@ public class LineBreak extends AbstractLayout {
     public long getCharPositionForLayoutOffset(float xOffset, float yOffset) {
         int lineCount = text.getLineCount();
         int line = Math.min(lineCount - 1, Math.max((int) (yOffset / editor.getRowHeight()), 0));
-        ContentLine str = text.getLine(line);
+        ContentLineController str = text.getLine(line);
         float[] res = orderedFindCharIndex(xOffset, str);
         return IntPair.pack(line, (int) res[0]);
     }

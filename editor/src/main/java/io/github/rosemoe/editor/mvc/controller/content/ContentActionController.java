@@ -13,23 +13,20 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.text.content;
+package io.github.rosemoe.editor.mvc.controller.content;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.text.content.Content;
-import io.github.rosemoe.editor.text.content.ContentListener;
-
 /**
- * Helper class for Content to take down modification
+ * Helper class for ContentController to take down modification
  * As well as provide Undo/Redo actions
  *
  * @author Rose
  */
-final class UndoManager implements ContentListener {
+public final class ContentActionController implements ContentListener {
 
-    private final Content mContent;
+    private final ContentController mContent;
     private final List<ContentAction> mActionStack;
     private boolean mUndoEnabled;
     private int mMaxStackSize;
@@ -40,11 +37,11 @@ final class UndoManager implements ContentListener {
     private boolean mIgnoreModification;
 
     /**
-     * Create UndoManager with the target content
+     * Create ContentActionController with the target content
      *
-     * @param content The Content going to attach
+     * @param content The ContentController going to attach
      */
-    protected UndoManager(Content content) {
+    public ContentActionController(ContentController content) {
         mContent = content;
         mActionStack = new ArrayList<>();
         mReplaceMark = false;
@@ -55,11 +52,11 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * Undo on the given Content
+     * Undo on the given ContentController
      *
      * @param content Undo Target
      */
-    public void undo(Content content) {
+    public void undo(ContentController content) {
         if (canUndo()) {
             mIgnoreModification = true;
             mActionStack.get(mStackPointer - 1).undo(content);
@@ -69,11 +66,11 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * Redo on the given Content
+     * Redo on the given ContentController
      *
      * @param content Redo Target
      */
-    public void redo(Content content) {
+    public void redo(ContentController content) {
         if (canRedo()) {
             mIgnoreModification = true;
             mActionStack.get(mStackPointer).redo(content);
@@ -101,7 +98,7 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * Whether this UndoManager is enabled
+     * Whether this ContentActionController is enabled
      *
      * @return Whether enabled
      */
@@ -131,7 +128,7 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * Set a max stack size for this UndoManager
+     * Set a max stack size for this ContentActionController
      *
      * @param maxSize max stack size
      */
@@ -217,7 +214,7 @@ final class UndoManager implements ContentListener {
     }
 
     @Override
-    public void beforeReplace(Content content) {
+    public void beforeReplace(ContentController content) {
         if (mIgnoreModification) {
             return;
         }
@@ -225,7 +222,7 @@ final class UndoManager implements ContentListener {
     }
 
     @Override
-    public void afterInsert(Content content, int startLine, int startColumn, int endLine, int endColumn,
+    public void afterInsert(ContentController content, int startLine, int startColumn, int endLine, int endColumn,
                             CharSequence insertedContent) {
         if (mIgnoreModification) {
             return;
@@ -248,7 +245,7 @@ final class UndoManager implements ContentListener {
     }
 
     @Override
-    public void afterDelete(Content content, int startLine, int startColumn, int endLine, int endColumn,
+    public void afterDelete(ContentController content, int startLine, int startColumn, int endLine, int endColumn,
                             CharSequence deletedContent) {
         if (mIgnoreModification) {
             return;
@@ -276,14 +273,14 @@ final class UndoManager implements ContentListener {
          *
          * @param content On the given object
          */
-        void undo(Content content);
+        void undo(ContentController content);
 
         /**
          * Redo this action
          *
          * @param content On the given object
          */
-        void redo(Content content);
+        void redo(ContentController content);
 
         /**
          * Get whether the target action can be merged with this action
@@ -303,7 +300,7 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * Insert action model for UndoManager
+     * Insert action model for ContentActionController
      *
      * @author Rose
      */
@@ -314,12 +311,12 @@ final class UndoManager implements ContentListener {
         public CharSequence text;
 
         @Override
-        public void undo(Content content) {
+        public void undo(ContentController content) {
             content.delete(startLine, startColumn, endLine, endColumn);
         }
 
         @Override
-        public void redo(Content content) {
+        public void redo(ContentController content) {
             content.insert(startLine, startColumn, text);
         }
 
@@ -353,7 +350,7 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * MultiAction saves several actions for UndoManager
+     * MultiAction saves several actions for ContentActionController
      *
      * @author Rose
      */
@@ -375,14 +372,14 @@ final class UndoManager implements ContentListener {
         }
 
         @Override
-        public void undo(Content content) {
+        public void undo(ContentController content) {
             for (int i = _actions.size() - 1; i >= 0; i--) {
                 _actions.get(i).undo(content);
             }
         }
 
         @Override
-        public void redo(Content content) {
+        public void redo(ContentController content) {
             for (int i = 0; i < _actions.size(); i++) {
                 _actions.get(i).redo(content);
             }
@@ -401,7 +398,7 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * Delete action model for UndoManager
+     * Delete action model for ContentActionController
      *
      * @author Rose
      */
@@ -412,12 +409,12 @@ final class UndoManager implements ContentListener {
         public CharSequence text;
 
         @Override
-        public void undo(Content content) {
+        public void undo(ContentController content) {
             content.insert(startLine, startColumn, text);
         }
 
         @Override
-        public void redo(Content content) {
+        public void redo(ContentController content) {
             content.delete(startLine, startColumn, endLine, endColumn);
         }
 
@@ -451,7 +448,7 @@ final class UndoManager implements ContentListener {
     }
 
     /**
-     * Replace action model for UndoManager
+     * Replace action model for ContentActionController
      *
      * @author Rose
      */
@@ -461,13 +458,13 @@ final class UndoManager implements ContentListener {
         public DeleteAction _delete;
 
         @Override
-        public void undo(Content content) {
+        public void undo(ContentController content) {
             _insert.undo(content);
             _delete.undo(content);
         }
 
         @Override
-        public void redo(Content content) {
+        public void redo(ContentController content) {
             _delete.redo(content);
             _insert.redo(content);
         }

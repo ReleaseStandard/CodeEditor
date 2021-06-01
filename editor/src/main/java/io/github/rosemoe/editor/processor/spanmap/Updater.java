@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.processor;
+package io.github.rosemoe.editor.processor.spanmap;
 
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
@@ -25,7 +25,7 @@ import io.github.rosemoe.editor.util.Logger;
  *
  * @author Rose
  */
-public class TextContentChanged {
+public class Updater {
 
     /**
      * Called when user delete a newline, select and cut on multiple lines.

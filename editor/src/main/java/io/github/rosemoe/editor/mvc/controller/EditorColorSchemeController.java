@@ -44,7 +44,7 @@ public class EditorColorSchemeController {
     // Background tone
     public int base03 = DEFAULT;
     public int base02 = DEFAULT;
-    // Content tone
+    // ContentController tone
     public int base01 = DEFAULT;
     public int base00 = DEFAULT; // textNormal, textSelected
     public int base0 = DEFAULT;

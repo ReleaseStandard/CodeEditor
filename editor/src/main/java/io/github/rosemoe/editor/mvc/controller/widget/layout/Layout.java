@@ -16,8 +16,8 @@
 package io.github.rosemoe.editor.mvc.controller.widget.layout;
 
 
-import io.github.rosemoe.editor.text.content.ContentListener;
-import io.github.rosemoe.editor.text.content.LineRemoveListener;
+import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
+import io.github.rosemoe.editor.processor.content.LineRemoveListener;
 import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
