@@ -46,6 +46,7 @@ import io.github.rosemoe.editor.langs.java.JavaLanguage;
 import io.github.rosemoe.editor.langs.mksh.MkshLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
@@ -274,6 +275,11 @@ public class MainActivity extends AppCompatActivity {
                 //editor.setText(Logs.getLogs());
                 break;
             }
+            case R.id.enable_logcat_logs:
+                Logger.DEBUG = ! Logger.DEBUG;
+                MenuItem mi = editor.findViewById(R.id.enable_logcat_logs);
+                item.setChecked(Logger.DEBUG);
+                break;
             case R.id.editor_line_number: {
                 editor.setLineNumberEnabled(!editor.isLineNumberEnabled());
                 item.setChecked(editor.isLineNumberEnabled());

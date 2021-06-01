@@ -88,4 +88,9 @@
     <item
         android:id="@+id/open_debug_logs"
         android:title="@string/open_debug_logs"/>
+    <item
+        android:id="@+id/enable_logcat_logs"
+        android:checkable="true"
+        android:checked="false"
+        android:title="@string/enable_logcat_logs" />
 </menu>
