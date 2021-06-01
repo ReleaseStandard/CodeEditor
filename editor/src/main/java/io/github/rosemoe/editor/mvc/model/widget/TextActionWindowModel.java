@@ -15,6 +15,6 @@
  */
 package io.github.rosemoe.editor.mvc.model.widget;
 
-public class EditorSearcherModel {
-    public String mSearchText;
+public class TextActionWindowModel {
+    public int maxWidth;
 }

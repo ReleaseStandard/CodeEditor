@@ -18,8 +18,9 @@ package io.github.rosemoe.editor.mvc.controller.widget;
 import android.app.ProgressDialog;
 import android.widget.Toast;
 
-import io.github.rosemoe.editor.mvc.model.widget.EditorSearcherModel;
+import io.github.rosemoe.editor.mvc.model.widget.SearcherModel;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.view.widget.SearcherView;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -28,17 +29,18 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  * @author Rose
  */
 @SuppressWarnings("deprecated")
-public class EditorSearcherController {
+public class SearcherController {
 
-    private final CodeEditor mEditor;
-    public EditorSearcherModel model = new EditorSearcherModel();
+    private final CodeEditor editor;
+    public SearcherModel model = new SearcherModel();
+    public SearcherView view   = new SearcherView();
 
-    public EditorSearcherController(CodeEditor editor) {
-        mEditor = editor;
+    public SearcherController(CodeEditor editor) {
+        this.editor = editor;
     }
 
     private void checkState() {
-        if (model.mSearchText == null) {
+        if (model.searchText == null) {
             throw new IllegalStateException("search text has not been set");
         }
     }
@@ -47,20 +49,20 @@ public class EditorSearcherController {
         if (text != null && text.length() == 0) {
             text = null;
         }
-        model.mSearchText = text;
-        mEditor.postInvalidate();
+        model.searchText = text;
+        editor.postInvalidate();
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public boolean replaceThis(String newText) {
         checkState();
-        ContentController text = mEditor.getText();
+        ContentController text = editor.getText();
         CursorController cursor = text.getCursor();
         if (cursor.isSelected()) {
             String selectedText = text.subContent(cursor.getLeftLine(), cursor.getLeftColumn(), cursor.getRightLine(), cursor.getRightColumn()).toString();
-            if (selectedText.equals(model.mSearchText)) {
+            if (selectedText.equals(model.searchText)) {
                 cursor.onCommitText(newText);
-                mEditor.hideAutoCompleteWindow();
+                editor.hideAutoCompleteWindow();
                 gotoNext(false);
                 return true;
             }
@@ -71,8 +73,8 @@ public class EditorSearcherController {
 
     public void replaceAll(final String newText) {
         checkState();
-        final ProgressDialog progressDialog = ProgressDialog.show(mEditor.getContext(), "Replacing", "Editor is now replacing texts, please wait", true, false);
-        final String searchText = model.mSearchText;
+        final ProgressDialog progressDialog = ProgressDialog.show(editor.getContext(), "Replacing", "Editor is now replacing texts, please wait", true, false);
+        final String searchText = model.searchText;
         new Thread() {
 
             @Override
@@ -80,22 +82,22 @@ public class EditorSearcherController {
                 String text = null;
                 Exception ex = null;
                 try {
-                    text = mEditor.getText().toString().replace(searchText, newText);
+                    text = editor.getText().toString().replace(searchText, newText);
                 } catch (Exception e) {
                     e.printStackTrace();
                     ex = e;
                 }
                 final Exception ex2 = ex;
                 final String text2 = text;
-                mEditor.post(() -> {
+                editor.post(() -> {
                     if (text2 == null) {
-                        Toast.makeText(mEditor.getContext(), String.valueOf(ex2), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(editor.getContext(), String.valueOf(ex2), Toast.LENGTH_SHORT).show();
                     } else {
-                        int line = mEditor.getCursor().getLeftLine();
-                        int column = mEditor.getCursor().getLeftColumn();
-                        mEditor.getText().replace(0, 0, mEditor.getLineCount() - 1, mEditor.getText().getColumnCount(mEditor.getLineCount() - 1), text2);
-                        mEditor.setSelectionAround(line, column);
-                        mEditor.invalidate();
+                        int line = editor.getCursor().getLeftLine();
+                        int column = editor.getCursor().getLeftColumn();
+                        editor.getText().replace(0, 0, editor.getLineCount() - 1, editor.getText().getColumnCount(editor.getLineCount() - 1), text2);
+                        editor.setSelectionAround(line, column);
+                        editor.invalidate();
                     }
                     progressDialog.cancel();
                 });
@@ -110,39 +112,39 @@ public class EditorSearcherController {
 
     private void gotoNext(boolean tip) {
         checkState();
-        ContentController text = mEditor.getText();
+        ContentController text = editor.getText();
         CursorController cursor = text.getCursor();
         int line = cursor.getRightLine();
         int column = cursor.getRightColumn();
         for (int i = line; i < text.getLineCount(); i++) {
-            int idx = column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(model.mSearchText, column);
+            int idx = column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(model.searchText, column);
             if (idx != -1) {
-                mEditor.setSelectionRegion(i, idx, i, idx + model.mSearchText.length());
+                editor.setSelectionRegion(i, idx, i, idx + model.searchText.length());
                 return;
             }
             column = 0;
         }
         if (tip) {
-            Toast.makeText(mEditor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
-            mEditor.jumpToLine(0);
+            Toast.makeText(editor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
+            editor.jumpToLine(0);
         }
     }
 
     public void gotoLast() {
         checkState();
-        ContentController text = mEditor.getText();
+        ContentController text = editor.getText();
         CursorController cursor = text.getCursor();
         int line = cursor.getLeftLine();
         int column = cursor.getLeftColumn();
         for (int i = line; i >= 0; i--) {
-            int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(model.mSearchText, column - 1);
+            int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(model.searchText, column - 1);
             if (idx != -1) {
-                mEditor.setSelectionRegion(i, idx, i, idx + model.mSearchText.length());
+                editor.setSelectionRegion(i, idx, i, idx + model.searchText.length());
                 return;
             }
             column = i - 1 >= 0 ? text.getColumnCount(i - 1) : 0;
         }
-        Toast.makeText(mEditor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
+        Toast.makeText(editor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
     }
 
     public void stopSearch() {

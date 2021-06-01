@@ -66,9 +66,10 @@ import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.EditorColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
+import io.github.rosemoe.editor.mvc.controller.widget.SearcherController;
+import io.github.rosemoe.editor.mvc.controller.widget.TextActionWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
-import io.github.rosemoe.editor.mvc.controller.widget.EditorSearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
@@ -237,7 +238,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private MaterialEdgeEffect mHorizontalGlow;
     private ExtractedTextRequest mExtracting;
     private TextFormatter mFormatThread;
-    private EditorSearcherController mSearcher;
+    private SearcherController mSearcher;
     private EditorEventListener mListener;
     private FontCache mFontCache;
     private Paint.FontMetricsInt mTextMetrics;
@@ -460,7 +461,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @param column The column position of character
      * @return The x offset on screen
      */
-    protected float getOffset(int line, int column) {
+    public float getOffset(int line, int column) {
         prepareLine(line);
         return measureText(mBuffer, 0, column) + measureTextRegionOffset() - getOffsetX();
     }
@@ -475,7 +476,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mPaintOther = new Paint();
         mPaintGraph = new Paint();
         mMatrix = new Matrix();
-        mSearcher = new EditorSearcherController(this);
+        mSearcher = new SearcherController(this);
         setCursorBlinkPeriod(DEFAULT_CURSOR_BLINK_PERIOD);
         mAnchorInfoBuilder = new CursorAnchorInfo.Builder();
         mPaint.setAntiAlias(true);
@@ -776,7 +777,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         } else if (mode == TextActionMode.POPUP_WINDOW_2) {
             mTextActionPresenter = new TextActionPopupWindow(this);
         } else {
-            mTextActionPresenter = new EditorTextActionWindow(this);
+            mTextActionPresenter = new TextActionWindowController(this);
         }
     }
 
@@ -1090,7 +1091,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             // Draw matched text background
             if (!matchedPositions.isEmpty()) {
                 for (int position : matchedPositions) {
-                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.model.mSearchText.length(), mColors.getMatchedTextBackground());
+                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.model.searchText.length(), mColors.getMatchedTextBackground());
                 }
             }
 
@@ -1294,7 +1295,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     private void computeMatchedPositions(int line, List<Integer> positions) {
         positions.clear();
-        CharSequence pattern = mSearcher.model.mSearchText;
+        CharSequence pattern = mSearcher.model.searchText;
         if (pattern == null || pattern.length() == 0) {
             return;
         }
@@ -2464,11 +2465,11 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
     /**
-     * Get EditorSearcherController
+     * Get SearcherController
      *
-     * @return EditorSearcherController
+     * @return SearcherController
      */
-    public EditorSearcherController getSearcher() {
+    public SearcherController getSearcher() {
         return mSearcher;
     }
 
@@ -4089,7 +4090,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Interface for various ways to present text action panel
      */
-    protected interface EditorTextActionPresenter {
+    public interface EditorTextActionPresenter {
 
         /**
          * Selected text is clicked

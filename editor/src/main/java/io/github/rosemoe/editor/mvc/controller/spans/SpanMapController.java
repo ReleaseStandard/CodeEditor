@@ -33,7 +33,7 @@ public class SpanMapController {
 
     public SpanMapModel model = new SpanMapModel();
     public SpanMapView view   = new SpanMapView();
-    
+
     /**
      * lineindex, SpanLineController
      * This associate a TreeMap with each line.
