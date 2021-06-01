@@ -6,10 +6,13 @@
 #
 #
 #
+function display_title() {
+	echo "";
+	echo "          $@";
+	echo "";
+}
 function prereq() {
-	echo "";
-	echo " Checking prerequisites ..."
-	echo "";
+	display_title "Checking prerequisites ..."
 	res=0;
 	TOINSTALL=();
 	for cmd in "git" "wget" "java" ; do
@@ -28,9 +31,7 @@ function prereq() {
 			sudo apt-get install -y "${TOINSTALL[@]}"
 		fi
 	fi
-	echo "";
-	echo "";
-	echo "";
+	display_title;
 	return $res;
 }
 repo="https://github.com/antlr/grammars-v4/";
@@ -54,7 +55,7 @@ mapping["html"]="";
 
 prereq || exit 1;
 cd "$tmp";
-wget -c "$antlr";
+wget --timeout=1 --dns-timeout=1 --connect-timeout=1 --read-timeout=1 -c "$antlr";
 antlr="$tmp/${antlr/*\//}";
 git clone --depth=1 "$repo";
 cd "$gitfolder"
@@ -62,17 +63,23 @@ git pull
 
 
 for k in "${!mapping[@]}" ; do
+
 	v="${mapping[$k]}";
-	
-	cd "$gitfolder/$v";
+	antlrfolder="$gitfolder/$v"
+	if ! [ -d "$antlrfolder" ] || [ "$v" = "" ] ; then continue; fi
+	cd "$antlrfolder";
+
+
+	display_title "Processing $v antlrfolder=$antlrfolder";
 	java -jar "$antlr" *.g4;
-	cp *.g4 "$rootfolder/language-$k/src/main/java/io/github/rosemoe/editor/langs/cobol85/";
+	cp *.g4 "$rootfolder/language-$k/src/main/java/io/github/rosemoe/editor/langs/$k/";
 	for file in *.java ; do
-		dest="$rootfolder/language-$k/src/main/java/io/github/rosemoe/editor/langs/cobol85/$file";
-		echo "package package io.github.rosemoe.editor.langs.$k;" > "$dest";
+		dest="$rootfolder/language-$k/src/main/java/io/github/rosemoe/editor/langs/$k/$file";
+		echo "package io.github.rosemoe.editor.langs.$k;" > "$dest";
 		cat "$file" >> "$dest";
 	done
 	cd "$gitfolder";
+	display_title "***";
 done
 
 
