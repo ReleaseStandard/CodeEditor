@@ -16,18 +16,6 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <resources>
-    <declare-styleable name="editor">
-        <attr name="text" format="string"/>
-        <attr name="textSize" format="dimension"/>
-        <attr name="dividerWidth" format="dimension"/>
-        <attr name="lineNumberVisible" format="boolean"/>
-        <attr name="autoCompleteEnabled" format="boolean"/>
-        <attr name="symbolCompletionEnabled" format="boolean"/>
-        <attr name="cursorBlinkPeriod" format="integer"/>
-        <attr name="scrollbarsEnabled" format="boolean"/>
-        <attr name="verticalScrollbarEnabled" format="boolean"/>
-        <attr name="horizontalScrollbarEnabled" format="boolean"/>
-    </declare-styleable>
     <declare-styleable name="CodeEditor">
         <attr name="color.base03" format="color"></attr>
         <attr name="color.base02" format="color"></attr>
@@ -60,5 +48,35 @@
         <attr name="color.scrollbartrack" format="color"></attr>
         <attr name="color.underline" format="color"></attr>
         <attr name="color.linedivider" format="color"></attr>
+
+        <attr name="text" format="string"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="dividerWidth" format="dimension"/>
+
+        <attr name="cursorBlinkPeriod" format="integer"/>
+        <attr name="cursor.blink.period" format="integer"></attr>
+        <attr name="tab.width" format="integer"></attr>
+
+        <attr name="lineNumberVisible" format="boolean"/>
+        <attr name="autoCompleteEnabled" format="boolean"/>
+        <attr name="scrollbarsEnabled" format="boolean"/>
+        <attr name="horizontalScrollbarEnabled" format="boolean"/>
+        <attr name="undoEnabled" format="boolean"></attr>
+        <attr name="scalable" format="boolean"></attr>
+        <attr name="focusable" format="boolean"></attr>
+        <attr name="focusableInTouchMode" format="boolean"></attr>
+        <attr name="hightlightCurrentLine" format="boolean"></attr>
+        <attr name="autoindentEnabled" format="boolean"></attr>
+        <attr name="autoCompletionEnabled" format="boolean"></attr>
+        <attr name="verticalScrollbarEnabled" format="boolean"></attr>
+        <attr name="hightLightCurrentBlock" format="boolean"></attr>
+        <attr name="highlightSelectedText" format="boolean"></attr>
+        <attr name="displayLnPanel" format="boolean"></attr>
+        <attr name="overScrollEnabled" format="boolean"></attr>
+        <attr name="horizontalScrollBarEnabled" format="boolean"></attr>
+        <attr name="symbolCompletionEnabled" format="boolean"></attr>
+        <attr name="editable" format="boolean"></attr>
+        <attr name="lineNumberEnabled" format="boolean"></attr>
+        <attr name="autoCompletionOnComposing" format="boolean"></attr>
     </declare-styleable>
 </resources>

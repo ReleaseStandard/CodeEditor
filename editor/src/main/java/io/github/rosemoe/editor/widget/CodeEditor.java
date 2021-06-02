@@ -21,6 +21,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -260,10 +261,100 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         this(context, attrs, defStyleAttr, 0);
     }
 
+    private void initFromAttributeSet(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        TypedArray ta = getContext().obtainStyledAttributes(attrs,R.styleable.CodeEditor);
+        for ( int id : new int[] {
+                R.styleable.CodeEditor_tab_width,
+                R.styleable.CodeEditor_cursorBlinkPeriod,
+                R.styleable.CodeEditor_textSize,
+        }) {
+            int trash = -1;
+            int val = ta.getInteger(id,trash);
+            if ( val == trash ) {
+                continue;
+            }
+            if ( id == R.styleable.CodeEditor_cursorBlinkPeriod ) {
+                setCursorBlinkPeriod(val);
+            } else if ( id == R.styleable.CodeEditor_textSize ) {
+                setTextSize(val);
+            }
+        }
+
+        for ( int id : new int[] {
+                R.styleable.CodeEditor_autoCompleteEnabled,
+                R.styleable.CodeEditor_lineNumberVisible,
+                R.styleable.CodeEditor_scrollbarsEnabled,
+                R.styleable.CodeEditor_undoEnabled,
+                R.styleable.CodeEditor_scalable,
+                R.styleable.CodeEditor_focusable,
+                R.styleable.CodeEditor_focusableInTouchMode,
+                R.styleable.CodeEditor_hightlightCurrentLine,
+                R.styleable.CodeEditor_autoindentEnabled,
+                R.styleable.CodeEditor_autoCompletionEnabled,
+                R.styleable.CodeEditor_verticalScrollbarEnabled,
+                R.styleable.CodeEditor_hightLightCurrentBlock,
+                R.styleable.CodeEditor_highlightSelectedText,
+                R.styleable.CodeEditor_displayLnPanel,
+                R.styleable.CodeEditor_overScrollEnabled,
+                R.styleable.CodeEditor_horizontalScrollBarEnabled,
+                R.styleable.CodeEditor_symbolCompletionEnabled,
+                R.styleable.CodeEditor_editable,
+                R.styleable.CodeEditor_lineNumberEnabled,
+                R.styleable.CodeEditor_autoCompletionOnComposing,
+                R.styleable.CodeEditor_horizontalScrollbarEnabled,
+        }) {
+            boolean trash = true;
+            boolean val = ta.getBoolean(id,trash);
+            if ( id == R.styleable.CodeEditor_autoCompleteEnabled ) {
+                setAutoCompletionEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_scrollbarsEnabled ) {
+                setScrollBarEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_undoEnabled ) {
+                setUndoEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_scalable ) {
+                setScalable(val);
+            } else if ( id == R.styleable.CodeEditor_focusable ) {
+                setFocusable(val);
+            } else if ( id == R.styleable.CodeEditor_focusableInTouchMode ) {
+                setFocusableInTouchMode(val);
+            } else if ( id == R.styleable.CodeEditor_hightlightCurrentLine ) {
+                setHighlightCurrentLine(val);
+            } else if ( id == R.styleable.CodeEditor_autoindentEnabled ) {
+                setAutoIndentEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_autoCompletionEnabled ) {
+                setAutoCompletionEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_verticalScrollbarEnabled ) {
+                setVerticalScrollBarEnabled(true);
+            } else if ( id == R.styleable.CodeEditor_hightLightCurrentBlock ) {
+                setHighlightCurrentBlock(val);
+            } else if ( id == R.styleable.CodeEditor_highlightSelectedText ) {
+                setHighlightSelectedText(val);
+            } else if ( id == R.styleable.CodeEditor_displayLnPanel ) {
+                setDisplayLnPanel(val);
+            } else if ( id == R.styleable.CodeEditor_overScrollEnabled ) {
+                setOverScrollEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_horizontalScrollBarEnabled ) {
+                setHorizontalScrollBarEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_symbolCompletionEnabled ) {
+                setSymbolCompletionEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_editable ) {
+                setEditable(val);
+            } else if ( id == R.styleable.CodeEditor_lineNumberEnabled ) {
+                setLineNumberEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_autoCompletionOnComposing ) {
+                setAutoCompletionOnComposing(val);
+            } else if ( id == R.styleable.CodeEditor_lineNumberVisible ) {
+                setLineNumberEnabled(val);
+            }
+
+        }
+    }
     public CodeEditor(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initialize();
-        mColors.initFromAttributeSets(attrs,getContext().obtainStyledAttributes(attrs,R.styleable.CodeEditor));
+        TypedArray ta = getContext().obtainStyledAttributes(attrs,R.styleable.CodeEditor);
+        mColors.initFromAttributeSets(attrs,ta);
+        initFromAttributeSet(context, attrs, defStyleAttr, defStyleRes);
     }
 
     /**
