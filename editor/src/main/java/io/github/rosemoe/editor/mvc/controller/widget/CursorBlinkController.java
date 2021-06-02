@@ -16,6 +16,8 @@
 package io.github.rosemoe.editor.mvc.controller.widget;
 
 import io.github.rosemoe.editor.mvc.model.widget.CursorBlinkModel;
+import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
+import io.github.rosemoe.editor.mvc.view.widget.CursorBlinkView;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -25,12 +27,12 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  */
 public final class CursorBlinkController implements Runnable {
 
-    final CodeEditor editor;
+    public final CursorBlinkModel model;
+    public final CursorBlinkView view;
 
-    public CursorBlinkModel model;
     public CursorBlinkController(CodeEditor editor, int period) {
-        this.editor = editor;
         model = new CursorBlinkModel(period);
+        view  = new CursorBlinkView(editor);
     }
 
     public void onSelectionChanged() {
@@ -41,9 +43,9 @@ public final class CursorBlinkController implements Runnable {
     }
 
     public boolean isSelectionVisible() {
-        model.buffer = editor.mLayout.getCharLayoutOffset(editor.getCursor().getLeftLine(), editor.getCursor().getLeftColumn(), model.buffer);
-        return (model.buffer[0] >= editor.getOffsetY() && model.buffer[0] - editor.getRowHeight() <= editor.getOffsetY() + editor.getHeight()
-                && model.buffer[1] >= editor.getOffsetX() && model.buffer[1] - 100f/* larger than a single character */ <= editor.getOffsetX() + editor.getWidth());
+        model.buffer = view.editor.mLayout.getCharLayoutOffset(view.editor.getCursor().getLeftLine(), view.editor.getCursor().getLeftColumn(), model.buffer);
+        return (model.buffer[0] >= view.editor.getOffsetY() && model.buffer[0] - view.editor.getRowHeight() <= view.editor.getOffsetY() + view.editor.getHeight()
+                && model.buffer[1] >= view.editor.getOffsetX() && model.buffer[1] - 100f/* larger than a single character */ <= view.editor.getOffsetX() + view.editor.getWidth());
     }
 
     @Override
@@ -51,11 +53,11 @@ public final class CursorBlinkController implements Runnable {
         if (model.valid && model.period > 0) {
             if (System.currentTimeMillis() - model.lastSelectionModificationTime >= model.period * 2) {
                 model.visibility = !model.visibility;
-                if (!editor.getCursor().isSelected() && isSelectionVisible()) {
-                    editor.invalidate();
+                if (!view.editor.getCursor().isSelected() && isSelectionVisible()) {
+                    view.editor.invalidate();
                 }
             }
-            editor.postDelayed(this, model.period);
+            view.editor.postDelayed(this, model.period);
         } else {
             model.visibility = true;
         }
