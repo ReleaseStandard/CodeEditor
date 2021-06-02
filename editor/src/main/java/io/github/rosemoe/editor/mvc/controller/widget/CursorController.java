@@ -19,7 +19,7 @@ import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
-import io.github.rosemoe.editor.processor.content.CachedIndexer;
+import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 
 /**

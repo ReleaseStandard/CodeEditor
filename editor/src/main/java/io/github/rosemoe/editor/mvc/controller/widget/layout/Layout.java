@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.mvc.controller.widget.layout;
 
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
-import io.github.rosemoe.editor.processor.content.LineRemoveListener;
+import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
@@ -27,7 +27,7 @@ import io.github.rosemoe.editor.widget.RowIterator;
  *
  * @author Rose
  */
-public interface Layout extends LineRemoveListener, ContentListener {
+public interface Layout extends ContentLineRemoveListener, ContentListener {
 
     /**
      * Called by editor to destroy this layout

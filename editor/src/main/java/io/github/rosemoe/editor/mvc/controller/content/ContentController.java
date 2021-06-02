@@ -22,10 +22,10 @@ import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.model.content.ContentModel;
 import io.github.rosemoe.editor.mvc.view.content.ContentView;
-import io.github.rosemoe.editor.processor.content.CachedIndexer;
-import io.github.rosemoe.editor.processor.content.Indexer;
-import io.github.rosemoe.editor.processor.content.LineRemoveListener;
-import io.github.rosemoe.editor.processor.content.NoCacheIndexer;
+import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
+import io.github.rosemoe.editor.processor.content.indexer.Indexer;
+import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
+import io.github.rosemoe.editor.processor.content.indexer.NoCacheIndexer;
 import io.github.rosemoe.struct.BlockLinkedList;
 
 /**
@@ -50,7 +50,7 @@ public class ContentController implements CharSequence {
     private ContentManagerController contentManager;
     private CursorController cursor;
     private List<ContentListener> mListeners;
-    private LineRemoveListener mLineListener;
+    private ContentLineRemoveListener mLineListener;
 
 
 
@@ -136,9 +136,9 @@ public class ContentController implements CharSequence {
      * Set a line listener
      *
      * @param lis the listener,maybe null
-     * @see LineRemoveListener
+     * @see ContentLineRemoveListener
      */
-    public void setLineListener(LineRemoveListener lis) {
+    public void setLineListener(ContentLineRemoveListener lis) {
         this.mLineListener = lis;
     }
 

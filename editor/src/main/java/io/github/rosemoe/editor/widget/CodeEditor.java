@@ -87,7 +87,7 @@ import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.processor.TextFormatter;
-import io.github.rosemoe.editor.processor.content.LineRemoveListener;
+import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 import io.github.rosemoe.editor.processor.spanmap.Updater;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
@@ -106,7 +106,7 @@ import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreak;
  *
  * @author Rosemoe
  */
-public class CodeEditor extends View implements ContentListener, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.Callback, TextFormatter.FormatResultReceiver, LineRemoveListener {
+public class CodeEditor extends View implements ContentListener, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.Callback, TextFormatter.FormatResultReceiver, ContentLineRemoveListener {
 
     /**
      * The default size when creating the editor object. Unit is sp.

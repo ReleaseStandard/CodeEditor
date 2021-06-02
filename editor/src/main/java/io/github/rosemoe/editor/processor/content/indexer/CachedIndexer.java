@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.processor.content;
+package io.github.rosemoe.editor.processor.content.indexer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +31,7 @@ import io.github.rosemoe.editor.mvc.model.CharPosition;
  */
 public class CachedIndexer implements Indexer, ContentListener {
 
-    private final ContentController mContent;
+    private final ContentController content;
     private final CharPosition mZeroPoint = new CharPosition().zero();
     private final CharPosition mEndPoint = new CharPosition();
     private final List<CharPosition> mCachePositions = new ArrayList<>();
@@ -47,7 +47,7 @@ public class CachedIndexer implements Indexer, ContentListener {
      * @param content ContentController to manage
      */
     public CachedIndexer(ContentController content) {
-        mContent = content;
+        this.content = content;
         detectException();
     }
 
@@ -68,9 +68,9 @@ public class CachedIndexer implements Indexer, ContentListener {
         if (!isHandleEvent() && !mCachePositions.isEmpty()) {
             mHasException = true;
         }
-        mEndPoint.index = mContent.length();
-        mEndPoint.line = mContent.getLineCount() - 1;
-        mEndPoint.column = mContent.getColumnCount(mEndPoint.line);
+        mEndPoint.index = content.length();
+        mEndPoint.line = content.getLineCount() - 1;
+        mEndPoint.column = content.getColumnCount(mEndPoint.line);
     }
 
     /**
@@ -160,13 +160,13 @@ public class CachedIndexer implements Indexer, ContentListener {
         int workIndex = start.index;
         //Move the column to the line end
         {
-            int column = mContent.getColumnCount(workLine);
+            int column = content.getColumnCount(workLine);
             workIndex += column - workColumn;
             workColumn = column;
         }
         while (workIndex < index) {
             workLine++;
-            workColumn = mContent.getColumnCount(workLine);
+            workColumn = content.getColumnCount(workLine);
             workIndex += workColumn + 1;
         }
         if (workIndex > index) {
@@ -197,7 +197,7 @@ public class CachedIndexer implements Indexer, ContentListener {
             workIndex -= workColumn + 1;
             workLine--;
             if (workLine != -1) {
-                workColumn = mContent.getColumnCount(workLine);
+                workColumn = content.getColumnCount(workLine);
             } else {
                 //Reached the start of text,we have to use findIndexForward() as this method can not handle it
                 return findIndexForward(mZeroPoint, index);
@@ -234,7 +234,7 @@ public class CachedIndexer implements Indexer, ContentListener {
             workIndex = workIndex - start.column;
         }
         while (workLine < line) {
-            workIndex += mContent.getColumnCount(workLine) + 1;
+            workIndex += content.getColumnCount(workLine) + 1;
             workLine++;
         }
         CharPosition pos = new CharPosition();
@@ -263,7 +263,7 @@ public class CachedIndexer implements Indexer, ContentListener {
             workIndex = workIndex - start.column;
         }
         while (workLine > line) {
-            workIndex -= mContent.getColumnCount(workLine - 1) + 1;
+            workIndex -= content.getColumnCount(workLine - 1) + 1;
             workLine--;
         }
         CharPosition pos = new CharPosition();
@@ -362,7 +362,7 @@ public class CachedIndexer implements Indexer, ContentListener {
     @Override
     public CharPosition getCharPosition(int index) {
         throwIfHas();
-        mContent.checkIndex(index);
+        content.checkIndex(index);
         CharPosition pos = findNearestByIndex(index);
         CharPosition res;
         if (pos.index == index) {
@@ -381,7 +381,7 @@ public class CachedIndexer implements Indexer, ContentListener {
     @Override
     public CharPosition getCharPosition(int line, int column) {
         throwIfHas();
-        mContent.checkLineAndColumn(line, column, true);
+        content.checkLineAndColumn(line, column, true);
         CharPosition pos = findNearestByLine(line);
         CharPosition res;
         if (pos.line == line) {

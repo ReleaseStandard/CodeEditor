@@ -30,20 +30,6 @@ public class ContentLineController implements CharSequence, GetChars {
     public ContentLineModel model = new ContentLineModel();
     public ContentLineView view   = new ContentLineView();
 
-    private char[] value;
-
-    private int length;
-
-    /**
-     * Id in BinaryHeap
-     */
-    private int id;
-
-    /**
-     * Measured width of line
-     */
-    private int width;
-
     public ContentLineController() {
         this(true);
     }
@@ -53,90 +39,26 @@ public class ContentLineController implements CharSequence, GetChars {
         insert(0, text);
     }
 
-    private ContentLineController(boolean initialize) {
-        if (initialize) {
-            length = 0;
-            value = new char[32];
-        }
-        id = -1;
-        width = 0;
+    private ContentLineController(boolean extendedInit) {
+        model.initialise(extendedInit);
     }
 
-    static int lastIndexOf(char[] source, int sourceCount,
-                           char[] target, int targetCount,
-                           int fromIndex) {
-        /*
-         * Check arguments; return immediately where possible. For
-         * consistency, don't check for null str.
-         */
-        int rightIndex = sourceCount - targetCount;
-        if (fromIndex < 0) {
-            return -1;
-        }
-        if (fromIndex > rightIndex) {
-            fromIndex = rightIndex;
-        }
-        /* Empty string always matches. */
-        if (targetCount == 0) {
-            return fromIndex;
-        }
 
-        int strLastIndex = targetCount - 1;
-        char strLastChar = target[strLastIndex];
-        int min = targetCount - 1;
-        int i = min + fromIndex;
-
-        startSearchForLastChar:
-        while (true) {
-            while (i >= min && source[i] != strLastChar) {
-                i--;
-            }
-            if (i < min) {
-                return -1;
-            }
-            int j = i - 1;
-            int start = j - (targetCount - 1);
-            int k = strLastIndex - 1;
-
-            while (j > start) {
-                if (source[j--] != target[k--]) {
-                    i--;
-                    continue startSearchForLastChar;
-                }
-            }
-            return start + 1;
-        }
-    }
 
     public int getId() {
-        return id;
+        return model.id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        model.id = id;
     }
 
     public int getWidth() {
-        return width;
+        return model.width;
     }
 
     public void setWidth(int width) {
-        this.width = width;
-    }
-
-    private void checkIndex(int index) {
-        if (index < 0 || index > length) {
-            throw new StringIndexOutOfBoundsException("index = " + index + ", length = " + length);
-        }
-    }
-
-    private void ensureCapacity(int capacity) {
-        if (value.length < capacity) {
-            int newLength = value.length * 2 < capacity ? capacity + 2 : value.length * 2;
-            char[] newValue = new char[newLength];
-            System.arraycopy(value, 0, newValue, 0, length);
-            value = newValue;
-        }
+        model.width = width;
     }
 
     /**
@@ -164,74 +86,14 @@ public class ContentLineController implements CharSequence, GetChars {
         if (s == null)
             s = "null";
         if (s instanceof String)
-            return this.insert(dstOffset, (String) s);
-        return this.insert(dstOffset, s, 0, s.length());
+            return insert(dstOffset, (String) s);
+        return insert(dstOffset, s, 0, s.length());
     }
-
-    /**
-     * Inserts a subsequence of the specified {@code CharSequence} into
-     * this sequence.
-     * <p>
-     * The subsequence of the argument {@code s} specified by
-     * {@code start} and {@code end} are inserted,
-     * in order, into this sequence at the specified destination offset, moving
-     * up any characters originally above that position. The length of this
-     * sequence is increased by {@code end - start}.
-     * <p>
-     * The character at index <i>k</i> in this sequence becomes equal to:
-     * <ul>
-     * <li>the character at index <i>k</i> in this sequence, if
-     * <i>k</i> is less than {@code dstOffset}
-     * <li>the character at index <i>k</i>{@code +start-dstOffset} in
-     * the argument {@code s}, if <i>k</i> is greater than or equal to
-     * {@code dstOffset} but is less than {@code dstOffset+end-start}
-     * <li>the character at index <i>k</i>{@code -(end-start)} in this
-     * sequence, if <i>k</i> is greater than or equal to
-     * {@code dstOffset+end-start}
-     * </ul><p>
-     * The {@code dstOffset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
-     * <p>The start argument must be nonnegative, and not greater than
-     * {@code end}.
-     * <p>The end argument must be greater than or equal to
-     * {@code start}, and less than or equal to the length of s.
-     *
-     * <p>If {@code s} is {@code null}, then this method inserts
-     * characters as if the s parameter was a sequence containing the four
-     * characters {@code "null"}.
-     *
-     * @param dstOffset the offset in this sequence.
-     * @param s         the sequence to be inserted.
-     * @param start     the starting index of the subsequence to be inserted.
-     * @param end       the end index of the subsequence to be inserted.
-     * @return a reference to this object.
-     * @throws IndexOutOfBoundsException if {@code dstOffset}
-     *                                   is negative or greater than {@code this.length()}, or
-     *                                   {@code start} or {@code end} are negative, or
-     *                                   {@code start} is greater than {@code end} or
-     *                                   {@code end} is greater than {@code s.length()}
-     */
     public ContentLineController insert(int dstOffset, CharSequence s,
-                                        int start, int end) {
-        if (s == null)
-            s = "null";
-        if ((dstOffset < 0) || (dstOffset > this.length()))
-            throw new IndexOutOfBoundsException("dstOffset " + dstOffset);
-        if ((start < 0) || (end < 0) || (start > end) || (end > s.length()))
-            throw new IndexOutOfBoundsException(
-                    "start " + start + ", end " + end + ", s.length() "
-                            + s.length());
-        int len = end - start;
-        ensureCapacity(length + len);
-        System.arraycopy(value, dstOffset, value, dstOffset + len,
-                length - dstOffset);
-        for (int i = start; i < end; i++)
-            value[dstOffset++] = s.charAt(i);
-        length += len;
+                       int start, int end) {
+        model.insert(dstOffset,s,start,end);
         return this;
     }
-
     /**
      * Removes the characters in a substring of this sequence.
      * The substring begins at the specified {@code start} and extends to
@@ -247,45 +109,22 @@ public class ContentLineController implements CharSequence, GetChars {
      *                                         greater than {@code end}.
      */
     public ContentLineController delete(int start, int end) {
-        if (start < 0)
-            throw new StringIndexOutOfBoundsException(start);
-        if (end > length)
-            end = length;
-        if (start > end)
-            throw new StringIndexOutOfBoundsException();
-        int len = end - start;
-        if (len > 0) {
-            System.arraycopy(value, start + len, value, start, length - end);
-            length -= len;
-        }
+        model.delete(start,end);
         return this;
     }
 
     public ContentLineController insert(int offset, char c) {
-        ensureCapacity(length + 1);
-        System.arraycopy(value, offset, value, offset + 1, length - offset);
-        value[offset] = c;
-        length += 1;
+        model.insert(offset,c);
         return this;
     }
 
     public ContentLineController append(CharSequence s, int start, int end) {
-        if (s == null)
-            s = "null";
-        if ((start < 0) || (start > end) || (end > s.length()))
-            throw new IndexOutOfBoundsException(
-                    "start " + start + ", end " + end + ", s.length() "
-                            + s.length());
-        int len = end - start;
-        ensureCapacity(length + len);
-        for (int i = start, j = length; i < end; i++, j++)
-            value[j] = s.charAt(i);
-        length += len;
+        model.append(s,start,end);
         return this;
     }
 
     public ContentLineController append(CharSequence text) {
-        return this.insert(length, text);
+        return insert(model.length, text);
     }
 
     public int indexOf(CharSequence text, int index) {
@@ -293,33 +132,33 @@ public class ContentLineController implements CharSequence, GetChars {
     }
 
     public int lastIndexOf(String str, int fromIndex) {
-        return lastIndexOf(value, length,
+        return ContentLineModel.lastIndexOf(model.value, model.length,
                 str.toCharArray(), str.length(), fromIndex);
     }
 
     @Override
     public int length() {
-        return length;
+        return model.length;
     }
 
     @Override
     public char charAt(int index) {
-        checkIndex(index);
-        return value[index];
+        model.checkIndex(index);
+        return model.value[index];
     }
 
     @Override
     public ContentLineController subSequence(int start, int end) {
-        checkIndex(start);
-        checkIndex(end);
+        model.checkIndex(start);
+        model.checkIndex(end);
         if (end < start) {
             throw new StringIndexOutOfBoundsException("start is bigger than end");
         }
         char[] newValue = new char[end - start + 16];
-        System.arraycopy(value, start, newValue, 0, end - start);
+        System.arraycopy(model.value, start, newValue, 0, end - start);
         ContentLineController res = new ContentLineController(false);
-        res.value = newValue;
-        res.length = end - start;
+        res.model.value = newValue;
+        res.model.length = end - start;
         return res;
     }
 
@@ -327,22 +166,23 @@ public class ContentLineController implements CharSequence, GetChars {
      * A quick method to append itself to a StringBuilder
      */
     public void appendTo(StringBuilder sb) {
-        sb.append(value, 0, length);
+        sb.append(model.value, 0, model.length);
     }
 
     @Override
     public String toString() {
-        return new String(value, 0, length);
+        return new String(model.value, 0, model.length);
     }
 
+    @Override
     public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
         if (srcBegin < 0)
             throw new StringIndexOutOfBoundsException(srcBegin);
-        if ((srcEnd < 0) || (srcEnd > length))
+        if ((srcEnd < 0) || (srcEnd > model.length))
             throw new StringIndexOutOfBoundsException(srcEnd);
         if (srcBegin > srcEnd)
             throw new StringIndexOutOfBoundsException("srcBegin > srcEnd");
-        System.arraycopy(value, srcBegin, dst, dstBegin, srcEnd - srcBegin);
+        System.arraycopy(model.value, srcBegin, dst, dstBegin, srcEnd - srcBegin);
     }
 
 }
