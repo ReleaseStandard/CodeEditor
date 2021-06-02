@@ -25,7 +25,8 @@ import org.junit.Test;
 import java.util.Random;
 
 import io.github.rosemoe.editor.langs.EmptyLanguage;
-import io.github.rosemoe.editor.text.Content;
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.model.content.ContentModel;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import static org.junit.Assert.*;
 
@@ -36,9 +37,9 @@ public class BigTextTest {
 
     @Test(timeout = 5000)
     public void insertBigTextToContent() throws Exception {
-        Content text = new Content();
-        Content.useBlock = false;
-        Content text2 = new Content();
+        ContentController text = new ContentController();
+        ContentModel.useBlock = false;
+        ContentController text2 = new ContentController();
         Random random = new Random();
         for (int i = 0;i < 10000;i++) {
             int line = random.nextInt(text.getLineCount());
@@ -62,8 +63,8 @@ public class BigTextTest {
             Looper.prepare();
         editor = new CodeEditor(instrumentation.getTargetContext());
         editor.setEditorLanguage(new EmptyLanguage());
-        Content.useBlock = false;
-        Content text = new Content();
+        ContentModel.useBlock = false;
+        ContentController text = new ContentController();
         Random random = new Random();
         int c = 0;
         Exception ex = null;
