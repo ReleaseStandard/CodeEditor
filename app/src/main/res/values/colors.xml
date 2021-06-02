@@ -17,4 +17,15 @@
 
 <resources>
     <color name="red">#FFFF0000</color>
+    <color name="green">#FF00FF00</color>
+    <color name="blue">#FF0000FF</color>
+    <color name="yellow">#FFFFFF00</color>
+    <color name="cyan">#FF00FFFF</color>
+    <color name="purple">#FFFF00FF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="greenyellow">#FFaaFF00</color>
+    <color name="deepred">#FFaa0011</color>
+    <color name="orange">#FFaa00</color>
+    <color name="greenblue">#FF0aFFaF</color>
 </resources>

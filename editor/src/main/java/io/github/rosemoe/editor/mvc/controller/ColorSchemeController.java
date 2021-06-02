@@ -37,6 +37,7 @@ public class ColorSchemeController {
 
     public static ColorSchemeController DEFAULT() { return new Solarized(); }
     public static final int TODO = 0xFFFF0000;
+    public static final int HIDDEN = 0;
     private final int DEFAULT = TODO;
     /**
      * That's our color scheme, no matter what it correspond to in the language, we just need colors.
@@ -100,9 +101,9 @@ public class ColorSchemeController {
     public int getTextSelected() {
         return textSelected == null ? base2 : textSelected ;
     }
-    public Integer selectedTextBackground = null;
-    public int getSelectedTextBackground() {
-        return selectedTextBackground == null ? base00 : selectedTextBackground;
+    public Integer textSelectedBackground = null;
+    public int getTextSelectedBackground() {
+        return textSelectedBackground == null ? base00 : textSelectedBackground;
     }
     public Integer lineNumberPanelText = null;
     public int getLineNumberPanelText() {
@@ -239,7 +240,7 @@ public class ColorSchemeController {
             } else if (colorId == R.styleable.CodeEditor_color_textSelected) {
                 textSelected = colorValue;
             } else if (colorId == R.styleable.CodeEditor_color_selectedTextBackground) {
-                selectedTextBackground = colorValue;
+                textSelectedBackground = colorValue;
             } else if (colorId == R.styleable.CodeEditor_color_lineNumberPanelText) {
                 lineNumberPanelText = colorValue;
             } else if (colorId == R.styleable.CodeEditor_color_wholeBackground) {

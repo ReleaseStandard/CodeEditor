@@ -42,7 +42,7 @@ public class Darcula extends ColorSchemeController {
         lineDivider = 0xff606366;
         scrollbarthumb = 0xffa6a6a6;
         scrollbarthumbpressed = 0xff565656;
-        selectedTextBackground = 0xff3676b8;
+        textSelectedBackground = 0xff3676b8;
         matchedTextBackground = 0xff32593d;
         currentLine = 0xff323232;
         selectionInsert = 0xffffffff;

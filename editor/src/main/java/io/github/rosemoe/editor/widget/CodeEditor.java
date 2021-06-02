@@ -1190,7 +1190,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             // Draw matched text background
             if (!matchedPositions.isEmpty()) {
                 for (int position : matchedPositions) {
-                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.model.searchText.length(), mColors.getMatchedTextBackground());
+                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.model.searchText.length(), mColors.getTextSelectedBackground());
                 }
             }
 
@@ -1206,7 +1206,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 if (line == mCursor.getRightLine()) {
                     selectionEnd = mCursor.getRightColumn();
                 }
-                drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, selectionStart, selectionEnd, mColors.getTextSelected());
+                drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, selectionStart, selectionEnd, mColors.getTextSelectedBackground());
             }
 
             // Draw current line background

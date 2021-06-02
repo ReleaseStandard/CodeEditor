@@ -40,7 +40,7 @@ public class VS2019 extends ColorSchemeController {
         lineDivider = 0xff2b9eaf;
         scrollbarthumb = 0xff3e3e42;
         scrollbarthumbpressed = 0xff9e9e9e;
-        selectedTextBackground = 0xff3676b8;
+        textSelectedBackground = 0xff3676b8;
         matchedTextBackground = 0xff653306;
         currentLine = 0xff464646;
         selectionInsert = 0xffffffff;

@@ -37,7 +37,7 @@ public final class NotepadXX extends ColorSchemeController {
         textNormal = 0xff000000;
         lineNumberBackground = 0xffe4e4e4;
         lineNumberPanel = 0xff808080;
-        selectedTextBackground = 0xff75d975;
+        textSelectedBackground = 0xff75d975;
         matchedTextBackground = 0xffc0c0c0;
         currentLine = 0xffe8e8ff;
         selectionInsert = 0xff8000ff;

@@ -37,7 +37,7 @@ public final class Eclipse extends ColorSchemeController {
         textNormal = 0xff000000;
         lineNumberBackground = 0xffffffff;
         lineNumberPanel = 0xff787878;
-        selectedTextBackground = 0xff3399ff;
+        textSelectedBackground = 0xff3399ff;
         matchedTextBackground = 0xffd4d4d4;
         currentLine = 0xffe8f2fe;
         selectionInsert = 0xff03ebeb;
