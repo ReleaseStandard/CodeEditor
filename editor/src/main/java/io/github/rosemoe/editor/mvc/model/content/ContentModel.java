@@ -15,5 +15,43 @@
  */
 package io.github.rosemoe.editor.mvc.model.content;
 
+import io.github.rosemoe.editor.util.annotations.Experimental;
+
 public class ContentModel {
+    public int textLength;
+    public int nestedBatchEdit;
+
+    /**
+     * Use a BlockLinkedList instead of ArrayList.
+     * <p>
+     * This can be faster while inserting in large text.
+     * But in other conditions, it is quite slow.
+     * <p>
+     * Disabled by default.
+     */
+    @Experimental
+    public static boolean useBlock = false;
+
+    private static int sInitialListCapacity;
+
+    /**
+     * Returns the default capacity of text line list
+     *
+     * @return Default capacity
+     */
+    public static int getInitialLineCapacity() {
+        return ContentModel.sInitialListCapacity;
+    }
+
+    /**
+     * Set the default capacity of text line list
+     *
+     * @param capacity Default capacity
+     */
+    public static void setInitialLineCapacity(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("capacity can not be negative or zero");
+        }
+        ContentModel.sInitialListCapacity = capacity;
+    }
 }
