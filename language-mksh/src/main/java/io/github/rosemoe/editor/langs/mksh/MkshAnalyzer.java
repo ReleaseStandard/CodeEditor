@@ -145,39 +145,28 @@ public class MkshAnalyzer extends CodeAnalyzerController {
 
             @Override
             public void enterIdentifier(MkshParser.IdentifierContext ctx) {
-
             }
 
             @Override
-            public void exitIdentifier(MkshParser.IdentifierContext ctx) {
-
-            }
+            public void exitIdentifier(MkshParser.IdentifierContext ctx) { }
 
             @Override
-            public void enterPrimary_keyword(MkshParser.Primary_keywordContext ctx) {
-                
-            }
+            public void enterPrimary_keyword(MkshParser.Primary_keywordContext ctx) { }
 
             @Override
-            public void exitPrimary_keyword(MkshParser.Primary_keywordContext ctx) {
-            }
+            public void exitPrimary_keyword(MkshParser.Primary_keywordContext ctx) { }
 
             @Override
             public void enterSecondary_keyword(MkshParser.Secondary_keywordContext ctx) { }
 
             @Override
-            public void exitSecondary_keyword(MkshParser.Secondary_keywordContext ctx) {
-
-            }
+            public void exitSecondary_keyword(MkshParser.Secondary_keywordContext ctx) { }
 
             @Override
-            public void enterExecution_control(MkshParser.Execution_controlContext ctx) {
-            }
+            public void enterExecution_control(MkshParser.Execution_controlContext ctx) { }
 
             @Override
-            public void exitExecution_control(MkshParser.Execution_controlContext ctx) {
-
-            }
+            public void exitExecution_control(MkshParser.Execution_controlContext ctx) { }
 
             @Override
             public void enterFor_do_done(MkshParser.For_do_doneContext ctx) {
@@ -298,7 +287,6 @@ public class MkshAnalyzer extends CodeAnalyzerController {
 
             @Override
             public void exitA_operator_binary(MkshParser.A_operator_binaryContext ctx) {
-
             }
 
             @Override

@@ -30,7 +30,7 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public class JavaLanguage implements EditorLanguageController {
+public class JavaLanguage extends EditorLanguageController {
 
     @Override
     public CodeAnalyzerController getAnalyzer() {
@@ -76,11 +76,6 @@ public class JavaLanguage implements EditorLanguageController {
     @Override
     public SymbolPairMatch getSymbolPairs() {
         return new SymbolPairMatch.DefaultSymbolPairs();
-    }
-
-    @Override
-    public CharSequence format(CharSequence text) {
-        return text;
     }
 
     private NewlineHandler[] newlineHandlers = new NewlineHandler[]{new BraceHandler()};

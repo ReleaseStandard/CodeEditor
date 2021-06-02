@@ -67,6 +67,9 @@ public abstract class CodeAnalyzerController {
         addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine(),color);
         addColor(colors,antlrLineIndexToCodeEditor(token.getLine()),token.getCharPositionInLine() + token.getText().length(),theme.getTextNormal());
     }
+    public void processNode(int color, Object node) {
+        processNodes(color,node);
+    }
     public void processNodes(int color, List<Object> objs) {
         processNodes(color,objs.toArray());
     }

@@ -30,7 +30,7 @@ import io.github.rosemoe.editor.langs.internal.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
-public class PythonLanguage implements EditorLanguageController {
+public class PythonLanguage extends EditorLanguageController {
     private final static String[] keywords = {
             "and", "as", "assert", "break", "class", "continue", "def",
             "del", "elif", "else", "except", "exec", "finally", "for",
@@ -95,15 +95,6 @@ public class PythonLanguage implements EditorLanguageController {
         return true;
     }
 
-    @Override
-    public CharSequence format(CharSequence text) {
-        return text;
-    }
-
-    @Override
-    public SymbolPairMatch getSymbolPairs() {
-        return null;
-    }
 
     private NewlineHandler[] newlineHandlers = new NewlineHandler[]{new ColonHandler()};
 

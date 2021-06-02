@@ -32,23 +32,7 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public class EmptyLanguage implements EditorLanguageController {
-
-    @Override
-    public CharSequence format(CharSequence text) {
-        return text;
-    }
-
-    @Override
-    public SymbolPairMatch getSymbolPairs() {
-        return new SymbolPairMatch.DefaultSymbolPairs();
-    }
-
-    @Override
-    public NewlineHandler[] getNewlineHandlers() {
-        return new NewlineHandler[0];
-    }
-
+public class EmptyLanguage extends EditorLanguageController {
 
     @Override
     public CodeAnalyzerController getAnalyzer() {
@@ -62,16 +46,6 @@ public class EmptyLanguage implements EditorLanguageController {
 
     @Override
     public boolean isAutoCompleteChar(char ch) {
-        return false;
-    }
-
-    @Override
-    public int getIndentAdvance(String content) {
-        return 0;
-    }
-
-    @Override
-    public boolean useTab() {
         return false;
     }
 

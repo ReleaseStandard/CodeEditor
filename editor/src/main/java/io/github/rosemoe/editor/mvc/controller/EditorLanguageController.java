@@ -15,8 +15,14 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 /**
@@ -33,21 +39,34 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public interface EditorLanguageController {
+public abstract class EditorLanguageController {
 
     /**
      * Get CodeAnalyzerController of this language object
      *
      * @return CodeAnalyzerController
      */
-    CodeAnalyzerController getAnalyzer();
+    public abstract CodeAnalyzerController getAnalyzer();
 
-    /**
-     * Get AutoCompleteProviderController of this language object
-     *
-     * @return AutoCompleteProviderController
-     */
-    AutoCompleteProviderController getAutoCompleteProvider();
+
+    public String[] getKeywords() {
+        return new String[0];
+    }
+    public class DefaultAutoComplete implements AutoCompleteProviderController {
+        public HashMap<String,CompletionItemController> items = new HashMap<>();
+        @Override
+        public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line) {
+            for(String key : getKeywords()) {
+                if ( ! items.containsKey(key) ) {
+                    items.put(key, new CompletionItemController(key, "key"));
+                }
+            }
+            return (List<CompletionItemController>) items.values();
+        }
+    }
+    public AutoCompleteProviderController getAutoCompleteProvider() {
+        return new DefaultAutoComplete();
+    }
 
     /**
      * Called by editor to check whether this is a character for auto completion
@@ -55,7 +74,9 @@ public interface EditorLanguageController {
      * @param ch Character to check
      * @return Whether is character for auto completion
      */
-    boolean isAutoCompleteChar(char ch);
+    public boolean isAutoCompleteChar(char ch) {
+        return Character.isLetter(ch);
+    }
 
     /**
      * Get advance for indent
@@ -63,14 +84,18 @@ public interface EditorLanguageController {
      * @param content ContentController of a line
      * @return Advance space count
      */
-    int getIndentAdvance(String content);
+    public int getIndentAdvance(String content) {
+        return 0;
+    }
 
     /**
      * Whether use tab to format
      *
      * @return Whether use tab
      */
-    boolean useTab();
+    public boolean useTab() {
+        return false;
+    }
 
     /**
      * Format the given content
@@ -78,13 +103,15 @@ public interface EditorLanguageController {
      * @param text ContentController to format
      * @return Formatted code
      */
-    CharSequence format(CharSequence text);
+    public CharSequence format(CharSequence text) {
+        return text;
+    }
 
     /**
      * Returns language specified symbol pairs.
      * The method is called only once when the language is applied.
      */
-    SymbolPairMatch getSymbolPairs();
+    public SymbolPairMatch getSymbolPairs() { return new SymbolPairMatch.DefaultSymbolPairs(); }
 
     /**
      * Get newline handlers of this language.
@@ -94,6 +121,6 @@ public interface EditorLanguageController {
      *
      * @return NewlineHandlers , maybe null
      */
-    NewlineHandler[] getNewlineHandlers();
+    public NewlineHandler[] getNewlineHandlers() { return new NewlineHandler[0]; }
 
 }

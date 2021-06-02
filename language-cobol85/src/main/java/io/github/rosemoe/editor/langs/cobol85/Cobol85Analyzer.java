@@ -26,27 +26,19 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.util.Logger;
 
+import static io.github.rosemoe.editor.langs.cobol85.Cobol85Parser.*;
+
 /**
  * Role of this class is to apply colors to language's syntaxe (here produced by antlr).
  */
 public class Cobol85Analyzer extends CodeAnalyzerController {
-
-    public void processIdentifier(Object... nodes) { processNodes(theme.accent1,nodes); }
-    public void processIdentifier(List<Object> nodes) { processNodes(theme.accent1,nodes); }
-    public void processKeyword(Object... nodes) { processNodes(theme.accent2,nodes); }
-    public void processKeyword(List<Object> nodes) { processNodes(theme.accent2,nodes); }
-    public void processSecondaryKeyword(Object... nodes) { processNodes(theme.accent3,nodes); }
-    public void processSecondaryKeyword(List<Object> nodes) { processNodes(theme.accent3,nodes); }
-    public void processStrings(List<Object> nodes) { processNodes(theme.accent7,nodes); }
-    public void processStrings(Object... nodes) { processNodes(theme.accent7,nodes); }
-    public void processComments(List<Object> nodes) { processNodes(theme.base1,nodes); }
-    public void processComments(Object... nodes) { processNodes(theme.base1,nodes); }
 
     @Override
     public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
@@ -61,18 +53,30 @@ public class Cobol85Analyzer extends CodeAnalyzerController {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         Cobol85Parser parser = new Cobol85Parser(tokens);
         Cobol85BaseListener walkListener = new Cobol85BaseListener() {
-            @Override public void enterAddStatement(Cobol85Parser.AddStatementContext ctx) {
-                Logger.debug();
-                processKeyword(ctx.ADD(),ctx.END_ADD());
-            }
-
-            @Override
-            public void enterAddTo(Cobol85Parser.AddToContext ctx) {
-                Logger.debug();
-                processIdentifier(ctx.identifier().getStart());
+            @Override public void visitTerminal(TerminalNode node) {
+                Token token = node.getSymbol();
+                if ( token == null ) { return ; }
+                switch(token.getType()) {
+                    // Primary keywords
+                    case PROCEDURE: case COMMON: case SOURCE_COMPUTER: case OBJECT_COMPUTER: case WORKING_STORAGE:
+                    case SECTION: case CALL: case DATA: case DIVISION: case ADD: case END_ADD: case IF: case END_IF:
+                    case ELSE: case FOR: case IDENTIFICATION: case PROGRAM_ID: case ENVIRONMENT: case CONFIGURATION:
+                    case MOVE: case TO: case USING: case THEN: case PERFORM: case NOT: case END_ACCEPT:
+                    case END_CALL: case END_COMPUTE: case END_DELETE: case END_DIVIDE: case END_EVALUATE:
+                    case END_MULTIPLY: case END_PERFORM:
+                        processNode(theme.accent2,token);
+                        break;
+                    case STRING:
+                    case INTEGER: case INTEGERLITERAL:
+                        processNode(theme.accent7,token);
+                        break;
+                    case COMMACHAR:
+                        processNodes(theme.accent1,token);
+                }
             }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.startRule());
     }
+
 
 }
