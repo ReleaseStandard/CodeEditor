@@ -32,14 +32,12 @@ public final class GitHub extends ColorSchemeController {
         base3 = 0xffffffff;
         base00 = 0xff24292e;
         base2 = 0xffbec0c1;
+        comment = 0xff6a737d;
+        wholeBackground = 0xffffffff;
+        textNormal = 0xff24292e;
+        lineNumberBackground = 0xffffffff;
+        lineNumberPanel = 0xffbec0c1;
+        selectionInsert = 0xffc7edcc;
+        selectionHandle = 0xffc7edcc;
     }
-    @Override public int getComment() { return 0xff6a737d; }
-    @Override public int getWholeBackground() {
-        return 0xffffffff;
-    }
-    @Override public int getTextNormal() { return 0xff24292e; }
-    @Override public int getLineNumberBackground() { return 0xffffffff; }
-    @Override public int getLineNumberPanel() { return 0xffbec0c1; }
-    @Override public int getSelectionInsert() { return 0xffc7edcc; }
-    @Override public int getSelectionHandle() { return 0xffc7edcc; }
 }

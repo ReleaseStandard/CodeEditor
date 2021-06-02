@@ -33,24 +33,22 @@ public class Darcula extends ColorSchemeController {
         base1 = 0xff606366;
         base2 = 0xff323232;
         base3 = 0xff2b2b2b;
-    }
 
-    @Override public int getComment() { return 0xff808080; }
-    @Override public int getWholeBackground() {
-        return 0xff2b2b2b;
+        comment = 0xff808080;
+        wholeBackground = 0xff2b2b2b;
+        textNormal = 0xffffffff;
+        lineNumberBackground = 0xff313335;
+        lineNumberPanel = 0xff606366;
+        lineDivider = 0xff606366;
+        scrollbarthumb = 0xffa6a6a6;
+        scrollbarthumbpressed = 0xff565656;
+        selectedTextBackground = 0xff3676b8;
+        matchedTextBackground = 0xff32593d;
+        currentLine = 0xff323232;
+        selectionInsert = 0xffffffff;
+        selectionHandle = 0xffffffff;
+        blockLine = 0xff575757;
+        blockLineCurrent = 0xdd575757;
+        nonprintablechar = 0xff6a8759;
     }
-    @Override public int getTextNormal() { return 0xffffffff; }
-    @Override public int getLineNumberBackground() { return 0xff313335; }
-    @Override public int getLineNumberPanel() { return 0xff606366; }
-    @Override public int getLineDivider() { return 0xff606366; }
-    @Override public int getScrollBarThumb() { return 0xffa6a6a6; }
-    @Override public int getScrollBarThumbPressed() { return 0xff565656; }
-    @Override public int getSelectedTextBackground(){return 0xff3676b8;}
-    @Override public int getMatchedTextBackground() { return 0xff32593d; }
-    @Override public int getCurrentLine() { return 0xff323232; }
-    @Override public int getSelectionInsert() { return 0xffffffff; }
-    @Override public int getSelectionHandle() { return 0xffffffff; }
-    @Override public int getBlockLine() { return 0xff575757; }
-    @Override public int getBlockLineCurrent() { return 0xdd575757; }
-    @Override public int getNonPrintableChar(){ return 0xff6a8759; }
 }

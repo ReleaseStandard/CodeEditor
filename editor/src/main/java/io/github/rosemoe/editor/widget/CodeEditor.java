@@ -20,7 +20,9 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -263,6 +265,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     public CodeEditor(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initialize();
+        mColors.initFromAttributeSets(attrs,getContext().obtainStyledAttributes(attrs,R.styleable.CodeEditor));
     }
 
     /**

@@ -32,23 +32,21 @@ public class VS2019 extends ColorSchemeController {
         base1 = 0xff57a64a;
         base2 = 0xff3676b8;
         base3 = 0xff1e1e1e;
+        comment = 0xff57a64a;
+        wholeBackground = 0xff1e1e1e;
+        textNormal = 0xffdcdcdc;
+        lineNumberBackground = 0xff1e1e1e;
+        lineNumberPanel = 0xff2b9eaf;
+        lineDivider = 0xff2b9eaf;
+        scrollbarthumb = 0xff3e3e42;
+        scrollbarthumbpressed = 0xff9e9e9e;
+        selectedTextBackground = 0xff3676b8;
+        matchedTextBackground = 0xff653306;
+        currentLine = 0xff464646;
+        selectionInsert = 0xffffffff;
+        selectionHandle = 0xffffffff;
+        blockLine = 0xff717171;
+        blockLineCurrent = 0;
+        nonprintablechar = 0xffdddddd;
     }
-    @Override public int getComment() { return 0xff57a64a; }
-    @Override public int getWholeBackground() {
-        return 0xff1e1e1e;
-    }
-    @Override public int getTextNormal() { return 0xffdcdcdc; }
-    @Override public int getLineNumberBackground() { return 0xff1e1e1e; }
-    @Override public int getLineNumberPanel() { return 0xff2b9eaf; }
-    @Override public int getLineDivider() { return 0xff2b9eaf; }
-    @Override public int getScrollBarThumb() { return 0xff3e3e42; }
-    @Override public int getScrollBarThumbPressed() { return 0xff9e9e9e; }
-    @Override public int getSelectedTextBackground(){return 0xff3676b8;}
-    @Override public int getMatchedTextBackground() { return 0xff653306; }
-    @Override public int getCurrentLine() { return 0xff464646; }
-    @Override public int getSelectionInsert() { return 0xffffffff; }
-    @Override public int getSelectionHandle() { return 0xffffffff; }
-    @Override public int getBlockLine() { return 0xff717171; }
-    @Override public int getBlockLineCurrent() { return 0; }
-    @Override public int getNonPrintableChar() { return 0xffdddddd; }
 }

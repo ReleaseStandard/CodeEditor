@@ -16,7 +16,6 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <resources>
-
     <declare-styleable name="editor">
         <attr name="text" format="string"/>
         <attr name="textSize" format="dimension"/>
@@ -29,5 +28,37 @@
         <attr name="verticalScrollbarEnabled" format="boolean"/>
         <attr name="horizontalScrollbarEnabled" format="boolean"/>
     </declare-styleable>
-
+    <declare-styleable name="CodeEditor">
+        <attr name="color.base03" format="color"></attr>
+        <attr name="color.base02" format="color"></attr>
+        <attr name="color.base01" format="color"></attr>
+        <attr name="color.base00" format="color"></attr>
+        <attr name="color.base0" format="color"></attr>
+        <attr name="color.base1" format="color"></attr>
+        <attr name="color.base2" format="color"></attr>
+        <attr name="color.base3" format="color"></attr>
+        <attr name="color.base4" format="color"></attr>
+        <attr name="color.lineNumberPanel" format="color"></attr>
+        <attr name="color.lineNumberBackground" format="color"></attr>
+        <attr name="color.currentLine" format="color"></attr>
+        <attr name="color.textSelected" format="color"></attr>
+        <attr name="color.selectedTextBackground" format="color"></attr>
+        <attr name="color.lineNumberPanelText" format="color"></attr>
+        <attr name="color.wholeBackground" format="color"></attr>
+        <attr name="color.textNormal" format="color"></attr>
+        <attr name="color.comment" format="color"></attr>
+        <attr name="color.matchedTextBackground" format="color"></attr>
+        <attr name="color.blockLine" format="color"></attr>
+        <attr name="color.blockLineCurrent" format="color"></attr>
+        <attr name="color.selectionInsert" format="color"></attr>
+        <attr name="color.selectionHandle" format="color"></attr>
+        <attr name="color.scrollbarThumb" format="color"></attr>
+        <attr name="color.scrollbarThumbPressed" format="color"></attr>
+        <attr name="color.nonPrintableChar" format="color"></attr>
+        <attr name="color.completionPanelBackground" format="color"></attr>
+        <attr name="color.completionPanelCorner" format="color"></attr>
+        <attr name="color.scrollbartrack" format="color"></attr>
+        <attr name="color.underline" format="color"></attr>
+        <attr name="color.linedivider" format="color"></attr>
+    </declare-styleable>
 </resources>

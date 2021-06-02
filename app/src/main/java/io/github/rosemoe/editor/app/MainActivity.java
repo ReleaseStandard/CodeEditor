@@ -16,9 +16,13 @@
 package io.github.rosemoe.editor.app;
 
 import android.app.AlertDialog;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +31,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -114,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editor = findViewById(R.id.editor);
+
         panel = findViewById(R.id.search_panel);
         search = findViewById(R.id.search_editor);
         replace = findViewById(R.id.replace_editor);
-
         SymbolInputView inputView = findViewById(R.id.symbol_input);
         inputView.bindEditor(editor);
         inputView.addSymbols(new String[]{"->", "{", "}", "(", ")", ",", ".", ";", "\"", "?", "+", "-", "*", "/"},
