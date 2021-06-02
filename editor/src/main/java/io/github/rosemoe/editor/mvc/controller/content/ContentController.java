@@ -484,7 +484,7 @@ public class ContentController implements CharSequence {
      * @return Whether ContentManagerController is enabled
      */
     public boolean isUndoEnabled() {
-        return mUndoManager.isUndoEnabled();
+        return mUndoManager.model.isUndoEnabled();
     }
 
     /**
@@ -504,7 +504,7 @@ public class ContentController implements CharSequence {
      * @return current max stack size
      */
     public int getMaxUndoStackSize() {
-        return mUndoManager.getMaxUndoStackSize();
+        return mUndoManager.model.getMaxUndoStackSize();
     }
 
     /**
