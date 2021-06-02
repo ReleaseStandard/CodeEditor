@@ -13,11 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.langs;
+package io.github.rosemoe.editor.mvc.controller.widget.completion;
 
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
+import io.github.rosemoe.editor.util.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,6 +49,7 @@ public class IdentifierAutoComplete implements AutoCompleteProviderController {
     }
 
     public String[] getKeywords() {
+        Logger.debug("key words in the autocomplete provider : ", mKeywords.length);
         return mKeywords;
     }
 

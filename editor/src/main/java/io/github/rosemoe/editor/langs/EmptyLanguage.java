@@ -39,6 +39,7 @@ public class EmptyLanguage extends EditorLanguageController {
         return new EmptyCodeAnalyzer();
     }
 
+
     @Override
     public AutoCompleteProviderController getAutoCompleteProvider() {
         return new EmptyAutoCompleteProvider();

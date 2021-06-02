@@ -25,28 +25,27 @@ import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompletePro
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
-import io.github.rosemoe.editor.langs.IdentifierAutoComplete;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.internal.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
-import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 public class PythonLanguage extends EditorLanguageController {
-    private final static String[] keywords = {
-            "and", "as", "assert", "break", "class", "continue", "def",
-            "del", "elif", "else", "except", "exec", "finally", "for",
-            "from", "global", "if", "import", "in", "is", "lambda",
-            "not", "or", "pass", "print", "raise", "return", "try",
-            "while", "with", "yield"
-    };
 
     @Override
     public CodeAnalyzerController getAnalyzer() {
         return new PythonCodeAnalyzer();
     }
 
+
     @Override
     public AutoCompleteProviderController getAutoCompleteProvider() {
-        return new IdentifierAutoComplete(keywords);
+        return new IdentifierAutoComplete(new String[]{
+                "and", "as", "assert", "break", "class", "continue", "def",
+                "del", "elif", "else", "except", "exec", "finally", "for",
+                "from", "global", "if", "import", "in", "is", "lambda",
+                "not", "or", "pass", "print", "raise", "return", "try",
+                "while", "with", "yield"
+        });
     }
 
     @Override
