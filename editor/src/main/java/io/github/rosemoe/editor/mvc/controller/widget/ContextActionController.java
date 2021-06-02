@@ -32,15 +32,14 @@ import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 
 /**
  * This will show when selecting text
+ * (context action)
  *
  * @author Rose
  */
-public class ContextActionController extends EditorBasePopupWindow implements View.OnClickListener, CodeEditor.EditorTextActionPresenter {
+public class ContextActionController {
 
     public ContextActionModel model = new ContextActionModel();
-    public ContextActionView view   = new ContextActionView();
-
-    private final CodeEditor mEditor;
+    public final ContextActionView view;
 
     /**
      * Create a panel for the given editor
@@ -48,133 +47,19 @@ public class ContextActionController extends EditorBasePopupWindow implements Vi
      * @param editor Target editor
      */
     public ContextActionController(CodeEditor editor) {
-        super(editor);
-        mEditor = editor;
-        // Since popup window does provide decor view, we have to pass null to this method
-        @SuppressLint("InflateParams")
-        View root = LayoutInflater.from(editor.getContext()).inflate(R.layout.text_compose_panel, null);
-        Button selectAll = root.findViewById(R.id.panel_btn_select_all);
-        Button cut = root.findViewById(R.id.panel_btn_cut);
-        Button copy = root.findViewById(R.id.panel_btn_copy);
-        view.mPasteBtn = root.findViewById(R.id.panel_btn_paste);
-        view.mCopyBtn = copy;
-        view.mCutBtn = cut;
-        selectAll.setOnClickListener(this);
-        cut.setOnClickListener(this);
-        copy.setOnClickListener(this);
-        view.mPasteBtn.setOnClickListener(this);
-        GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(5);
-        gd.setColor(0xffffffff);
-        root.setBackground(gd);
-        setContentView(root);
-        view.mRootView = root;
-    }
-
-    @Override
-    public void onBeginTextSelect() {
-        float dpUnit = mEditor.getDpUnit();
-        setHeight((int) (dpUnit * 60));
-        model.maxWidth = (int) (dpUnit * 230);
-        setWidth(model.maxWidth);
-    }
-
-    @Override
-    public void onExit() {
-        hide();
-    }
-
-    @Override
-    public void onUpdate() {
-        hide();
-    }
-
-    @Override
-    public void onUpdate(int updateReason) {
-        hide();
-    }
-
-    @Override
-    public void onSelectedTextClicked(MotionEvent event) {
-        ContextActionController panel = this;
-        if (panel.isShowing()) {
-            panel.hide();
-        } else {
-            int first = mEditor.getFirstVisibleRow();
-            int last = mEditor.getLastVisibleRow();
-            int left = mEditor.getCursor().getLeftLine();
-            int right = mEditor.getCursor().getRightLine();
-            int toLineBottom;
-            if (right <= first) {
-                toLineBottom = first;
-            } else if (right > last) {
-                if (left <= first) {
-                    toLineBottom = (first + last) / 2;
-                } else if (left >= last) {
-                    toLineBottom = last - 2;
-                } else {
-                    if (left + 3 >= last) {
-                        toLineBottom = left - 2;
-                    } else {
-                        toLineBottom = left + 1;
-                    }
-                }
-            } else {
-                if (left <= first) {
-                    if (right + 3 >= last) {
-                        toLineBottom = right - 2;
-                    } else {
-                        toLineBottom = right + 1;
-                    }
-                } else {
-                    if (left + 5 >= right) {
-                        toLineBottom = right + 1;
-                    } else {
-                        toLineBottom = (left + right) / 2;
-                    }
-                }
+        view = new ContextActionView(editor) {
+            @Override
+            public void handleOnBeginTextSelect(int maxWidth) {
+                model.maxWidth = maxWidth;
             }
-            toLineBottom = Math.max(0, toLineBottom);
-            int panelY = mEditor.getRowBottom(toLineBottom) - mEditor.getOffsetY();
-            float handleLeftX = mEditor.getOffset(left, mEditor.getCursor().getLeftColumn());
-            float handleRightX = mEditor.getOffset(right, mEditor.getCursor().getRightColumn());
-            int panelX = (int) ((handleLeftX + handleRightX) / 2f);
-            panel.setExtendedX(panelX);
-            panel.setExtendedY(panelY);
-            panel.show();
-        }
+
+            @Override
+            public void handleUpdateBtnState() {
+                setWidth(Math.min(mRootView.getMeasuredWidth(), model.maxWidth));
+            }
+        };
     }
 
-    @Override
-    public void onTextSelectionEnd() {
-
-    }
-
-    @Override
-    public boolean shouldShowCursor() {
-        return !isShowing();
-    }
-
-    /**
-     * Update the state of paste button
-     */
-    private void updateBtnState() {
-        view.updateBtnState(mEditor);
-        setWidth(Math.min(view.mRootView.getMeasuredWidth(), model.maxWidth));
-    }
-
-    @Override
-    public void show() {
-        updateBtnState();
-        setElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, Resources.getSystem().getDisplayMetrics()));
-        super.show();
-    }
-
-    @Override
-    public void onClick(View p1) {
-        view.click(mEditor,p1);
-        hide();
-    }
 
 }
 
