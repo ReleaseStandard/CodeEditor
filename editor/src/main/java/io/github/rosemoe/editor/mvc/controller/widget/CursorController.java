@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.mvc.controller.widget;
 
 import android.util.Log;
 
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
 import io.github.rosemoe.editor.processor.content.CachedIndexer;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
@@ -30,7 +30,7 @@ public final class CursorController {
 
     private final ContentController mContent;
     private final CachedIndexer mIndexer;
-    private EditorLanguageController mLanguage;
+    private LanguageController mLanguage;
     public CursorModel model = new CursorModel();
 	
     /**
@@ -223,7 +223,7 @@ public final class CursorController {
      *
      * @param lang The target language
      */
-    public void setLanguage(EditorLanguageController lang) {
+    public void setLanguage(LanguageController lang) {
         mLanguage = lang;
     }
 

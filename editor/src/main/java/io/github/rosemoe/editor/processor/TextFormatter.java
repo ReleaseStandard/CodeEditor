@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.processor;
 
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 
 /**
@@ -25,11 +25,11 @@ public class TextFormatter extends Thread {
 
     private CharSequence mText;
 
-    private EditorLanguageController mLanguage;
+    private LanguageController mLanguage;
 
     private FormatResultReceiver mReceiver;
 
-    public TextFormatter(CharSequence text, EditorLanguageController language, FormatResultReceiver receiver) {
+    public TextFormatter(CharSequence text, LanguageController language, FormatResultReceiver receiver) {
         mText = text;
         mLanguage = language;
         mReceiver = receiver;

@@ -20,7 +20,6 @@ import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.mvc.model.content.ContentActionModel;
 import io.github.rosemoe.editor.mvc.model.content.ContentModel;
 import io.github.rosemoe.editor.mvc.view.content.ContentView;
 import io.github.rosemoe.editor.processor.content.CachedIndexer;
@@ -54,7 +53,7 @@ public class ContentController implements CharSequence {
     private int mNestedBatchEdit;
     private List<ContentListener> mListeners;
     private Indexer mIndexer;
-    private ContentActionController mUndoManager;
+    private ContentManagerController mUndoManager;
     private CursorController mCursor;
     private LineRemoveListener mLineListener;
 
@@ -94,7 +93,7 @@ public class ContentController implements CharSequence {
             mLines = new BlockLinkedList<>(5000);
         mLines.add(new ContentLineController());
         mListeners = new ArrayList<>();
-        mUndoManager = new ContentActionController(this);
+        mUndoManager = new ContentManagerController(this);
         setMaxUndoStackSize(ContentController.DEFAULT_MAX_UNDO_STACK_SIZE);
         mIndexer = new NoCacheIndexer(this);
         if (src.length() == 0) {
@@ -448,7 +447,7 @@ public class ContentController implements CharSequence {
 
     /**
      * Undo the last modification
-     * NOTE:When there are too much modification,old modification will be deleted from ContentActionController
+     * NOTE:When there are too much modification,old modification will be deleted from ContentManagerController
      */
     public void undo() {
         mUndoManager.undo(this);
@@ -480,27 +479,27 @@ public class ContentController implements CharSequence {
     }
 
     /**
-     * Get whether ContentActionController is enabled
+     * Get whether ContentManagerController is enabled
      *
-     * @return Whether ContentActionController is enabled
+     * @return Whether ContentManagerController is enabled
      */
     public boolean isUndoEnabled() {
         return mUndoManager.isUndoEnabled();
     }
 
     /**
-     * Set whether enable the ContentActionController.
+     * Set whether enable the ContentManagerController.
      * If false,any modification will not be taken down and previous modification that
-     * is already in ContentActionController will be removed.Does not make changes to content.
+     * is already in ContentManagerController will be removed.Does not make changes to content.
      *
-     * @param enabled New state for ContentActionController
+     * @param enabled New state for ContentManagerController
      */
     public void setUndoEnabled(boolean enabled) {
         mUndoManager.setUndoEnabled(enabled);
     }
 
     /**
-     * Get current max stack size of ContentActionController
+     * Get current max stack size of ContentManagerController
      *
      * @return current max stack size
      */
@@ -509,7 +508,7 @@ public class ContentController implements CharSequence {
     }
 
     /**
-     * Set the max size of stack in ContentActionController
+     * Set the max size of stack in ContentManagerController
      *
      * @param maxSize New max size
      */
@@ -519,7 +518,7 @@ public class ContentController implements CharSequence {
 
     /**
      * A delegate method.
-     * Notify the ContentActionController to begin batch edit(enter a new layer).
+     * Notify the ContentManagerController to begin batch edit(enter a new layer).
      * NOTE: batch edit in Android can be nested.
      *
      * @return Whether in batch edit
@@ -531,7 +530,7 @@ public class ContentController implements CharSequence {
 
     /**
      * A delegate method.
-     * Notify the ContentActionController to end batch edit(exit current layer).
+     * Notify the ContentManagerController to end batch edit(exit current layer).
      *
      * @return Whether in batch edit
      */

@@ -41,7 +41,7 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public abstract class EditorLanguageController {
+public abstract class LanguageController {
 
     /**
      * Get CodeAnalyzerController of this language object

@@ -18,21 +18,19 @@ package io.github.rosemoe.editor.langs;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate;
-import io.github.rosemoe.editor.widget.SymbolPairMatch;
 
 /**
  * Empty language without any effect
  *
  * @author Rose
  */
-public class EmptyLanguage extends EditorLanguageController {
+public class EmptyLanguage extends LanguageController {
 
     @Override
     public CodeAnalyzerController getAnalyzer() {

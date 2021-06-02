@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.langs.java;
 
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
@@ -30,7 +30,7 @@ import io.github.rosemoe.editor.widget.SymbolPairMatch;
  *
  * @author Rose
  */
-public class JavaLanguage extends EditorLanguageController {
+public class JavaLanguage extends LanguageController {
 
     @Override
     public CodeAnalyzerController getAnalyzer() {

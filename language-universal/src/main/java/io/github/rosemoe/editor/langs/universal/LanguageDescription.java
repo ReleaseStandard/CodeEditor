@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.langs.universal;
 
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 
 /**
  * An interface to provide information for your language
@@ -56,12 +56,12 @@ public interface LanguageDescription {
     String[] getKeywords();
 
     /**
-     * @see EditorLanguageController#useTab()
+     * @see LanguageController#useTab()
      */
     boolean useTab();
 
     /**
-     * @see EditorLanguageController#getIndentAdvance(String)
+     * @see LanguageController#getIndentAdvance(String)
      */
     int getOperatorAdvance(String operator);
 

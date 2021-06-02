@@ -64,6 +64,7 @@ import java.util.Map;
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.widget.SearcherController;
@@ -73,7 +74,6 @@ import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
@@ -224,7 +224,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private Rect mViewRect;
     private ColorSchemeController mColors;
     private String mLnTip = "Line:";
-    private EditorLanguageController mLanguage;
+    private LanguageController mLanguage;
     private long mLastMakeVisible = 0;
     private AutoCompleteWindowController mCompletionWindow;
     private EditorTouchEventHandler mEventHandler;
@@ -654,9 +654,9 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Set the editor's language.
      * A language is a for auto completion,highlight and auto indent analysis.
      *
-     * @param lang New EditorLanguageController for editor
+     * @param lang New LanguageController for editor
      */
-    public void setEditorLanguage(@Nullable EditorLanguageController lang) {
+    public void setEditorLanguage(@Nullable LanguageController lang) {
         if (lang == null) {
             lang = new EmptyLanguage();
         }

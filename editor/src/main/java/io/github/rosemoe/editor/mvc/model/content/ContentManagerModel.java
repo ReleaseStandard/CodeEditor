@@ -15,5 +15,32 @@
  */
 package io.github.rosemoe.editor.mvc.model.content;
 
-public class ContentActionModel {
+public class ContentManagerModel {
+    public boolean mUndoEnabled;
+    public int mMaxStackSize;
+    public boolean mReplaceMark;
+    public boolean mIgnoreModification;
+
+    /**
+     * Whether this ContentManagerController is enabled
+     *
+     * @return Whether enabled
+     */
+    public boolean isUndoEnabled() {
+        return mUndoEnabled;
+    }
+
+    /**
+     * Get current max stack size
+     *
+     * @return max stack size
+     */
+    public int getMaxUndoStackSize() {
+        return mMaxStackSize;
+    }
+
+    public ContentManagerModel() {
+        mReplaceMark = false;
+        mIgnoreModification = false;
+    }
 }

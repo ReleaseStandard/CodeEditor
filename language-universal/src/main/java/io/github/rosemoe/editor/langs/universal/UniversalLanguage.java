@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.langs.universal;
 
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
@@ -28,7 +28,7 @@ import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;
  *
  * @author Rose
  */
-public class UniversalLanguage extends EditorLanguageController {
+public class UniversalLanguage extends LanguageController {
 
     private LanguageDescription mLanguage;
     private UniversalTokenizer tokenizer;

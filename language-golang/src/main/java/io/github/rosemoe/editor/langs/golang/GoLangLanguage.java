@@ -16,9 +16,9 @@
 package io.github.rosemoe.editor.langs.golang;
 
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 
-public class GoLangLanguage extends EditorLanguageController {
+public class GoLangLanguage extends LanguageController {
 
     @Override
     public CodeAnalyzerController getAnalyzer() {

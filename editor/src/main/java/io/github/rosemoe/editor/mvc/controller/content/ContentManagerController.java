@@ -18,8 +18,8 @@ package io.github.rosemoe.editor.mvc.controller.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.model.content.ContentActionModel;
-import io.github.rosemoe.editor.mvc.view.content.ContentActionView;
+import io.github.rosemoe.editor.mvc.model.content.ContentManagerModel;
+import io.github.rosemoe.editor.mvc.view.content.ContentManagerView;
 
 /**
  * Helper class for ContentController to take down modification
@@ -27,34 +27,29 @@ import io.github.rosemoe.editor.mvc.view.content.ContentActionView;
  *
  * @author Rose
  */
-public final class ContentActionController implements ContentListener {
+public final class ContentManagerController implements ContentListener {
 
-    public ContentActionModel model = new ContentActionModel();
-    public ContentActionView view   = new ContentActionView();
+    public ContentManagerModel model = new ContentManagerModel();
+    public ContentManagerView view   = new ContentManagerView();
 
     private final ContentController mContent;
     private final List<ContentAction> mActionStack;
-    private boolean mUndoEnabled;
-    private int mMaxStackSize;
     private InsertAction mInsertAction;
     private DeleteAction mDeleteAction;
-    private boolean mReplaceMark;
+
     private int mStackPointer;
-    private boolean mIgnoreModification;
 
     /**
-     * Create ContentActionController with the target content
+     * Create ContentManagerController with the target content
      *
      * @param content The ContentController going to attach
      */
-    public ContentActionController(ContentController content) {
+    public ContentManagerController(ContentController content) {
         mContent = content;
         mActionStack = new ArrayList<>();
-        mReplaceMark = false;
         mInsertAction = null;
         mDeleteAction = null;
         mStackPointer = 0;
-        mIgnoreModification = false;
     }
 
     /**
@@ -64,10 +59,10 @@ public final class ContentActionController implements ContentListener {
      */
     public void undo(ContentController content) {
         if (canUndo()) {
-            mIgnoreModification = true;
+            model.mIgnoreModification = true;
             mActionStack.get(mStackPointer - 1).undo(content);
             mStackPointer--;
-            mIgnoreModification = false;
+            model.mIgnoreModification = false;
         }
     }
 
@@ -78,10 +73,10 @@ public final class ContentActionController implements ContentListener {
      */
     public void redo(ContentController content) {
         if (canRedo()) {
-            mIgnoreModification = true;
+            model.mIgnoreModification = true;
             mActionStack.get(mStackPointer).redo(content);
             mStackPointer++;
-            mIgnoreModification = false;
+            model.mIgnoreModification = false;
         }
     }
 
@@ -91,7 +86,7 @@ public final class ContentActionController implements ContentListener {
      * @return Whether can undo
      */
     public boolean canUndo() {
-        return isUndoEnabled() && (mStackPointer > 0);
+        return model.isUndoEnabled() && (mStackPointer > 0);
     }
 
     /**
@@ -100,16 +95,7 @@ public final class ContentActionController implements ContentListener {
      * @return Whether can redo
      */
     public boolean canRedo() {
-        return isUndoEnabled() && (mStackPointer < mActionStack.size());
-    }
-
-    /**
-     * Whether this ContentActionController is enabled
-     *
-     * @return Whether enabled
-     */
-    public boolean isUndoEnabled() {
-        return mUndoEnabled;
+        return model.isUndoEnabled() && (mStackPointer < mActionStack.size());
     }
 
     /**
@@ -118,23 +104,14 @@ public final class ContentActionController implements ContentListener {
      * @param enabled Enable or disable
      */
     public void setUndoEnabled(boolean enabled) {
-        mUndoEnabled = enabled;
+        model.mUndoEnabled = enabled;
         if (!enabled) {
             cleanStack();
         }
     }
 
     /**
-     * Get current max stack size
-     *
-     * @return max stack size
-     */
-    public int getMaxUndoStackSize() {
-        return mMaxStackSize;
-    }
-
-    /**
-     * Set a max stack size for this ContentActionController
+     * Set a max stack size for this ContentManagerController
      *
      * @param maxSize max stack size
      */
@@ -143,7 +120,7 @@ public final class ContentActionController implements ContentListener {
             throw new IllegalArgumentException(
                     "max size can not be zero or smaller.Did you want to disable undo module by calling set_undoEnabled(false)?");
         }
-        mMaxStackSize = maxSize;
+        model.mMaxStackSize = maxSize;
         cleanStack();
     }
 
@@ -152,11 +129,11 @@ public final class ContentActionController implements ContentListener {
      * This is to limit stack size
      */
     private void cleanStack() {
-        if (!mUndoEnabled) {
+        if (!model.mUndoEnabled) {
             mActionStack.clear();
             mStackPointer = 0;
         } else {
-            while (mStackPointer > 1 && mActionStack.size() > mMaxStackSize) {
+            while (mStackPointer > 1 && mActionStack.size() > model.mMaxStackSize) {
                 mActionStack.remove(0);
                 mStackPointer--;
             }
@@ -180,7 +157,7 @@ public final class ContentActionController implements ContentListener {
      * @param action New {@link ContentAction}
      */
     private void pushAction(ContentAction action) {
-        if (!isUndoEnabled()) {
+        if (!model.isUndoEnabled()) {
             return;
         }
         cleanBeforePush();
@@ -221,16 +198,16 @@ public final class ContentActionController implements ContentListener {
 
     @Override
     public void beforeReplace(ContentController content) {
-        if (mIgnoreModification) {
+        if (model.mIgnoreModification) {
             return;
         }
-        mReplaceMark = true;
+        model.mReplaceMark = true;
     }
 
     @Override
     public void afterInsert(ContentController content, int startLine, int startColumn, int endLine, int endColumn,
                             CharSequence insertedContent) {
-        if (mIgnoreModification) {
+        if (model.mIgnoreModification) {
             return;
         }
         mInsertAction = new InsertAction();
@@ -239,7 +216,7 @@ public final class ContentActionController implements ContentListener {
         mInsertAction.endLine = endLine;
         mInsertAction.endColumn = endColumn;
         mInsertAction.text = insertedContent;
-        if (mReplaceMark) {
+        if (model.mReplaceMark) {
             ReplaceAction rep = new ReplaceAction();
             rep._delete = mDeleteAction;
             rep._insert = mInsertAction;
@@ -247,13 +224,13 @@ public final class ContentActionController implements ContentListener {
         } else {
             pushAction(mInsertAction);
         }
-        mReplaceMark = false;
+        model.mReplaceMark = false;
     }
 
     @Override
     public void afterDelete(ContentController content, int startLine, int startColumn, int endLine, int endColumn,
                             CharSequence deletedContent) {
-        if (mIgnoreModification) {
+        if (model.mIgnoreModification) {
             return;
         }
         mDeleteAction = new DeleteAction();
@@ -262,7 +239,7 @@ public final class ContentActionController implements ContentListener {
         mDeleteAction.endLine = endLine;
         mDeleteAction.startLine = startLine;
         mDeleteAction.text = deletedContent;
-        if (!mReplaceMark) {
+        if (!model.mReplaceMark) {
             pushAction(mDeleteAction);
         }
     }
@@ -306,7 +283,7 @@ public final class ContentActionController implements ContentListener {
     }
 
     /**
-     * Insert action model for ContentActionController
+     * Insert action model for ContentManagerController
      *
      * @author Rose
      */
@@ -356,7 +333,7 @@ public final class ContentActionController implements ContentListener {
     }
 
     /**
-     * MultiAction saves several actions for ContentActionController
+     * MultiAction saves several actions for ContentManagerController
      *
      * @author Rose
      */
@@ -404,7 +381,7 @@ public final class ContentActionController implements ContentListener {
     }
 
     /**
-     * Delete action model for ContentActionController
+     * Delete action model for ContentManagerController
      *
      * @author Rose
      */
@@ -454,7 +431,7 @@ public final class ContentActionController implements ContentListener {
     }
 
     /**
-     * Replace action model for ContentActionController
+     * Replace action model for ContentManagerController
      *
      * @author Rose
      */

@@ -15,10 +15,10 @@
  */
 package io.github.rosemoe.editor.langs.mksh;
 
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 
-public class MkshLanguage extends EditorLanguageController {
+public class MkshLanguage extends LanguageController {
 
     @Override
     public CodeAnalyzerController getAnalyzer() {

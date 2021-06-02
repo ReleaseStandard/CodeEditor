@@ -16,12 +16,9 @@
 package io.github.rosemoe.editor.langs.cobol85;
 
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 
-public class Cobol85Language extends EditorLanguageController {
+public class Cobol85Language extends LanguageController {
     @Override
     public CodeAnalyzerController getAnalyzer() {
         return new Cobol85Analyzer();

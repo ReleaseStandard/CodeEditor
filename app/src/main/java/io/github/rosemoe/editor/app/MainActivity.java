@@ -16,13 +16,9 @@
 package io.github.rosemoe.editor.app;
 
 import android.app.AlertDialog;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.AttributeSet;
-import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,19 +28,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.xmlpull.v1.XmlPullParser;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Set;
 
 import io.github.rosemoe.editor.langs.cobol85.Cobol85Language;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
-import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
+import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.langs.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
 import io.github.rosemoe.editor.langs.desc.CppDescription;
@@ -79,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         put("SolarizedDark",new Solarized(true));
         put("GitHub",new GitHub());
     }};
-    private static HashMap<String, EditorLanguageController> languages = new HashMap<String, EditorLanguageController>() {{
+    private static HashMap<String, LanguageController> languages = new HashMap<String, LanguageController>() {{
         put("C",new UniversalLanguage(new CDescription()));
         put("C++",new UniversalLanguage(new CppDescription()));
         put("Java",new JavaLanguage());
@@ -95,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     protected void setThemes() {
 
     }
-    protected void setEditorLanguage(EditorLanguageController el, String fname) {
+    protected void setEditorLanguage(LanguageController el, String fname) {
         editor.setEditorLanguage(el);
         new Thread(() -> {
             try {
