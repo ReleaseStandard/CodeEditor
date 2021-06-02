@@ -15,8 +15,6 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
@@ -25,7 +23,7 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.Objects;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.schemes.Solarized;
+import io.github.rosemoe.editor.themes.Solarized;
 
 /**
  * This class manages the colors of editor.

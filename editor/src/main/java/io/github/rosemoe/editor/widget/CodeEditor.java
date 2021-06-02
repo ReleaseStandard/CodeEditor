@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
+import io.github.rosemoe.editor.mvc.controller.UserInputController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
@@ -173,7 +174,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     static final int ACTION_MODE_SEARCH_TEXT = 1;
     static final int ACTION_MODE_SELECT_TEXT = 2;
     public static final String LOG_TAG = "CodeEditor";
-    protected SymbolPairMatch mLanguageSymbolPairs;
+    public SymbolPairMatch mLanguageSymbolPairs;
     public Layout mLayout;
     int mStartedActionMode;
     private int mTabWidth;
@@ -236,7 +237,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private GestureDetector mBasicDetector;
     protected EditorTextActionPresenter mTextActionPresenter;
     private ScaleGestureDetector mScaleDetector;
-    EditorInputConnection mConnection;
+    UserInputController mConnection;
     private CursorAnchorInfo.Builder mAnchorInfoBuilder;
     private MaterialEdgeEffect mVerticalEdgeGlow;
     private MaterialEdgeEffect mHorizontalGlow;
@@ -415,7 +416,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Get using AutoCompleteWindowController
      */
     @NonNull
-    protected AutoCompleteWindowController getAutoCompleteWindow() {
+    public AutoCompleteWindowController getAutoCompleteWindow() {
         return mCompletionWindow;
     }
 
@@ -432,12 +433,12 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Send current selection position to input method
      */
-    protected void updateSelection() {
+    public void updateSelection() {
         int candidatesStart = -1, candidatesEnd = -1;
-        if (mConnection.mComposingLine != -1) {
+        if (mConnection.model.composingLine != -1) {
             try {
-                candidatesStart = mText.getCharIndex(mConnection.mComposingLine, mConnection.mComposingStart);
-                candidatesEnd = mText.getCharIndex(mConnection.mComposingLine, mConnection.mComposingEnd);
+                candidatesStart = mText.getCharIndex(mConnection.model.composingLine, mConnection.model.composingStart);
+                candidatesEnd = mText.getCharIndex(mConnection.model.composingLine, mConnection.model.composingEnd);
             } catch (IndexOutOfBoundsException e) {
                 //Ignored
             }
@@ -459,14 +460,14 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Set request needed to update when editor updates selection
      */
-    protected void setExtracting(@Nullable ExtractedTextRequest request) {
+    public void setExtracting(@Nullable ExtractedTextRequest request) {
         mExtracting = request;
     }
 
     /**
      * Extract text in editor for input method
      */
-    protected ExtractedText extractText(@NonNull ExtractedTextRequest request) {
+    public ExtractedText extractText(@NonNull ExtractedTextRequest request) {
         CursorController cur = getCursor();
         ExtractedText text = new ExtractedText();
         int selBegin = cur.getLeft();
@@ -501,12 +502,12 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         updateSelection();
         updateCursorAnchor();
         // Restart if composing
-        if (mConnection.mComposingLine != -1) {
+        if (mConnection.model.composingLine != -1) {
             restartInput();
         }
     }
 
-    protected void restartInput() {
+    public void restartInput() {
         mConnection.invalid();
         mInputMethodManager.restartInput(this);
     }
@@ -612,7 +613,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         setScalable(true);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        mConnection = new EditorInputConnection(this);
+        mConnection = new UserInputController(this);
         mCompletionWindow = new AutoCompleteWindowController(this);
         mVerticalEdgeGlow = new MaterialEdgeEffect();
         mHorizontalGlow = new MaterialEdgeEffect();
@@ -1265,9 +1266,9 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             }
 
             // Draw composing text underline
-            if (line == mConnection.mComposingLine) {
-                int composingStart = mConnection.mComposingStart;
-                int composingEnd = mConnection.mComposingEnd;
+            if (line == mConnection.model.composingLine) {
+                int composingStart = mConnection.model.composingStart;
+                int composingEnd = mConnection.model.composingEnd;
                 int paintStart = Math.min(Math.max(composingStart, firstVisibleChar), lastVisibleChar);
                 int paintEnd = Math.min(Math.max(composingEnd, firstVisibleChar), lastVisibleChar);
                 if (paintStart != paintEnd) {
@@ -2228,7 +2229,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     private void commitTab() {
         if (mConnection != null && isEditable()) {
-            mConnection.commitTextInternal("\t", true);
+            mConnection.view.commitTextInternal("\t", true);
         }
     }
 
@@ -2286,7 +2287,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return The offset x of right cursor on view
      */
-    protected float updateCursorAnchor() {
+    public float updateCursorAnchor() {
         CursorAnchorInfo.Builder builder = mAnchorInfoBuilder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.reset();
@@ -3425,7 +3426,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             ClipData.Item data = mClipboardManager.getPrimaryClip().getItemAt(0);
             CharSequence text = data.getText();
             if (text != null && mConnection != null) {
-                mConnection.commitText(text, 0);
+                mConnection.view.commitText(text, 0);
             }
             notifyExternalCursorChange();
         } catch (Exception e) {
@@ -3663,7 +3664,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Called by CodeEditorInputConnection
      */
-    protected void onCloseConnection() {
+    public void onCloseConnection() {
         setExtracting(null);
         invalidate();
     }
@@ -3736,10 +3737,10 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         outAttrs.inputType = mInputType != 0 ? mInputType : EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE;
         outAttrs.initialSelStart = getCursor() != null ? getCursor().getLeft() : 0;
         outAttrs.initialSelEnd = getCursor() != null ? getCursor().getRight() : 0;
-        outAttrs.initialCapsMode = mConnection.getCursorCapsMode(0);
+        outAttrs.initialCapsMode = mConnection.view.getCursorCapsMode(0);
         mConnection.reset();
         setExtracting(null);
-        return mConnection;
+        return mConnection.view;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -3776,7 +3777,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 return true;
             case KeyEvent.KEYCODE_FORWARD_DEL: {
                 if (isEditable()) {
-                    mConnection.deleteSurroundingText(0, 1);
+                    mConnection.view.deleteSurroundingText(0, 1);
                     notifyExternalCursorChange();
                 }
                 return true;
@@ -4033,7 +4034,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
 
         // Auto completion
         if (isAutoCompletionEnabled()) {
-            if ((mConnection.mComposingLine == -1 || mCompletionOnComposing) && endColumn != 0 && startLine == endLine) {
+            if ((mConnection.model.composingLine == -1 || mCompletionOnComposing) && endColumn != 0 && startLine == endLine) {
                 int end = endColumn;
                 while (endColumn > 0) {
                     if (mLanguage.isAutoCompleteChar(content.charAt(endLine, endColumn - 1))) {
@@ -4088,7 +4089,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         exitSelectModeIfNeeded();
 
         if (isAutoCompletionEnabled()) {
-            if (mConnection.mComposingLine == -1 && mCompletionWindow.view.isShowing()) {
+            if (mConnection.model.composingLine == -1 && mCompletionWindow.view.isShowing()) {
                 if (startLine != endLine || startColumn != endColumn - 1) {
                     postHideCompletionWindow();
                 }

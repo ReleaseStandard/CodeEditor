@@ -52,7 +52,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.SymbolInputView;
-import io.github.rosemoe.editor.widget.schemes.*;
+import io.github.rosemoe.editor.themes.*;
 
 public class MainActivity extends AppCompatActivity {
 

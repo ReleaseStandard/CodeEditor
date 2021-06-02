@@ -13,40 +13,42 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget.schemes;
+package io.github.rosemoe.editor.themes;
 
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
 /**
  * ColorScheme for editor
- * picked from Visual Studio 2019
+ * picked from Android Studio
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public class VS2019 extends ColorSchemeController {
+public class Darcula extends ColorSchemeController {
 
     @Override
     public void initTheme() {
-        theme_name = "VS2019";
-        theme_description = "picked from Visual Studio 2019, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
-        base00 = 0xffdcdcdc;
-        base1 = 0xff57a64a;
-        base2 = 0xff3676b8;
-        base3 = 0xff1e1e1e;
-        comment = 0xff57a64a;
-        wholeBackground = 0xff1e1e1e;
-        textNormal = 0xffdcdcdc;
-        lineNumberBackground = 0xff1e1e1e;
-        lineNumberPanel = 0xff2b9eaf;
-        lineDivider = 0xff2b9eaf;
-        scrollbarthumb = 0xff3e3e42;
-        scrollbarthumbpressed = 0xff9e9e9e;
+        theme_name = "Darcula";
+        theme_description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
+        accent1 = 0xff32593d;
+        base00 = 0xffffffff;
+        base1 = 0xff606366;
+        base2 = 0xff323232;
+        base3 = 0xff2b2b2b;
+
+        comment = 0xff808080;
+        wholeBackground = 0xff2b2b2b;
+        textNormal = 0xffffffff;
+        lineNumberBackground = 0xff313335;
+        lineNumberPanel = 0xff606366;
+        lineDivider = 0xff606366;
+        scrollbarthumb = 0xffa6a6a6;
+        scrollbarthumbpressed = 0xff565656;
         selectedTextBackground = 0xff3676b8;
-        matchedTextBackground = 0xff653306;
-        currentLine = 0xff464646;
+        matchedTextBackground = 0xff32593d;
+        currentLine = 0xff323232;
         selectionInsert = 0xffffffff;
         selectionHandle = 0xffffffff;
-        blockLine = 0xff717171;
-        blockLineCurrent = 0;
-        nonprintablechar = 0xffdddddd;
+        blockLine = 0xff575757;
+        blockLineCurrent = 0xdd575757;
+        nonprintablechar = 0xff6a8759;
     }
 }

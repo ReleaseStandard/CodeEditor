@@ -13,36 +13,36 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget.schemes;
+package io.github.rosemoe.editor.themes;
 
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
 /**
  * ColorScheme for editor
- * picked from Notepad++ v7.8.1
+ * picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public final class NotepadXX extends ColorSchemeController {
+public final class Eclipse extends ColorSchemeController {
 
     @Override
     public void initTheme() {
-        theme_name = "NotepadXX";
-        theme_description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
-        base1 = 0xff008000;
+        theme_name = "Eclipse";
+        theme_description = "picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)";
         base3 = 0xffffffff;
+        base2 = 0xffe8f2fe;
         base00 = 0xff000000;
-        base2 = 0xffe4e4e4;
-        comment = 0xff008000;
+        base1 = 0xff3f7f5f;
+        comment = 0xff3f7f5f;
         wholeBackground = 0xffffffff;
         textNormal = 0xff000000;
-        lineNumberBackground = 0xffe4e4e4;
-        lineNumberPanel = 0xff808080;
-        selectedTextBackground = 0xff75d975;
-        matchedTextBackground = 0xffc0c0c0;
-        currentLine = 0xffe8e8ff;
-        selectionInsert = 0xff8000ff;
-        selectionHandle = 0xff8000ff;
-        blockLine = 0xffc0c0c0;
+        lineNumberBackground = 0xffffffff;
+        lineNumberPanel = 0xff787878;
+        selectedTextBackground = 0xff3399ff;
+        matchedTextBackground = 0xffd4d4d4;
+        currentLine = 0xffe8f2fe;
+        selectionInsert = 0xff03ebeb;
+        selectionHandle = 0xff03ebeb;
+        blockLine = 0xffd8d8d8;
         blockLineCurrent = 0;
     }
 }

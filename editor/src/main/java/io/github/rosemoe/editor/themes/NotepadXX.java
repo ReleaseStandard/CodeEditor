@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget.schemes;
+package io.github.rosemoe.editor.themes;
 
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 
@@ -22,22 +22,27 @@ import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
  * picked from Notepad++ v7.8.1
  * Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)
  */
-public final class GitHub extends ColorSchemeController {
+public final class NotepadXX extends ColorSchemeController {
 
     @Override
     public void initTheme() {
-        theme_name = "GitHub";
+        theme_name = "NotepadXX";
         theme_description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
-        base1 = 0xff6a737d;
+        base1 = 0xff008000;
         base3 = 0xffffffff;
-        base00 = 0xff24292e;
-        base2 = 0xffbec0c1;
-        comment = 0xff6a737d;
+        base00 = 0xff000000;
+        base2 = 0xffe4e4e4;
+        comment = 0xff008000;
         wholeBackground = 0xffffffff;
-        textNormal = 0xff24292e;
-        lineNumberBackground = 0xffffffff;
-        lineNumberPanel = 0xffbec0c1;
-        selectionInsert = 0xffc7edcc;
-        selectionHandle = 0xffc7edcc;
+        textNormal = 0xff000000;
+        lineNumberBackground = 0xffe4e4e4;
+        lineNumberPanel = 0xff808080;
+        selectedTextBackground = 0xff75d975;
+        matchedTextBackground = 0xffc0c0c0;
+        currentLine = 0xffe8e8ff;
+        selectionInsert = 0xff8000ff;
+        selectionHandle = 0xff8000ff;
+        blockLine = 0xffc0c0c0;
+        blockLineCurrent = 0;
     }
 }
