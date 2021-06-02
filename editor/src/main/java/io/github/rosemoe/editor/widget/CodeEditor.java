@@ -67,6 +67,7 @@ import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
+import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.widget.SearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
@@ -216,6 +217,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private CursorController mCursor;
     private ContentController mText;
     private io.github.rosemoe.editor.mvc.controller.TextAnalyzerController analyzer;
+    private ContextActionController contextAction;
     private Paint mPaint;
     private Paint mPaintOther;
     private Paint mPaintGraph;
@@ -492,7 +494,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Notify input method that text has been changed for external reason
      */
-    protected void notifyExternalCursorChange() {
+    public void notifyExternalCursorChange() {
         //Logs.log("Call cursorChangeExternal()");
         updateExtractedText();
         updateSelection();
@@ -666,8 +668,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Create a channel to insert symbols
      */
-    public SymbolChannel createNewSymbolChannel() {
-        return new SymbolChannel(this);
+    public SymbolChannelController createNewSymbolChannel() {
+        return new SymbolChannelController(this);
     }
 
     /**
@@ -869,7 +871,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         } else if (mode == TextActionMode.POPUP_WINDOW_2) {
             mTextActionPresenter = new TextActionPopupWindow(this);
         } else {
-            mTextActionPresenter = new ContextActionController(this);
+            contextAction = new ContextActionController(this);
+            mTextActionPresenter = contextAction.view;
         }
     }
 

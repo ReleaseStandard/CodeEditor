@@ -60,6 +60,13 @@ public class ContextActionController {
         };
     }
 
-
+    public void handleTap(MotionEvent e) {
+        if (view.isShowing()) {
+            view.hide();
+        } else {
+            view.onBeginTextSelect();
+            view.onSelectedTextClicked(e);
+        }
+    }
 }
 

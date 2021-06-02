@@ -22,6 +22,8 @@ import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
+
 public class SymbolInputView extends LinearLayout {
 
 
@@ -49,7 +51,7 @@ public class SymbolInputView extends LinearLayout {
         setOrientation(HORIZONTAL);
     }
 
-    private SymbolChannel channel;
+    private SymbolChannelController channel;
 
     public void bindEditor(CodeEditor editor) {
         channel = editor.createNewSymbolChannel();

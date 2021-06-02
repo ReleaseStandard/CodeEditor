@@ -13,19 +13,20 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.mvc.controller;
 
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
  * A channel to insert symbols in {@link CodeEditor}
  * @author Rosemoe
  */
-public class SymbolChannel {
+public class SymbolChannelController {
 
     private CodeEditor mEditor;
 
-    protected SymbolChannel(CodeEditor editor) {
+    public SymbolChannelController(CodeEditor editor) {
         mEditor = editor;
     }
 

@@ -38,7 +38,6 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
     private final static int SELECTION_HANDLE_RESIZE_DELAY = 10;
     private final static int HIDE_DELAY_HANDLE = 5000;
     private static final long INTERACTION_END_DELAY = 100;
-    private static final String TAG = "EditorTouchEventHandler";
     private final CodeEditor mEditor;
     private final OverScroller mScroller;
     protected boolean topOrBottom; //true for bottom
@@ -108,7 +107,7 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
     private void handleSelectedTextClick(MotionEvent e, int line, int column) {
         if (mEditor.getTextActionPresenter() instanceof ContextActionController) {
             char text = mEditor.getText().charAt(line, column);
-            if (isWhitespace(text) || ((ContextActionController) mEditor.getTextActionPresenter()).isShowing())
+            if (isWhitespace(text) || ((ContextActionController) mEditor.getTextActionPresenter()).view.isShowing())
                 mEditor.setSelection(line, column);
             else mEditor.getTextActionPresenter().onSelectedTextClicked(e);
         } else {
@@ -178,7 +177,7 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
     private boolean checkActionWindow() {
         CodeEditor.EditorTextActionPresenter presenter = mEditor.mTextActionPresenter;
         if (presenter instanceof ContextActionController) {
-            return !((ContextActionController) presenter).isShowing();
+            return !((ContextActionController) presenter).view.isShowing();
         }
         return true;
     }
@@ -516,13 +515,8 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
             int oldColumn = mEditor.getCursor().getLeftColumn();
             if (line == oldLine && column == oldColumn) {
                 if (mEditor.mTextActionPresenter instanceof ContextActionController) {
-                    ContextActionController window = (ContextActionController) mEditor.mTextActionPresenter;
-                    if (window.isShowing()) {
-                        window.hide();
-                    } else {
-                        window.onBeginTextSelect();
-                        window.onSelectedTextClicked(e);
-                    }
+                    ContextActionController contextAction = (ContextActionController) mEditor.mTextActionPresenter;
+                    contextAction.handleTap(e);
                 }
             } else {
                 mEditor.setSelection(line, column);
