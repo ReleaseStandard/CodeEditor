@@ -15,5 +15,42 @@
  */
 package io.github.rosemoe.editor.mvc.view.widget;
 
+import android.app.ProgressDialog;
+import android.widget.Toast;
+
+import io.github.rosemoe.editor.widget.CodeEditor;
+
 public class SearcherView {
+    public CodeEditor editor;
+    public void showSearchDialog(String searchText, String newText) {
+        final ProgressDialog progressDialog = ProgressDialog.show(editor.getContext(), "Replacing", "Editor is now replacing texts, please wait", true, false);
+        new Thread() {
+            @Override
+            public void run() {
+                String text = null;
+                Exception ex = null;
+                try {
+                    text = editor.getText().toString().replace(searchText, newText);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ex = e;
+                }
+                final Exception ex2 = ex;
+                final String text2 = text;
+                editor.post(() -> {
+                    if (text2 == null) {
+                        Toast.makeText(editor.getContext(), String.valueOf(ex2), Toast.LENGTH_SHORT).show();
+                    } else {
+                        int line = editor.getCursor().getLeftLine();
+                        int column = editor.getCursor().getLeftColumn();
+                        editor.getText().replace(0, 0, editor.getLineCount() - 1, editor.getText().getColumnCount(editor.getLineCount() - 1), text2);
+                        editor.setSelectionAround(line, column);
+                        editor.invalidate();
+                    }
+                    progressDialog.cancel();
+                });
+            }
+
+        }.start();
+    }
 }
