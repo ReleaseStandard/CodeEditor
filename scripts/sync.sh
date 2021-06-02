@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# This repo is used to lexer and parser from g4 files.
-# 
 #
+# This is used to synchronize for a given mapping (see the mapping variable below)
+#  grammar from antlr4 project into CodeEditor https://github.com/antlr/grammars-v4/tree/master/golang
 #
-#
+# Author: Release Standard
 #
 function display_title() {
 	echo "";
@@ -42,7 +42,11 @@ rootfolder="$(pwd)";
 declare -A mapping;
 
 #
+#
 # Mapping between CodeEditor module and antlr g4s
+#  ex: put the antlr cobol85 into language-cobol85   => mapping["cobol85"]="cobol85";
+#      put the antlr azerty  into language-azert     => mapping["azert"]="azerty";
+#      put the antlr abc     into language-bb        => mapping["bb"]="abc";
 #
 #mapping["codeeditormodule"]="antlr g4"
 mapping["mksh"]="";
