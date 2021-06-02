@@ -18,6 +18,8 @@ package io.github.rosemoe.editor.mvc.view.widget;
 import android.app.ProgressDialog;
 import android.widget.Toast;
 
+import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 public class SearcherView {
@@ -52,5 +54,38 @@ public class SearcherView {
             }
 
         }.start();
+    }
+    public void gotoNext(final String searchText,boolean tip) {
+        ContentController text = editor.getText();
+        CursorController cursor = text.getCursor();
+        int line = cursor.getRightLine();
+        int column = cursor.getRightColumn();
+        for (int i = line; i < text.getLineCount(); i++) {
+            int idx = column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(searchText, column);
+            if (idx != -1) {
+                editor.setSelectionRegion(i, idx, i, idx + searchText.length());
+                return;
+            }
+            column = 0;
+        }
+        if (tip) {
+            Toast.makeText(editor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
+            editor.jumpToLine(0);
+        }
+    }
+    public void gotoLast(String searchText) {
+        ContentController text = editor.getText();
+        CursorController cursor = text.getCursor();
+        int line = cursor.getLeftLine();
+        int column = cursor.getLeftColumn();
+        for (int i = line; i >= 0; i--) {
+            int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(searchText, column - 1);
+            if (idx != -1) {
+                editor.setSelectionRegion(i, idx, i, idx + searchText.length());
+                return;
+            }
+            column = i - 1 >= 0 ? text.getColumnCount(i - 1) : 0;
+        }
+        Toast.makeText(editor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
     }
 }

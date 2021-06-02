@@ -39,9 +39,7 @@ public class SearcherController {
     }
 
     private void checkState() {
-        if (model.searchText == null) {
-            throw new IllegalStateException("search text has not been set");
-        }
+        model.checkState();
     }
 
     public void search(String text) {
@@ -82,39 +80,12 @@ public class SearcherController {
 
     private void gotoNext(boolean tip) {
         checkState();
-        ContentController text = view.editor.getText();
-        CursorController cursor = text.getCursor();
-        int line = cursor.getRightLine();
-        int column = cursor.getRightColumn();
-        for (int i = line; i < text.getLineCount(); i++) {
-            int idx = column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(model.searchText, column);
-            if (idx != -1) {
-                view.editor.setSelectionRegion(i, idx, i, idx + model.searchText.length());
-                return;
-            }
-            column = 0;
-        }
-        if (tip) {
-            Toast.makeText(view.editor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
-            view.editor.jumpToLine(0);
-        }
+        view.gotoNext(model.searchText,tip);
     }
 
     public void gotoLast() {
         checkState();
-        ContentController text = view.editor.getText();
-        CursorController cursor = text.getCursor();
-        int line = cursor.getLeftLine();
-        int column = cursor.getLeftColumn();
-        for (int i = line; i >= 0; i--) {
-            int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(model.searchText, column - 1);
-            if (idx != -1) {
-                view.editor.setSelectionRegion(i, idx, i, idx + model.searchText.length());
-                return;
-            }
-            column = i - 1 >= 0 ? text.getColumnCount(i - 1) : 0;
-        }
-        Toast.makeText(view.editor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
+        view.gotoLast(model.searchText);
     }
 
     public void stopSearch() {
