@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.langs.java;
 
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.langs.internal.TrieTree;
+import io.github.rosemoe.editor.langs.helpers.TrieTree;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;

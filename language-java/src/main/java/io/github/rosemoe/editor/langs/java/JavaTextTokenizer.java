@@ -15,8 +15,8 @@
  */
 package io.github.rosemoe.editor.langs.java;
 
-import io.github.rosemoe.editor.langs.internal.MyCharacter;
-import io.github.rosemoe.editor.langs.internal.TrieTree;
+import io.github.rosemoe.editor.langs.helpers.MyCharacter;
+import io.github.rosemoe.editor.langs.helpers.TrieTree;
 
 /**
  * @author Rose

@@ -26,7 +26,7 @@ import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
-import io.github.rosemoe.editor.langs.internal.MyCharacter;
+import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
 
 public class PythonLanguage extends EditorLanguageController {

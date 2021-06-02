@@ -19,7 +19,7 @@ import io.github.rosemoe.editor.mvc.controller.EditorLanguageController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
-import io.github.rosemoe.editor.langs.internal.MyCharacter;
+import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 
 import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;
 

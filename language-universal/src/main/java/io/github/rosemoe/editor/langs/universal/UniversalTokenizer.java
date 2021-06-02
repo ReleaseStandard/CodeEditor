@@ -15,8 +15,8 @@
  */
 package io.github.rosemoe.editor.langs.universal;
 
-import io.github.rosemoe.editor.langs.internal.MyCharacter;
-import io.github.rosemoe.editor.langs.internal.TrieTree;
+import io.github.rosemoe.editor.langs.helpers.MyCharacter;
+import io.github.rosemoe.editor.langs.helpers.TrieTree;
 
 /**
  * A class to tokenize for a limited style-able language
