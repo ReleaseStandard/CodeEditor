@@ -90,6 +90,7 @@ import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
+import io.github.rosemoe.editor.mvc.view.UserInputView;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.processor.TextFormatter;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
@@ -2836,8 +2837,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         startActionMode(callback);
     }
 
-    public UserInputController getEventHandler() {
-        return mEventHandler;
+    public UserInputView getEventHandler() {
+        return mEventHandler.view;
     }
 
     /**

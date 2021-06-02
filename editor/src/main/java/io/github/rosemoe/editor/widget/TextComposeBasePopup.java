@@ -140,7 +140,7 @@ public class TextComposeBasePopup extends PopupWindow {
         if (isShowing()) {
             hideType = type;
             if ((hideType == DRAG || hideType == SCROLL) && mEditor.getEventHandler() != null) {
-                mEditor.getEventHandler().view.notifyGestureInteractionEnd(type);
+                mEditor.getEventHandler().notifyGestureInteractionEnd(type);
             }
             super.dismiss();
         }
