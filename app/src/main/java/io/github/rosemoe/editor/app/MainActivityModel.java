@@ -27,7 +27,7 @@ public class MainActivityModel {
         put("C","samples/c/c.txt");
         put("C++","samples/cpp/cpp.txt");
         put("Java","samples/java/java.txt");
-        put("JavaScript","samples/java/java.txt");
+        put("JavaScript","samples/javascript/test.txt");
         put("HTML","samples/html/html.txt");
         put("Python","samples/python/python.txt");
         put("None","samples/java/java.txt");
