@@ -24,7 +24,7 @@ import java.util.List;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.completion.AutoCompleteWindowModel;
-import io.github.rosemoe.editor.mvc.view.EditorAutoCompleteWindowView;
+import io.github.rosemoe.editor.mvc.view.widget.completion.AutoCompleteWindowView;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -39,7 +39,7 @@ public class AutoCompleteWindowController {
     private final CodeEditor mEditor;
 
     public AutoCompleteWindowModel model = new AutoCompleteWindowModel();
-    public final EditorAutoCompleteWindowView view;
+    public final AutoCompleteWindowView view;
     private AutoCompleteProviderController mProvider;
 
 
@@ -50,7 +50,7 @@ public class AutoCompleteWindowController {
      */
     public AutoCompleteWindowController(CodeEditor editor) {
         mEditor = editor;
-        view = new EditorAutoCompleteWindowView(editor) {
+        view = new AutoCompleteWindowView(editor) {
             @Override
             public void handleShow() {
                 if (model.mCancelShowUp) {

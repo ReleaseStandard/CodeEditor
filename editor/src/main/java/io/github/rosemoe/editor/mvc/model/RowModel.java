@@ -48,4 +48,11 @@ public class RowModel {
      */
     public int endColumn;
 
+    public void init(WordwrapModel.RowRegion currentRegion,WordwrapModel.RowRegion previousRegion,int currentRow) {
+        lineIndex = currentRegion.line;
+        startColumn = currentRegion.startColumn;
+        endColumn = currentRegion.endColumn;
+        isLeadingRow = currentRow <= 0 || previousRegion.line != currentRegion.line;
+    }
+
 }

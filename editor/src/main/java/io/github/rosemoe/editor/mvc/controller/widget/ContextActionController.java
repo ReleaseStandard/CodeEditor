@@ -25,8 +25,8 @@ import android.view.View;
 import android.widget.Button;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.model.widget.TextActionWindowModel;
-import io.github.rosemoe.editor.mvc.view.widget.TextActionWindowView;
+import io.github.rosemoe.editor.mvc.model.widget.ContextActionModel;
+import io.github.rosemoe.editor.mvc.view.widget.ContextActionView;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 
@@ -35,10 +35,10 @@ import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
  *
  * @author Rose
  */
-public class TextActionWindowController extends EditorBasePopupWindow implements View.OnClickListener, CodeEditor.EditorTextActionPresenter {
+public class ContextActionController extends EditorBasePopupWindow implements View.OnClickListener, CodeEditor.EditorTextActionPresenter {
 
-    public TextActionWindowModel model = new TextActionWindowModel();
-    public TextActionWindowView view   = new TextActionWindowView();
+    public ContextActionModel model = new ContextActionModel();
+    public ContextActionView view   = new ContextActionView();
 
     private final CodeEditor mEditor;
 
@@ -47,7 +47,7 @@ public class TextActionWindowController extends EditorBasePopupWindow implements
      *
      * @param editor Target editor
      */
-    public TextActionWindowController(CodeEditor editor) {
+    public ContextActionController(CodeEditor editor) {
         super(editor);
         mEditor = editor;
         // Since popup window does provide decor view, we have to pass null to this method
@@ -96,7 +96,7 @@ public class TextActionWindowController extends EditorBasePopupWindow implements
 
     @Override
     public void onSelectedTextClicked(MotionEvent event) {
-        TextActionWindowController panel = this;
+        ContextActionController panel = this;
         if (panel.isShowing()) {
             panel.hide();
         } else {

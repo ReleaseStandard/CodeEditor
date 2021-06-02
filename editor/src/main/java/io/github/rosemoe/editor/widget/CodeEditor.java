@@ -20,9 +20,7 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -69,7 +67,7 @@ import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.widget.SearcherController;
-import io.github.rosemoe.editor.mvc.controller.widget.TextActionWindowController;
+import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
@@ -780,7 +778,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         } else if (mode == TextActionMode.POPUP_WINDOW_2) {
             mTextActionPresenter = new TextActionPopupWindow(this);
         } else {
-            mTextActionPresenter = new TextActionWindowController(this);
+            mTextActionPresenter = new ContextActionController(this);
         }
     }
 

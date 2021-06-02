@@ -23,7 +23,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.OverScroller;
 
-import io.github.rosemoe.editor.mvc.controller.widget.TextActionWindowController;
+import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
 import io.github.rosemoe.editor.util.IntPair;
 
 /**
@@ -106,9 +106,9 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
      * @param column column index in line
      */
     private void handleSelectedTextClick(MotionEvent e, int line, int column) {
-        if (mEditor.getTextActionPresenter() instanceof TextActionWindowController) {
+        if (mEditor.getTextActionPresenter() instanceof ContextActionController) {
             char text = mEditor.getText().charAt(line, column);
-            if (isWhitespace(text) || ((TextActionWindowController) mEditor.getTextActionPresenter()).isShowing())
+            if (isWhitespace(text) || ((ContextActionController) mEditor.getTextActionPresenter()).isShowing())
                 mEditor.setSelection(line, column);
             else mEditor.getTextActionPresenter().onSelectedTextClicked(e);
         } else {
@@ -177,8 +177,8 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
      */
     private boolean checkActionWindow() {
         CodeEditor.EditorTextActionPresenter presenter = mEditor.mTextActionPresenter;
-        if (presenter instanceof TextActionWindowController) {
-            return !((TextActionWindowController) presenter).isShowing();
+        if (presenter instanceof ContextActionController) {
+            return !((ContextActionController) presenter).isShowing();
         }
         return true;
     }
@@ -515,8 +515,8 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
             int oldLine = mEditor.getCursor().getLeftLine();
             int oldColumn = mEditor.getCursor().getLeftColumn();
             if (line == oldLine && column == oldColumn) {
-                if (mEditor.mTextActionPresenter instanceof TextActionWindowController) {
-                    TextActionWindowController window = (TextActionWindowController) mEditor.mTextActionPresenter;
+                if (mEditor.mTextActionPresenter instanceof ContextActionController) {
+                    ContextActionController window = (ContextActionController) mEditor.mTextActionPresenter;
                     if (window.isShowing()) {
                         window.hide();
                     } else {

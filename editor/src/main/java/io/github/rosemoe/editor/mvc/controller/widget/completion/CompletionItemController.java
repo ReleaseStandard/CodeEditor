@@ -23,7 +23,7 @@ import java.util.Comparator;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.model.widget.completion.CompletionItemModel;
-import io.github.rosemoe.editor.mvc.view.CompletionItemView;
+import io.github.rosemoe.editor.mvc.view.widget.completion.CompletionItemView;
 
 /**
  * The class used to save auto complete result items

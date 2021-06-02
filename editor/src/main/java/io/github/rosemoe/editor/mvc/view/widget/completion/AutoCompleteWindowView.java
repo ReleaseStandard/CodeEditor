@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.view;
+package io.github.rosemoe.editor.mvc.view.widget.completion;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -31,14 +31,14 @@ import io.github.rosemoe.editor.mvc.view.widget.completion.DefaultCompletionItem
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 
-public class EditorAutoCompleteWindowView extends EditorBasePopupWindow {
+public class AutoCompleteWindowView extends EditorBasePopupWindow {
     public CompletionAdapter mAdapter;
     public ListView mListView = null;
     public TextView mTip = null;
     public GradientDrawable mBg = null;
     private final CodeEditor mEditor;
 
-    public EditorAutoCompleteWindowView(CodeEditor editor) {
+    public AutoCompleteWindowView(CodeEditor editor) {
         super(editor);
         mEditor = editor;
         Context ctx = editor.getContext();

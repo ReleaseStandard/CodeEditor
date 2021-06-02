@@ -21,7 +21,7 @@ import android.widget.Button;
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
-public class TextActionWindowView {
+public class ContextActionView {
     public Button mPasteBtn;
     public Button mCopyBtn;
     public Button mCutBtn;
