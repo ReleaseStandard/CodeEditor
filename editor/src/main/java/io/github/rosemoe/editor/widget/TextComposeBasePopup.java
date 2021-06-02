@@ -24,7 +24,7 @@ import android.widget.PopupWindow;
  *
  * @author Rose
  */
-class TextComposeBasePopup extends PopupWindow {
+public class TextComposeBasePopup extends PopupWindow {
     public static int DISMISS = 0;
     public static int DRAG = 1;
     public static int SCROLL = 2;
@@ -140,7 +140,7 @@ class TextComposeBasePopup extends PopupWindow {
         if (isShowing()) {
             hideType = type;
             if ((hideType == DRAG || hideType == SCROLL) && mEditor.getEventHandler() != null) {
-                mEditor.getEventHandler().notifyGestureInteractionEnd(type);
+                mEditor.getEventHandler().view.notifyGestureInteractionEnd(type);
             }
             super.dismiss();
         }

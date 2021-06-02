@@ -63,12 +63,13 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.controller.UserInputController;
+import io.github.rosemoe.editor.mvc.controller.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
+import io.github.rosemoe.editor.mvc.controller.UserInputController;
 import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.widget.SearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
@@ -232,12 +233,12 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private LanguageController mLanguage;
     private long mLastMakeVisible = 0;
     private AutoCompleteWindowController mCompletionWindow;
-    private EditorTouchEventHandler mEventHandler;
+    private UserInputController mEventHandler;
     private Paint.Align mLineNumberAlign;
     private GestureDetector mBasicDetector;
-    protected EditorTextActionPresenter mTextActionPresenter;
+    public EditorTextActionPresenter mTextActionPresenter;
     private ScaleGestureDetector mScaleDetector;
-    UserInputController mConnection;
+    UserInputConnexionController mConnection;
     private CursorAnchorInfo.Builder mAnchorInfoBuilder;
     private MaterialEdgeEffect mVerticalEdgeGlow;
     private MaterialEdgeEffect mHorizontalGlow;
@@ -396,7 +397,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Cancel the next animation for {@link CodeEditor#ensurePositionVisible(int, int)}
      */
-    protected void cancelAnimation() {
+    public void cancelAnimation() {
         mLastMakeVisible = System.currentTimeMillis();
     }
 
@@ -426,7 +427,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @return EditorTextActionPresenter
      */
     @NonNull
-    protected EditorTextActionPresenter getTextActionPresenter() {
+    public EditorTextActionPresenter getTextActionPresenter() {
         return mTextActionPresenter;
     }
 
@@ -537,7 +538,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return Rect of left handle
      */
-    protected RectF getLeftHandleRect() {
+    public RectF getLeftHandleRect() {
         return mLeftHandle;
     }
 
@@ -546,7 +547,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return Rect of right handle
      */
-    protected RectF getRightHandleRect() {
+    public RectF getRightHandleRect() {
         return mRightHandle;
     }
 
@@ -585,10 +586,10 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
         mColors = ColorSchemeController.DEFAULT();
-        mEventHandler = new EditorTouchEventHandler(this);
-        mBasicDetector = new GestureDetector(getContext(), mEventHandler);
-        mBasicDetector.setOnDoubleTapListener(mEventHandler);
-        mScaleDetector = new ScaleGestureDetector(getContext(), mEventHandler);
+        mEventHandler = new UserInputController(this);
+        mBasicDetector = new GestureDetector(getContext(), mEventHandler.view);
+        mBasicDetector.setOnDoubleTapListener(mEventHandler.view);
+        mScaleDetector = new ScaleGestureDetector(getContext(), mEventHandler.view);
         mViewRect = new Rect(0, 0, 0, 0);
         mRect = new RectF();
         mInsertHandle = new RectF();
@@ -613,10 +614,10 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         setScalable(true);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        mConnection = new UserInputController(this);
+        mConnection       = new UserInputConnexionController(this);
         mCompletionWindow = new AutoCompleteWindowController(this);
         mVerticalEdgeGlow = new MaterialEdgeEffect();
-        mHorizontalGlow = new MaterialEdgeEffect();
+        mHorizontalGlow   = new MaterialEdgeEffect();
         mOverrideSymbolPairs = new SymbolPairMatch();
         setEditorLanguage(null);
         setText(null);
@@ -943,7 +944,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return Rect of scroll bar
      */
-    protected RectF getVerticalScrollBarRect() {
+    public RectF getVerticalScrollBarRect() {
         return mVerticalScrollBar;
     }
 
@@ -952,7 +953,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return Rect of scroll bar
      */
-    protected RectF getHorizontalScrollBarRect() {
+    public RectF getHorizontalScrollBarRect() {
         return mHorizontalScrollBar;
     }
 
@@ -961,7 +962,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return Rect of insert handle
      */
-    protected RectF getInsertHandleRect() {
+    public RectF getInsertHandleRect() {
         return mInsertHandle;
     }
 
@@ -993,7 +994,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @param size Text size in pixel unit
      */
-    void setTextSizePxDirect(float size) {
+    public void setTextSizePxDirect(float size) {
         mPaint.setTextSize(size);
         mPaintOther.setTextSize(size);
         mPaintGraph.setTextSize(size * SCALE_MINI_GRAPH);
@@ -1050,7 +1051,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (isWordwrap()) {
             if (mCachedLineNumberWidth == 0) {
                 mCachedLineNumberWidth = (int) lineNumberWidth;
-            } else if (mCachedLineNumberWidth != (int) lineNumberWidth && !mEventHandler.isScaling) {
+            } else if (mCachedLineNumberWidth != (int) lineNumberWidth && !mEventHandler.model.isScaling) {
                 mCachedLineNumberWidth = (int) lineNumberWidth;
                 createLayout();
             }
@@ -1285,11 +1286,11 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
                 if (mTextActionPresenter.shouldShowCursor()) {
                     if (mCursor.getLeftLine() == line && isInside(mCursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
                         float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getLeftColumn() - firstVisibleChar);
-                        postDrawCursor.add(new CursorPaintAction(row, centerX, mLeftHandle, false, EditorTouchEventHandler.SelectionHandle.LEFT));
+                        postDrawCursor.add(new CursorPaintAction(row, centerX, mLeftHandle, false, UserInputController.SelectionHandle.LEFT));
                     }
                     if (mCursor.getRightLine() == line && isInside(mCursor.getRightColumn(), firstVisibleChar, lastVisibleChar, line)) {
                         float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getRightColumn() - firstVisibleChar);
-                        postDrawCursor.add(new CursorPaintAction(row, centerX, mRightHandle, false, EditorTouchEventHandler.SelectionHandle.RIGHT));
+                        postDrawCursor.add(new CursorPaintAction(row, centerX, mRightHandle, false, UserInputController.SelectionHandle.RIGHT));
                     }
                 }
             } else if (mCursor.getLeftLine() == line && isInside(mCursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
@@ -1301,7 +1302,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     }
 
 
-    protected void showTextActionPopup() {
+    public void showTextActionPopup() {
         if (mTextActionPresenter instanceof TextActionPopupWindow) {
             TextActionPopupWindow window = (TextActionPopupWindow) mTextActionPresenter;
             if (window.isShowing()) {
@@ -1525,7 +1526,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private void drawEdgeEffect(Canvas canvas) {
         boolean postDraw = false;
         if (!mVerticalEdgeGlow.isFinished()) {
-            boolean bottom = mEventHandler.topOrBottom;
+            boolean bottom = mEventHandler.view.topOrBottom;
             if (bottom) {
                 canvas.save();
                 canvas.translate(-getMeasuredWidth(), getMeasuredHeight());
@@ -1541,7 +1542,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         }
         if (!mHorizontalGlow.isFinished()) {
             canvas.save();
-            boolean right = mEventHandler.leftOrRight;
+            boolean right = mEventHandler.view.leftOrRight;
             if (right) {
                 canvas.rotate(90);
                 canvas.translate(0, -getMeasuredWidth());
@@ -1555,12 +1556,12 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         OverScroller scroller = getScroller();
         if (scroller.isOverScrolled()) {
             if (mVerticalEdgeGlow.isFinished() && (scroller.getCurrY() < 0 || scroller.getCurrY() >= getScrollMaxY())) {
-                mEventHandler.topOrBottom = scroller.getCurrY() >= getScrollMaxY();
+                mEventHandler.view.topOrBottom = scroller.getCurrY() >= getScrollMaxY();
                 mVerticalEdgeGlow.onAbsorb((int) scroller.getCurrVelocity());
                 postDraw = true;
             }
             if (mHorizontalGlow.isFinished() && (scroller.getCurrX() < 0 || scroller.getCurrX() >= getScrollMaxX())) {
-                mEventHandler.leftOrRight = scroller.getCurrX() >= getScrollMaxX();
+                mEventHandler.view.leftOrRight = scroller.getCurrX() >= getScrollMaxX();
                 mHorizontalGlow.onAbsorb((int) scroller.getCurrVelocity());
                 postDraw = true;
             }
@@ -1665,7 +1666,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private void drawScrollBars(Canvas canvas) {
         mVerticalScrollBar.setEmpty();
         mHorizontalScrollBar.setEmpty();
-        if (!mEventHandler.shouldDrawScrollBar()) {
+        if (!mEventHandler.model.shouldDrawScrollBar()) {
             return;
         }
         if (isVerticalScrollBarEnabled() && getScrollMaxY() > getHeight() / 2) {
@@ -1843,7 +1844,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return EdgeEffect
      */
-    protected MaterialEdgeEffect getVerticalEdgeEffect() {
+    public MaterialEdgeEffect getVerticalEdgeEffect() {
         return mVerticalEdgeGlow;
     }
 
@@ -1852,7 +1853,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      *
      * @return EdgeEffect
      */
-    protected MaterialEdgeEffect getHorizontalEdgeEffect() {
+    public MaterialEdgeEffect getHorizontalEdgeEffect() {
         return mHorizontalGlow;
     }
 
@@ -2179,7 +2180,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     /**
      * Create layout for text
      */
-    void createLayout() {
+    public void createLayout() {
         if (mLayout != null) {
             mLayout.destroyLayout();
         }
@@ -2190,7 +2191,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             mLayout = new LineBreak(this, mText);
         }
         if (mEventHandler != null) {
-            mEventHandler.scrollBy(0, 0);
+            mEventHandler.view.scrollBy(0, 0);
         }
     }
 
@@ -2461,7 +2462,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
             getScroller().forceFinished(true);
             getScroller().startScroll(getOffsetX(), getOffsetY(), (int) (targetX - getOffsetX()), (int) (targetY - getOffsetY()));
             if (Math.abs(getOffsetY() - targetY) > mDpUnit * 100) {
-                mEventHandler.notifyScrolled();
+                mEventHandler.view.notifyScrolled();
             }
         } else {
             getScroller().startScroll(getOffsetX(), getOffsetY(), (int) (targetX - getOffsetX()), (int) (targetY - getOffsetY()), 0);
@@ -2495,7 +2496,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @return The scroller
      */
     public OverScroller getScroller() {
-        return mEventHandler.getScroller();
+        return mEventHandler.view.getScroller();
     }
 
     /**
@@ -2637,8 +2638,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (minSize < 2f) {
             throw new IllegalArgumentException("min size must be at least 2px");
         }
-        mEventHandler.minSize = minSize;
-        mEventHandler.maxSize = maxSize;
+        mEventHandler.view.minSize = minSize;
+        mEventHandler.view.maxSize = maxSize;
     }
 
     /**
@@ -2727,8 +2728,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      */
     public void setDrag(boolean drag) {
         mDrag = drag;
-        if (drag && !mEventHandler.getScroller().isFinished()) {
-            mEventHandler.getScroller().forceFinished(true);
+        if (drag && !mEventHandler.view.getScroller().isFinished()) {
+            mEventHandler.view.getScroller().forceFinished(true);
         }
     }
 
@@ -2835,7 +2836,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         startActionMode(callback);
     }
 
-    public EditorTouchEventHandler getEventHandler() {
+    public UserInputController getEventHandler() {
         return mEventHandler;
     }
 
@@ -3091,7 +3092,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @return scroll x
      */
     public int getOffsetX() {
-        return mEventHandler.getScroller().getCurrX();
+        return mEventHandler.view.getScroller().getCurrX();
     }
 
     /**
@@ -3100,7 +3101,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * @return scroll y
      */
     public int getOffsetY() {
-        return mEventHandler.getScroller().getCurrY();
+        return mEventHandler.view.getScroller().getCurrY();
     }
 
     /**
@@ -3403,7 +3404,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Move to next page
      */
     public void movePageDown() {
-        mEventHandler.onScroll(null, null, 0, getHeight());
+        mEventHandler.view.onScroll(null, null, 0, getHeight());
         mCompletionWindow.view.hide();
     }
 
@@ -3411,7 +3412,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
      * Move to previous page
      */
     public void movePageUp() {
-        mEventHandler.onScroll(null, null, 0, -getHeight());
+        mEventHandler.view.onScroll(null, null, 0, -getHeight());
         mCompletionWindow.view.hide();
     }
 
@@ -3491,7 +3492,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         mCursor = mText.getCursor();
         mCursor.setAutoIndent(mAutoIndentEnabled);
         mCursor.setLanguage(mLanguage);
-        mEventHandler.reset();
+        mEventHandler.view.reset();
         mText.addContentListener(this);
         mText.setUndoEnabled(mUndoEnabled);
         mText.setLineListener(this);
@@ -3957,7 +3958,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (event.getAction() == MotionEvent.ACTION_SCROLL) {
             float v_scroll = -event.getAxisValue(MotionEvent.AXIS_VSCROLL);
             if (v_scroll != 0) {
-                mEventHandler.onScroll(event, event, 0, v_scroll * 20);
+                mEventHandler.view.onScroll(event, event, 0, v_scroll * 20);
             }
             return true;
         }
@@ -3976,7 +3977,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         if (isWordwrap() && w != oldWidth) {
             createLayout();
         } else {
-            mEventHandler.scrollBy(getOffsetX() > getScrollMaxX() ? getScrollMaxX() - getOffsetX() : 0, getOffsetY() > getScrollMaxY() ? getScrollMaxY() - getOffsetY() : 0);
+            mEventHandler.view.scrollBy(getOffsetX() > getScrollMaxX() ? getScrollMaxX() - getOffsetX() : 0, getOffsetY() > getScrollMaxY() ? getScrollMaxY() - getOffsetY() : 0);
         }
     }
 
@@ -3997,7 +3998,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
 
     @Override
     public void computeScroll() {
-        if (mEventHandler.getScroller().computeScrollOffset()) {
+        if (mEventHandler.view.getScroller().computeScrollOffset()) {
             invalidate();
         }
         super.computeScroll();
