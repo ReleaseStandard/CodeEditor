@@ -25,6 +25,7 @@ import android.widget.OverScroller;
 
 import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
 import io.github.rosemoe.editor.mvc.model.UserInputModel;
+import io.github.rosemoe.editor.mvc.view.widget.ContextActionView;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -32,6 +33,7 @@ import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 import io.github.rosemoe.editor.widget.TextComposeBasePopup;
 
 import static io.github.rosemoe.editor.mvc.controller.UserInputController.*;
+import static io.github.rosemoe.editor.mvc.model.UserInputModel.isWhitespace;
 
 public class UserInputView implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, ScaleGestureDetector.OnScaleGestureListener {
     public CodeEditor editor;
@@ -61,12 +63,12 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
      * @param column column index in line
      */
     private void handleSelectedTextClick(MotionEvent e, int line, int column) {
-                boolean isShowing1 = mEditor.getTextActionPresenter() instanceof EditorTextActionWindow && ((EditorTextActionWindow) mEditor.getTextActionPresenter()).isShowing();
-                boolean isShowing2 = mEditor.getTextActionPresenter() instanceof TextActionPopupWindow && ((TextActionPopupWindow) mEditor.getTextActionPresenter()).isShowing();
-                char text = mEditor.getText().charAt(line, column);
+                boolean isShowing1 = editor.getTextActionPresenter() instanceof ContextActionView && ((ContextActionView) editor.getTextActionPresenter()).isShowing();
+                boolean isShowing2 = editor.getTextActionPresenter() instanceof TextActionPopupWindow && ((TextActionPopupWindow) editor.getTextActionPresenter()).isShowing();
+                char text = editor.getText().charAt(line, column);
                 if (isWhitespace(text) || isShowing1 || isShowing2)
-                        mEditor.setSelection(line, column);
-                else mEditor.getTextActionPresenter().onSelectedTextClicked(e);
+                    editor.setSelection(line, column);
+                else editor.getTextActionPresenter().onSelectedTextClicked(e);
     }
 
     private void handleLongPressForModifiedTextAction(MotionEvent e) {
