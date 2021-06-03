@@ -15,12 +15,14 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
+import android.content.Context;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import io.github.rosemoe.editor.mvc.model.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.UserInputView;
 import io.github.rosemoe.editor.util.IntPair;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
@@ -48,7 +50,7 @@ public final class UserInputController {
     private SelectionHandle insert = null, left = null, right = null;
     private float downY = 0;
     private float downX = 0;
-    private int mTouchedHandleType = -1;
+    private int touchedHandleType = -1;
 
 
 
@@ -57,8 +59,8 @@ public final class UserInputController {
      *
      * @param editor Host editor
      */
-    public UserInputController(CodeEditor editor) {
-        view = new UserInputView(editor) {
+    public UserInputController(CodeEditor editor, Context ctx) {
+        view = new UserInputView(editor,ctx) {
             @Override
             public long refreshLastScroll() {
                 model.mLastSetSelection = System.currentTimeMillis();
@@ -97,7 +99,7 @@ public final class UserInputController {
             return;
         }
         model.mLastSetSelection = 0;
-        view.mEditor.invalidate();
+        view.editor.invalidate();
     }
 
     /**
@@ -106,7 +108,7 @@ public final class UserInputController {
      * @return Whether touched
      */
     public boolean holdVerticalScrollBar() {
-        return model.mHoldingScrollbarVertical;
+        return model.holdingScrollbarVertical;
     }
 
     /**
@@ -115,7 +117,7 @@ public final class UserInputController {
      * @return Whether touched
      */
     public boolean holdHorizontalScrollBar() {
-        return model.mHoldingScrollbarHorizontal;
+        return model.holdingScrollbarHorizontal;
     }
 
     /**
@@ -148,12 +150,12 @@ public final class UserInputController {
             @Override
             public void run() {
                 if (System.currentTimeMillis() - model.mLastTouchedSelectionHandle >= SELECTION_HANDLE_RESIZE_DELAY) {
-                    view.mEditor.invalidate();
-                    view.mEditor.onEndTextSelect();
+                    view.editor.invalidate();
+                    view.editor.onEndTextSelect();
                 }
             }
         }
-        view.mEditor.postDelayed(new InvalidateNotifier(), SELECTION_HANDLE_RESIZE_DELAY);
+        view.editor.postDelayed(new InvalidateNotifier(), SELECTION_HANDLE_RESIZE_DELAY);
     }
 
 
@@ -175,46 +177,47 @@ public final class UserInputController {
      * @return Whether this touch event is handled by this class
      */
     public boolean onTouchEvent(MotionEvent e) {
+        Logger.debug(e.getAction(),": down=",MotionEvent.ACTION_DOWN,",move=",MotionEvent.ACTION_MOVE,",up=",MotionEvent.ACTION_UP,",cancel=",MotionEvent.ACTION_CANCEL);
         if (model.edgeFieldSize == 0) {
-            model.edgeFieldSize = view.mEditor.getDpUnit() * 25;
+            model.edgeFieldSize = view.editor.getDpUnit() * 25;
         }
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                model.mHoldingScrollbarVertical = model.mHoldingScrollbarHorizontal = false;
-                RectF rect = view.mEditor.getVerticalScrollBarRect();
+                model.holdingScrollbarVertical = model.holdingScrollbarHorizontal = false;
+                RectF rect = view.editor.getVerticalScrollBarRect();
                 if (rect.contains(e.getX(), e.getY())) {
-                    model.mHoldingScrollbarVertical = true;
+                    model.holdingScrollbarVertical = true;
                     downY = e.getY();
-                    view.mEditor.hideAutoCompleteWindow();
+                    view.editor.hideAutoCompleteWindow();
                 }
-                rect = view.mEditor.getHorizontalScrollBarRect();
+                rect = view.editor.getHorizontalScrollBarRect();
                 if (rect.contains(e.getX(), e.getY())) {
-                    model.mHoldingScrollbarHorizontal = true;
+                    model.holdingScrollbarHorizontal = true;
                     downX = e.getX();
-                    view.mEditor.hideAutoCompleteWindow();
+                    view.editor.hideAutoCompleteWindow();
                 }
-                if (model.mHoldingScrollbarVertical && model.mHoldingScrollbarHorizontal) {
-                    model.mHoldingScrollbarHorizontal = false;
+                if (model.holdingScrollbarVertical && model.holdingScrollbarHorizontal) {
+                    model.holdingScrollbarHorizontal = false;
                 }
-                if (model.mHoldingScrollbarVertical || model.mHoldingScrollbarHorizontal) {
-                    view.mEditor.invalidate();
+                if (model.holdingScrollbarVertical || model.holdingScrollbarHorizontal) {
+                    view.editor.invalidate();
                 }
-                if (shouldDrawInsertHandle() && view.mEditor.getInsertHandleRect().contains(e.getX(), e.getY())) {
+                if (shouldDrawInsertHandle() && view.editor.getInsertHandleRect().contains(e.getX(), e.getY())) {
                     model.mHoldingInsertHandle = true;
                     downY = e.getY();
                     downX = e.getX();
 
                     insert = new SelectionHandle(SelectionHandle.BOTH);
                 }
-                boolean left = view.mEditor.getLeftHandleRect().contains(e.getX(), e.getY());
-                boolean right = view.mEditor.getRightHandleRect().contains(e.getX(), e.getY());
+                boolean left = view.editor.getLeftHandleRect().contains(e.getX(), e.getY());
+                boolean right = view.editor.getRightHandleRect().contains(e.getX(), e.getY());
                 if (left || right) {
                     if (left) {
                         model.selectionHandleType = SelectionHandle.LEFT;
-                        mTouchedHandleType = SelectionHandle.LEFT;
+                        touchedHandleType = SelectionHandle.LEFT;
                     } else {
                         model.selectionHandleType = SelectionHandle.RIGHT;
-                        mTouchedHandleType = SelectionHandle.RIGHT;
+                        touchedHandleType = SelectionHandle.RIGHT;
                     }
                     downY = e.getY();
                     downX = e.getX();
@@ -225,47 +228,47 @@ public final class UserInputController {
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
-                if (model.mHoldingScrollbarVertical) {
+                if (model.holdingScrollbarVertical) {
                     float movedDis = e.getY() - downY;
                     downY = e.getY();
-                    float all = view.mEditor.mLayout.getLayoutHeight() + view.mEditor.getHeight() / 2f;
-                    float dy = movedDis / view.mEditor.getHeight() * all;
+                    float all = view.editor.mLayout.getLayoutHeight() + view.editor.getHeight() / 2f;
+                    float dy = movedDis / view.editor.getHeight() * all;
                     view.scrollBy(0, dy);
                     return true;
                 }
-                if (model.mHoldingScrollbarHorizontal) {
+                if (model.holdingScrollbarHorizontal) {
                     float movedDis = e.getX() - downX;
                     downX = e.getX();
-                    float all = view.mEditor.getScrollMaxX() + view.mEditor.getWidth();
-                    float dx = movedDis / view.mEditor.getWidth() * all;
+                    float all = view.editor.getScrollMaxX() + view.editor.getWidth();
+                    float dx = movedDis / view.editor.getWidth() * all;
                     view.scrollBy(dx, 0);
                     return true;
                 }
                 return handleSelectionChange(e);
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if (model.mHoldingScrollbarVertical) {
-                    model.mHoldingScrollbarVertical = false;
-                    view.mEditor.invalidate();
+                if (model.holdingScrollbarVertical) {
+                    model.holdingScrollbarVertical = false;
+                    view.editor.invalidate();
                     model.mLastScroll = System.currentTimeMillis();
                     view.notifyScrolled();
                 }
-                if (model.mHoldingScrollbarHorizontal) {
-                    model.mHoldingScrollbarHorizontal = false;
-                    view.mEditor.invalidate();
+                if (model.holdingScrollbarHorizontal) {
+                    model.holdingScrollbarHorizontal = false;
+                    view.editor.invalidate();
                     model.mLastScroll = System.currentTimeMillis();
                     view.notifyScrolled();
                 }
                 if (model.mHoldingInsertHandle) {
                     model.mHoldingInsertHandle = false;
-                    view.mEditor.invalidate();
+                    view.editor.invalidate();
                     view.notifyLater();
                 }
                 model.selectionHandleType = -1;
 
                 // check touch event is related to text selection or not
-                if (mTouchedHandleType > -1) {
-                    mTouchedHandleType = -1;
+                if (touchedHandleType > -1) {
+                    touchedHandleType = -1;
                     notifyTouchedSelectionHandlerLater();
                 }
                 stopEdgeScroll();
@@ -308,12 +311,12 @@ public final class UserInputController {
         }
     }
     private void scrollIfThumbReachesEdge(MotionEvent e) {
-        int flag = model.computeEdgeFlags(e.getX(), e.getY(), view.mEditor.getWidth(), view.mEditor.getHeight());
-        int initialDelta = (int) (8 * view.mEditor.getDpUnit());
+        int flag = model.computeEdgeFlags(e.getX(), e.getY(), view.editor.getWidth(), view.editor.getHeight());
+        int initialDelta = (int) (8 * view.editor.getDpUnit());
         if (flag != 0 && view.mEdgeFlags == 0) {
             view.mEdgeFlags = flag;
             view.mThumb = MotionEvent.obtain(e);
-            view.mEditor.post(new UserInputController.EdgeScrollRunnable(initialDelta));
+            view.editor.post(new UserInputController.EdgeScrollRunnable(initialDelta));
         } else if (flag == 0) {
             stopEdgeScroll();
         } else {
@@ -332,7 +335,7 @@ public final class UserInputController {
 
 
     public int getTouchedHandleType() {
-        return mTouchedHandleType;
+        return touchedHandleType;
     }
 
 
@@ -366,20 +369,20 @@ public final class UserInputController {
          */
         public void applyPosition(MotionEvent e) {
             float targetX = view.mScroller.getCurrX() + e.getX();
-            float targetY = view.mScroller.getCurrY() + e.getY() - view.mEditor.getInsertHandleRect().height() * 4 / 3;
-            int line = IntPair.getFirst(view.mEditor.getPointPosition(0, targetY));
-            if (line >= 0 && line < view.mEditor.getLineCount()) {
-                int column = IntPair.getSecond(view.mEditor.getPointPosition(targetX, targetY));
-                int lastLine = type == RIGHT ? view.mEditor.getCursor().getRightLine() : view.mEditor.getCursor().getLeftLine();
-                int lastColumn = type == RIGHT ? view.mEditor.getCursor().getLeftColumn() : view.mEditor.getCursor().getLeftColumn();
-                int anotherLine = type != RIGHT ? view.mEditor.getCursor().getRightLine() : view.mEditor.getCursor().getLeftLine();
-                int anotherColumn = type != RIGHT ? view.mEditor.getCursor().getRightColumn() : view.mEditor.getCursor().getLeftColumn();
+            float targetY = view.mScroller.getCurrY() + e.getY() - view.editor.getInsertHandleRect().height() * 4 / 3;
+            int line = IntPair.getFirst(view.editor.getPointPosition(0, targetY));
+            if (line >= 0 && line < view.editor.getLineCount()) {
+                int column = IntPair.getSecond(view.editor.getPointPosition(targetX, targetY));
+                int lastLine = type == RIGHT ? view.editor.getCursor().getRightLine() : view.editor.getCursor().getLeftLine();
+                int lastColumn = type == RIGHT ? view.editor.getCursor().getLeftColumn() : view.editor.getCursor().getLeftColumn();
+                int anotherLine = type != RIGHT ? view.editor.getCursor().getRightLine() : view.editor.getCursor().getLeftLine();
+                int anotherColumn = type != RIGHT ? view.editor.getCursor().getRightColumn() : view.editor.getCursor().getLeftColumn();
 
                 if (line != lastLine || column != lastColumn) {
                     switch (type) {
                         case BOTH:
-                            view.mEditor.cancelAnimation();
-                            view.mEditor.setSelection(line, column, false);
+                            view.editor.cancelAnimation();
+                            view.editor.setSelection(line, column, false);
                             break;
                         case RIGHT:
                             if (anotherLine > line || (anotherLine == line && anotherColumn > column)) {
@@ -390,9 +393,9 @@ public final class UserInputController {
                                 SelectionHandle tmp = right;
                                 right = left;
                                 left = tmp;
-                                view.mEditor.setSelectionRegion(line, column, anotherLine, anotherColumn, false);
+                                view.editor.setSelectionRegion(line, column, anotherLine, anotherColumn, false);
                             } else {
-                                view.mEditor.setSelectionRegion(anotherLine, anotherColumn, line, column, false);
+                                view.editor.setSelectionRegion(anotherLine, anotherColumn, line, column, false);
                             }
                             break;
                         case LEFT:
@@ -404,19 +407,19 @@ public final class UserInputController {
                                 SelectionHandle tmp = right;
                                 right = left;
                                 left = tmp;
-                                view.mEditor.setSelectionRegion(anotherLine, anotherColumn, line, column, false);
+                                view.editor.setSelectionRegion(anotherLine, anotherColumn, line, column, false);
                             } else {
-                                view.mEditor.setSelectionRegion(line, column, anotherLine, anotherColumn, false);
+                                view.editor.setSelectionRegion(line, column, anotherLine, anotherColumn, false);
                             }
                             break;
                     }
                 }
             }
 
-            if (view.mEditor.getTextActionPresenter() instanceof TextActionPopupWindow) {
-                view.mEditor.getTextActionPresenter().onUpdate(TextActionPopupWindow.DRAG);
+            if (view.editor.getTextActionPresenter() instanceof TextActionPopupWindow) {
+                view.editor.getTextActionPresenter().onUpdate(TextActionPopupWindow.DRAG);
             } else {
-                view.mEditor.getTextActionPresenter().onUpdate();
+                view.editor.getTextActionPresenter().onUpdate();
             }
         }
 
@@ -447,13 +450,13 @@ public final class UserInputController {
                 // Check whether there is content at right
                 int line;
                 if (model.mHoldingInsertHandle || model.selectionHandleType == SelectionHandle.LEFT) {
-                    line = view.mEditor.getCursor().getLeftLine();
+                    line = view.editor.getCursor().getLeftLine();
                 } else {
-                    line = view.mEditor.getCursor().getRightLine();
+                    line = view.editor.getCursor().getRightLine();
                 }
-                int column = view.mEditor.getText().getColumnCount(line);
+                int column = view.editor.getText().getColumnCount(line);
                 // Do not scroll too far from text region of this line
-                float maxOffset = view.mEditor.measureTextRegionOffset() + view.mEditor.mLayout.getCharLayoutOffset(line, column)[1] - view.mEditor.getWidth() * 0.85f;
+                float maxOffset = view.editor.measureTextRegionOffset() + view.editor.mLayout.getCharLayoutOffset(line, column)[1] - view.editor.getWidth() * 0.85f;
                 if (view.mScroller.getCurrX() > maxOffset) {
                     dx = 0;
                 }
@@ -488,7 +491,7 @@ public final class UserInputController {
 
             // Post for animation
             if (view.mEdgeFlags != 0) {
-                view.mEditor.postDelayed(this, 10);
+                view.editor.postDelayed(this, 10);
             }
         }
     }

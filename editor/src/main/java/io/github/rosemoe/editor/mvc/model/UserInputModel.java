@@ -24,8 +24,8 @@ public class UserInputModel {
     public boolean isScaling = false;
     public long mLastScroll = 0;
     public long mLastInteraction = 0;
-    public boolean mHoldingScrollbarVertical = false;
-    public boolean mHoldingScrollbarHorizontal = false;
+    public boolean holdingScrollbarVertical = false;
+    public boolean holdingScrollbarHorizontal = false;
     public boolean mHoldingInsertHandle = false;
 
 
@@ -76,7 +76,7 @@ public class UserInputModel {
      * @return whether draw scroll bars
      */
     public boolean shouldDrawScrollBar() {
-        return System.currentTimeMillis() - mLastScroll < HIDE_DELAY || mHoldingScrollbarVertical || mHoldingScrollbarHorizontal;
+        return System.currentTimeMillis() - mLastScroll < HIDE_DELAY || holdingScrollbarVertical || holdingScrollbarHorizontal;
     }
 
     /**

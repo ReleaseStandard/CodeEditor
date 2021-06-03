@@ -236,9 +236,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private AutoCompleteWindowController mCompletionWindow;
     private UserInputController mEventHandler;
     private Paint.Align mLineNumberAlign;
-    private GestureDetector mBasicDetector;
     public EditorTextActionPresenter mTextActionPresenter;
-    private ScaleGestureDetector mScaleDetector;
     UserInputConnexionController mConnection;
     private CursorAnchorInfo.Builder mAnchorInfoBuilder;
     private MaterialEdgeEffect mVerticalEdgeGlow;
@@ -587,10 +585,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
         mColors = ColorSchemeController.DEFAULT();
-        mEventHandler = new UserInputController(this);
-        mBasicDetector = new GestureDetector(getContext(), mEventHandler.view);
-        mBasicDetector.setOnDoubleTapListener(mEventHandler.view);
-        mScaleDetector = new ScaleGestureDetector(getContext(), mEventHandler.view);
+        mEventHandler = new UserInputController(this,getContext());
         mViewRect = new Rect(0, 0, 0, 0);
         mRect = new RectF();
         mInsertHandle = new RectF();
@@ -3748,7 +3743,9 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Logger.debug("On touch event");
         if (!isEnabled()) {
+            Logger.debug("Touches are not enabled");
             return false;
         }
         boolean handlingBefore = mEventHandler.handlingMotions();
@@ -3757,8 +3754,8 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
         boolean res2 = false;
         boolean res3 = false;
         if (!handling && !handlingBefore) {
-            res2 = mBasicDetector.onTouchEvent(event);
-            res3 = mScaleDetector.onTouchEvent(event);
+            res2 = mEventHandler.view.mBasicDetector.onTouchEvent(event);
+            res3 = mEventHandler.view.mScaleDetector.onTouchEvent(event);
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
             mVerticalEdgeGlow.onRelease();
