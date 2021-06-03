@@ -61,14 +61,12 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
      * @param column column index in line
      */
     private void handleSelectedTextClick(MotionEvent e, int line, int column) {
-        if (editor.getTextActionPresenter() instanceof ContextActionController) {
-            char text = editor.getText().charAt(line, column);
-            if (UserInputModel.isWhitespace(text) || ((ContextActionController) editor.getTextActionPresenter()).view.isShowing())
-                editor.setSelection(line, column);
-            else editor.getTextActionPresenter().onSelectedTextClicked(e);
-        } else {
-            editor.getTextActionPresenter().onSelectedTextClicked(e);
-        }
+                boolean isShowing1 = mEditor.getTextActionPresenter() instanceof EditorTextActionWindow && ((EditorTextActionWindow) mEditor.getTextActionPresenter()).isShowing();
+                boolean isShowing2 = mEditor.getTextActionPresenter() instanceof TextActionPopupWindow && ((TextActionPopupWindow) mEditor.getTextActionPresenter()).isShowing();
+                char text = mEditor.getText().charAt(line, column);
+                if (isWhitespace(text) || isShowing1 || isShowing2)
+                        mEditor.setSelection(line, column);
+                else mEditor.getTextActionPresenter().onSelectedTextClicked(e);
     }
 
     private void handleLongPressForModifiedTextAction(MotionEvent e) {
