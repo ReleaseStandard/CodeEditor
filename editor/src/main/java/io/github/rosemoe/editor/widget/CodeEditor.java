@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
+import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
@@ -112,7 +113,7 @@ import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreak;
  *
  * @author Rosemoe
  */
-public class CodeEditor extends View implements ContentListener, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.Callback, TextFormatter.FormatResultReceiver, ContentLineRemoveListener {
+public class CodeEditor extends View implements ContentListener, TextAnalyzerController.Callback, TextFormatter.FormatResultReceiver, ContentLineRemoveListener {
 
     /**
      * The default size when creating the editor object. Unit is sp.
@@ -220,7 +221,7 @@ public class CodeEditor extends View implements ContentListener, io.github.rosem
     private InputMethodManager mInputMethodManager;
     private CursorController mCursor;
     private ContentController mText;
-    private io.github.rosemoe.editor.mvc.controller.TextAnalyzerController analyzer;
+    private TextAnalyzerController analyzer;
     private ContextActionController contextAction;
     private Paint mPaint;
     private Paint mPaintOther;

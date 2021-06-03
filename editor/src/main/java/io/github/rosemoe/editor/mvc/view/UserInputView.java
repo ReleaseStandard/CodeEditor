@@ -96,18 +96,18 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
         }
     }
 
-    public boolean handleOnSingleTapUp() { return false; }
+    public boolean handleOnSingleTapUp() { return true; }
     public void handleOnLongPress() { }
-    public boolean handleOnScroll() { return false; }
-    public boolean handleOnFling() { return false; }
-    public boolean handleOnScale() { return false; }
-    public boolean handleOnScaleBegin() { return false; }
-    public boolean handleOnScaleEnd() { return false; }
-    public boolean handleOnDown() { return false; }
+    public boolean handleOnScroll() { return true; }
+    public boolean handleOnFling() { return true; }
+    public boolean handleOnScale() { return true; }
+    public boolean handleOnScaleBegin() { return true; }
+    public boolean handleOnScaleEnd() { return true; }
+    public boolean handleOnDown() { return true; }
     public void handleOnShowPress() { }
-    public boolean handleOnSingleTapConfirmed() { return false; }
-    public boolean handleOnDoubleTap(){ return false; }
-    public boolean handleOnDoubleTapEvent() { return false; }
+    public boolean handleOnSingleTapConfirmed() { return true; }
+    public boolean handleOnDoubleTap(){ return true; }
+    public boolean handleOnDoubleTapEvent() { return true; }
     public long refreshLastSetSelection() { return System.currentTimeMillis(); }
     public long refreshLastScroll() { return System.currentTimeMillis(); }
     public long refreshLastInteraction() { return System.currentTimeMillis(); }

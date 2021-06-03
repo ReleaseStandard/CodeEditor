@@ -142,7 +142,9 @@ public class MainActivity extends AppCompatActivity {
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
         setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
-        editor.setColorScheme(new Debug());
+        if ( Logger.DEBUG ) {
+            editor.setColorScheme(new Debug());
+        }
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
 
