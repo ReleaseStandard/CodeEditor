@@ -19,8 +19,10 @@ import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
+import io.github.rosemoe.editor.mvc.view.widget.CursorView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
  * @author Rose
@@ -32,7 +34,8 @@ public final class CursorController {
     private final CachedIndexer mIndexer;
     private LanguageController mLanguage;
     public CursorModel model = new CursorModel();
-	
+	public final CursorView view;
+
     /**
      * Create a new CursorController for ContentController
      *
@@ -41,6 +44,7 @@ public final class CursorController {
     public CursorController(ContentController content) {
         mContent = content;
         mIndexer = new CachedIndexer(content);
+        view = new CursorView();
     }
 
     /**

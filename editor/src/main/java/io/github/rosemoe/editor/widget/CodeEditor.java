@@ -91,6 +91,7 @@ import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.mvc.view.UserInputView;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
+import io.github.rosemoe.editor.mvc.view.widget.CursorView;
 import io.github.rosemoe.editor.processor.TextFormatter;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 import io.github.rosemoe.editor.processor.spanmap.Updater;
@@ -1048,7 +1049,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
         LongArrayList postDrawLineNumbers = mPostDrawLineNumbers;
         postDrawLineNumbers.clear();
-        List<CursorPaintAction> postDrawCursor = new ArrayList<>();
+        List<CursorView.CursorPaintAction> postDrawCursor = new ArrayList<>();
 
         drawRows(canvas, textOffset, postDrawLineNumbers, postDrawCursor);
 
@@ -1069,7 +1070,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             drawBlockLines(canvas, textOffset);
         }
 
-        for (CursorPaintAction action : postDrawCursor) {
+        for (CursorView.CursorPaintAction action : postDrawCursor) {
             action.exec(canvas, this);
         }
 
@@ -1106,7 +1107,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param postDrawLineNumbers Line numbers to be drawn later
      * @param postDrawCursor      Cursors to be drawn later
      */
-    private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorPaintAction> postDrawCursor) {
+    private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorView.CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
         List<SpanController> temporaryEmptySpans = null;
         SpanMapController spanMap = analyzer.getResult().spanMap;
@@ -1265,16 +1266,16 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 if (mTextActionPresenter.shouldShowCursor()) {
                     if (mCursor.getLeftLine() == line && isInside(mCursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
                         float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getLeftColumn() - firstVisibleChar);
-                        postDrawCursor.add(new CursorPaintAction(row, centerX, mLeftHandle, false, UserInputController.SelectionHandle.LEFT));
+                        postDrawCursor.add(new CursorView.CursorPaintAction(row, centerX, mLeftHandle, false, UserInputController.SelectionHandle.LEFT));
                     }
                     if (mCursor.getRightLine() == line && isInside(mCursor.getRightColumn(), firstVisibleChar, lastVisibleChar, line)) {
                         float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getRightColumn() - firstVisibleChar);
-                        postDrawCursor.add(new CursorPaintAction(row, centerX, mRightHandle, false, UserInputController.SelectionHandle.RIGHT));
+                        postDrawCursor.add(new CursorView.CursorPaintAction(row, centerX, mRightHandle, false, UserInputController.SelectionHandle.RIGHT));
                     }
                 }
             } else if (mCursor.getLeftLine() == line && isInside(mCursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
                 float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getLeftColumn() - firstVisibleChar);
-                postDrawCursor.add(new CursorPaintAction(row, centerX, userInput.shouldDrawInsertHandle() ? mInsertHandle : null, true));
+                postDrawCursor.add(new CursorView.CursorPaintAction(row, centerX, userInput.shouldDrawInsertHandle() ? mInsertHandle : null, true));
             }
 
         }
@@ -1786,7 +1787,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     /**
      * Draw cursor
      */
-    private void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert, int handleType) {
+    public void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert, int handleType) {
         if (!insert || mCursorBlink == null || mCursorBlink.model.visibility) {
             mRect.top = getRowTop(row) - getOffsetY();
             mRect.bottom = getRowBottom(row) - getOffsetY();
@@ -4201,56 +4202,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
     }
 
-    /**
-     * Class for saving state for cursor
-     */
-    static class CursorPaintAction {
 
-        /**
-         * RowModel position
-         */
-        final int row;
-
-        /**
-         * Center x offset
-         */
-        final float centerX;
-
-        /**
-         * Handle rectangle
-         */
-        final RectF outRect;
-
-        /**
-         * Draw as insert cursor
-         */
-        final boolean insert;
-
-        int handleType = -1;
-
-        CursorPaintAction(int row, float centerX, RectF outRect, boolean insert) {
-            this.row = row;
-            this.centerX = centerX;
-            this.outRect = outRect;
-            this.insert = insert;
-        }
-
-        CursorPaintAction(int row, float centerX, RectF outRect, boolean insert, int handleType) {
-            this.row = row;
-            this.centerX = centerX;
-            this.outRect = outRect;
-            this.insert = insert;
-            this.handleType = handleType;
-        }
-
-
-        /**
-         * Execute painting on the given editor and canvas
-         */
-        void exec(Canvas canvas, CodeEditor editor) {
-            editor.drawCursor(canvas, centerX, row, outRect, insert, handleType);
-        }
-
-    }
 
 }
