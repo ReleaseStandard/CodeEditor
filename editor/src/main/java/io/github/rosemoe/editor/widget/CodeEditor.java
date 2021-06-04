@@ -213,11 +213,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private ContentMapController mText;
     private TextAnalyzerController analyzer;
 
-    UserInputConnexionController mConnection;         // Manage other part of the user input, eg copy, paste
+    UserInputConnexionController mConnection;             // Manage other part of the user input, eg copy, paste
     // core
     private LanguageController mLanguage;
     public ColorSchemeController mColors;
-    public  UserInputController userInput;            // Manage all user input, eg scale scrolling
+    public  UserInputController userInput;                // Manage all user input, eg scale scrolling
 
     // widgets
     private CursorController cursor;                      // Manage the cursor
@@ -1158,7 +1158,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             if (line == currentLine) {
                 drawRowBackground(canvas, currentLineBgColor, row);
             }
-            
+
             // Draw text here
             {
                 // Get spans
