@@ -20,6 +20,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.util.Logger;

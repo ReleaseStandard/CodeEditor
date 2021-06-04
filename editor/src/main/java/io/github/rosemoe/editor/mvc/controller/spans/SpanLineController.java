@@ -20,7 +20,7 @@ import java.util.TreeMap;
 import io.github.rosemoe.editor.mvc.model.spans.SpanLineModel;
 import io.github.rosemoe.editor.mvc.view.spans.SpanLineView;
 import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 
 /**
  * The class handle one line in the text editor.

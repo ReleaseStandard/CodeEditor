@@ -64,7 +64,7 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;

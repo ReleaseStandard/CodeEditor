@@ -19,7 +19,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import io.github.rosemoe.editor.mvc.model.spans.SpanModel;
-import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.view.spans.SpanView;
 
 /**

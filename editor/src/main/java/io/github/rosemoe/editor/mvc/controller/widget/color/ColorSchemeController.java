@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.widget.color;
 
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -187,76 +187,76 @@ public class ColorSchemeController {
     public void initFromAttributeSets(AttributeSet attrs, TypedArray a) {
         int test = 235363207;
         for(int colorId : new int[] {
-                R.styleable.CodeEditor_color_base03, R.styleable.CodeEditor_color_base02, R.styleable.CodeEditor_color_base01, R.styleable.CodeEditor_color_base00,
-                R.styleable.CodeEditor_color_base0, R.styleable.CodeEditor_color_base1, R.styleable.CodeEditor_color_base2, R.styleable.CodeEditor_color_base3, R.styleable.CodeEditor_color_lineNumberPanel, R.styleable.CodeEditor_color_lineNumberBackground, R.styleable.CodeEditor_color_currentLine, R.styleable.CodeEditor_color_textSelected,
-                R.styleable.CodeEditor_color_selectedTextBackground, R.styleable.CodeEditor_color_lineNumberPanelText, R.styleable.CodeEditor_color_wholeBackground, R.styleable.CodeEditor_color_textNormal, R.styleable.CodeEditor_color_comment, R.styleable.CodeEditor_color_matchedTextBackground, R.styleable.CodeEditor_color_blockLine, R.styleable.CodeEditor_color_blockLineCurrent, R.styleable.CodeEditor_color_selectionInsert,
-                R.styleable.CodeEditor_color_selectionHandle, R.styleable.CodeEditor_color_scrollbarThumb, R.styleable.CodeEditor_color_scrollbarThumbPressed, R.styleable.CodeEditor_color_nonPrintableChar, R.styleable.CodeEditor_color_completionPanelBackground, R.styleable.CodeEditor_color_completionPanelCorner, R.styleable.CodeEditor_color_scrollbartrack, R.styleable.CodeEditor_color_underline, R.styleable.CodeEditor_color_linedivider, R.styleable.CodeEditor_color_autoCompleteItem, R.styleable.CodeEditor_color_autoCompleteItemCurrentPosition,
+                R.styleable.CodeEditor_widget_color_base03, R.styleable.CodeEditor_widget_color_base02, R.styleable.CodeEditor_widget_color_base01, R.styleable.CodeEditor_widget_color_base00,
+                R.styleable.CodeEditor_widget_color_base0, R.styleable.CodeEditor_widget_color_base1, R.styleable.CodeEditor_widget_color_base2, R.styleable.CodeEditor_widget_color_base3, R.styleable.CodeEditor_widget_color_lineNumberPanel, R.styleable.CodeEditor_widget_color_lineNumberBackground, R.styleable.CodeEditor_widget_color_currentLine, R.styleable.CodeEditor_widget_color_textSelected,
+                R.styleable.CodeEditor_widget_color_selectedTextBackground, R.styleable.CodeEditor_widget_color_lineNumberPanelText, R.styleable.CodeEditor_widget_color_wholeBackground, R.styleable.CodeEditor_widget_color_textNormal, R.styleable.CodeEditor_widget_color_comment, R.styleable.CodeEditor_widget_color_matchedTextBackground, R.styleable.CodeEditor_widget_color_blockLine, R.styleable.CodeEditor_widget_color_blockLineCurrent, R.styleable.CodeEditor_widget_color_selectionInsert,
+                R.styleable.CodeEditor_widget_color_selectionHandle, R.styleable.CodeEditor_widget_color_scrollbarThumb, R.styleable.CodeEditor_widget_color_scrollbarThumbPressed, R.styleable.CodeEditor_widget_color_nonPrintableChar, R.styleable.CodeEditor_widget_completion_color_panelBackground, R.styleable.CodeEditor_widget_completion_color_panelCorner, R.styleable.CodeEditor_widget_color_scrollbartrack, R.styleable.CodeEditor_widget_color_underline, R.styleable.CodeEditor_widget_color_linedivider, R.styleable.CodeEditor_widget_completion_color_item, R.styleable.CodeEditor_widget_completion_color_itemCurrentPosition,
         }) {
             int colorValue = a.getColor(colorId,test);
             if ( colorValue == test) { continue; }
-            if (colorId == R.styleable.CodeEditor_color_base03) {
+            if (colorId == R.styleable.CodeEditor_widget_color_base03) {
                 base03 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_base02) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_base02) {
                 base02 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_base01) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_base01) {
                 base01 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_base00) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_base00) {
                 base00 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_base0) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_base0) {
                 base0 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_base1) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_base1) {
                 base1 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_base2) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_base2) {
                 base2 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_base3) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_base3) {
                 base3 = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_lineNumberPanel) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_lineNumberPanel) {
                 lineNumberPanel = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_lineNumberBackground ) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_lineNumberBackground) {
                 lineNumberBackground = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_currentLine) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_currentLine) {
                 currentLine = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_textSelected) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_textSelected) {
                 textSelected = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_selectedTextBackground) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_selectedTextBackground) {
                 textSelectedBackground = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_lineNumberPanelText) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_lineNumberPanelText) {
                 lineNumberPanelText = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_wholeBackground) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_wholeBackground) {
                 wholeBackground = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_textNormal) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_textNormal) {
                 textNormal = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_comment) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_comment) {
                 comment = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_matchedTextBackground) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_matchedTextBackground) {
                 matchedTextBackground = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_blockLine) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_blockLine) {
                 blockLine = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_blockLineCurrent) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_blockLineCurrent) {
                 blockLineCurrent = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_selectionInsert) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_selectionInsert) {
                 selectionInsert = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_selectionHandle) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_selectionHandle) {
                 selectionHandle = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_scrollbarThumb) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_scrollbarThumb) {
                 scrollbarthumb = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_scrollbarThumbPressed) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_scrollbarThumbPressed) {
                 scrollbarthumbpressed = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_nonPrintableChar) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_nonPrintableChar) {
                 nonprintablechar = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_completionPanelBackground) {
+            } else if (colorId == R.styleable.CodeEditor_widget_completion_color_panelBackground) {
                 completionPanelBackground = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_completionPanelCorner) {
+            } else if (colorId == R.styleable.CodeEditor_widget_completion_color_panelCorner) {
                 completionPanelCorner = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_scrollbartrack) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_scrollbartrack) {
                 scrollBarTrack = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_underline) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_underline) {
                 underLine = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_linedivider) {
+            } else if (colorId == R.styleable.CodeEditor_widget_color_linedivider) {
                 lineDivider = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_autoCompleteItem) {
+            } else if (colorId == R.styleable.CodeEditor_widget_completion_color_item) {
                 autoCompleteItem = colorValue;
-            } else if (colorId == R.styleable.CodeEditor_color_autoCompleteItemCurrentPosition) {
+            } else if (colorId == R.styleable.CodeEditor_widget_completion_color_itemCurrentPosition) {
                 autoCompleteItemCurrentPosition = colorValue;
             }
         }

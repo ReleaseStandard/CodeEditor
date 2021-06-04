@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.themes;
 
-import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 
 /**
  * ColorScheme for HTML Language for editor

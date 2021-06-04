@@ -15,10 +15,7 @@
  */
 package io.github.rosemoe.editor.themes;
 
-import android.content.res.Resources;
-
-import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 
 public class Debug extends ColorSchemeController {
 

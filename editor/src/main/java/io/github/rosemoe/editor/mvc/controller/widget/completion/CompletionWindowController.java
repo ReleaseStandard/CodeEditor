@@ -21,7 +21,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.completion.CompletionWindowModel;
 import io.github.rosemoe.editor.mvc.view.widget.completion.CompleteWindowView;
