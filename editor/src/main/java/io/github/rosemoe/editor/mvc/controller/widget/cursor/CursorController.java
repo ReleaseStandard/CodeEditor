@@ -39,7 +39,7 @@ public final class CursorController {
     private LanguageController mLanguage;
     public CursorModel model = new CursorModel();
 	public final CursorView view;
-    public CursorBlinkController cursorBlink;        // Manage cursor blink effect
+    public CursorBlinkController blink;        // Manage cursor blink effect
     public final CodeEditor editor;
     /**
      * Create a new CursorController for ContentMapController
@@ -51,7 +51,7 @@ public final class CursorController {
         mIndexer = new CachedIndexer(content);
         view     = new CursorView();
         this.editor = editor;
-        cursorBlink = new CursorBlinkController(editor, DEFAULT_CURSOR_BLINK_PERIOD);
+        blink = new CursorBlinkController(editor, DEFAULT_CURSOR_BLINK_PERIOD);
     }
 
     /**
@@ -449,15 +449,24 @@ public final class CursorController {
      *
      * @param period The period time of cursor blinking
      */
-    public void setCursorBlinkPeriod(int period) {
-        if (cursorBlink == null) {
-            cursorBlink = new CursorBlinkController(editor, period);
+    public void setBlinkPeriod(int period) {
+        if (blink == null) {
+            blink = new CursorBlinkController(editor, period);
         } else {
-            int before = cursorBlink.model.period;
-            cursorBlink.model.period = period;
-            if (before <= 0 && cursorBlink.model.valid && cursorBlink.view.editor.isAttachedToWindow()) {
-                cursorBlink.view.editor.post(cursorBlink);
+            int before = blink.model.period;
+            blink.model.period = period;
+            if (before <= 0 && blink.model.valid && blink.view.editor.isAttachedToWindow()) {
+                blink.view.editor.post(blink);
             }
+        }
+    }
+    /**
+     * Set whether blinking is enabled on the cursor.
+     * @param state
+     */
+    public void setBlinkEnabled(boolean state) {
+        if ( blink != null ) {
+            blink.setEnabled(state);
         }
     }
 }

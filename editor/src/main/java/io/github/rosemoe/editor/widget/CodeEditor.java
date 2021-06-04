@@ -274,27 +274,28 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void initFromAttributeSet(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs,R.styleable.CodeEditor);
         for ( int id : new int[] {
-                R.styleable.CodeEditor_tab_width, R.styleable.CodeEditor_cursorBlinkPeriod, R.styleable.CodeEditor_textSize,
+                R.styleable.CodeEditor_tab_width, R.styleable.CodeEditor_widget_cursor_blink_period, R.styleable.CodeEditor_textSize,
         }) {
             int trash = -1;
             int val = ta.getInteger(id,trash);
             if ( val == trash ) {
                 continue;
             }
-            if ( id == R.styleable.CodeEditor_cursorBlinkPeriod ) {
-                cursor.setCursorBlinkPeriod(val);
+            if ( id == R.styleable.CodeEditor_widget_cursor_blink_period ) {
+                cursor.setBlinkPeriod(val);
             } else if ( id == R.styleable.CodeEditor_textSize ) {
                 setTextSize(val);
             }
         }
 
         for ( int id : new int[] {
-                R.styleable.CodeEditor_autoCompleteEnabled, R.styleable.CodeEditor_lineNumberVisible, R.styleable.CodeEditor_scrollbarsEnabled, R.styleable.CodeEditor_undoEnabled, R.styleable.CodeEditor_scalable, R.styleable.CodeEditor_focusable, R.styleable.CodeEditor_focusableInTouchMode, R.styleable.CodeEditor_hightlightCurrentLine, R.styleable.CodeEditor_autoindentEnabled, R.styleable.CodeEditor_autoCompletionEnabled,
+                R.styleable.CodeEditor_widget_cursor_blink_enabled,
+                R.styleable.CodeEditor_widget_completion_enabled, R.styleable.CodeEditor_lineNumberVisible, R.styleable.CodeEditor_scrollbarsEnabled, R.styleable.CodeEditor_undoEnabled, R.styleable.CodeEditor_scalable, R.styleable.CodeEditor_focusable, R.styleable.CodeEditor_focusableInTouchMode, R.styleable.CodeEditor_hightlightCurrentLine, R.styleable.CodeEditor_autoindentEnabled,
                 R.styleable.CodeEditor_verticalScrollbarEnabled, R.styleable.CodeEditor_hightLightCurrentBlock, R.styleable.CodeEditor_highlightSelectedText, R.styleable.CodeEditor_displayLnPanel, R.styleable.CodeEditor_overScrollEnabled, R.styleable.CodeEditor_horizontalScrollBarEnabled, R.styleable.CodeEditor_symbolCompletionEnabled, R.styleable.CodeEditor_editable, R.styleable.CodeEditor_lineNumberEnabled, R.styleable.CodeEditor_autoCompletionOnComposing, R.styleable.CodeEditor_horizontalScrollbarEnabled,
         }) {
             boolean trash = true;
             boolean val = ta.getBoolean(id,trash);
-            if ( id == R.styleable.CodeEditor_autoCompleteEnabled ) {
+            if ( id == R.styleable.CodeEditor_widget_completion_enabled) {
                 setAutoCompletionEnabled(val);
             } else if ( id == R.styleable.CodeEditor_scrollbarsEnabled ) {
                 setScrollBarEnabled(val);
@@ -310,8 +311,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 setHighlightCurrentLine(val);
             } else if ( id == R.styleable.CodeEditor_autoindentEnabled ) {
                 setAutoIndentEnabled(val);
-            } else if ( id == R.styleable.CodeEditor_autoCompletionEnabled ) {
-                setAutoCompletionEnabled(val);
             } else if ( id == R.styleable.CodeEditor_verticalScrollbarEnabled ) {
                 setVerticalScrollBarEnabled(true);
             } else if ( id == R.styleable.CodeEditor_hightLightCurrentBlock ) {
@@ -334,8 +333,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 setAutoCompletionOnComposing(val);
             } else if ( id == R.styleable.CodeEditor_lineNumberVisible ) {
                 setLineNumberEnabled(val);
+            } else if ( id == R.styleable.CodeEditor_widget_cursor_blink_enabled ) {
+                cursor.setBlinkEnabled(val);
             }
-
         }
     }
     public CodeEditor(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -1838,7 +1838,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Draw cursor
      */
     private void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert) {
-        if (!insert || cursor.cursorBlink == null || cursor.cursorBlink.model.visibility) {
+        if (!insert || cursor.blink == null || cursor.blink.model.visibility) {
             mRect.top = getRowTop(row) - getOffsetY();
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
@@ -1854,7 +1854,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Draw cursor
      */
     public void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert, int handleType) {
-        if (!insert || cursor.cursorBlink == null || cursor.cursorBlink.model.visibility) {
+        if (!insert || cursor.blink == null || cursor.blink.model.visibility) {
             mRect.top = getRowTop(row) - getOffsetY();
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
@@ -3260,7 +3260,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         } else {
             invalidate();
         }
-        cursor.cursorBlink.onSelectionChanged();
+        cursor.blink.onSelectionChanged();
         if (mTextActionPresenter != null) {
             mTextActionPresenter.onExit();
         }
@@ -3334,7 +3334,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         } else {
             invalidate();
         }
-        cursor.cursorBlink.onSelectionChanged();
+        cursor.blink.onSelectionChanged();
         if (!lastState && cursor.isSelected() && mStartedActionMode != ACTION_MODE_SEARCH_TEXT) {
             mTextActionPresenter.onBeginTextSelect();
         }
@@ -3926,16 +3926,16 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        cursor.cursorBlink.model.valid = cursor.cursorBlink.model.period > 0;
-        if (cursor.cursorBlink.model.valid) {
-            post(cursor.cursorBlink);
+        cursor.blink.model.valid = cursor.blink.model.period > 0;
+        if (cursor.blink.model.valid) {
+            post(cursor.blink);
         }
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        cursor.cursorBlink.model.valid = false;
+        cursor.blink.model.valid = false;
     }
 
     @Override
@@ -3966,7 +3966,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
         }
 
-        cursor.cursorBlink.onSelectionChanged();
+        cursor.blink.onSelectionChanged();
         mLayout.afterInsert(content, startLine, startColumn, endLine, endColumn, insertedContent);
 
         // Notify input method
@@ -4025,7 +4025,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
         }
 
-        cursor.cursorBlink.onSelectionChanged();
+        cursor.blink.onSelectionChanged();
         mLayout.afterDelete(content, startLine, startColumn, endLine, endColumn, deletedContent);
 
         updateCursor();

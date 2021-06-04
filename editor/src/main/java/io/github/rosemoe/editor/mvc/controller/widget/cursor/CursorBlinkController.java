@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widget.cursor;
 
+import io.github.rosemoe.editor.mvc.controller.WidgetController;
 import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorBlinkModel;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorBlinkView;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -24,7 +25,7 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  *
  * @author Rose
  */
-public final class CursorBlinkController implements Runnable {
+public final class CursorBlinkController extends WidgetController implements Runnable {
 
     public final CursorBlinkModel model;
     public final CursorBlinkView view;
@@ -49,6 +50,7 @@ public final class CursorBlinkController implements Runnable {
 
     @Override
     public void run() {
+        if (! isEnabled() ) { return ; }
         if (model.valid && model.period > 0) {
             if (System.currentTimeMillis() - model.lastSelectionModificationTime >= model.period * 2) {
                 model.visibility = !model.visibility;
