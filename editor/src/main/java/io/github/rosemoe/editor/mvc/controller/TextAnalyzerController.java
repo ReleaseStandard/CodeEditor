@@ -20,7 +20,7 @@ import android.util.Log;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
-import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
@@ -43,7 +43,7 @@ public class TextAnalyzerController {
     private TextAnalyzerView currentResult;
     private Callback mCallback;
     private AnalyzeThread mThread;
-    private CodeAnalyzerController mCodeAnalyzer;
+    public CodeAnalyzerController mCodeAnalyzer;
     /**
      * Create a new manager for the given codeAnalyzer
      *

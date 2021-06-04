@@ -35,6 +35,10 @@ import io.github.rosemoe.editor.themes.Solarized;
  */
 public class ColorSchemeController {
 
+    /**
+     *
+     * @return the default color scheme (theme)
+     */
     public static ColorSchemeController DEFAULT() { return new Solarized(); }
     public static final int TODO = 0xFFFF0000;
     public static final int HIDDEN = 0;

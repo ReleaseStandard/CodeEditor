@@ -13,12 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.spans;
+package io.github.rosemoe.editor.mvc.controller.widget.color.spans;
 
 import java.util.TreeMap;
 
-import io.github.rosemoe.editor.mvc.model.spans.SpanLineModel;
-import io.github.rosemoe.editor.mvc.view.spans.SpanLineView;
+import io.github.rosemoe.editor.mvc.model.widget.color.spans.SpanLineModel;
+import io.github.rosemoe.editor.mvc.view.widget.color.spans.SpanLineView;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 

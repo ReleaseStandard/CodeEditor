@@ -13,17 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.view.spans;
+package io.github.rosemoe.editor.mvc.view.widget.color.spans;
 
-/**
- * A span is a column, a color, an underline color.
- */
-public class SpanView {
-    public int column;
-    public int color;
-    public int underlineColor = 0;
-
-    public void recycle() {
-        color = column = underlineColor = 0;
-    }
+public class SpanMapView {
 }

@@ -13,14 +13,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.spans;
+package io.github.rosemoe.editor.mvc.controller.widget.color.spans;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import io.github.rosemoe.editor.mvc.model.spans.SpanModel;
+import io.github.rosemoe.editor.mvc.model.widget.color.spans.SpanModel;
 import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
-import io.github.rosemoe.editor.mvc.view.spans.SpanView;
+import io.github.rosemoe.editor.mvc.view.widget.color.spans.SpanView;
 
 /**
  * The span model
@@ -33,6 +33,9 @@ public class SpanController {
     public SpanModel model = new SpanModel();
     public SpanView view  = new SpanView();
 
+    /**
+     * @return an empty span with default settings.
+     */
     public static SpanController EMPTY() {
         return obtain(0, ColorSchemeController.DEFAULT().getTextNormal());
     }

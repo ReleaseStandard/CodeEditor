@@ -81,10 +81,10 @@ import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.view.MaterialEdgeEffect;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
-import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
-import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
@@ -732,7 +732,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         }
         CodeAnalyzerController analyzer = lang.getAnalyzer();
         analyzer.setTheme(mColors);
-        this.analyzer = new io.github.rosemoe.editor.mvc.controller.TextAnalyzerController(analyzer);
+        this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
         if (mText != null) {
             this.analyzer.analyze(mText);
