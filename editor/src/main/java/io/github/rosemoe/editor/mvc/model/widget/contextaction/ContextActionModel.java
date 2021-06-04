@@ -13,13 +13,8 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.model.widget;
+package io.github.rosemoe.editor.mvc.model.widget.contextaction;
 
-public class SearcherModel {
-    public String searchText;
-    public void checkState() {
-        if (searchText == null) {
-            throw new IllegalStateException("search text has not been set");
-        }
-    }
+public class ContextActionModel {
+    public int maxWidth;
 }

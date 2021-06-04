@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.view.widget;
+package io.github.rosemoe.editor.mvc.view.widget.contextaction;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
@@ -25,7 +25,6 @@ import android.view.View;
 import android.widget.Button;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 

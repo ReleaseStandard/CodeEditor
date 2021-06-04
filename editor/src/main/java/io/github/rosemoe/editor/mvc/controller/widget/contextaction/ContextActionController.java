@@ -13,22 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widget;
+package io.github.rosemoe.editor.mvc.controller.widget.contextaction;
 
-import android.annotation.SuppressLint;
-import android.content.res.Resources;
-import android.graphics.drawable.GradientDrawable;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
 
-import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.model.widget.ContextActionModel;
-import io.github.rosemoe.editor.mvc.view.widget.ContextActionView;
+import io.github.rosemoe.editor.mvc.model.widget.contextaction.ContextActionModel;
+import io.github.rosemoe.editor.mvc.view.widget.contextaction.ContextActionView;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 
 /**
  * This will show when selecting text

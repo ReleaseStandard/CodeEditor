@@ -24,9 +24,9 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.OverScroller;
 
-import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
+import io.github.rosemoe.editor.mvc.controller.widget.contextaction.ContextActionController;
 import io.github.rosemoe.editor.mvc.model.UserInputModel;
-import io.github.rosemoe.editor.mvc.view.widget.ContextActionView;
+import io.github.rosemoe.editor.mvc.view.widget.contextaction.ContextActionView;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;

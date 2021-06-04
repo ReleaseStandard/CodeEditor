@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.view.widget;
+package io.github.rosemoe.editor.mvc.view.widget.searcher;
 
 import android.app.ProgressDialog;
 import android.widget.Toast;

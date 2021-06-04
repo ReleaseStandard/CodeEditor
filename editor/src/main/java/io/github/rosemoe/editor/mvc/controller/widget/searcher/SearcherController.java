@@ -13,12 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widget;
+package io.github.rosemoe.editor.mvc.controller.widget.searcher;
 
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
-import io.github.rosemoe.editor.mvc.model.widget.SearcherModel;
+import io.github.rosemoe.editor.mvc.model.widget.searcher.SearcherModel;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
-import io.github.rosemoe.editor.mvc.view.widget.SearcherView;
+import io.github.rosemoe.editor.mvc.view.widget.searcher.SearcherView;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
