@@ -24,7 +24,6 @@ import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.model.widget.layout.WordwrapModel;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
  * Wordwrap layout for editor

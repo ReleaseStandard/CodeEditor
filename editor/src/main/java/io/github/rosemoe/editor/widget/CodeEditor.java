@@ -57,7 +57,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +71,7 @@ import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
 import io.github.rosemoe.editor.mvc.controller.UserInputController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
+import io.github.rosemoe.editor.mvc.controller.widget.layout.RowIterator;
 import io.github.rosemoe.editor.mvc.controller.widget.searcher.SearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.contextaction.ContextActionController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;

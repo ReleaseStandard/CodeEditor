@@ -23,7 +23,6 @@ import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.util.BinaryHeap;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
  * Layout implementation of editor

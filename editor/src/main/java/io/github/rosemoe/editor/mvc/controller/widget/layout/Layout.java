@@ -18,7 +18,6 @@ package io.github.rosemoe.editor.mvc.controller.widget.layout;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
-import io.github.rosemoe.editor.widget.RowIterator;
 
 /**
  * Layout is a manager class for editor to display text
