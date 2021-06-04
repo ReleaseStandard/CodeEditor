@@ -36,9 +36,7 @@ public abstract class CodeAnalyzerController {
     public static ColorSchemeController theme = ColorSchemeController.DEFAULT();
     private TextAnalyzerView colors = null;
 
-    public void setTheme(ColorSchemeController theme) {
-        this.theme = theme;
-    }
+    public static void setTheme(ColorSchemeController theme) { CodeAnalyzerController.theme = theme; }
 
     /**
      * Analyze spans for the given input

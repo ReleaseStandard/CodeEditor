@@ -3539,6 +3539,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (completionWindow != null) {
             completionWindow.applyColorScheme();
         }
+        setEditorLanguage(this.mLanguage);
         invalidate();
     }
 
