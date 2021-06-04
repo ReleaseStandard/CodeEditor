@@ -30,14 +30,14 @@ import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 
-public class AutoCompleteWindowView extends EditorBasePopupWindow {
+public class CompleteWindowView extends EditorBasePopupWindow {
     public CompletionAdapter mAdapter;
     public ListView mListView = null;
     public TextView mTip = null;
     public GradientDrawable mBg = null;
     private final CodeEditor mEditor;
 
-    public AutoCompleteWindowView(CodeEditor editor) {
+    public CompleteWindowView(CodeEditor editor) {
         super(editor);
         mEditor = editor;
         Context ctx = editor.getContext();
@@ -48,8 +48,8 @@ public class AutoCompleteWindowView extends EditorBasePopupWindow {
         mTip = new TextView(ctx);
         mTip.setText("Refreshing...");
         mTip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        mTip.setBackgroundColor(0xeeeeeeee);
-        mTip.setTextColor(0xff000000);
+        mTip.setBackgroundColor(editor.getColorScheme().getCompletionPanelBackground());
+        mTip.setTextColor(editor.getColorScheme().getTextNormal());
         layout.addView(mTip);
         ((RelativeLayout.LayoutParams) mTip.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         setContentView(layout);

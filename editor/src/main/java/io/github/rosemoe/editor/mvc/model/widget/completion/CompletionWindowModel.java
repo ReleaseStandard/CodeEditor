@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.model.widget.completion;
 
-public class AutoCompleteWindowModel {
+public class CompletionWindowModel {
     public boolean mCancelShowUp = false;
     public int mCurrent = 0;
     public long mRequestTime;

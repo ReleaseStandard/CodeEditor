@@ -69,10 +69,10 @@ import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
 import io.github.rosemoe.editor.mvc.controller.UserInputController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
 import io.github.rosemoe.editor.mvc.controller.widget.searcher.SearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.contextaction.ContextActionController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteWindowController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
@@ -219,9 +219,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     public  UserInputController userInput;            // Manage all user input, eg scale scrolling
 
     // widgets
-    private CursorController cursor;                  // Manage the cursor
-    private SearcherController searcher;              // Manage search in the displayed text
-    private ContextActionController contextAction;    // Manage context action showing, eg copy paste
+    private CursorController cursor;                      // Manage the cursor
+    private SearcherController searcher;                  // Manage search in the displayed text
+    private ContextActionController contextAction;        // Manage context action showing, eg copy paste
+    private CompletionWindowController mCompletionWindow; // Manage completion item showing
 
     private Paint mPaint;
     private Paint lineNumberPaint;
@@ -232,7 +233,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private Rect mViewRect;
     private String mLnTip = "Line:";
     private long mLastMakeVisible = 0;
-    private AutoCompleteWindowController mCompletionWindow;
+
     private Paint.Align mLineNumberAlign;
     public EditorTextActionPresenter mTextActionPresenter;
     private CursorAnchorInfo.Builder mAnchorInfoBuilder;
@@ -409,10 +410,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     /**
-     * Get using AutoCompleteWindowController
+     * Get using CompletionWindowController
      */
     @NonNull
-    public AutoCompleteWindowController getAutoCompleteWindow() {
+    public CompletionWindowController getAutoCompleteWindow() {
         return mCompletionWindow;
     }
 
@@ -604,7 +605,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         setFocusable(true);
         setFocusableInTouchMode(true);
         mConnection       = new UserInputConnexionController(this);
-        mCompletionWindow = new AutoCompleteWindowController(this);
+        mCompletionWindow = new CompletionWindowController(this);
         mVerticalEdgeGlow = new MaterialEdgeEffect();
         mHorizontalGlow   = new MaterialEdgeEffect();
         mOverrideSymbolPairs = new SymbolPairMatch();

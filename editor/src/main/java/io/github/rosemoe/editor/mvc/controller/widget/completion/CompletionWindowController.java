@@ -23,8 +23,8 @@ import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
-import io.github.rosemoe.editor.mvc.model.widget.completion.AutoCompleteWindowModel;
-import io.github.rosemoe.editor.mvc.view.widget.completion.AutoCompleteWindowView;
+import io.github.rosemoe.editor.mvc.model.widget.completion.CompletionWindowModel;
+import io.github.rosemoe.editor.mvc.view.widget.completion.CompleteWindowView;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -34,12 +34,12 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  *
  * @author Rose
  */
-public class AutoCompleteWindowController {
+public class CompletionWindowController {
 
     private final CodeEditor mEditor;
 
-    public AutoCompleteWindowModel model = new AutoCompleteWindowModel();
-    public final AutoCompleteWindowView view;
+    public CompletionWindowModel    model = new CompletionWindowModel();
+    public final CompleteWindowView view;
     private AutoCompleteProviderController mProvider;
 
 
@@ -48,9 +48,9 @@ public class AutoCompleteWindowController {
      *
      * @param editor Target editor
      */
-    public AutoCompleteWindowController(CodeEditor editor) {
+    public CompletionWindowController(CodeEditor editor) {
         mEditor = editor;
-        view = new AutoCompleteWindowView(editor) {
+        view = new CompleteWindowView(editor) {
             @Override
             public void handleShow() {
                 if (model.mCancelShowUp) {

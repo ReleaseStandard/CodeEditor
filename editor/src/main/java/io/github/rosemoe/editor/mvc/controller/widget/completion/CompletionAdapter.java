@@ -29,13 +29,13 @@ import java.util.List;
  */
 public abstract class CompletionAdapter extends BaseAdapter {
 
-    private AutoCompleteWindowController autocompleteWindow;
+    private CompletionWindowController autocompleteWindow;
     private List<CompletionItemController> completeItems;
 
     /**
-     * Called by {@link AutoCompleteWindowController} to attach some arguments
+     * Called by {@link CompletionWindowController} to attach some arguments
      */
-    public void attachAttributes(AutoCompleteWindowController window, List<CompletionItemController> items) {
+    public void attachAttributes(CompletionWindowController window, List<CompletionItemController> items) {
         autocompleteWindow = window;
         completeItems = items;
     }
