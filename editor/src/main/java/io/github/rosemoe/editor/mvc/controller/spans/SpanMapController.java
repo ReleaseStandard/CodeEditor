@@ -74,6 +74,7 @@ public class SpanMapController {
     /**
      * lineno : 0..n-1 the span line to get
      * @param lineno
+     * @return null if the line is not in the spanmap
      */
     public SpanLineController get(int lineno) {
         return map.get(lineno);

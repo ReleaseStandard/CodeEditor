@@ -57,6 +57,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -1077,13 +1078,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorView.CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
-        List<SpanController> temporaryEmptySpans = null;
         SpanMapController spanMap = analyzer.getResult().spanMap;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = cursor.isSelected() ? -1 : cursor.getLeftLine();
         int currentLineBgColor = mColors.getCurrentLine();
         int lastPreparedLine = -1;
-        int spanOffset = 0;
         int leadingWhitespaceEnd = 0;
         int trailingWhitespaceStart = 0;
         float circleRadius = 0f;
@@ -1108,7 +1107,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 lastPreparedLine = line;
                 prepareLine(line);
                 computeMatchedPositions(line, matchedPositions);
-                spanOffset = 0;
                 if (shouldInitializeNonPrintable()) {
                     long positions = findLeadingAndTrailingWhitespacePos(line);
                     leadingWhitespaceEnd = IntPair.getFirst(positions);
@@ -1160,38 +1158,49 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             if (line == currentLine) {
                 drawRowBackground(canvas, currentLineBgColor, row);
             }
-
+            
             // Draw text here
             {
-                int offsetScrolled = 0;
-                SpanLineController spanLine = spanMap.getAddIfNeeded(line);
-                Map.Entry<Integer, SpanController> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
+                // Get spans
+                SpanLineController spans = spanMap.get(line);
+                if (spans == null || spans.size() == 0) {
+                    spans = SpanLineController.EMPTY();
+                }
+                Map.Entry<Integer, SpanController> [] keys = spans.line.entrySet().toArray(new Map.Entry[spans.size()]);
                 for (int a = 0; a < keys.length; a=a+1) {
                     SpanController span = keys[a].getValue();
-                    int colStart = span.model.column;
-                    int colStop  = lastVisibleChar;
-                    if ( a+1 < keys.length) {
-                        colStop = keys[a+1].getValue().model.column;
+                    // Draw by spans
+                    SpanController nextSpan = null;
+                    if ( a+1 < spans.size() ) {
+                        nextSpan = keys[a+1].getValue();
                     }
-                    int colSpan = colStop - colStart;
-                    int paintStart = Math.max(firstVisibleChar, colStart);
-                    int paintEnd = Math.min(lastVisibleChar, colStop);
-
-                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color,",paintStart=",paintStart,",paintEnd=",paintEnd,",paintingOffset=",paintingOffset);
-                    // We ignore the span if it begins in the invisible zone
-                    if ( colStop < firstVisibleChar || colStart > lastVisibleChar) { continue; }
-                    drawRegionText(canvas,paintingOffset,
-                             getRowBaseline(row) - getOffsetY(),line,
-                            colStart,
-                            colStop,
-                            colSpan,
-                            span.model.color);
-
+                    int spanStart = span.model.column;
+                    int spanEnd = nextSpan == null ? columnCount : nextSpan.model.column;
+                    int paintStart = Math.max(firstVisibleChar, spanStart);
+                    int paintEnd = Math.min(lastVisibleChar, spanEnd);
+                    if( spanStart > lastVisibleChar || spanEnd < firstVisibleChar ) { continue ; }
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
-                    Logger.debug("width=",width);
+
+                    Logger.debug("line=",line,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color,",paintStart=",paintStart,",paintEnd=",paintEnd,",paintingOffset=",paintingOffset);
+
+                    // Draw text
+                    drawRegionText(canvas, paintingOffset, getRowBaseline(row) - getOffsetY(), line, paintStart, paintEnd, columnCount, span.model.color);
+
+                    // Draw underline
+                    if (span.model.underlineColor != 0) {
+                        mRect.bottom = getRowBottom(line) - getOffsetY() - mDpUnit * 1;
+                        mRect.top = mRect.bottom - getRowHeight() * 0.08f;
+                        mRect.left = paintingOffset;
+                        mRect.right = paintingOffset + width;
+                        drawColor(canvas, span.model.underlineColor, mRect);
+                    }
+
                     paintingOffset += width;
+
+                    if (paintEnd == lastVisibleChar) {
+                        break;
+                    }
                 }
-                Logger.debug("Drawing span for line=",line,",spans in the line=",spanLine.size(),",firstVisibleChar=",firstVisibleChar,",spanOffset=",spanOffset);
             }
 
             // Draw hard wrap
