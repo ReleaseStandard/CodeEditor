@@ -17,6 +17,7 @@ package io.github.rosemoe.editor.mvc.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.RectF;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -45,6 +46,9 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
     public GestureDetector mBasicDetector;
     public ScaleGestureDetector mScaleDetector;
 
+    public RectF mVerticalScrollBar;
+    public RectF mHorizontalScrollBar;
+
     public UserInputView(CodeEditor editor, Context ctx) {
         this.editor = editor;
         mScroller = new OverScroller(editor.getContext());
@@ -53,6 +57,8 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
         mBasicDetector = new GestureDetector(ctx, this);
         mBasicDetector.setOnDoubleTapListener(this);
         mScaleDetector = new ScaleGestureDetector(ctx, this);
+        mVerticalScrollBar = new RectF();
+        mHorizontalScrollBar = new RectF();
     }
 
     /**
@@ -350,7 +356,23 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
         editor.postDelayed(new ScrollNotifier(), HIDE_DELAY_HANDLE);
     }
 
+    /**
+     * Get the rect of vertical scroll bar on view
+     *
+     * @return Rect of scroll bar
+     */
+    public RectF getVerticalScrollBarRect() {
+        return mVerticalScrollBar;
+    }
 
+    /**
+     * Get the rect of horizontal scroll bar on view
+     *
+     * @return Rect of scroll bar
+     */
+    public RectF getHorizontalScrollBarRect() {
+        return mHorizontalScrollBar;
+    }
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {

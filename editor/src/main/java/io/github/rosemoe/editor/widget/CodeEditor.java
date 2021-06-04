@@ -211,8 +211,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private RectF mLeftHandle;
     private RectF mRightHandle;
     private RectF mInsertHandle;
-    private RectF mVerticalScrollBar;
-    private RectF mHorizontalScrollBar;
     private ClipboardManager mClipboardManager;
     private InputMethodManager mInputMethodManager;
     private CursorController mCursor;
@@ -588,8 +586,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mInsertHandle = new RectF();
         mLeftHandle = new RectF();
         mRightHandle = new RectF();
-        mVerticalScrollBar = new RectF();
-        mHorizontalScrollBar = new RectF();
         mDividerMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, Resources.getSystem().getDisplayMetrics());
         mDividerWidth = mDividerMargin;
         mInsertSelWidth = mDividerWidth / 2;
@@ -939,23 +935,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         userInput.model.mVerticalScrollBarEnabled = verticalScrollBarEnabled;
     }
 
-    /**
-     * Get the rect of vertical scroll bar on view
-     *
-     * @return Rect of scroll bar
-     */
-    public RectF getVerticalScrollBarRect() {
-        return mVerticalScrollBar;
-    }
-
-    /**
-     * Get the rect of horizontal scroll bar on view
-     *
-     * @return Rect of scroll bar
-     */
-    public RectF getHorizontalScrollBarRect() {
-        return mHorizontalScrollBar;
-    }
 
     /**
      * Get the rect of insert cursor handle on view
@@ -1664,8 +1643,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param canvas The canvas to draw
      */
     private void drawScrollBars(Canvas canvas) {
-        mVerticalScrollBar.setEmpty();
-        mHorizontalScrollBar.setEmpty();
+        userInput.view.getVerticalScrollBarRect().setEmpty();
+        userInput.view.getHorizontalScrollBarRect().setEmpty();
         if (!userInput.model.shouldDrawScrollBar()) {
             return;
         }
@@ -1718,7 +1697,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.left = getWidth() - mDpUnit * 10;
         mRect.top = topY;
         mRect.bottom = topY + length;
-        mVerticalScrollBar.set(mRect);
+        userInput.view.getVerticalScrollBarRect().set(mRect);
         drawColor(canvas, userInput.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
     }
 
@@ -1784,7 +1763,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.bottom = getHeight();
         mRect.right = leftX + length;
         mRect.left = leftX;
-        mHorizontalScrollBar.set(mRect);
+        userInput.view.getHorizontalScrollBarRect().set(mRect);
         drawColor(canvas, userInput.holdHorizontalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
     }
 

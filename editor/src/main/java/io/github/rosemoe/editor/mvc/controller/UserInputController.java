@@ -210,13 +210,13 @@ public final class UserInputController {
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 model.holdingScrollbarVertical = model.holdingScrollbarHorizontal = false;
-                RectF rect = view.editor.getVerticalScrollBarRect();
+                RectF rect = view.getVerticalScrollBarRect();
                 if (rect.contains(e.getX(), e.getY())) {
                     model.holdingScrollbarVertical = true;
                     downY = e.getY();
                     view.editor.hideAutoCompleteWindow();
                 }
-                rect = view.editor.getHorizontalScrollBarRect();
+                rect = view.getHorizontalScrollBarRect();
                 if (rect.contains(e.getX(), e.getY())) {
                     model.holdingScrollbarHorizontal = true;
                     downX = e.getX();

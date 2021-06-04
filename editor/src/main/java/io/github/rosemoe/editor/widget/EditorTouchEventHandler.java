@@ -306,13 +306,13 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mHoldingScrollbarVertical = mHoldingScrollbarHorizontal = false;
-                RectF rect = mEditor.getVerticalScrollBarRect();
+                RectF rect = mEditor.userInput.view.getVerticalScrollBarRect();
                 if (rect.contains(e.getX(), e.getY())) {
                     mHoldingScrollbarVertical = true;
                     downY = e.getY();
                     mEditor.hideAutoCompleteWindow();
                 }
-                rect = mEditor.getHorizontalScrollBarRect();
+                rect = mEditor.userInput.view.getHorizontalScrollBarRect();
                 if (rect.contains(e.getX(), e.getY())) {
                     mHoldingScrollbarHorizontal = true;
                     downX = e.getX();
