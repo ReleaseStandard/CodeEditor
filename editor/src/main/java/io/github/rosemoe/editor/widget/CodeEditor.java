@@ -90,6 +90,7 @@ import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
+import io.github.rosemoe.editor.mvc.view.TextComposeBasePopup;
 import io.github.rosemoe.editor.mvc.view.UserInputView;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;

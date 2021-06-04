@@ -31,7 +31,6 @@ import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
-import io.github.rosemoe.editor.widget.TextComposeBasePopup;
 
 import static io.github.rosemoe.editor.mvc.controller.UserInputController.*;
 import static io.github.rosemoe.editor.mvc.model.UserInputModel.isWhitespace;
