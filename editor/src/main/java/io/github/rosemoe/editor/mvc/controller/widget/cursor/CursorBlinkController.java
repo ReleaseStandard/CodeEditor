@@ -27,6 +27,10 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  */
 public final class CursorBlinkController extends WidgetController implements Runnable {
 
+    /**
+     * The default cursor blinking period
+     */
+    public static final int DEFAULT_CURSOR_BLINK_PERIOD = 500;
     public final CursorBlinkModel model;
     public final CursorBlinkView view;
 

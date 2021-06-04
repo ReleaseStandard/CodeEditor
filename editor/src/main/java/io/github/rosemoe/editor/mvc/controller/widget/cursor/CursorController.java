@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.widget.cursor;
 import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
+import io.github.rosemoe.editor.mvc.controller.WidgetController;
 import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorModel;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
@@ -28,12 +29,8 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  * @author Rose
  * Warning:The cursor position will update automatically when the content has been changed by other way
  */
-public final class CursorController {
+public final class CursorController extends WidgetController {
 
-    /**
-     * The default cursor blinking period
-     */
-    public static final int DEFAULT_CURSOR_BLINK_PERIOD = 500;
     private final ContentMapController mContent;
     private final CachedIndexer mIndexer;
     private LanguageController mLanguage;
@@ -51,7 +48,7 @@ public final class CursorController {
         mIndexer = new CachedIndexer(content);
         view     = new CursorView();
         this.editor = editor;
-        blink = new CursorBlinkController(editor, DEFAULT_CURSOR_BLINK_PERIOD);
+        blink = new CursorBlinkController(editor, CursorBlinkController.DEFAULT_CURSOR_BLINK_PERIOD);
     }
 
     /**
@@ -469,5 +466,13 @@ public final class CursorController {
             blink.setEnabled(state);
         }
     }
+    @Override
+    public void setEnabled(boolean state) {
+        super.setEnabled(state);
+        if ( blink != null ) {
+            blink.setEnabled(state);
+        }
+    }
+
 }
 

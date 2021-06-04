@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widget.searcher;
 
+import io.github.rosemoe.editor.mvc.controller.WidgetController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.searcher.SearcherModel;
@@ -27,7 +28,7 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  * @author Rose
  */
 @SuppressWarnings("deprecated")
-public class SearcherController {
+public class SearcherController extends WidgetController {
 
     public SearcherModel model = new SearcherModel();
     public SearcherView view   = new SearcherView();

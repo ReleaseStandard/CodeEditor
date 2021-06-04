@@ -681,42 +681,42 @@ public class ContentMapController implements CharSequence {
     /**
      * Dispatch events to listener after deletion
      *
-     * @param a Start line
-     * @param b Start Column
-     * @param c End line
-     * @param d End column
-     * @param e Text deleted
+     * @param startLine Start line
+     * @param startCol Start Column
+     * @param endLine End line
+     * @param endCol End column
+     * @param text Text deleted
      */
-    private void dispatchAfterDelete(int a, int b, int c, int d, CharSequence e) {
-        contentManager.afterDelete(this, a, b, c, d, e);
+    private void dispatchAfterDelete(int startLine, int startCol, int endLine, int endCol, CharSequence text) {
+        contentManager.afterDelete(this, startLine, startCol, endLine, endCol, text);
         if (cursor != null)
-            cursor.afterDelete(a, b, c, d, e);
+            cursor.afterDelete(startLine, startCol, endLine, endCol, text);
         if (indexer instanceof ContentListener) {
-            ((ContentListener) indexer).afterDelete(this, a, b, c, d, e);
+            ((ContentListener) indexer).afterDelete(this, startLine, startCol, endLine, endCol, text);
         }
         for (ContentListener lis : mListeners) {
-            lis.afterDelete(this, a, b, c, d, e);
+            lis.afterDelete(this, startLine, startCol, endLine, endCol, text);
         }
     }
 
     /**
      * Dispatch events to listener after insertion
      *
-     * @param a Start line
-     * @param b Start Column
-     * @param c End line
-     * @param d End column
-     * @param e Text deleted
+     * @param startLine Start line
+     * @param startCol Start Column
+     * @param endLine End line
+     * @param endCol End column
+     * @param text Text deleted
      */
-    private void dispatchAfterInsert(int a, int b, int c, int d, CharSequence e) {
-        contentManager.afterInsert(this, a, b, c, d, e);
+    private void dispatchAfterInsert(int startLine, int startCol, int endLine, int endCol, CharSequence text) {
+        contentManager.afterInsert(this, startLine, startCol, endLine, endCol, text);
         if (cursor != null)
-            cursor.afterInsert(a, b, c, d, e);
+            cursor.afterInsert(startLine, startCol, endLine, endCol, text);
         if (indexer instanceof ContentListener) {
-            ((ContentListener) indexer).afterInsert(this, a, b, c, d, e);
+            ((ContentListener) indexer).afterInsert(this, startLine, startCol, endLine, endCol, text);
         }
         for (ContentListener lis : mListeners) {
-            lis.afterInsert(this, a, b, c, d, e);
+            lis.afterInsert(this, startLine, startCol, endLine, endCol, text);
         }
     }
 
