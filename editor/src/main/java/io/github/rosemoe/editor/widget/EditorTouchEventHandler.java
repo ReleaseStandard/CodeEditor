@@ -17,13 +17,13 @@ package io.github.rosemoe.editor.widget;
 
 import android.content.res.Resources;
 import android.graphics.RectF;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.OverScroller;
 
+import io.github.rosemoe.editor.mvc.view.widget.ContextActionView;
 import io.github.rosemoe.editor.util.IntPair;
 
 /**
@@ -106,7 +106,7 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
      * @param column column index in line
      */
     private void handleSelectedTextClick(MotionEvent e, int line, int column) {
-		boolean isShowing1 = mEditor.getTextActionPresenter() instanceof EditorTextActionWindow && ((EditorTextActionWindow) mEditor.getTextActionPresenter()).isShowing();
+		boolean isShowing1 = mEditor.getTextActionPresenter() instanceof ContextActionView && ((ContextActionView) mEditor.getTextActionPresenter()).isShowing();
 		boolean isShowing2 = mEditor.getTextActionPresenter() instanceof TextActionPopupWindow && ((TextActionPopupWindow) mEditor.getTextActionPresenter()).isShowing();
 		char text = mEditor.getText().charAt(line, column);
 		if (isWhitespace(text) || isShowing1 || isShowing2)
@@ -175,8 +175,8 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
      */
     private boolean checkActionWindow() {
         CodeEditor.EditorTextActionPresenter presenter = mEditor.mTextActionPresenter;
-        if (presenter instanceof EditorTextActionWindow) {
-            return !((EditorTextActionWindow) presenter).isShowing();
+        if (presenter instanceof ContextActionView) {
+            return !((ContextActionView) presenter).isShowing();
         }
         return true;
     }
@@ -513,8 +513,8 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
             int oldLine = mEditor.getCursor().getLeftLine();
             int oldColumn = mEditor.getCursor().getLeftColumn();
             if (line == oldLine && column == oldColumn) {
-                if (mEditor.mTextActionPresenter instanceof EditorTextActionWindow) {
-                    EditorTextActionWindow window = (EditorTextActionWindow) mEditor.mTextActionPresenter;
+                if (mEditor.mTextActionPresenter instanceof ContextActionView) {
+                    ContextActionView window = (ContextActionView) mEditor.mTextActionPresenter;
                     if (window.isShowing()) {
                         window.hide();
                     } else {
@@ -665,8 +665,8 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
                 mEditor.getScrollMaxX(),
                 0,
                 mEditor.getScrollMaxY(),
-                mEditor.isOverScrollEnabled() && !mEditor.isWordwrap() ? (int) (20 * mEditor.getDpUnit()) : 0,
-                mEditor.isOverScrollEnabled() ? (int) (20 * mEditor.getDpUnit()) : 0);
+                mEditor.userInput.isOverScrollEnabled() && !mEditor.isWordwrap() ? (int) (20 * mEditor.getDpUnit()) : 0,
+                mEditor.userInput.isOverScrollEnabled() ? (int) (20 * mEditor.getDpUnit()) : 0);
         mEditor.invalidate();
         float minVe = mEditor.getDpUnit() * 2000;
         if (Math.abs(velocityX) >= minVe || Math.abs(velocityY) >= minVe) {

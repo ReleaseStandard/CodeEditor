@@ -35,12 +35,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ActionMode;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.inputmethod.CursorAnchorInfo;
@@ -200,7 +198,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private boolean mWordwrap;
     private boolean mUndoEnabled;
     private boolean mDisplayLnPanel;
-    private boolean mOverScrollEnabled;
     private boolean mLineNumberEnabled;
     private boolean mBlockLineEnabled;
     private boolean mAutoCompletionEnabled;
@@ -209,8 +206,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private boolean mHighlightCurrentBlock;
     private boolean mHighlightCurrentLine;
     private boolean mSymbolCompletionEnabled;
-    private boolean mVerticalScrollBarEnabled;
-    private boolean mHorizontalScrollBarEnabled;
+
     private RectF mRect;
     private RectF mLeftHandle;
     private RectF mRightHandle;
@@ -222,7 +218,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private CursorController mCursor;
     private ContentController mText;
     private TextAnalyzerController analyzer;
-    private ContextActionController contextAction;
+    private ContextActionController contextAction;    // Manage context action showing, eg copy paste
+    public  UserInputController userInput;            // Manage all user input, eg scale scrolling
     private Paint mPaint;
     private Paint mPaintOther;
     private Paint mPaintGraph;
@@ -235,7 +232,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private LanguageController mLanguage;
     private long mLastMakeVisible = 0;
     private AutoCompleteWindowController mCompletionWindow;
-    private UserInputController mEventHandler;
     private Paint.Align mLineNumberAlign;
     public EditorTextActionPresenter mTextActionPresenter;
     UserInputConnexionController mConnection;
@@ -586,7 +582,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
         mColors = ColorSchemeController.DEFAULT();
-        mEventHandler = new UserInputController(this,getContext());
+        userInput = new UserInputController(this,getContext());
         mViewRect = new Rect(0, 0, 0, 0);
         mRect = new RectF();
         mInsertHandle = new RectF();
@@ -627,7 +623,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         setHighlightCurrentBlock(true);
         setHighlightSelectedText(true);
         setDisplayLnPanel(true);
-        setOverScrollEnabled(true);
         setHorizontalScrollBarEnabled(true);
         setSymbolCompletionEnabled(true);
         setEditable(true);
@@ -664,7 +659,15 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     public void setSymbolCompletionEnabled(boolean symbolCompletionEnabled) {
         mSymbolCompletionEnabled = symbolCompletionEnabled;
     }
-
+    /**
+     * Whether over scroll is permitted.
+     * When over scroll is enabled, the user will be able to scroll out of displaying
+     * bounds if the user scroll fast enough.
+     * This is implemented by {@link OverScroller#fling(int, int, int, int, int, int, int, int, int, int)}
+     */
+    public void setOverScrollEnabled(boolean overScrollEnabled) {
+        userInput.setOverScrollEnabled(overScrollEnabled);
+    }
     /**
      * Create a channel to insert symbols
      */
@@ -836,7 +839,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param enabled Enabled / disabled
      */
     public void setScrollBarEnabled(boolean enabled) {
-        mVerticalScrollBarEnabled = mHorizontalScrollBarEnabled = enabled;
+        userInput.setScrollBarEnabled(enabled);
         invalidate();
     }
 
@@ -918,22 +921,22 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
     @Override
     public boolean isHorizontalScrollBarEnabled() {
-        return mHorizontalScrollBarEnabled;
+        return userInput.model.mHorizontalScrollBarEnabled;
     }
 
     @Override
     public void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled) {
-        mHorizontalScrollBarEnabled = horizontalScrollBarEnabled;
+        userInput.model.mHorizontalScrollBarEnabled = horizontalScrollBarEnabled;
     }
 
     @Override
     public boolean isVerticalScrollBarEnabled() {
-        return mVerticalScrollBarEnabled;
+        return userInput.model.mVerticalScrollBarEnabled;
     }
 
     @Override
     public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
-        mVerticalScrollBarEnabled = verticalScrollBarEnabled;
+        userInput.model.mVerticalScrollBarEnabled = verticalScrollBarEnabled;
     }
 
     /**
@@ -1048,7 +1051,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (isWordwrap()) {
             if (mCachedLineNumberWidth == 0) {
                 mCachedLineNumberWidth = (int) lineNumberWidth;
-            } else if (mCachedLineNumberWidth != (int) lineNumberWidth && !mEventHandler.model.isScaling) {
+            } else if (mCachedLineNumberWidth != (int) lineNumberWidth && !userInput.model.isScaling) {
                 mCachedLineNumberWidth = (int) lineNumberWidth;
                 createLayout();
             }
@@ -1292,7 +1295,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 }
             } else if (mCursor.getLeftLine() == line && isInside(mCursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
                 float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getLeftColumn() - firstVisibleChar);
-                postDrawCursor.add(new CursorPaintAction(row, centerX, mEventHandler.shouldDrawInsertHandle() ? mInsertHandle : null, true));
+                postDrawCursor.add(new CursorPaintAction(row, centerX, userInput.shouldDrawInsertHandle() ? mInsertHandle : null, true));
             }
 
         }
@@ -1523,7 +1526,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void drawEdgeEffect(Canvas canvas) {
         boolean postDraw = false;
         if (!mVerticalEdgeGlow.isFinished()) {
-            boolean bottom = mEventHandler.view.topOrBottom;
+            boolean bottom = userInput.view.topOrBottom;
             if (bottom) {
                 canvas.save();
                 canvas.translate(-getMeasuredWidth(), getMeasuredHeight());
@@ -1539,7 +1542,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         }
         if (!mHorizontalGlow.isFinished()) {
             canvas.save();
-            boolean right = mEventHandler.view.leftOrRight;
+            boolean right = userInput.view.leftOrRight;
             if (right) {
                 canvas.rotate(90);
                 canvas.translate(0, -getMeasuredWidth());
@@ -1553,12 +1556,12 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         OverScroller scroller = getScroller();
         if (scroller.isOverScrolled()) {
             if (mVerticalEdgeGlow.isFinished() && (scroller.getCurrY() < 0 || scroller.getCurrY() >= getScrollMaxY())) {
-                mEventHandler.view.topOrBottom = scroller.getCurrY() >= getScrollMaxY();
+                userInput.view.topOrBottom = scroller.getCurrY() >= getScrollMaxY();
                 mVerticalEdgeGlow.onAbsorb((int) scroller.getCurrVelocity());
                 postDraw = true;
             }
             if (mHorizontalGlow.isFinished() && (scroller.getCurrX() < 0 || scroller.getCurrX() >= getScrollMaxX())) {
-                mEventHandler.view.leftOrRight = scroller.getCurrX() >= getScrollMaxX();
+                userInput.view.leftOrRight = scroller.getCurrX() >= getScrollMaxX();
                 mHorizontalGlow.onAbsorb((int) scroller.getCurrVelocity());
                 postDraw = true;
             }
@@ -1581,11 +1584,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void drawHandle(Canvas canvas, int row, float centerX, RectF resultRect, int handleType) {
         float radius = mDpUnit * 12;
 
-        if (handleType > -1 && handleType == mEventHandler.getTouchedHandleType()) {
+        if (handleType > -1 && handleType == userInput.getTouchedHandleType()) {
             radius = mDpUnit * 16;
         }
 
-        Log.d("drawHandle", "drawHandle: " + mEventHandler.getTouchedHandleType());
+        Log.d("drawHandle", "drawHandle: " + userInput.getTouchedHandleType());
         float top = getRowBottom(row) - getOffsetY();
         float bottom = top + radius * 2;
         float left = centerX - radius;
@@ -1663,7 +1666,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void drawScrollBars(Canvas canvas) {
         mVerticalScrollBar.setEmpty();
         mHorizontalScrollBar.setEmpty();
-        if (!mEventHandler.model.shouldDrawScrollBar()) {
+        if (!userInput.model.shouldDrawScrollBar()) {
             return;
         }
         if (isVerticalScrollBarEnabled() && getScrollMaxY() > getHeight() / 2) {
@@ -1682,7 +1685,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param canvas Canvas to draw
      */
     private void drawScrollBarTrackVertical(Canvas canvas) {
-        if (mEventHandler.holdVerticalScrollBar()) {
+        if (userInput.holdVerticalScrollBar()) {
             mRect.right = getWidth();
             mRect.left = getWidth() - mDpUnit * 10;
             mRect.top = 0;
@@ -1707,7 +1710,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         } else {
             topY = getOffsetY() / all * getHeight();
         }
-        if (mEventHandler.holdVerticalScrollBar()) {
+        if (userInput.holdVerticalScrollBar()) {
             float centerY = topY + length / 2f;
             drawLineInfoPanel(canvas, centerY, mRect.left - mDpUnit * 5);
         }
@@ -1716,7 +1719,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.top = topY;
         mRect.bottom = topY + length;
         mVerticalScrollBar.set(mRect);
-        drawColor(canvas, mEventHandler.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
+        drawColor(canvas, userInput.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
     }
 
     /**
@@ -1758,7 +1761,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param canvas Canvas to draw
      */
     private void drawScrollBarTrackHorizontal(Canvas canvas) {
-        if (mEventHandler.holdHorizontalScrollBar()) {
+        if (userInput.holdHorizontalScrollBar()) {
             mRect.top = getHeight() - mDpUnit * 10;
             mRect.bottom = getHeight();
             mRect.right = getWidth();
@@ -1782,7 +1785,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.right = leftX + length;
         mRect.left = leftX;
         mHorizontalScrollBar.set(mRect);
-        drawColor(canvas, mEventHandler.holdHorizontalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
+        drawColor(canvas, userInput.holdHorizontalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
     }
 
     /**
@@ -2187,8 +2190,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         } else {
             mLayout = new LineBreak(this, mText);
         }
-        if (mEventHandler != null) {
-            mEventHandler.view.scrollBy(0, 0);
+        if (userInput != null) {
+            userInput.view.scrollBy(0, 0);
         }
     }
 
@@ -2459,7 +2462,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             getScroller().forceFinished(true);
             getScroller().startScroll(getOffsetX(), getOffsetY(), (int) (targetX - getOffsetX()), (int) (targetY - getOffsetY()));
             if (Math.abs(getOffsetY() - targetY) > mDpUnit * 100) {
-                mEventHandler.view.notifyScrolled();
+                userInput.view.notifyScrolled();
             }
         } else {
             getScroller().startScroll(getOffsetX(), getOffsetY(), (int) (targetX - getOffsetX()), (int) (targetY - getOffsetY()), 0);
@@ -2493,7 +2496,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @return The scroller
      */
     public OverScroller getScroller() {
-        return mEventHandler.view.getScroller();
+        return userInput.view.getScroller();
     }
 
     /**
@@ -2635,8 +2638,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (minSize < 2f) {
             throw new IllegalArgumentException("min size must be at least 2px");
         }
-        mEventHandler.view.minSize = minSize;
-        mEventHandler.view.maxSize = maxSize;
+        userInput.view.minSize = minSize;
+        userInput.view.maxSize = maxSize;
     }
 
     /**
@@ -2725,26 +2728,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void setDrag(boolean drag) {
         mDrag = drag;
-        if (drag && !mEventHandler.view.getScroller().isFinished()) {
-            mEventHandler.view.getScroller().forceFinished(true);
+        if (drag && !userInput.view.getScroller().isFinished()) {
+            userInput.view.getScroller().forceFinished(true);
         }
-    }
-
-    /**
-     * @see CodeEditor#setOverScrollEnabled(boolean)
-     */
-    public boolean isOverScrollEnabled() {
-        return mOverScrollEnabled;
-    }
-
-    /**
-     * Whether over scroll is permitted.
-     * When over scroll is enabled, the user will be able to scroll out of displaying
-     * bounds if the user scroll fast enough.
-     * This is implemented by {@link OverScroller#fling(int, int, int, int, int, int, int, int, int, int)}
-     */
-    public void setOverScrollEnabled(boolean overScrollEnabled) {
-        mOverScrollEnabled = overScrollEnabled;
     }
 
     /**
@@ -2834,7 +2820,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     public UserInputView getEventHandler() {
-        return mEventHandler.view;
+        return userInput.view;
     }
 
     /**
@@ -3089,7 +3075,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @return scroll x
      */
     public int getOffsetX() {
-        return mEventHandler.view.getScroller().getCurrX();
+        return userInput.view.getScroller().getCurrX();
     }
 
     /**
@@ -3098,7 +3084,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @return scroll y
      */
     public int getOffsetY() {
-        return mEventHandler.view.getScroller().getCurrY();
+        return userInput.view.getScroller().getCurrY();
     }
 
     /**
@@ -3394,14 +3380,14 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (!lastState && mCursor.isSelected() && mStartedActionMode != ACTION_MODE_SEARCH_TEXT) {
             mTextActionPresenter.onBeginTextSelect();
         }
-        mEventHandler.notifyTouchedSelectionHandlerLater();
+        userInput.notifyTouchedSelectionHandlerLater();
     }
 
     /**
      * Move to next page
      */
     public void movePageDown() {
-        mEventHandler.view.onScroll(null, null, 0, getHeight());
+        userInput.view.onScroll(null, null, 0, getHeight());
         mCompletionWindow.view.hide();
     }
 
@@ -3409,7 +3395,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Move to previous page
      */
     public void movePageUp() {
-        mEventHandler.view.onScroll(null, null, 0, -getHeight());
+        userInput.view.onScroll(null, null, 0, -getHeight());
         mCompletionWindow.view.hide();
     }
 
@@ -3489,7 +3475,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mCursor = mText.getCursor();
         mCursor.setAutoIndent(mAutoIndentEnabled);
         mCursor.setLanguage(mLanguage);
-        mEventHandler.view.reset();
+        userInput.view.reset();
         mText.addContentListener(this);
         mText.setUndoEnabled(mUndoEnabled);
         mText.setLineListener(this);
@@ -3749,14 +3735,14 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             Logger.debug("Touches are not enabled");
             return false;
         }
-        boolean handlingBefore = mEventHandler.handlingMotions();
-        boolean res = mEventHandler.onTouchEvent(event);
-        boolean handling = mEventHandler.handlingMotions();
+        boolean handlingBefore = userInput.handlingMotions();
+        boolean res = userInput.onTouchEvent(event);
+        boolean handling = userInput.handlingMotions();
         boolean res2 = false;
         boolean res3 = false;
         if (!handling && !handlingBefore) {
-            res2 = mEventHandler.view.mBasicDetector.onTouchEvent(event);
-            res3 = mEventHandler.view.mScaleDetector.onTouchEvent(event);
+            res2 = userInput.view.mBasicDetector.onTouchEvent(event);
+            res3 = userInput.view.mScaleDetector.onTouchEvent(event);
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
             mVerticalEdgeGlow.onRelease();
@@ -3957,7 +3943,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (event.getAction() == MotionEvent.ACTION_SCROLL) {
             float v_scroll = -event.getAxisValue(MotionEvent.AXIS_VSCROLL);
             if (v_scroll != 0) {
-                mEventHandler.view.onScroll(event, event, 0, v_scroll * 20);
+                userInput.view.onScroll(event, event, 0, v_scroll * 20);
             }
             return true;
         }
@@ -3976,7 +3962,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (isWordwrap() && w != oldWidth) {
             createLayout();
         } else {
-            mEventHandler.view.scrollBy(getOffsetX() > getScrollMaxX() ? getScrollMaxX() - getOffsetX() : 0, getOffsetY() > getScrollMaxY() ? getScrollMaxY() - getOffsetY() : 0);
+            userInput.view.scrollBy(getOffsetX() > getScrollMaxX() ? getScrollMaxX() - getOffsetX() : 0, getOffsetY() > getScrollMaxY() ? getScrollMaxY() - getOffsetY() : 0);
         }
     }
 
@@ -3997,7 +3983,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
     @Override
     public void computeScroll() {
-        if (mEventHandler.view.getScroller().computeScrollOffset()) {
+        if (userInput.view.getScroller().computeScrollOffset()) {
             invalidate();
         }
         super.computeScroll();
@@ -4065,7 +4051,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         ensureSelectionVisible();
         // Notify to update highlight
         analyzer.analyze(mText);
-        mEventHandler.hideInsertHandle();
+        userInput.hideInsertHandle();
         // Notify listener
         if (mListener != null) {
             mListener.afterInsert(this, mText, startLine, startColumn, endLine, endColumn, insertedContent);
@@ -4110,7 +4096,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             updateCursorAnchor();
             ensureSelectionVisible();
             analyzer.analyze(mText);
-            mEventHandler.hideInsertHandle();
+            userInput.hideInsertHandle();
         }
         if (mListener != null) {
             mListener.afterDelete(this, mText, startLine, startColumn, endLine, endColumn, deletedContent);

@@ -367,8 +367,8 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
                 editor.getScrollMaxX(),
                 0,
                 editor.getScrollMaxY(),
-                editor.isOverScrollEnabled() && !editor.isWordwrap() ? (int) (20 * editor.getDpUnit()) : 0,
-                editor.isOverScrollEnabled() ? (int) (20 * editor.getDpUnit()) : 0);
+                editor.userInput.isOverScrollEnabled() && !editor.isWordwrap() ? (int) (20 * editor.getDpUnit()) : 0,
+                editor.userInput.isOverScrollEnabled() ? (int) (20 * editor.getDpUnit()) : 0);
         editor.invalidate();
         float minVe = editor.getDpUnit() * 2000;
         if (Math.abs(velocityX) >= minVe || Math.abs(velocityY) >= minVe) {

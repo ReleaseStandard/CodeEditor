@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.mvc.controller;
 import android.content.Context;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+import android.widget.OverScroller;
 
 import io.github.rosemoe.editor.mvc.model.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.UserInputView;
@@ -89,6 +90,7 @@ public final class UserInputController {
                 return false;
             }
         };
+        setOverScrollEnabled(true);
     }
 
     /**
@@ -138,7 +140,31 @@ public final class UserInputController {
         return (System.currentTimeMillis() - model.mLastSetSelection < HIDE_DELAY || model.mHoldingInsertHandle) && view.checkActionWindow();
     }
 
+    /**
+     * @see #setOverScrollEnabled(boolean)
+     */
+    public boolean isOverScrollEnabled() {
+        return model.mOverScrollEnabled;
+    }
 
+    /**
+     * Whether over scroll is permitted.
+     * When over scroll is enabled, the user will be able to scroll out of displaying
+     * bounds if the user scroll fast enough.
+     * This is implemented by {@link OverScroller#fling(int, int, int, int, int, int, int, int, int, int)}
+     */
+    public void setOverScrollEnabled(boolean overScrollEnabled) {
+        model.mOverScrollEnabled = overScrollEnabled;
+    }
+
+    /**
+     * Whether display vertical scroll bar when scrolling
+     *
+     * @param enabled Enabled / disabled
+     */
+    public void setScrollBarEnabled(boolean enabled) {
+        model.mVerticalScrollBarEnabled = model.mHorizontalScrollBarEnabled = enabled;
+    }
 
     /**
      * Notify the editor later to resize touched selection handle to normal size
