@@ -23,6 +23,7 @@ import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.model.widget.layout.WordwrapModel;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -194,8 +195,15 @@ public class WordwrapLayout extends AbstractLayout {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            WordwrapModel.RowRegion currentRegion = model.rowTable.get(currentRow);
-            WordwrapModel.RowRegion previousRegion = model.rowTable.get(currentRow - 1);
+            int index = currentRow;
+            WordwrapModel.RowRegion currentRegion = null;
+            if ( index >= 0 && index < model.rowTable.size()) {
+                currentRegion = model.rowTable.get(currentRow);
+            } else { Logger.debug("Warning : cannot get current region index=",index,",rowTableSize=",model.rowTable.size()); }
+            WordwrapModel.RowRegion previousRegion = null;
+            if ( index-1 >= 0 && index-1 < model.rowTable.size() ) {
+                previousRegion = model.rowTable.get(currentRow - 1);
+            } else { Logger.debug("Warning : cannot get previous region index=",index-1,",rowTableSize=",model.rowTable.size()); }
             row.initFromRegion(currentRegion,previousRegion,currentRow);
             currentRow++;
             return row;
