@@ -37,7 +37,9 @@ options {
 
 start                : file ;
 file                 : expr EOF ;
-expr                 : ( ( arit | execution_control | instruction ) expression_end | comment | TERMINATOR+ ) expr? ;
+expr                 : ( ( ( arit | execution_control | instruction ) expression_end ) 
+				| comment 
+				| TERMINATOR+ ) expr? ;
 instruction          : ( primary_keyword | secondary_keyword ) ;
 expression_end       : P_SEMI | TERMINATOR ; 
 comment              : LINE_COMMENT ;
@@ -68,5 +70,7 @@ a_operator_unary     : ;
 
 
 
+assignment           : identifier ARIT_A string ; 
 
-
+// builtins parsing
+exec                 : EXEC expr | BACK_TICK expr BACK_TICK;

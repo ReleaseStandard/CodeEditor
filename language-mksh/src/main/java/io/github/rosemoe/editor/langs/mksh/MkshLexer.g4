@@ -135,6 +135,7 @@ P_L_BRACKET               : '{';
 P_R_BRACKET               : '}';
 P_L_PARENTHESIS           : '(';
 P_R_PARENTHESIS           : ')';
+BACK_TICK                 : '`';
 
 
 // operators

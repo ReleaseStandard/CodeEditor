@@ -39,6 +39,15 @@ import static io.github.rosemoe.editor.langs.mksh.MkshParser.*;
  */
 public class MkshAnalyzer extends CodeAnalyzerController {
 
+    public void processKeywords(Object ...nodes) {
+        processNodes(theme.accent3,nodes);
+    }
+    public void processFunctionIdentifier(Object ...nodes) {
+        processNodes(0xFF00FF00,nodes);
+    }
+    public void processPunctuation(Object ...nodes) {
+        processNodes(theme.accent3,nodes);
+    }
     @Override
     public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
@@ -63,9 +72,6 @@ public class MkshAnalyzer extends CodeAnalyzerController {
                     case COMMAND: case ECHO: case FALSE: case TRUE: case FC: case FG: case GETOPTS: case JOBS:
                     case KILL: case LET: case MKNOD: case PRINT: case PWD: case READ: case REALPATH: case RENAME:
                     case SLEEP: case SUSPEND: case TEST: case ULIMIT: case UMASK: case UNALIAS: case WHENCE:
-                    // primary keywords
-                    case CASE: case ELSE: case FUNCTION: case THEN: case DO: case ESAC: case IF: case TIME:
-                    case DONE: case FI: case IN: case UNTIL: case ELIF: case FOR: case SELECT: case WHILE:
                         processNode(theme.accent3,token);
                         break;
                     case LINE_COMMENT:
@@ -75,6 +81,25 @@ public class MkshAnalyzer extends CodeAnalyzerController {
                 }
             }
 
+            // This should normally all primary keywords.
+            @Override public void enterFor_do_done(For_do_doneContext ctx) { processKeywords(ctx.DO(),ctx.DONE(),ctx.IN(),ctx.FOR()); }
+            @Override public void enterIf_then_else(If_then_elseContext ctx) { processKeywords(ctx.IF(),ctx.ELSE(),ctx.FI()); processKeywords(ctx.THEN()); processKeywords(ctx.ELIF()); }
+            @Override public void enterSelect_in(Select_inContext ctx) { processKeywords(ctx.DO(),ctx.SELECT(),ctx.DONE(),ctx.IN()); }
+            @Override public void enterUntil_do(Until_doContext ctx) { processKeywords(ctx.UNTIL(), ctx.DO(), ctx.DONE()); }
+            @Override public void enterWhile_do(While_doContext ctx) { processKeywords(ctx.DONE(),ctx.DO(),ctx.WHILE()); }
+            @Override public void enterFunction(FunctionContext ctx) {
+                processKeywords(ctx.FUNCTION(),ctx.P_R_BRACKET(),ctx.P_L_BRACKET());
+                processFunctionIdentifier(ctx.identifier());
+                processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
+            }
+            // arithmetic expression
+            @Override public void enterArit(AritContext ctx) { processKeywords(ctx.ARIT_OPERATOR_L(),ctx.ARIT_OPERATOR_R(),ctx.LET()); }
+            @Override public void enterExpression_end(Expression_endContext ctx) { processPunctuation(ctx.P_SEMI()); }
+
+            @Override
+            public void enterIdentifier(IdentifierContext ctx) {
+                processNodes(theme.accent1, ctx.IDENTIFIER());
+            }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.start());
     }

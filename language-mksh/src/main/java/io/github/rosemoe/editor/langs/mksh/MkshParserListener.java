@@ -237,4 +237,24 @@ public interface MkshParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitA_operator_unary(MkshParser.A_operator_unaryContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(MkshParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(MkshParser.AssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#exec}.
+	 * @param ctx the parse tree
+	 */
+	void enterExec(MkshParser.ExecContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#exec}.
+	 * @param ctx the parse tree
+	 */
+	void exitExec(MkshParser.ExecContext ctx);
 }

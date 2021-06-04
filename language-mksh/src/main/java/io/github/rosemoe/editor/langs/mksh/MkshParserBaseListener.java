@@ -287,6 +287,30 @@ public class MkshParserBaseListener implements MkshParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitA_operator_unary(MkshParser.A_operator_unaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssignment(MkshParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignment(MkshParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExec(MkshParser.ExecContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExec(MkshParser.ExecContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
