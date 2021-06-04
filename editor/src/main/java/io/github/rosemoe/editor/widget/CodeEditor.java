@@ -76,7 +76,7 @@ import io.github.rosemoe.editor.mvc.controller.widget.searcher.SearcherControlle
 import io.github.rosemoe.editor.mvc.controller.widget.contextaction.ContextActionController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
-import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
+import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapLayout;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.view.MaterialEdgeEffect;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
@@ -101,7 +101,7 @@ import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.Layout;
-import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreak;
+import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreakLayout;
 
 /**
  * CodeEditor is a editor that can highlight text regions by doing basic syntax analyzing
@@ -2144,9 +2144,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         }
         if (mWordwrap) {
             mCachedLineNumberWidth = (int) measureLineNumber();
-            mLayout = new WordwrapController(this, mText);
+            mLayout = new WordwrapLayout(this, mText);
         } else {
-            mLayout = new LineBreak(this, mText);
+            mLayout = new LineBreakLayout(this, mText);
         }
         if (userInput != null) {
             userInput.view.scrollBy(0, 0);

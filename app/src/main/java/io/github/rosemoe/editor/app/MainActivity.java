@@ -15,7 +15,9 @@
  */
 package io.github.rosemoe.editor.app;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -206,9 +209,11 @@ public class MainActivity extends AppCompatActivity {
                     search.setText("");
                     editor.getSearcher().stopSearch();
                     panel.setVisibility(View.VISIBLE);
+                    item.setChecked(true);
                 } else {
                     panel.setVisibility(View.GONE);
                     editor.getSearcher().stopSearch();
+                    item.setChecked(false);
                 }
                 break;
             case R.id.search_am:

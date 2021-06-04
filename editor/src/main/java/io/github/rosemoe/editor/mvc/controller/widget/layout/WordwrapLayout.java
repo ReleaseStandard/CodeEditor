@@ -35,22 +35,22 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  *
  * @author Rose
  */
-public class WordwrapController extends AbstractLayout {
+public class WordwrapLayout extends AbstractLayout {
 
 
     public final WordwrapModel model;
 
-    public WordwrapController(CodeEditor editor, ContentMapController text) {
+    public WordwrapLayout(CodeEditor editor, ContentMapController text) {
         super(editor, text);
         model = new WordwrapModel() {
             @Override
             public int measureText(int line, int startColumn, int column) {
-                return (int) WordwrapController.this.measureText(text.getLine(line), startColumn, column);
+                return (int) WordwrapLayout.this.measureText(text.getLine(line), startColumn, column);
             }
 
             @Override
             public int orderedFindCharIndex(float xOffset, int line, int startColumn, int endColumn) {
-                return (int) WordwrapController.this.orderedFindCharIndex(xOffset, text.getLine(line), startColumn, endColumn)[0];
+                return (int) WordwrapLayout.this.orderedFindCharIndex(xOffset, text.getLine(line), startColumn, endColumn)[0];
 
             }
             @Override
