@@ -17,6 +17,7 @@ package io.github.rosemoe.editor.mvc.controller;
 
 /**
  * This class provide a plugin system for CodeEditor.
+ * Each widget can provide custom xml attributes and colors for the color widget.
  */
 public class WidgetController {
     public boolean enabled = true;
