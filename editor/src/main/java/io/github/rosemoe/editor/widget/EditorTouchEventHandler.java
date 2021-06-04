@@ -38,7 +38,6 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
     private final static int SELECTION_HANDLE_RESIZE_DELAY = 10;
     private final static int HIDE_DELAY_HANDLE = 5000;
     private static final long INTERACTION_END_DELAY = 100;
-    private static final String TAG = "EditorTouchEventHandler";
     private final CodeEditor mEditor;
     private final OverScroller mScroller;
     protected boolean topOrBottom; //true for bottom
