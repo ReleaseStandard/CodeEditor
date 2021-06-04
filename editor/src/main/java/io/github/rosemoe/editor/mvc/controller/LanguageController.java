@@ -62,7 +62,7 @@ public abstract class LanguageController {
     /**
      * Get advance for indent
      *
-     * @param content ContentController of a line
+     * @param content ContentMapController of a line
      * @return Advance space count
      */
     public int getIndentAdvance(String content) {
@@ -81,7 +81,7 @@ public abstract class LanguageController {
     /**
      * Format the given content
      *
-     * @param text ContentController to format
+     * @param text ContentMapController to format
      * @return Formatted code
      */
     public CharSequence format(CharSequence text) {

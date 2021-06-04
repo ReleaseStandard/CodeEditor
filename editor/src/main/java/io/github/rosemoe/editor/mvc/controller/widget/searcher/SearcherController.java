@@ -15,9 +15,9 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widget.searcher;
 
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.searcher.SearcherModel;
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.mvc.view.widget.searcher.SearcherView;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
@@ -51,7 +51,7 @@ public class SearcherController {
     @SuppressWarnings("UnusedReturnValue")
     public boolean replaceThis(String newText) {
         checkState();
-        ContentController text = view.editor.getText();
+        ContentMapController text = view.editor.getText();
         CursorController cursor = text.getCursor();
         if (cursor.isSelected()) {
             String selectedText = text.subContent(cursor.getLeftLine(), cursor.getLeftColumn(), cursor.getRightLine(), cursor.getRightColumn()).toString();

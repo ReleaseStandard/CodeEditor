@@ -86,7 +86,7 @@ import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.mvc.view.UserInputView;
@@ -209,7 +209,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private RectF mInsertHandle;
     private ClipboardManager mClipboardManager;
     private InputMethodManager mInputMethodManager;
-    private ContentController mText;
+    private ContentMapController mText;
     private TextAnalyzerController analyzer;
 
     UserInputConnexionController mConnection;         // Manage other part of the user input, eg copy, paste
@@ -1179,7 +1179,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
                     Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color);
                     // We ignore the span if it begins in the invisible zone
-                    if ( colStart < firstVisibleChar || colStop > lastVisibleChar) { continue; }
+                    if ( colStop < firstVisibleChar || colStart > lastVisibleChar) { continue; }
                     drawRegionText(canvas,paintingOffset,
                              getRowBaseline(row) - getOffsetY(),line,
                             colStart,
@@ -3400,7 +3400,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @see CodeEditor#setText(CharSequence)
      */
     @NonNull
-    public ContentController getText() {
+    public ContentMapController getText() {
         return mText;
     }
 
@@ -3418,7 +3418,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             mText.removeContentListener(this);
             mText.setLineListener(null);
         }
-        mText = new ContentController(text,this);
+        mText = new ContentMapController(text,this);
         cursor = mText.getCursor();
         cursor.setAutoIndent(mAutoIndentEnabled);
         cursor.setLanguage(mLanguage);
@@ -3687,8 +3687,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         boolean res2 = false;
         boolean res3 = false;
         if (!handling && !handlingBefore) {
-            res2 = userInput.view.mBasicDetector.onTouchEvent(event);
-            res3 = userInput.view.mScaleDetector.onTouchEvent(event);
+            res2 = userInput.view.gestureDetector.onTouchEvent(event);
+            res3 = userInput.view.scaleDetector.onTouchEvent(event);
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
             mVerticalEdgeGlow.onRelease();
@@ -3936,7 +3936,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     @Override
-    public void beforeReplace(ContentController content) {
+    public void beforeReplace(ContentMapController content) {
         mWait = true;
         mLayout.beforeReplace(content);
         if (mListener != null) {
@@ -3945,7 +3945,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     @Override
-    public void afterInsert(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
+    public void afterInsert(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
@@ -4005,7 +4005,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     @Override
-    public void afterDelete(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
+    public void afterDelete(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
                 Updater.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
@@ -4058,7 +4058,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     @Override
-    public void onRemove(ContentController content, ContentLineController line) {
+    public void onRemove(ContentMapController content, ContentLineController line) {
         mLayout.onRemove(content, line);
     }
 

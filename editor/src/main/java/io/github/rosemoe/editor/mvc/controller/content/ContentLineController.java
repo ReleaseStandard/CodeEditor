@@ -19,11 +19,10 @@ import android.text.GetChars;
 import android.text.TextUtils;
 
 import io.github.rosemoe.editor.mvc.model.content.ContentLineModel;
-import io.github.rosemoe.editor.mvc.model.content.ContentModel;
 import io.github.rosemoe.editor.mvc.view.content.ContentLineView;
 
 /**
- * One line of content in the ContentController.
+ * One line of content in the ContentMapController.
  */
 public class ContentLineController implements CharSequence, GetChars {
 

@@ -15,5 +15,5 @@
  */
 package io.github.rosemoe.editor.mvc.view.content;
 
-public class ContentView {
+public class ContentMapView {
 }

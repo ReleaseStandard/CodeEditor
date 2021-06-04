@@ -23,7 +23,7 @@ import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.util.Logger;
@@ -48,7 +48,7 @@ public class UserInputConnexionView extends BaseInputConnection {
     public synchronized void closeConnection() {
         //Logs.log("close connection");
         super.closeConnection();
-        ContentController content = editor.getText();
+        ContentMapController content = editor.getText();
         while (content.isInBatchEdit()) {
             content.endBatchEdit();
         }
@@ -58,7 +58,7 @@ public class UserInputConnexionView extends BaseInputConnection {
 
     /**
      * Private use.
-     * Get the CursorController of ContentController displaying by Editor
+     * Get the CursorController of ContentMapController displaying by Editor
      *
      * @return CursorController
      */
@@ -88,7 +88,7 @@ public class UserInputConnexionView extends BaseInputConnection {
     public CharSequence handleGetTextBeforeCursor(int length, int flags, int start) { return ""; }
     @Override
     public CharSequence getTextBeforeCursor(int length, int flags) {
-        //Logs.log("getTextBeforeCursor()");
+        Logger.debug("length=",length,",flags=",flags);
         int start = getCursor().getLeft();
         return handleSelectedText(length,flags,start);
     }
@@ -96,7 +96,7 @@ public class UserInputConnexionView extends BaseInputConnection {
     public CharSequence handleGetTextAfterCursor(int length, int flags, int end) { return "" ;}
     @Override
     public CharSequence getTextAfterCursor(int length, int flags) {
-        //Logs.log("getTextAfterCursor()");
+        Logger.debug("length=",length,",flags=",flags);
         int end = getCursor().getRight();
         return handleGetTextAfterCursor(length,flags,end);
     }
@@ -185,7 +185,7 @@ public class UserInputConnexionView extends BaseInputConnection {
             end = tmp;
         }
         editor.getAutoCompleteWindow().view.hide();
-        ContentController content = editor.getText();
+        ContentMapController content = editor.getText();
         CharPosition startPos = content.getIndexer().getCharPosition(start);
         CharPosition endPos = content.getIndexer().getCharPosition(end);
         editor.setSelectionRegion(startPos.line, startPos.column, endPos.line, endPos.column, false);
@@ -219,7 +219,7 @@ public class UserInputConnexionView extends BaseInputConnection {
             if (start < 0) {
                 start = 0;
             }
-            ContentController content = editor.getText();
+            ContentMapController content = editor.getText();
             if (end > content.length()) {
                 end = content.length();
             }

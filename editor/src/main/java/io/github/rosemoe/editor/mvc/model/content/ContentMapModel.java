@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.mvc.model.content;
 
 import io.github.rosemoe.editor.util.annotations.Experimental;
 
-public class ContentModel {
+public class ContentMapModel {
     public int textLength;
     public int nestedBatchEdit;
 
@@ -40,7 +40,7 @@ public class ContentModel {
      * @return Default capacity
      */
     public static int getInitialLineCapacity() {
-        return ContentModel.sInitialListCapacity;
+        return ContentMapModel.sInitialListCapacity;
     }
 
     /**
@@ -52,6 +52,6 @@ public class ContentModel {
         if (capacity <= 0) {
             throw new IllegalArgumentException("capacity can not be negative or zero");
         }
-        ContentModel.sInitialListCapacity = capacity;
+        ContentMapModel.sInitialListCapacity = capacity;
     }
 }

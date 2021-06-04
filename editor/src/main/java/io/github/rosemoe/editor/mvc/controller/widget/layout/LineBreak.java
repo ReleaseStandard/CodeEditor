@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.widget.layout;
 import java.util.NoSuchElementException;
 
 import io.github.rosemoe.editor.mvc.controller.RowController;
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.util.BinaryHeap;
 import io.github.rosemoe.editor.util.IntPair;
@@ -35,7 +35,7 @@ public class LineBreak extends AbstractLayout {
 
     private BinaryHeap widthMaintainer;
 
-    public LineBreak(CodeEditor editor, ContentController text) {
+    public LineBreak(CodeEditor editor, ContentMapController text) {
         super(editor, text);
         measureAllLines();
     }
@@ -82,22 +82,22 @@ public class LineBreak extends AbstractLayout {
     }
 
     @Override
-    public void beforeReplace(ContentController content) {
+    public void beforeReplace(ContentMapController content) {
         // Intentionally empty
     }
 
     @Override
-    public void afterInsert(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
+    public void afterInsert(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
         measureLines(startLine, endLine);
     }
 
     @Override
-    public void afterDelete(ContentController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
+    public void afterDelete(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         measureLines(startLine, startLine);
     }
 
     @Override
-    public void onRemove(ContentController content, ContentLineController line) {
+    public void onRemove(ContentMapController content, ContentLineController line) {
         widthMaintainer.remove(line.getId());
     }
 

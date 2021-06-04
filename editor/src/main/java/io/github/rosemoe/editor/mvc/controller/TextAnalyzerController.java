@@ -19,11 +19,11 @@ import android.util.Log;
 
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.processor.spanmap.Recycler;
 
 /**
@@ -95,7 +95,7 @@ public class TextAnalyzerController {
      *
      * @param origin The source text
      */
-    public synchronized void analyze(ContentController origin) {
+    public synchronized void analyze(ContentMapController origin) {
         AnalyzeThread thread = this.mThread;
         if (thread == null || !thread.isAlive()) {
             Log.d("TextAnalyzerView", "Starting a new thread for analyzing");
@@ -129,7 +129,7 @@ public class TextAnalyzerController {
 
         /**
          * Called when analyze result is available
-         * Count of calling this method is not always equal to the count you call {@link TextAnalyzerController#analyze(ContentController)}
+         * Count of calling this method is not always equal to the count you call {@link TextAnalyzerController#analyze(ContentMapController)}
          *
          * @param analyzer Host TextAnalyzerView
          */
@@ -176,15 +176,15 @@ public class TextAnalyzerController {
         private final CodeAnalyzerController codeAnalyzer;
         private final Object lock;
         private volatile boolean waiting = false;
-        private ContentController content;
+        private ContentMapController content;
 
         /**
          * Create a new thread
          *
          * @param a       The CodeAnalyzerController to call
-         * @param content The ContentController to analyze
+         * @param content The ContentMapController to analyze
          */
-        public AnalyzeThread(Object lock, CodeAnalyzerController a, ContentController content) {
+        public AnalyzeThread(Object lock, CodeAnalyzerController a, ContentMapController content) {
             this.lock = lock;
             codeAnalyzer = a;
             this.content = content;
@@ -240,7 +240,7 @@ public class TextAnalyzerController {
          *
          * @param content New source
          */
-        public synchronized void restartWith(ContentController content) {
+        public synchronized void restartWith(ContentMapController content) {
             waiting = true;
             this.content = content;
         }

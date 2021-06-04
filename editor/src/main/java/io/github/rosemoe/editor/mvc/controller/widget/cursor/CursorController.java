@@ -21,7 +21,7 @@ import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorModel;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -34,7 +34,7 @@ public final class CursorController {
      * The default cursor blinking period
      */
     public static final int DEFAULT_CURSOR_BLINK_PERIOD = 500;
-    private final ContentController mContent;
+    private final ContentMapController mContent;
     private final CachedIndexer mIndexer;
     private LanguageController mLanguage;
     public CursorModel model = new CursorModel();
@@ -42,11 +42,11 @@ public final class CursorController {
     public CursorBlinkController cursorBlink;        // Manage cursor blink effect
     public final CodeEditor editor;
     /**
-     * Create a new CursorController for ContentController
+     * Create a new CursorController for ContentMapController
      *
      * @param content Target content
      */
-    public CursorController(ContentController content, CodeEditor editor) {
+    public CursorController(ContentMapController content, CodeEditor editor) {
         mContent = content;
         mIndexer = new CachedIndexer(content);
         view     = new CursorView();

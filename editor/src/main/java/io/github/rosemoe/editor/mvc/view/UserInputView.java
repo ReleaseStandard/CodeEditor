@@ -46,8 +46,8 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
     public float minSize;
     public MotionEvent mThumb;
     public int mEdgeFlags;
-    public GestureDetector mBasicDetector;
-    public ScaleGestureDetector mScaleDetector;
+    public GestureDetector gestureDetector;
+    public ScaleGestureDetector scaleDetector;
 
     public RectF mVerticalScrollBar;
     public RectF mHorizontalScrollBar;
@@ -57,9 +57,9 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
         mScroller = new OverScroller(editor.getContext());
         maxSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 32, Resources.getSystem().getDisplayMetrics());
         minSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 6, Resources.getSystem().getDisplayMetrics());
-        mBasicDetector = new GestureDetector(ctx, this);
-        mBasicDetector.setOnDoubleTapListener(this);
-        mScaleDetector = new ScaleGestureDetector(ctx, this);
+        gestureDetector = new GestureDetector(ctx, this);
+        gestureDetector.setOnDoubleTapListener(this);
+        scaleDetector = new ScaleGestureDetector(ctx, this);
         mVerticalScrollBar = new RectF();
         mHorizontalScrollBar = new RectF();
     }
@@ -259,8 +259,17 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
     public boolean topOrBottom; //true for bottom
     public boolean leftOrRight; //true for right
 
+    /**
+     * This method is responsible for update the contentmap as well as the spanmap when user is scrolling the screen.
+     * @param e1
+     * @param e2
+     * @param distanceX
+     * @param distanceY
+     * @return
+     */
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        Logger.debug("scroll event");
         if (editor.getTextActionPresenter() instanceof TextActionPopupWindow) {
             editor.getTextActionPresenter().onUpdate(TextActionPopupWindow.SCROLL);
         } else {
@@ -272,6 +281,9 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
         endY = Math.max(endY, 0);
         endY = Math.min(endY, editor.getScrollMaxY());
         endX = Math.min(endX, editor.getScrollMaxX());
+
+        Logger.debug("endX=",endX,",endY=",endY,",distanceX=",distanceX,",distanceY=",distanceY);
+
         boolean notifyY = true;
         boolean notifyX = true;
         if (!editor.getVerticalEdgeEffect().isFinished() && !editor.getVerticalEdgeEffect().isRecede()) {

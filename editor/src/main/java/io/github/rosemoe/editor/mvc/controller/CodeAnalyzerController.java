@@ -21,7 +21,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -45,7 +45,7 @@ public abstract class CodeAnalyzerController {
      * @param content  The input text
      * @param colors   Result dest
      * @param delegate Delegate between thread and analyzer
-     * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController#analyze(ContentController)
+     * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController#analyze(ContentMapController)
      * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate#shouldAnalyze()
      */
     public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {

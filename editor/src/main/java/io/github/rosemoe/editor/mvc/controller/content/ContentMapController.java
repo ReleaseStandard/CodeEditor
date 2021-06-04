@@ -20,12 +20,13 @@ import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.mvc.model.content.ContentModel;
-import io.github.rosemoe.editor.mvc.view.content.ContentView;
+import io.github.rosemoe.editor.mvc.model.content.ContentMapModel;
+import io.github.rosemoe.editor.mvc.view.content.ContentMapView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.processor.content.indexer.Indexer;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 import io.github.rosemoe.editor.processor.content.indexer.NoCacheIndexer;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.struct.BlockLinkedList;
 
@@ -34,16 +35,16 @@ import io.github.rosemoe.struct.BlockLinkedList;
  *
  * @author Rose
  */
-public class ContentController implements CharSequence {
+public class ContentMapController implements CharSequence {
 
-    public ContentModel model = new ContentModel();
-    public ContentView  view   = new ContentView();
+    public ContentMapModel model = new ContentMapModel();
+    public ContentMapView view   = new ContentMapView();
 
     public final static int DEFAULT_MAX_UNDO_STACK_SIZE = 100;
     public final static int DEFAULT_LIST_CAPACITY = 1000;
 
     static {
-        ContentModel.setInitialLineCapacity(DEFAULT_LIST_CAPACITY);
+        ContentMapModel.setInitialLineCapacity(DEFAULT_LIST_CAPACITY);
     }
 
     private List<ContentLineController> lines;
@@ -56,19 +57,19 @@ public class ContentController implements CharSequence {
     private final CodeEditor editor;
 
     /**
-     * This constructor will create a ContentController object with no text
+     * This constructor will create a ContentMapController object with no text
      */
-    public ContentController() {
+    public ContentMapController() {
         this(null,null);
     }
 
     /**
-     * This constructor will create a ContentController object with the given source
-     * If you give us null,it will just create a empty ContentController object
+     * This constructor will create a ContentMapController object with the given source
+     * If you give us null,it will just create a empty ContentMapController object
      *
-     * @param src The source of ContentController
+     * @param src The source of ContentMapController
      */
-    public ContentController(CharSequence src, CodeEditor editor) {
+    public ContentMapController(CharSequence src, CodeEditor editor) {
         this.editor = editor;
         if (src == null) {
             src = "";
@@ -82,7 +83,7 @@ public class ContentController implements CharSequence {
         lines.add(new ContentLineController());
         mListeners = new ArrayList<>();
         contentManager = new ContentManagerController(this);
-        setMaxUndoStackSize(ContentController.DEFAULT_MAX_UNDO_STACK_SIZE);
+        setMaxUndoStackSize(ContentMapController.DEFAULT_MAX_UNDO_STACK_SIZE);
         indexer = new NoCacheIndexer(this);
         if (src.length() == 0) {
             setUndoEnabled(true);
@@ -166,7 +167,7 @@ public class ContentController implements CharSequence {
      * The result is not expected to be modified
      *
      * @param line Line
-     * @return Raw ContentLineController used by ContentController
+     * @return Raw ContentLineController used by ContentMapController
      */
     public ContentLineController getLine(int line) {
         return lines.get(line);
@@ -371,7 +372,7 @@ public class ContentController implements CharSequence {
 
     /**
      * Replace the text in the given region
-     * This action will completed by calling {@link ContentController#delete(int, int, int, int)} and {@link ContentController#insert(int, int, CharSequence)}
+     * This action will completed by calling {@link ContentMapController#delete(int, int, int, int)} and {@link ContentMapController#insert(int, int, CharSequence)}
      *
      * @param startLine         The start line position
      * @param columnOnStartLine The start column position
@@ -390,7 +391,7 @@ public class ContentController implements CharSequence {
 
     /**
      * When you are going to use {@link CharSequence#charAt(int)} frequently,you are required to call
-     * this method.Because the way ContentController save text,it is usually slow to transform index to
+     * this method.Because the way ContentMapController save text,it is usually slow to transform index to
      * (line,column) from the start of text when the text is big.
      * By calling this method,you will be able to get faster because calling this will
      * cause the ITextContent object use a Indexer with cache.
@@ -519,7 +520,7 @@ public class ContentController implements CharSequence {
     }
 
     /**
-     * Add a new {@link ContentListener} to the ContentController
+     * Add a new {@link ContentListener} to the ContentMapController
      *
      * @param listener The listener to add
      */
@@ -536,7 +537,7 @@ public class ContentController implements CharSequence {
     }
 
     /**
-     * Remove the given listener of this ContentController
+     * Remove the given listener of this ContentMapController
      *
      * @param listener The listener to remove
      */
@@ -566,10 +567,11 @@ public class ContentController implements CharSequence {
      * @param startColumn The start column position
      * @param endLine     The end line position
      * @param endColumn   The end column position
-     * @return sub sequence of this ContentController
+     * @return sub sequence of this ContentMapController
      */
-    public ContentController subContent(int startLine, int startColumn, int endLine, int endColumn) {
-        ContentController c = new ContentController();
+    public ContentMapController subContent(int startLine, int startColumn, int endLine, int endColumn) {
+        Logger.debug("w : startLine=",startLine,",startColumn=",startColumn,",endLine=",endLine,",endColumn=",endColumn);
+        ContentMapController c = new ContentMapController();
         c.setUndoEnabled(false);
         if (startLine == endLine) {
             c.insert(0, 0, lines.get(startLine).subSequence(startColumn, endColumn));
@@ -591,8 +593,8 @@ public class ContentController implements CharSequence {
 
     @Override
     public boolean equals(Object anotherObject) {
-        if (anotherObject instanceof ContentController) {
-            ContentController content = (ContentController) anotherObject;
+        if (anotherObject instanceof ContentMapController) {
+            ContentMapController content = (ContentMapController) anotherObject;
             if (content.getLineCount() != this.getLineCount()) {
                 return false;
             }
@@ -627,7 +629,7 @@ public class ContentController implements CharSequence {
      * Used by TextColorProvider
      * This can improve the speed in char getting for tokenizing
      *
-     * @return StringBuilder form of ContentController
+     * @return StringBuilder form of ContentMapController
      */
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();

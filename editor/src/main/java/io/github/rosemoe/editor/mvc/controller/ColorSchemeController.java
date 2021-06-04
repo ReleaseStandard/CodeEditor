@@ -48,7 +48,7 @@ public class ColorSchemeController {
     // Background tone
     public int base03 = DEFAULT;
     public int base02 = DEFAULT;
-    // ContentController tone
+    // ContentMapController tone
     public int base01 = DEFAULT;
     public int base00 = DEFAULT; // textNormal, textSelected
     public int base0 = DEFAULT;

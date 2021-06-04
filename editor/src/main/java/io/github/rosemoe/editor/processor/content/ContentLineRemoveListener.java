@@ -15,22 +15,22 @@
  */
 package io.github.rosemoe.editor.processor.content;
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 
 /**
- * A listener to know when a ContentLineController object is removed from ContentController object
+ * A listener to know when a ContentLineController object is removed from ContentMapController object
  *
  * @author Rose
  */
 public interface ContentLineRemoveListener {
 
     /**
-     * When a ContentLineController is removed from ContentController, this method is called
+     * When a ContentLineController is removed from ContentMapController, this method is called
      *
-     * @param content Caller ContentController
+     * @param content Caller ContentMapController
      * @param line    ContentLineController object removed
      */
-    void onRemove(ContentController content, ContentLineController line);
+    void onRemove(ContentMapController content, ContentLineController line);
 
 }

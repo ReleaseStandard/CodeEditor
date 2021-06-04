@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.processor;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.mvc.controller.content.ContentController;
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 
 /**
  * Process text formatting.
@@ -39,7 +39,7 @@ public class TextFormatter extends Thread {
     public void run() {
         CharSequence result = null;
         try {
-            CharSequence chars = ((mText instanceof ContentController) ? (((ContentController) mText).toStringBuilder()) : new StringBuilder(mText));
+            CharSequence chars = ((mText instanceof ContentMapController) ? (((ContentMapController) mText).toStringBuilder()) : new StringBuilder(mText));
             result = mLanguage.format(chars);
         } catch (Throwable e) {
             if (mReceiver != null) {
