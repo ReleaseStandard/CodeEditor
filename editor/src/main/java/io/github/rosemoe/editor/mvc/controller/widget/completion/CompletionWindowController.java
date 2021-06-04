@@ -258,7 +258,7 @@ public class CompletionWindowController {
 
     }
 
-    public void updateCompletionWindowPosition(float panelX, float panelY, float restY, int width,float mDpUnit) {
+    public void updatePosition(float panelX, float panelY, float restY, int width, float mDpUnit) {
         view.setExtendedX(panelX);
         view.setExtendedY(panelY);
         if (view.getWidth() < 500 * mDpUnit) {

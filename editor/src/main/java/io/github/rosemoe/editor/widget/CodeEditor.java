@@ -222,7 +222,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private CursorController cursor;                      // Manage the cursor
     private SearcherController searcher;                  // Manage search in the displayed text
     private ContextActionController contextAction;        // Manage context action showing, eg copy paste
-    private CompletionWindowController mCompletionWindow; // Manage completion item showing
+    private CompletionWindowController completionWindow;  // Manage completion item showing
 
     private Paint mPaint;
     private Paint lineNumberPaint;
@@ -402,11 +402,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void postHideCompletionWindow() {
         // Avoid meaningless calls
-        if (!mCompletionWindow.view.isShowing()) {
+        if (!completionWindow.view.isShowing()) {
             return;
         }
         // We do this because if you hide it at once, the editor seems to flash with unknown reason
-        postDelayed(() -> mCompletionWindow.view.hide(), 50);
+        postDelayed(() -> completionWindow.view.hide(), 50);
     }
 
     /**
@@ -414,7 +414,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     @NonNull
     public CompletionWindowController getAutoCompleteWindow() {
-        return mCompletionWindow;
+        return completionWindow;
     }
 
     /**
@@ -605,7 +605,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         setFocusable(true);
         setFocusableInTouchMode(true);
         mConnection       = new UserInputConnexionController(this);
-        mCompletionWindow = new CompletionWindowController(this);
+        completionWindow = new CompletionWindowController(this);
         mVerticalEdgeGlow = new MaterialEdgeEffect();
         mHorizontalGlow   = new MaterialEdgeEffect();
         mOverrideSymbolPairs = new SymbolPairMatch();
@@ -679,7 +679,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param adapter New adapter, maybe null
      */
     public void setAutoCompletionItemAdapter(@Nullable CompletionAdapter adapter) {
-        mCompletionWindow.view.setAdapter(adapter);
+        completionWindow.view.setAdapter(adapter);
     }
 
     /**
@@ -749,9 +749,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (mText != null) {
             this.analyzer.analyze(mText);
         }
-        if (mCompletionWindow != null) {
-            mCompletionWindow.view.hide();
-            mCompletionWindow.setProvider(lang.getAutoCompleteProvider());
+        if (completionWindow != null) {
+            completionWindow.view.hide();
+            completionWindow.setProvider(lang.getAutoCompleteProvider());
         }
 
         // Symbol pairs
@@ -2240,7 +2240,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
             getScroller().startScroll(getOffsetX(), getOffsetY(), 0, (int) offset, 0);
         }
-        mCompletionWindow.updateCompletionWindowPosition(panelX,panelY,restY,getWidth(),mDpUnit);
+        completionWindow.updatePosition(panelX,panelY,restY,getWidth(),mDpUnit);
     }
 
     /**
@@ -2326,7 +2326,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     public void setAutoCompletionEnabled(boolean autoCompletionEnabled) {
         mAutoCompletionEnabled = autoCompletionEnabled;
         if (!autoCompletionEnabled) {
-            mCompletionWindow.view.hide();
+            completionWindow.view.hide();
         }
     }
 
@@ -3099,8 +3099,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * If the auto complete panel is shown,move the selection in panel to next
      */
     public void moveSelectionDown() {
-        if (mCompletionWindow.view.isShowing()) {
-            mCompletionWindow.moveDown();
+        if (completionWindow.view.isShowing()) {
+            completionWindow.moveDown();
             return;
         }
         CursorController c = getCursor();
@@ -3123,8 +3123,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * If Auto complete panel is shown,move the selection in panel to last
      */
     public void moveSelectionUp() {
-        if (mCompletionWindow.view.isShowing()) {
-            mCompletionWindow.moveUp();
+        if (completionWindow.view.isShowing()) {
+            completionWindow.moveUp();
             return;
         }
         CursorController c = getCursor();
@@ -3157,17 +3157,17 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 }
             }
             setSelection(line, column - 1);
-            if (mCompletionWindow.view.isShowing()) {
-                String prefix = mCompletionWindow.getPrefix();
+            if (completionWindow.view.isShowing()) {
+                String prefix = completionWindow.getPrefix();
                 if (prefix.length() > toLeft) {
                     prefix = prefix.substring(0, prefix.length() - toLeft);
-                    mCompletionWindow.setPrefix(prefix);
+                    completionWindow.setPrefix(prefix);
                 } else {
-                    mCompletionWindow.view.hide();
+                    completionWindow.view.hide();
                 }
             }
             if (column - 1 <= 0) {
-                mCompletionWindow.view.hide();
+                completionWindow.view.hide();
             }
         } else {
             if (line == 0) {
@@ -3196,12 +3196,12 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                     column--;
                 }
             }
-            if (!emoji && mCompletionWindow.view.isShowing()) {
+            if (!emoji && completionWindow.view.isShowing()) {
                 if (!mLanguage.isAutoCompleteChar(ch)) {
-                    mCompletionWindow.view.hide();
+                    completionWindow.view.hide();
                 } else {
-                    String prefix = mCompletionWindow.getPrefix() + ch;
-                    mCompletionWindow.setPrefix(prefix);
+                    String prefix = completionWindow.getPrefix() + ch;
+                    completionWindow.setPrefix(prefix);
                 }
             }
             setSelection(line, column + 1);
@@ -3331,7 +3331,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         cursor.setLeft(lineLeft, columnLeft);
         cursor.setRight(lineRight, columnRight);
         updateCursor();
-        mCompletionWindow.view.hide();
+        completionWindow.view.hide();
         if (makeRightVisible) {
             ensurePositionVisible(lineRight, columnRight);
         } else {
@@ -3349,7 +3349,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void movePageDown() {
         userInput.view.onScroll(null, null, 0, getHeight());
-        mCompletionWindow.view.hide();
+        completionWindow.view.hide();
     }
 
     /**
@@ -3357,7 +3357,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void movePageUp() {
         userInput.view.onScroll(null, null, 0, -getHeight());
-        mCompletionWindow.view.hide();
+        completionWindow.view.hide();
     }
 
     /**
@@ -3539,8 +3539,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     public void setColorScheme(@NonNull ColorSchemeController colors) {
         colors.attachEditor(this);
         mColors = colors;
-        if (mCompletionWindow != null) {
-            mCompletionWindow.applyColorScheme();
+        if (completionWindow != null) {
+            completionWindow.applyColorScheme();
         }
         invalidate();
     }
@@ -3567,8 +3567,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Hide auto complete window if shown
      */
     public void hideAutoCompleteWindow() {
-        if (mCompletionWindow != null) {
-            mCompletionWindow.view.hide();
+        if (completionWindow != null) {
+            completionWindow.view.hide();
         }
     }
 
@@ -3591,8 +3591,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void onColorUpdated(int type) {
         if (type == mColors.getCompletionPanelBackground() || type == mColors.getCompletionPanelCorner()) {
-            if (mCompletionWindow != null)
-                mCompletionWindow.applyColorScheme();
+            if (completionWindow != null)
+                completionWindow.applyColorScheme();
             return;
         }
         invalidate();
@@ -3730,8 +3730,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
             case KeyEvent.KEYCODE_ENTER: {
                 if (isEditable()) {
-                    if (mCompletionWindow.view.isShowing()) {
-                        mCompletionWindow.select();
+                    if (completionWindow.view.isShowing()) {
+                        completionWindow.select();
                         return true;
                     }
                     NewlineHandler[] handlers = mLanguage.getNewlineHandlers();
@@ -3992,19 +3992,19 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 if (end > endColumn) {
                     String line = content.getLineString(endLine);
                     String prefix = line.substring(endColumn, end);
-                    mCompletionWindow.setPrefix(prefix);
-                    mCompletionWindow.view.show();
+                    completionWindow.setPrefix(prefix);
+                    completionWindow.view.show();
                 } else {
                     postHideCompletionWindow();
                 }
             } else {
                 postHideCompletionWindow();
             }
-            if (mCompletionWindow.view.isShowing()) {
+            if (completionWindow.view.isShowing()) {
                 updateCompletionWindowPosition();
             }
         } else {
-            mCompletionWindow.view.hide();
+            completionWindow.view.hide();
         }
 
         updateCursorAnchor();
@@ -4035,21 +4035,21 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         exitSelectModeIfNeeded();
 
         if (isAutoCompletionEnabled()) {
-            if (mConnection.model.composingLine == -1 && mCompletionWindow.view.isShowing()) {
+            if (mConnection.model.composingLine == -1 && completionWindow.view.isShowing()) {
                 if (startLine != endLine || startColumn != endColumn - 1) {
                     postHideCompletionWindow();
                 }
-                String prefix = mCompletionWindow.getPrefix();
+                String prefix = completionWindow.getPrefix();
                 if (prefix == null || prefix.length() - 1 <= 0) {
                     postHideCompletionWindow();
                 } else {
                     prefix = prefix.substring(0, prefix.length() - 1);
                     updateCompletionWindowPosition();
-                    mCompletionWindow.setPrefix(prefix);
+                    completionWindow.setPrefix(prefix);
                 }
             }
         } else {
-            mCompletionWindow.view.hide();
+            completionWindow.view.hide();
         }
 
         if (!mWait) {
@@ -4088,7 +4088,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 int column = cursor.getLeftColumn();
                 mText.replace(0, 0, getLineCount() - 1, mText.getColumnCount(getLineCount() - 1), newText);
                 getScroller().forceFinished(true);
-                mCompletionWindow.view.hide();
+                completionWindow.view.hide();
                 setSelectionAround(line, column);
             });
         }
