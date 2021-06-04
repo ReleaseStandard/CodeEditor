@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import io.github.rosemoe.editor.langs.EmptyLanguage;
+import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.model.content.ContentMapModel;
 import io.github.rosemoe.editor.widget.CodeEditor;

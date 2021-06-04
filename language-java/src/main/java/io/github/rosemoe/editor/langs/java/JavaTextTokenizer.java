@@ -15,8 +15,11 @@
  */
 package io.github.rosemoe.editor.langs.java;
 
+import android.util.Log;
+
 import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TrieTree;
+import io.github.rosemoe.editor.util.Logger;
 
 /**
  * @author Rose
@@ -44,6 +47,7 @@ public class JavaTextTokenizer {
     private boolean lcCal;
     private boolean skipWS;
     private boolean skipComment;
+    private boolean isInLongComment = false;
 
     public JavaTextTokenizer(CharSequence src) {
         if (src == null) {
@@ -132,7 +136,7 @@ public class JavaTextTokenizer {
         Tokens token;
         do {
             token = directNextToken();
-        } while ((skipWS && token == Tokens.WHITESPACE) || (skipComment && (token == Tokens.LINE_COMMENT || token == Tokens.LONG_COMMENT)));
+        } while ((skipWS && token == Tokens.WHITESPACE) || (skipComment && (token == Tokens.LINE_COMMENT || token == Tokens.LONG_COMMENT)) );
         currToken = token;
         return token;
     }
@@ -166,7 +170,16 @@ public class JavaTextTokenizer {
         }
         char ch = source.charAt(offset);
         length = 1;
-        if (ch == '\n') {
+        if ( isInLongComment ) {
+            if ( ch == '*' ) {
+                char next = source.charAt(offset+1);
+                if ( next == '/' ) {
+                    isInLongComment = false;
+                    length++;
+                }
+            }
+            return Tokens.LONG_COMMENT;
+        } else if (ch == '\n') {
             return Tokens.NEWLINE;
         } else if (ch == '\r') {
             scanNewline();
@@ -409,15 +422,17 @@ public class JavaTextTokenizer {
             return Tokens.DIV;
         }
         char ch = charAt();
+        // on line comment
         if (ch == '/') {
             length++;
             while (offset + length < bufferLen && charAt() != '\n') {
                 length++;
             }
             return Tokens.LINE_COMMENT;
+        // many line comment
         } else if (ch == '*') {
             length++;
-            char pre, curr = '?';
+            /* char pre, curr = '?';
             while (offset + length < bufferLen) {
                 pre = curr;
                 curr = charAt();
@@ -426,7 +441,8 @@ public class JavaTextTokenizer {
                     break;
                 }
                 length++;
-            }
+            }*/
+            isInLongComment = true;
             return Tokens.LONG_COMMENT;
         } else {
             return Tokens.DIV;

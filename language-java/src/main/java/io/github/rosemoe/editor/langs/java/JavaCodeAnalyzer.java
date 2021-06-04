@@ -21,6 +21,7 @@ import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
+import io.github.rosemoe.editor.util.Logger;
 
 import java.util.Stack;
 
@@ -214,9 +215,11 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                 }
                 case LINE_COMMENT:
                 case LONG_COMMENT:
+                    Logger.debug("Long comment line=",line,",column=",column);
                     colors.addIfNeeded(line, column, theme.getComment());
                     break;
                 default:
+                    Logger.debug("Default case line=",line,",column=",column);
                     if (token == Tokens.LBRACK || (token == Tokens.RBRACK && previous == Tokens.LBRACK)) {
                         colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;

@@ -80,7 +80,7 @@ import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.view.MaterialEdgeEffect;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
-import io.github.rosemoe.editor.langs.EmptyLanguage;
+import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.controller.spans.SpanLineController;

@@ -38,7 +38,7 @@ import java.util.HashMap;
 import io.github.rosemoe.editor.langs.cobol85.Cobol85Language;
 import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.langs.EmptyLanguage;
+import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
 import io.github.rosemoe.editor.langs.desc.CppDescription;
 import io.github.rosemoe.editor.langs.desc.JavaScriptDescription;
@@ -141,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
         //editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
-        setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
+        //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
+        setEditorLanguage(new JavaLanguage(), "samples/java/java.txt");
         if ( Logger.DEBUG ) {
             editor.setColorScheme(new Debug());
         }
