@@ -15,17 +15,10 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.SymbolPairMatch;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
 
 /**
  * Language for editor

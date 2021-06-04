@@ -145,6 +145,11 @@ public class ColorSchemeController {
     public int getUnderline() { return underLine == null ? accent3: underLine; }
     public Integer lineDivider = null;
     public int getLineDivider() { return lineDivider == null ? base1: lineDivider; }
+    public Integer autoCompleteItemCurrentPosition = null;
+    public int getAutoCompleteItemCurrentPosition() { return autoCompleteItemCurrentPosition == null ? base1: autoCompleteItemCurrentPosition; }
+    public Integer autoCompleteItem = null;
+    public int getAutoCompleteItem() { return autoCompleteItem == null ? base2: autoCompleteItem; }
+
 
     /**
      * Real color saver
@@ -190,7 +195,7 @@ public class ColorSchemeController {
                 R.styleable.CodeEditor_color_base1,
                 R.styleable.CodeEditor_color_base2,
                 R.styleable.CodeEditor_color_base3,
-/*                R.styleable.CodeEditor_color_lineNumberPanel,
+                R.styleable.CodeEditor_color_lineNumberPanel,
                 R.styleable.CodeEditor_color_lineNumberBackground,
                 R.styleable.CodeEditor_color_currentLine,
                 R.styleable.CodeEditor_color_textSelected,
@@ -211,7 +216,9 @@ public class ColorSchemeController {
                 R.styleable.CodeEditor_color_completionPanelCorner,
                 R.styleable.CodeEditor_color_scrollbartrack,
                 R.styleable.CodeEditor_color_underline,
-                R.styleable.CodeEditor_color_linedivider,*/
+                R.styleable.CodeEditor_color_linedivider,
+                R.styleable.CodeEditor_color_autoCompleteItem,
+                R.styleable.CodeEditor_color_autoCompleteItemCurrentPosition,
         }) {
             int colorValue = a.getColor(colorId,test);
             if ( colorValue == test) { continue; }
@@ -275,6 +282,10 @@ public class ColorSchemeController {
                 underLine = colorValue;
             } else if (colorId == R.styleable.CodeEditor_color_linedivider) {
                 lineDivider = colorValue;
+            } else if (colorId == R.styleable.CodeEditor_color_autoCompleteItem) {
+                autoCompleteItem = colorValue;
+            } else if (colorId == R.styleable.CodeEditor_color_autoCompleteItemCurrentPosition) {
+                autoCompleteItemCurrentPosition = colorValue;
             }
         }
         a.recycle();

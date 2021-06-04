@@ -29,20 +29,20 @@ import java.util.List;
  */
 public abstract class CompletionAdapter extends BaseAdapter {
 
-    private AutoCompleteWindowController mWindow;
-    private List<CompletionItemController> mItems;
+    private AutoCompleteWindowController autocompleteWindow;
+    private List<CompletionItemController> completeItems;
 
     /**
      * Called by {@link AutoCompleteWindowController} to attach some arguments
      */
     public void attachAttributes(AutoCompleteWindowController window, List<CompletionItemController> items) {
-        mWindow = window;
-        mItems = items;
+        autocompleteWindow = window;
+        completeItems = items;
     }
 
     @Override
     public CompletionItemController getItem(int position) {
-        return mItems.get(position);
+        return completeItems.get(position);
     }
 
     @Override
@@ -52,19 +52,19 @@ public abstract class CompletionAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mItems.size();
+        return completeItems.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return getView(position, convertView, parent, position == mWindow.getCurrentPosition());
+        return getView(position, convertView, parent, position == autocompleteWindow.getCurrentPosition());
     }
 
     /**
      * Get context from editor
      */
     protected Context getContext() {
-        return mWindow.getContext();
+        return autocompleteWindow.getContext();
     }
 
     /**

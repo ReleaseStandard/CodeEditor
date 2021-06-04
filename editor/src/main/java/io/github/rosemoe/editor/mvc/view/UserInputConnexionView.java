@@ -28,7 +28,7 @@ import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
-import io.github.rosemoe.editor.widget.SymbolPairMatch;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
 
 public class UserInputConnexionView extends BaseInputConnection {
     public final CodeEditor editor;

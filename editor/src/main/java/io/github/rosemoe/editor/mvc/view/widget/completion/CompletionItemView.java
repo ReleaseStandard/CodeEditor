@@ -16,10 +16,31 @@
 package io.github.rosemoe.editor.mvc.view.widget.completion;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.TextView;
+
+import io.github.rosemoe.editor.R;
 
 public class CompletionItemView {
     /**
      * Icon for displaying in adapter
      */
     public Drawable icon;
+
+    /**
+     * Set the content of a given CompletionItem.
+     * @param root  root view of the completion item.
+     * @param label label of the given complete item.
+     * @param desc  description of the given complete item.
+     */
+    public void setContent(View root, String label, String desc) {
+        TextView tv = (TextView) root.findViewById(R.id.result_item_label);
+        if ( tv != null ) {
+            tv.setText(label);
+        }
+        tv = (TextView) root.findViewById(R.id.result_item_desc);
+        if ( tv != null ) {
+            tv.setText(desc);
+        }
+    }
 }

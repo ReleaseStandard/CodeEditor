@@ -22,7 +22,7 @@ import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
-import io.github.rosemoe.editor.widget.SymbolPairMatch;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
 
 /**
  * Java language is much complex.

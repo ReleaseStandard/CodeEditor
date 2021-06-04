@@ -41,7 +41,7 @@ public class AutoCompleteWindowView extends EditorBasePopupWindow {
         super(editor);
         mEditor = editor;
         Context ctx = editor.getContext();
-        mAdapter = new DefaultCompletionItemAdapter();
+        mAdapter = new DefaultCompletionItemAdapter(editor);
         RelativeLayout layout = new RelativeLayout(ctx);
         mListView = new ListView(ctx);
         layout.addView(mListView, new LinearLayout.LayoutParams(-1, -1));
@@ -73,7 +73,7 @@ public class AutoCompleteWindowView extends EditorBasePopupWindow {
     public void setAdapter(CompletionAdapter adapter) {
         mAdapter = adapter;
         if (adapter == null) {
-            mAdapter = new DefaultCompletionItemAdapter();
+            mAdapter = new DefaultCompletionItemAdapter(mEditor);
         }
     }
 

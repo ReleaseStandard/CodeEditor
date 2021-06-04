@@ -24,8 +24,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import io.github.rosemoe.editor.R;
+import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
+import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
  * Adapter to display results
@@ -36,6 +39,12 @@ import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapt
 public
 class DefaultCompletionItemAdapter extends CompletionAdapter {
 
+    public final CodeEditor editor;
+    public View view;
+    public DefaultCompletionItemAdapter(CodeEditor editor) {
+        super();
+        this.editor = editor;
+    }
     @Override
     public int getItemHeight() {
         return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, Resources.getSystem().getDisplayMetrics());
@@ -50,13 +59,15 @@ class DefaultCompletionItemAdapter extends CompletionAdapter {
         item.setContent((TextView) view.findViewById(R.id.result_item_label));
 
         view.setTag(pos);
+        Logger.debug("Get view");
         if (isCurrentCursorPosition) {
-            view.setBackgroundColor(0xffdddddd);
+            view.setBackgroundColor(editor.getColorScheme().getAutoCompleteItemCurrentPosition());
         } else {
-            view.setBackgroundColor(0xffffffff);
+            view.setBackgroundColor(editor.getColorScheme().getAutoCompleteItem());
         }
         ImageView iv = (ImageView) view.findViewById(R.id.result_item_image);
         iv.setImageDrawable(item.view.icon);
+        this.view = view;
         return view;
     }
 

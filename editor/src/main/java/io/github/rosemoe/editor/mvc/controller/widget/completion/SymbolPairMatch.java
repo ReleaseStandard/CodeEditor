@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.widget;
+package io.github.rosemoe.editor.mvc.controller.widget.completion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class SymbolPairMatch {
         setParent(parent);
     }
 
-    protected void setParent(SymbolPairMatch parent) {
+    public void setParent(SymbolPairMatch parent) {
         this.parent = parent;
     }
 

@@ -69,6 +69,7 @@ import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
 import io.github.rosemoe.editor.mvc.controller.UserInputController;
+import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
 import io.github.rosemoe.editor.mvc.controller.widget.searcher.SearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.contextaction.ContextActionController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteWindowController;
@@ -214,7 +215,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     UserInputConnexionController mConnection;         // Manage other part of the user input, eg copy, paste
     // core
     private LanguageController mLanguage;
-    private ColorSchemeController mColors;
+    public ColorSchemeController mColors;
     public  UserInputController userInput;            // Manage all user input, eg scale scrolling
 
     // widgets
@@ -3445,7 +3446,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         }
         CodeAnalyzerController analyzer = mLanguage.getAnalyzer();
         analyzer.setTheme(mColors);
-        this.analyzer = new io.github.rosemoe.editor.mvc.controller.TextAnalyzerController(analyzer);
+        this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
 
         TextAnalyzerView colors = this.analyzer.getResult();
@@ -3463,7 +3464,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         createLayout();
         invalidate();
     }
-
     /**
      * Set the editor's text size in sp unit. This value must be > 0
      *
