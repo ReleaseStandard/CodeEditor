@@ -133,14 +133,14 @@ public class ColorSchemeController {
     public int getScrollBarThumb() { return scrollbarthumb == null ? base1 : scrollbarthumb ; }
     public Integer scrollbarthumbpressed = null;
     public int getScrollBarThumbPressed() { return scrollbarthumbpressed == null ? base2 : scrollbarthumbpressed ; }
+    public Integer scrollBarTrack = null;
+    public int getScrollBarTrack() { return scrollBarTrack == null ? getWholeBackground() : scrollBarTrack; }
     public Integer nonprintablechar = null;
     public int getNonPrintableChar() { return nonprintablechar == null ? 0x00000000 : nonprintablechar ; }
     public Integer completionPanelBackground = null;
     public int getCompletionPanelBackground() { return completionPanelBackground == null ? base1 : completionPanelBackground ; }
     public Integer completionPanelCorner = null;
     public int getCompletionPanelCorner() { return completionPanelCorner == null ?  base2 : completionPanelCorner ; }
-    public Integer scrollBarTrack = null;
-    public int getScrollBarTrack() { return scrollBarTrack == null ? base0 : scrollBarTrack; }
     public Integer underLine = null;
     public int getUnderline() { return underLine == null ? accent3: underLine; }
     public Integer lineDivider = null;
@@ -187,38 +187,10 @@ public class ColorSchemeController {
     public void initFromAttributeSets(AttributeSet attrs, TypedArray a) {
         int test = 235363207;
         for(int colorId : new int[] {
-                R.styleable.CodeEditor_color_base03,
-                R.styleable.CodeEditor_color_base02,
-                R.styleable.CodeEditor_color_base01,
-                R.styleable.CodeEditor_color_base00,
-                R.styleable.CodeEditor_color_base0,
-                R.styleable.CodeEditor_color_base1,
-                R.styleable.CodeEditor_color_base2,
-                R.styleable.CodeEditor_color_base3,
-                R.styleable.CodeEditor_color_lineNumberPanel,
-                R.styleable.CodeEditor_color_lineNumberBackground,
-                R.styleable.CodeEditor_color_currentLine,
-                R.styleable.CodeEditor_color_textSelected,
-                R.styleable.CodeEditor_color_selectedTextBackground,
-                R.styleable.CodeEditor_color_lineNumberPanelText,
-                R.styleable.CodeEditor_color_wholeBackground,
-                R.styleable.CodeEditor_color_textNormal,
-                R.styleable.CodeEditor_color_comment,
-                R.styleable.CodeEditor_color_matchedTextBackground,
-                R.styleable.CodeEditor_color_blockLine,
-                R.styleable.CodeEditor_color_blockLineCurrent,
-                R.styleable.CodeEditor_color_selectionInsert,
-                R.styleable.CodeEditor_color_selectionHandle,
-                R.styleable.CodeEditor_color_scrollbarThumb,
-                R.styleable.CodeEditor_color_scrollbarThumbPressed,
-                R.styleable.CodeEditor_color_nonPrintableChar,
-                R.styleable.CodeEditor_color_completionPanelBackground,
-                R.styleable.CodeEditor_color_completionPanelCorner,
-                R.styleable.CodeEditor_color_scrollbartrack,
-                R.styleable.CodeEditor_color_underline,
-                R.styleable.CodeEditor_color_linedivider,
-                R.styleable.CodeEditor_color_autoCompleteItem,
-                R.styleable.CodeEditor_color_autoCompleteItemCurrentPosition,
+                R.styleable.CodeEditor_color_base03, R.styleable.CodeEditor_color_base02, R.styleable.CodeEditor_color_base01, R.styleable.CodeEditor_color_base00,
+                R.styleable.CodeEditor_color_base0, R.styleable.CodeEditor_color_base1, R.styleable.CodeEditor_color_base2, R.styleable.CodeEditor_color_base3, R.styleable.CodeEditor_color_lineNumberPanel, R.styleable.CodeEditor_color_lineNumberBackground, R.styleable.CodeEditor_color_currentLine, R.styleable.CodeEditor_color_textSelected,
+                R.styleable.CodeEditor_color_selectedTextBackground, R.styleable.CodeEditor_color_lineNumberPanelText, R.styleable.CodeEditor_color_wholeBackground, R.styleable.CodeEditor_color_textNormal, R.styleable.CodeEditor_color_comment, R.styleable.CodeEditor_color_matchedTextBackground, R.styleable.CodeEditor_color_blockLine, R.styleable.CodeEditor_color_blockLineCurrent, R.styleable.CodeEditor_color_selectionInsert,
+                R.styleable.CodeEditor_color_selectionHandle, R.styleable.CodeEditor_color_scrollbarThumb, R.styleable.CodeEditor_color_scrollbarThumbPressed, R.styleable.CodeEditor_color_nonPrintableChar, R.styleable.CodeEditor_color_completionPanelBackground, R.styleable.CodeEditor_color_completionPanelCorner, R.styleable.CodeEditor_color_scrollbartrack, R.styleable.CodeEditor_color_underline, R.styleable.CodeEditor_color_linedivider, R.styleable.CodeEditor_color_autoCompleteItem, R.styleable.CodeEditor_color_autoCompleteItemCurrentPosition,
         }) {
             int colorValue = a.getColor(colorId,test);
             if ( colorValue == test) { continue; }

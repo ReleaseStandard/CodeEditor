@@ -36,6 +36,9 @@ import io.github.rosemoe.editor.widget.TextComposeBasePopup;
 import static io.github.rosemoe.editor.mvc.controller.UserInputController.*;
 import static io.github.rosemoe.editor.mvc.model.UserInputModel.isWhitespace;
 
+/**
+ * This handles events : scale, tap, double tap, ...
+ */
 public class UserInputView implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, ScaleGestureDetector.OnScaleGestureListener {
     public CodeEditor editor;
     public final OverScroller mScroller;

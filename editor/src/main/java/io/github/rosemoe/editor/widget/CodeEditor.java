@@ -262,12 +262,17 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         this(context, attrs, defStyleAttr, 0);
     }
 
+    /**
+     * This modify the editor behaviour based on which attributes the user has defined in the xml file.
+     * @param context
+     * @param attrs
+     * @param defStyleAttr
+     * @param defStyleRes
+     */
     private void initFromAttributeSet(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs,R.styleable.CodeEditor);
         for ( int id : new int[] {
-                R.styleable.CodeEditor_tab_width,
-                R.styleable.CodeEditor_cursorBlinkPeriod,
-                R.styleable.CodeEditor_textSize,
+                R.styleable.CodeEditor_tab_width, R.styleable.CodeEditor_cursorBlinkPeriod, R.styleable.CodeEditor_textSize,
         }) {
             int trash = -1;
             int val = ta.getInteger(id,trash);
@@ -282,27 +287,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         }
 
         for ( int id : new int[] {
-                R.styleable.CodeEditor_autoCompleteEnabled,
-                R.styleable.CodeEditor_lineNumberVisible,
-                R.styleable.CodeEditor_scrollbarsEnabled,
-                R.styleable.CodeEditor_undoEnabled,
-                R.styleable.CodeEditor_scalable,
-                R.styleable.CodeEditor_focusable,
-                R.styleable.CodeEditor_focusableInTouchMode,
-                R.styleable.CodeEditor_hightlightCurrentLine,
-                R.styleable.CodeEditor_autoindentEnabled,
-                R.styleable.CodeEditor_autoCompletionEnabled,
-                R.styleable.CodeEditor_verticalScrollbarEnabled,
-                R.styleable.CodeEditor_hightLightCurrentBlock,
-                R.styleable.CodeEditor_highlightSelectedText,
-                R.styleable.CodeEditor_displayLnPanel,
-                R.styleable.CodeEditor_overScrollEnabled,
-                R.styleable.CodeEditor_horizontalScrollBarEnabled,
-                R.styleable.CodeEditor_symbolCompletionEnabled,
-                R.styleable.CodeEditor_editable,
-                R.styleable.CodeEditor_lineNumberEnabled,
-                R.styleable.CodeEditor_autoCompletionOnComposing,
-                R.styleable.CodeEditor_horizontalScrollbarEnabled,
+                R.styleable.CodeEditor_autoCompleteEnabled, R.styleable.CodeEditor_lineNumberVisible, R.styleable.CodeEditor_scrollbarsEnabled, R.styleable.CodeEditor_undoEnabled, R.styleable.CodeEditor_scalable, R.styleable.CodeEditor_focusable, R.styleable.CodeEditor_focusableInTouchMode, R.styleable.CodeEditor_hightlightCurrentLine, R.styleable.CodeEditor_autoindentEnabled, R.styleable.CodeEditor_autoCompletionEnabled,
+                R.styleable.CodeEditor_verticalScrollbarEnabled, R.styleable.CodeEditor_hightLightCurrentBlock, R.styleable.CodeEditor_highlightSelectedText, R.styleable.CodeEditor_displayLnPanel, R.styleable.CodeEditor_overScrollEnabled, R.styleable.CodeEditor_horizontalScrollBarEnabled, R.styleable.CodeEditor_symbolCompletionEnabled, R.styleable.CodeEditor_editable, R.styleable.CodeEditor_lineNumberEnabled, R.styleable.CodeEditor_autoCompletionOnComposing, R.styleable.CodeEditor_horizontalScrollbarEnabled,
         }) {
             boolean trash = true;
             boolean val = ta.getBoolean(id,trash);
