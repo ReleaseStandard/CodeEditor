@@ -1163,8 +1163,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
             // Draw text here
             {
+                int offsetScrolled = 0;
                 SpanLineController spanLine = spanMap.getAddIfNeeded(line);
-
                 Map.Entry<Integer, SpanController> [] keys = spanLine.line.entrySet().toArray(new Map.Entry[spanLine.size()]);
                 for (int a = 0; a < keys.length; a=a+1) {
                     SpanController span = keys[a].getValue();
@@ -1177,7 +1177,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                     int paintStart = Math.max(firstVisibleChar, colStart);
                     int paintEnd = Math.min(lastVisibleChar, colStop);
 
-                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color);
+                    Logger.debug("line=",line,",colStart=",colStart,",colStop=",colStop,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color,",paintStart=",paintStart,",paintEnd=",paintEnd,",paintingOffset=",paintingOffset);
                     // We ignore the span if it begins in the invisible zone
                     if ( colStop < firstVisibleChar || colStart > lastVisibleChar) { continue; }
                     drawRegionText(canvas,paintingOffset,
@@ -1188,6 +1188,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                             span.model.color);
 
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
+                    Logger.debug("width=",width);
                     paintingOffset += width;
                 }
                 Logger.debug("Drawing span for line=",line,",spans in the line=",spanLine.size(),",firstVisibleChar=",firstVisibleChar,",spanOffset=",spanOffset);
