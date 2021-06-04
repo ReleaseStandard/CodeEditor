@@ -13,13 +13,18 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.view.widget;
+package io.github.rosemoe.editor.mvc.model.widget.cursor;
 
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.mvc.model.CharPosition;
 
-public class CursorBlinkView {
-    public final CodeEditor editor;
-    public CursorBlinkView(CodeEditor editor) {
-        this.editor = editor;
+public class CursorModel {
+    public int mTabWidth;
+    public boolean mAutoIndentEnabled;
+    public CharPosition mLeft, mRight;
+    public CharPosition cache0, cache1, cache2;
+    public CursorModel() {
+        mLeft = new CharPosition().zero();
+        mRight = new CharPosition().zero();
+        mTabWidth = 4;
     }
 }

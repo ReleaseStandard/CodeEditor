@@ -13,11 +13,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widget;
+package io.github.rosemoe.editor.mvc.controller.widget.cursor;
 
-import io.github.rosemoe.editor.mvc.model.widget.CursorBlinkModel;
-import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
-import io.github.rosemoe.editor.mvc.view.widget.CursorBlinkView;
+import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorBlinkModel;
+import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorBlinkView;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**

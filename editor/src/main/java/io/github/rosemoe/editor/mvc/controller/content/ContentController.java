@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.model.content.ContentModel;
 import io.github.rosemoe.editor.mvc.view.content.ContentView;
@@ -26,6 +26,7 @@ import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.processor.content.indexer.Indexer;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 import io.github.rosemoe.editor.processor.content.indexer.NoCacheIndexer;
+import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.struct.BlockLinkedList;
 
 /**
@@ -52,13 +53,13 @@ public class ContentController implements CharSequence {
     private List<ContentListener> mListeners;
     private ContentLineRemoveListener mLineListener;
 
-
+    private final CodeEditor editor;
 
     /**
      * This constructor will create a ContentController object with no text
      */
     public ContentController() {
-        this(null);
+        this(null,null);
     }
 
     /**
@@ -67,7 +68,8 @@ public class ContentController implements CharSequence {
      *
      * @param src The source of ContentController
      */
-    public ContentController(CharSequence src) {
+    public ContentController(CharSequence src, CodeEditor editor) {
+        this.editor = editor;
         if (src == null) {
             src = "";
         }
@@ -644,6 +646,9 @@ public class ContentController implements CharSequence {
         return sb;
     }
 
+    public void instanciateCursor() {
+
+    }
     /**
      * Get CursorController for editor (Create if there is not)
      *
@@ -651,7 +656,7 @@ public class ContentController implements CharSequence {
      */
     public CursorController getCursor() {
         if (cursor == null) {
-            cursor = new CursorController(this);
+            cursor = new CursorController(this,editor);
         }
         return cursor;
     }

@@ -13,13 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widget;
+package io.github.rosemoe.editor.mvc.controller.widget.cursor;
 
 import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.mvc.model.widget.CursorModel;
-import io.github.rosemoe.editor.mvc.view.widget.CursorView;
+import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorModel;
+import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -30,21 +30,28 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  */
 public final class CursorController {
 
+    /**
+     * The default cursor blinking period
+     */
+    public static final int DEFAULT_CURSOR_BLINK_PERIOD = 500;
     private final ContentController mContent;
     private final CachedIndexer mIndexer;
     private LanguageController mLanguage;
     public CursorModel model = new CursorModel();
 	public final CursorView view;
-
+    public CursorBlinkController cursorBlink;        // Manage cursor blink effect
+    public final CodeEditor editor;
     /**
      * Create a new CursorController for ContentController
      *
      * @param content Target content
      */
-    public CursorController(ContentController content) {
+    public CursorController(ContentController content, CodeEditor editor) {
         mContent = content;
         mIndexer = new CachedIndexer(content);
-        view = new CursorView();
+        view     = new CursorView();
+        this.editor = editor;
+        cursorBlink = new CursorBlinkController(editor, DEFAULT_CURSOR_BLINK_PERIOD);
     }
 
     /**
@@ -436,5 +443,22 @@ public final class CursorController {
         }*/
     }
 
+    /**
+     * Set cursor blinking period
+     * If zero or negative period is passed, the cursor will always be shown.
+     *
+     * @param period The period time of cursor blinking
+     */
+    public void setCursorBlinkPeriod(int period) {
+        if (cursorBlink == null) {
+            cursorBlink = new CursorBlinkController(editor, period);
+        } else {
+            int before = cursorBlink.model.period;
+            cursorBlink.model.period = period;
+            if (before <= 0 && cursorBlink.model.valid && cursorBlink.view.editor.isAttachedToWindow()) {
+                cursorBlink.view.editor.post(cursorBlink);
+            }
+        }
+    }
 }
 

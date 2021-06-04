@@ -69,11 +69,10 @@ import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
 import io.github.rosemoe.editor.mvc.controller.UserInputController;
-import io.github.rosemoe.editor.mvc.controller.widget.CursorBlinkController;
 import io.github.rosemoe.editor.mvc.controller.widget.SearcherController;
 import io.github.rosemoe.editor.mvc.controller.widget.ContextActionController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteWindowController;
-import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
 import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapController;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
@@ -91,7 +90,7 @@ import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.mvc.view.UserInputView;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
-import io.github.rosemoe.editor.mvc.view.widget.CursorView;
+import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.TextFormatter;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 import io.github.rosemoe.editor.processor.spanmap.Updater;
@@ -118,11 +117,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * The default size when creating the editor object. Unit is sp.
      */
     public static final int DEFAULT_TEXT_SIZE = 20;
-
-    /**
-     * The default cursor blinking period
-     */
-    public static final int DEFAULT_CURSOR_BLINK_PERIOD = 500;
 
     /**
      * Draw whitespace characters before line content start
@@ -214,38 +208,43 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private RectF mInsertHandle;
     private ClipboardManager mClipboardManager;
     private InputMethodManager mInputMethodManager;
-    private CursorController mCursor;
     private ContentController mText;
     private TextAnalyzerController analyzer;
-    private ContextActionController contextAction;    // Manage context action showing, eg copy paste
+
+    UserInputConnexionController mConnection;         // Manage other part of the user input, eg copy, paste
+    // core
+    private LanguageController mLanguage;
+    private ColorSchemeController mColors;
     public  UserInputController userInput;            // Manage all user input, eg scale scrolling
+
+    // widgets
+    private CursorController cursor;                  // Manage the cursor
+    private SearcherController searcher;              // Manage search in the displayed text
+    private ContextActionController contextAction;    // Manage context action showing, eg copy paste
+
     private Paint mPaint;
-    private Paint mPaintOther;
-    private Paint mPaintGraph;
+    private Paint lineNumberPaint;
+    private Paint miniGraphPaint;
     private char[] mBuffer;
     private char[] mBuffer2;
     private Matrix mMatrix;
     private Rect mViewRect;
-    private ColorSchemeController mColors;
     private String mLnTip = "Line:";
-    private LanguageController mLanguage;
     private long mLastMakeVisible = 0;
     private AutoCompleteWindowController mCompletionWindow;
     private Paint.Align mLineNumberAlign;
     public EditorTextActionPresenter mTextActionPresenter;
-    UserInputConnexionController mConnection;
     private CursorAnchorInfo.Builder mAnchorInfoBuilder;
     private MaterialEdgeEffect mVerticalEdgeGlow;
     private MaterialEdgeEffect mHorizontalGlow;
     private ExtractedTextRequest mExtracting;
     private TextFormatter mFormatThread;
-    private SearcherController mSearcher;
     private EditorEventListener mListener;
     private FontCache mFontCache;
     private Paint.FontMetricsInt mTextMetrics;
     private Paint.FontMetricsInt mLineNumberMetrics;
     private Paint.FontMetricsInt mGraphMetrics;
-    private CursorBlinkController mCursorBlink;
+
     private SymbolPairMatch mOverrideSymbolPairs;
     private LongArrayList mPostDrawLineNumbers = new LongArrayList();
 
@@ -274,7 +273,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 continue;
             }
             if ( id == R.styleable.CodeEditor_cursorBlinkPeriod ) {
-                setCursorBlinkPeriod(val);
+                cursor.setCursorBlinkPeriod(val);
             } else if ( id == R.styleable.CodeEditor_textSize ) {
                 setTextSize(val);
             }
@@ -440,7 +439,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
         }
         //Logs.log("Send selection changes: candidate(start = " + candidatesStart + ", end =" + candidatesEnd + " ) cursor(left = " + mCursor.getLeft() + ", right =" + mCursor.getRight() + ")");
-        mInputMethodManager.updateSelection(this, mCursor.getLeft(), mCursor.getRight(), candidatesStart, candidatesEnd);
+        mInputMethodManager.updateSelection(this, cursor.getLeft(), cursor.getRight(), candidatesStart, candidatesEnd);
     }
 
     /**
@@ -565,16 +564,15 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void initialize() {
         mFontCache = new FontCache();
         mPaint = new Paint();
-        mPaintOther = new Paint();
-        mPaintGraph = new Paint();
+        lineNumberPaint = new Paint();
+        miniGraphPaint = new Paint();
         mMatrix = new Matrix();
-        mSearcher = new SearcherController(this);
-        setCursorBlinkPeriod(DEFAULT_CURSOR_BLINK_PERIOD);
+        searcher = new SearcherController(this);
         mAnchorInfoBuilder = new CursorAnchorInfo.Builder();
         mPaint.setAntiAlias(true);
-        mPaintOther.setAntiAlias(true);
-        mPaintGraph.setAntiAlias(true);
-        mPaintOther.setTypeface(Typeface.MONOSPACE);
+        lineNumberPaint.setAntiAlias(true);
+        miniGraphPaint.setAntiAlias(true);
+        lineNumberPaint.setTypeface(Typeface.MONOSPACE);
         mBuffer = new char[256];
         mBuffer2 = new char[16];
         mStartedActionMode = ACTION_MODE_NONE;
@@ -683,24 +681,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     /**
-     * Set cursor blinking period
-     * If zero or negative period is passed, the cursor will always be shown.
-     *
-     * @param period The period time of cursor blinking
-     */
-    public void setCursorBlinkPeriod(int period) {
-        if (mCursorBlink == null) {
-            mCursorBlink = new CursorBlinkController(this, period);
-        } else {
-            int before = mCursorBlink.model.period;
-            mCursorBlink.model.period = period;
-            if (before <= 0 && mCursorBlink.model.valid && isAttachedToWindow()) {
-                post(mCursorBlink);
-            }
-        }
-    }
-
-    /**
      * Returns whether highlight current code block
      *
      * @return This module enabled / disabled
@@ -784,8 +764,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mLanguageSymbolPairs.setParent(mOverrideSymbolPairs);
 
         // CursorController
-        if (mCursor != null) {
-            mCursor.setLanguage(mLanguage);
+        if (cursor != null) {
+            cursor.setLanguage(mLanguage);
         }
         invalidate();
     }
@@ -863,8 +843,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Set how will the editor present text actions
      */
     public void setTextActionMode(TextActionMode mode) {
-        if (mCursor.isSelected()) {
-            setSelection(mCursor.getLeftLine(), mCursor.getLeftColumn());
+        if (cursor.isSelected()) {
+            setSelection(cursor.getLeftLine(), cursor.getLeftColumn());
         }
         if (mode == TextActionMode.ACTION_MODE) {
             mTextActionPresenter = new EditorTextActionModeStarter(this);
@@ -913,7 +893,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void setAutoIndentEnabled(boolean enabled) {
         mAutoIndentEnabled = enabled;
-        mCursor.setAutoIndent(enabled);
+        cursor.setAutoIndent(enabled);
     }
 
     @Override
@@ -976,11 +956,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void setTextSizePxDirect(float size) {
         mPaint.setTextSize(size);
-        mPaintOther.setTextSize(size);
-        mPaintGraph.setTextSize(size * SCALE_MINI_GRAPH);
+        lineNumberPaint.setTextSize(size);
+        miniGraphPaint.setTextSize(size * SCALE_MINI_GRAPH);
         mTextMetrics = mPaint.getFontMetricsInt();
-        mLineNumberMetrics = mPaintOther.getFontMetricsInt();
-        mGraphMetrics = mPaintGraph.getFontMetricsInt();
+        mLineNumberMetrics = lineNumberPaint.getFontMetricsInt();
+        mGraphMetrics = miniGraphPaint.getFontMetricsInt();
         mFontCache.clearCache();
     }
 
@@ -1039,7 +1019,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             mCachedLineNumberWidth = 0;
         }
 
-        if (!mCursor.isSelected()) {
+        if (!cursor.isSelected()) {
             mInsertHandle.setEmpty();
         }
         if (!mTextActionPresenter.shouldShowCursor()) {
@@ -1112,7 +1092,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         List<SpanController> temporaryEmptySpans = null;
         SpanMapController spanMap = analyzer.getResult().spanMap;
         List<Integer> matchedPositions = new ArrayList<>();
-        int currentLine = mCursor.isSelected() ? -1 : mCursor.getLeftLine();
+        int currentLine = cursor.isSelected() ? -1 : cursor.getLeftLine();
         int currentLineBgColor = mColors.getCurrentLine();
         int lastPreparedLine = -1;
         int spanOffset = 0;
@@ -1169,21 +1149,21 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             // Draw matched text background
             if (!matchedPositions.isEmpty()) {
                 for (int position : matchedPositions) {
-                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + mSearcher.model.searchText.length(), mColors.getTextSelectedBackground());
+                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + searcher.model.searchText.length(), mColors.getTextSelectedBackground());
                 }
             }
 
             float backupOffset = paintingOffset;
 
             // Draw selected text background
-            if (mCursor.isSelected() && line >= mCursor.getLeftLine() && line <= mCursor.getRightLine()) {
+            if (cursor.isSelected() && line >= cursor.getLeftLine() && line <= cursor.getRightLine()) {
                 int selectionStart = 0;
                 int selectionEnd = columnCount;
-                if (line == mCursor.getLeftLine()) {
-                    selectionStart = mCursor.getLeftColumn();
+                if (line == cursor.getLeftLine()) {
+                    selectionStart = cursor.getLeftColumn();
                 }
-                if (line == mCursor.getRightLine()) {
-                    selectionEnd = mCursor.getRightColumn();
+                if (line == cursor.getRightLine()) {
+                    selectionEnd = cursor.getRightColumn();
                 }
                 drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, selectionStart, selectionEnd, mColors.getTextSelectedBackground());
             }
@@ -1262,19 +1242,19 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
 
             // Draw cursors
-            if (mCursor.isSelected()) {
+            if (cursor.isSelected()) {
                 if (mTextActionPresenter.shouldShowCursor()) {
-                    if (mCursor.getLeftLine() == line && isInside(mCursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
-                        float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getLeftColumn() - firstVisibleChar);
+                    if (cursor.getLeftLine() == line && isInside(cursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
+                        float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, cursor.getLeftColumn() - firstVisibleChar);
                         postDrawCursor.add(new CursorView.CursorPaintAction(row, centerX, mLeftHandle, false, UserInputController.SelectionHandle.LEFT));
                     }
-                    if (mCursor.getRightLine() == line && isInside(mCursor.getRightColumn(), firstVisibleChar, lastVisibleChar, line)) {
-                        float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getRightColumn() - firstVisibleChar);
+                    if (cursor.getRightLine() == line && isInside(cursor.getRightColumn(), firstVisibleChar, lastVisibleChar, line)) {
+                        float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, cursor.getRightColumn() - firstVisibleChar);
                         postDrawCursor.add(new CursorView.CursorPaintAction(row, centerX, mRightHandle, false, UserInputController.SelectionHandle.RIGHT));
                     }
                 }
-            } else if (mCursor.getLeftLine() == line && isInside(mCursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
-                float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, mCursor.getLeftColumn() - firstVisibleChar);
+            } else if (cursor.getLeftLine() == line && isInside(cursor.getLeftColumn(), firstVisibleChar, lastVisibleChar, line)) {
+                float centerX = paintingOffset + measureText(mBuffer, firstVisibleChar, cursor.getLeftColumn() - firstVisibleChar);
                 postDrawCursor.add(new CursorView.CursorPaintAction(row, centerX, userInput.shouldDrawInsertHandle() ? mInsertHandle : null, true));
             }
 
@@ -1300,7 +1280,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void drawMiniGraph(Canvas canvas, float offset, int row, String graph) {
         // Draw
         float baseline = getRowBottom(row) - getOffsetY() - mGraphMetrics.descent;
-        canvas.drawText(graph, 0, graph.length(), offset, baseline, mPaintGraph);
+        canvas.drawText(graph, 0, graph.length(), offset, baseline, miniGraphPaint);
     }
 
     /**
@@ -1309,7 +1289,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void drawWhitespaces(Canvas canvas, float offset, int row, int rowStart, int rowEnd, int min, int max, float circleRadius) {
         int paintStart = Math.max(rowStart, Math.min(rowEnd, min));
         int paintEnd = Math.max(rowStart, Math.min(rowEnd, max));
-        mPaintOther.setColor(mColors.getNonPrintableChar());
+        lineNumberPaint.setColor(mColors.getNonPrintableChar());
 
         if (paintStart < paintEnd) {
             float spaceWidth = mFontCache.measureChar(' ', mPaint);
@@ -1328,7 +1308,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                     float charStartOffset = offset + spaceWidth * i;
                     float charEndOffset = charStartOffset + spaceWidth;
                     float centerOffset = (charStartOffset + charEndOffset) / 2f;
-                    canvas.drawCircle(centerOffset, rowCenter, circleRadius, mPaintOther);
+                    canvas.drawCircle(centerOffset, rowCenter, circleRadius, lineNumberPaint);
                 }
                 offset += charWidth;
                 paintStart++;
@@ -1373,7 +1353,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     private void computeMatchedPositions(int line, List<Integer> positions) {
         positions.clear();
-        CharSequence pattern = mSearcher.model.searchText;
+        CharSequence pattern = searcher.model.searchText;
         if (pattern == null || pattern.length() == 0) {
             return;
         }
@@ -1442,14 +1422,14 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param color       Color of normal text in this region
      */
     private void drawRegionText(Canvas canvas, float offsetX, float baseline, int line, int startIndex, int endIndex, int columnCount, int color) {
-        boolean hasSelectionOnLine = mCursor.isSelected() && line >= mCursor.getLeftLine() && line <= mCursor.getRightLine();
+        boolean hasSelectionOnLine = cursor.isSelected() && line >= cursor.getLeftLine() && line <= cursor.getRightLine();
         int selectionStart = 0;
         int selectionEnd = columnCount;
-        if (line == mCursor.getLeftLine()) {
-            selectionStart = mCursor.getLeftColumn();
+        if (line == cursor.getLeftLine()) {
+            selectionStart = cursor.getLeftColumn();
         }
-        if (line == mCursor.getRightLine()) {
-            selectionEnd = mCursor.getRightColumn();
+        if (line == cursor.getRightLine()) {
+            selectionEnd = cursor.getRightColumn();
         }
         mPaint.setColor(color);
         if (hasSelectionOnLine) {
@@ -1701,40 +1681,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         userInput.view.getVerticalScrollBarRect().set(mRect);
         drawColor(canvas, userInput.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
     }
-
-    /**
-     * Draw line number panel
-     *
-     * @param canvas  Canvas to draw
-     * @param centerY The center y on screen for the panel
-     * @param rightX  The right x on screen for the panel
-     */
-    private void drawLineInfoPanel(Canvas canvas, float centerY, float rightX) {
-        if (!mDisplayLnPanel) {
-            return;
-        }
-        String text = mLnTip + (1 + getFirstVisibleLine());
-        float backupSize = mPaint.getTextSize();
-        mPaint.setTextSize(getLineInfoTextSize());
-        Paint.FontMetricsInt backupMetrics = mTextMetrics;
-        mTextMetrics = mPaint.getFontMetricsInt();
-        float expand = mDpUnit * 3;
-        float textWidth = mPaint.measureText(text);
-        mRect.top = centerY - getRowHeight() / 2f - expand;
-        mRect.bottom = centerY + getRowHeight() / 2f + expand;
-        mRect.right = rightX;
-        mRect.left = rightX - expand * 2 - textWidth;
-        drawColor(canvas, mColors.getLineNumberPanel(), mRect);
-        float baseline = centerY - getRowHeight() / 2f + getRowBaseline(0);
-        float centerX = (mRect.left + mRect.right) / 2;
-        mPaint.setColor(mColors.getLineNumberPanelText());
-        mPaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(text, centerX, baseline, mPaint);
-        mPaint.setTextAlign(Paint.Align.LEFT);
-        mPaint.setTextSize(backupSize);
-        mTextMetrics = backupMetrics;
-    }
-
     /**
      * Draw horizontal scroll bar track
      *
@@ -1769,10 +1715,131 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     /**
+     * Draw line number panel
+     *
+     * @param canvas  Canvas to draw
+     * @param centerY The center y on screen for the panel
+     * @param rightX  The right x on screen for the panel
+     */
+    private void drawLineInfoPanel(Canvas canvas, float centerY, float rightX) {
+        if (!mDisplayLnPanel) {
+            return;
+        }
+        String text = mLnTip + (1 + getFirstVisibleLine());
+        float backupSize = mPaint.getTextSize();
+        mPaint.setTextSize(getLineInfoTextSize());
+        Paint.FontMetricsInt backupMetrics = mTextMetrics;
+        mTextMetrics = mPaint.getFontMetricsInt();
+        float expand = mDpUnit * 3;
+        float textWidth = mPaint.measureText(text);
+        mRect.top = centerY - getRowHeight() / 2f - expand;
+        mRect.bottom = centerY + getRowHeight() / 2f + expand;
+        mRect.right = rightX;
+        mRect.left = rightX - expand * 2 - textWidth;
+        drawColor(canvas, mColors.getLineNumberPanel(), mRect);
+        float baseline = centerY - getRowHeight() / 2f + getRowBaseline(0);
+        float centerX = (mRect.left + mRect.right) / 2;
+        mPaint.setColor(mColors.getLineNumberPanelText());
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(text, centerX, baseline, mPaint);
+        mPaint.setTextAlign(Paint.Align.LEFT);
+        mPaint.setTextSize(backupSize);
+        mTextMetrics = backupMetrics;
+    }
+    /**
+     * Draw single line number
+     */
+    private void drawLineNumber(Canvas canvas, int line, int row, float offsetX, float width, int color) {
+        if (width + offsetX <= 0) {
+            return;
+        }
+        if (lineNumberPaint.getTextAlign() != mLineNumberAlign) {
+            lineNumberPaint.setTextAlign(mLineNumberAlign);
+        }
+        lineNumberPaint.setColor(color);
+        // Line number center align to text center
+        float y = (getRowBottom(row) + getRowTop(row)) / 2f - (mLineNumberMetrics.descent - mLineNumberMetrics.ascent) / 2f - mLineNumberMetrics.ascent - getOffsetY();
+
+        // Avoid Integer#toString() calls
+        char[] text = mBuffer2;
+        int count = 0;
+        int copy = line + 1;
+        while (copy > 0) {
+            int digit = copy % 10;
+            text[count++] = (char) ('0' + digit);
+            copy /= 10;
+        }
+        for (int i = 0, j = count - 1; i < j; i++, j--) {
+            char tmp = text[i];
+            text[i] = text[j];
+            text[j] = tmp;
+        }
+
+        switch (mLineNumberAlign) {
+            case LEFT:
+                canvas.drawText(text, 0, count, offsetX, y, lineNumberPaint);
+                break;
+            case RIGHT:
+                canvas.drawText(text, 0, count, offsetX + width, y, lineNumberPaint);
+                break;
+            case CENTER:
+                canvas.drawText(text, 0, count, offsetX + (width + mDividerMargin) / 2f, y, lineNumberPaint);
+        }
+    }
+    /**
+     * Get the width of line number region
+     *
+     * @return width of line number region
+     */
+    private float measureLineNumber() {
+        if (!isLineNumberEnabled()) {
+            return 0f;
+        }
+        int count = 0;
+        int lineCount = getLineCount();
+        while (lineCount > 0) {
+            count++;
+            lineCount /= 10;
+        }
+        final String[] charSet = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        float single = 0f;
+        for (String ch : charSet) {
+            single = Math.max(single, lineNumberPaint.measureText(ch));
+        }
+        return single * count;
+    }
+
+    /**
+     * Draw line number background
+     *
+     * @param canvas  Canvas to draw
+     * @param offsetX Start x of line number region
+     * @param width   Width of line number region
+     * @param color   Color of line number background
+     */
+    private void drawLineNumberBackground(Canvas canvas, float offsetX, float width, int color) {
+        float right = offsetX + width;
+        if (right < 0) {
+            return;
+        }
+        float left = Math.max(0f, offsetX);
+        mRect.bottom = getHeight();
+        mRect.top = 0;
+        int offY = getOffsetY();
+        if (offY < 0) {
+            mRect.bottom = mRect.bottom - offY;
+            mRect.top = mRect.top - offY;
+        }
+        mRect.left = left;
+        mRect.right = right;
+        drawColor(canvas, color, mRect);
+    }
+
+    /**
      * Draw cursor
      */
     private void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert) {
-        if (!insert || mCursorBlink == null || mCursorBlink.model.visibility) {
+        if (!insert || cursor.cursorBlink == null || cursor.cursorBlink.model.visibility) {
             mRect.top = getRowTop(row) - getOffsetY();
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
@@ -1788,7 +1855,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Draw cursor
      */
     public void drawCursor(Canvas canvas, float centerX, int row, RectF handle, boolean insert, int handleType) {
-        if (!insert || mCursorBlink == null || mCursorBlink.model.visibility) {
+        if (!insert || cursor.cursorBlink == null || cursor.cursorBlink.model.visibility) {
             mRect.top = getRowTop(row) - getOffsetY();
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
@@ -1859,7 +1926,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * If cursor is not in any code block,just -1.
      */
     private int findCursorBlock(List<BlockLineModel> blocks) {
-        int line = mCursor.getLeftLine();
+        int line = cursor.getLeftLine();
         int min = binarySearchEndBlock(line, blocks);
         int max = blocks.size() - 1;
         int minDis = Integer.MAX_VALUE;
@@ -2042,72 +2109,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         drawColor(canvas, color, mRect);
     }
 
-    /**
-     * Draw single line number
-     */
-    private void drawLineNumber(Canvas canvas, int line, int row, float offsetX, float width, int color) {
-        if (width + offsetX <= 0) {
-            return;
-        }
-        if (mPaintOther.getTextAlign() != mLineNumberAlign) {
-            mPaintOther.setTextAlign(mLineNumberAlign);
-        }
-        mPaintOther.setColor(color);
-        // Line number center align to text center
-        float y = (getRowBottom(row) + getRowTop(row)) / 2f - (mLineNumberMetrics.descent - mLineNumberMetrics.ascent) / 2f - mLineNumberMetrics.ascent - getOffsetY();
 
-        // Avoid Integer#toString() calls
-        char[] text = mBuffer2;
-        int count = 0;
-        int copy = line + 1;
-        while (copy > 0) {
-            int digit = copy % 10;
-            text[count++] = (char) ('0' + digit);
-            copy /= 10;
-        }
-        for (int i = 0, j = count - 1; i < j; i++, j--) {
-            char tmp = text[i];
-            text[i] = text[j];
-            text[j] = tmp;
-        }
-
-        switch (mLineNumberAlign) {
-            case LEFT:
-                canvas.drawText(text, 0, count, offsetX, y, mPaintOther);
-                break;
-            case RIGHT:
-                canvas.drawText(text, 0, count, offsetX + width, y, mPaintOther);
-                break;
-            case CENTER:
-                canvas.drawText(text, 0, count, offsetX + (width + mDividerMargin) / 2f, y, mPaintOther);
-        }
-    }
-
-    /**
-     * Draw line number background
-     *
-     * @param canvas  Canvas to draw
-     * @param offsetX Start x of line number region
-     * @param width   Width of line number region
-     * @param color   Color of line number background
-     */
-    private void drawLineNumberBackground(Canvas canvas, float offsetX, float width, int color) {
-        float right = offsetX + width;
-        if (right < 0) {
-            return;
-        }
-        float left = Math.max(0f, offsetX);
-        mRect.bottom = getHeight();
-        mRect.top = 0;
-        int offY = getOffsetY();
-        if (offY < 0) {
-            mRect.bottom = mRect.bottom - offY;
-            mRect.top = mRect.top - offY;
-        }
-        mRect.left = left;
-        mRect.right = right;
-        drawColor(canvas, color, mRect);
-    }
 
     /**
      * Draw divider line
@@ -2132,29 +2134,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.left = left;
         mRect.right = right;
         drawColor(canvas, color, mRect);
-    }
-
-    /**
-     * Get the width of line number region
-     *
-     * @return width of line number region
-     */
-    private float measureLineNumber() {
-        if (!isLineNumberEnabled()) {
-            return 0f;
-        }
-        int count = 0;
-        int lineCount = getLineCount();
-        while (lineCount > 0) {
-            count++;
-            lineCount /= 10;
-        }
-        final String[] charSet = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        float single = 0f;
-        for (String ch : charSet) {
-            single = Math.max(single, mPaintOther.measureText(ch));
-        }
-        return single * count;
     }
 
     /**
@@ -2235,7 +2214,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Exit select mode after text changed
      */
     private void exitSelectModeIfNeeded() {
-        if (!mCursor.isSelected()) {
+        if (!cursor.isSelected()) {
             mTextActionPresenter.onExit();
         }
     }
@@ -2245,7 +2224,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     private void updateCompletionWindowPosition() {
         float panelX = updateCursorAnchor() + mDpUnit * 20;
-        float[] rightLayoutOffset = mLayout.getCharLayoutOffset(mCursor.getRightLine(), mCursor.getRightColumn());
+        float[] rightLayoutOffset = mLayout.getCharLayoutOffset(cursor.getRightLine(), cursor.getRightColumn());
         float panelY = rightLayoutOffset[0] - getOffsetY() + getRowHeight() / 2f;
         float restY = getHeight() - panelY;
         if (restY > mDpUnit * 200) {
@@ -2277,10 +2256,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             getLocationOnScreen(b);
             mMatrix.postTranslate(b[0], b[1]);
             builder.setMatrix(mMatrix);
-            builder.setSelectionRange(mCursor.getLeft(), mCursor.getRight());
+            builder.setSelectionRange(cursor.getLeft(), cursor.getRight());
         }
-        int l = mCursor.getRightLine();
-        int column = mCursor.getRightColumn();
+        int l = cursor.getRightLine();
+        int column = cursor.getRightColumn();
         prepareLine(l);
         boolean visible = true;
         float x = measureTextRegionOffset();
@@ -2549,7 +2528,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @return SearcherController
      */
     public SearcherController getSearcher() {
-        return mSearcher;
+        return searcher;
     }
 
     /**
@@ -2601,8 +2580,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             throw new IllegalArgumentException("width can not be under 1");
         }
         mTabWidth = w;
-        if (mCursor != null) {
-            mCursor.setTabWidth(mTabWidth);
+        if (cursor != null) {
+            cursor.setTabWidth(mTabWidth);
         }
     }
 
@@ -2850,7 +2829,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @see CodeEditor#setTypefaceLineNumber(Typeface)
      */
     public Typeface getTypefaceLineNumber() {
-        return mPaintOther.getTypeface();
+        return lineNumberPaint.getTypeface();
     }
 
     /**
@@ -2862,8 +2841,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (typefaceLineNumber == null) {
             typefaceLineNumber = Typeface.MONOSPACE;
         }
-        mPaintOther.setTypeface(typefaceLineNumber);
-        mLineNumberMetrics = mPaintOther.getFontMetricsInt();
+        lineNumberPaint.setTypeface(typefaceLineNumber);
+        mLineNumberMetrics = lineNumberPaint.getFontMetricsInt();
         invalidate();
     }
 
@@ -2938,7 +2917,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @return CursorController of text
      */
     public CursorController getCursor() {
-        return mCursor;
+        return cursor;
     }
 
     /**
@@ -3237,7 +3216,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Move selection to end of line
      */
     public void moveSelectionEnd() {
-        int line = mCursor.getLeftLine();
+        int line = cursor.getLeftLine();
         setSelection(line, getText().getColumnCount(line));
     }
 
@@ -3245,7 +3224,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * Move selection to start of line
      */
     public void moveSelectionHome() {
-        setSelection(mCursor.getLeftLine(), 0);
+        setSelection(cursor.getLeftLine(), 0);
     }
 
     /**
@@ -3272,7 +3251,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 column--;
             }
         }
-        mCursor.set(line, column);
+        cursor.set(line, column);
         if (mHighlightCurrentBlock) {
             mCursorPosition = findCursorBlock();
         }
@@ -3282,7 +3261,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         } else {
             invalidate();
         }
-        mCursorBlink.onSelectionChanged();
+        cursor.cursorBlink.onSelectionChanged();
         if (mTextActionPresenter != null) {
             mTextActionPresenter.onExit();
         }
@@ -3326,7 +3305,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (start > end) {
             throw new IllegalArgumentException("start > end:start = " + start + " end = " + end + " lineLeft = " + lineLeft + " columnLeft = " + columnLeft + " lineRight = " + lineRight + " columnRight = " + columnRight);
         }
-        boolean lastState = mCursor.isSelected();
+        boolean lastState = cursor.isSelected();
         if (columnLeft > 0) {
             int column = columnLeft - 1;
             char ch = mText.charAt(lineLeft, column);
@@ -3347,8 +3326,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 }
             }
         }
-        mCursor.setLeft(lineLeft, columnLeft);
-        mCursor.setRight(lineRight, columnRight);
+        cursor.setLeft(lineLeft, columnLeft);
+        cursor.setRight(lineRight, columnRight);
         updateCursor();
         mCompletionWindow.view.hide();
         if (makeRightVisible) {
@@ -3356,8 +3335,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         } else {
             invalidate();
         }
-        mCursorBlink.onSelectionChanged();
-        if (!lastState && mCursor.isSelected() && mStartedActionMode != ACTION_MODE_SEARCH_TEXT) {
+        cursor.cursorBlink.onSelectionChanged();
+        if (!lastState && cursor.isSelected() && mStartedActionMode != ACTION_MODE_SEARCH_TEXT) {
             mTextActionPresenter.onBeginTextSelect();
         }
         userInput.notifyTouchedSelectionHandlerLater();
@@ -3404,11 +3383,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void copyText() {
         try {
-            if (mCursor.isSelected()) {
-                String clip = getText().subContent(mCursor.getLeftLine(),
-                        mCursor.getLeftColumn(),
-                        mCursor.getRightLine(),
-                        mCursor.getRightColumn()).toString();
+            if (cursor.isSelected()) {
+                String clip = getText().subContent(cursor.getLeftLine(),
+                        cursor.getLeftColumn(),
+                        cursor.getRightLine(),
+                        cursor.getRightColumn()).toString();
                 mClipboardManager.setPrimaryClip(ClipData.newPlainText(clip, clip));
             }
         } catch (Exception e) {
@@ -3422,8 +3401,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     public void cutText() {
         copyText();
-        if (mCursor.isSelected()) {
-            mCursor.onDeleteKeyPressed();
+        if (cursor.isSelected()) {
+            cursor.onDeleteKeyPressed();
             notifyExternalCursorChange();
         }
     }
@@ -3451,10 +3430,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             mText.removeContentListener(this);
             mText.setLineListener(null);
         }
-        mText = new ContentController(text);
-        mCursor = mText.getCursor();
-        mCursor.setAutoIndent(mAutoIndentEnabled);
-        mCursor.setLanguage(mLanguage);
+        mText = new ContentController(text,this);
+        cursor = mText.getCursor();
+        cursor.setAutoIndent(mAutoIndentEnabled);
+        cursor.setLanguage(mLanguage);
         userInput.view.reset();
         mText.addContentListener(this);
         mText.setUndoEnabled(mUndoEnabled);
@@ -3645,7 +3624,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     public AccessibilityNodeInfo createAccessibilityNodeInfo() {
         AccessibilityNodeInfo node = super.createAccessibilityNodeInfo();
         node.setEditable(isEditable());
-        node.setTextSelection(mCursor.getLeft(), mCursor.getRight());
+        node.setTextSelection(cursor.getLeft(), cursor.getRight());
         node.setScrollable(true);
         node.setInputType(InputType.TYPE_CLASS_TEXT);
         node.setMultiLine(true);
@@ -3737,7 +3716,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         switch (keyCode) {
             case KeyEvent.KEYCODE_DEL:
                 if (isEditable()) {
-                    mCursor.onDeleteKeyPressed();
+                    cursor.onDeleteKeyPressed();
                     notifyExternalCursorChange();
                 }
                 return true;
@@ -3756,10 +3735,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                     }
                     NewlineHandler[] handlers = mLanguage.getNewlineHandlers();
                     if (handlers == null || getCursor().isSelected()) {
-                        mCursor.onCommitText("\n", true);
+                        cursor.onCommitText("\n", true);
                     } else {
-                        ContentLineController line = mText.getLine(mCursor.getLeftLine());
-                        int index = mCursor.getLeftColumn();
+                        ContentLineController line = mText.getLine(cursor.getLeftLine());
+                        int index = cursor.getLeftColumn();
                         String beforeText = line.subSequence(0, index).toString();
                         String afterText = line.subSequence(index, line.length()).toString();
                         boolean consumed = false;
@@ -3769,7 +3748,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                                     try {
                                         NewlineHandler.HandleResult result = handler.handleNewline(beforeText, afterText, getTabWidth());
                                         if (result != null) {
-                                            mCursor.onCommitText(result.text, false);
+                                            cursor.onCommitText(result.text, false);
                                             int delta = result.shiftLeft;
                                             if (delta != 0) {
                                                 int newSel = Math.max(getCursor().getLeft() - delta, 0);
@@ -3788,7 +3767,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                             }
                         }
                         if (!consumed) {
-                            mCursor.onCommitText("\n", true);
+                            cursor.onCommitText("\n", true);
                         }
                     }
                     notifyExternalCursorChange();
@@ -3949,16 +3928,16 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mCursorBlink.model.valid = mCursorBlink.model.period > 0;
-        if (mCursorBlink.model.valid) {
-            post(mCursorBlink);
+        cursor.cursorBlink.model.valid = cursor.cursorBlink.model.period > 0;
+        if (cursor.cursorBlink.model.valid) {
+            post(cursor.cursorBlink);
         }
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mCursorBlink.model.valid = false;
+        cursor.cursorBlink.model.valid = false;
     }
 
     @Override
@@ -3989,7 +3968,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
         }
 
-        mCursorBlink.onSelectionChanged();
+        cursor.cursorBlink.onSelectionChanged();
         mLayout.afterInsert(content, startLine, startColumn, endLine, endColumn, insertedContent);
 
         // Notify input method
@@ -4048,7 +4027,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
         }
 
-        mCursorBlink.onSelectionChanged();
+        cursor.cursorBlink.onSelectionChanged();
         mLayout.afterDelete(content, startLine, startColumn, endLine, endColumn, deletedContent);
 
         updateCursor();
@@ -4104,8 +4083,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mFormatThread = null;
         if (originalText == mText) {
             post(() -> {
-                int line = mCursor.getLeftLine();
-                int column = mCursor.getLeftColumn();
+                int line = cursor.getLeftLine();
+                int column = cursor.getLeftColumn();
                 mText.replace(0, 0, getLineCount() - 1, mText.getColumnCount(getLineCount() - 1), newText);
                 getScroller().forceFinished(true);
                 mCompletionWindow.view.hide();

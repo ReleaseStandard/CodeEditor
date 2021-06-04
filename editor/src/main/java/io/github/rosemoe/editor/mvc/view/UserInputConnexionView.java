@@ -24,7 +24,7 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
-import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -198,6 +198,9 @@ public class UserInputConnexionView extends BaseInputConnection {
     public void handleCloseConnection() { }
     public void handleCommitTextInternal() { }
     public boolean isInvalid() {
+        return false;
+    }
+    public boolean handlePerformContextMenuAction(int id) {
         return false;
     }
     @Override

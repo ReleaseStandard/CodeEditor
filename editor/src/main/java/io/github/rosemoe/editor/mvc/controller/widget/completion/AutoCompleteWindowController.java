@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.ColorSchemeController;
-import io.github.rosemoe.editor.mvc.controller.widget.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.completion.AutoCompleteWindowModel;
 import io.github.rosemoe.editor.mvc.view.widget.completion.AutoCompleteWindowView;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;

@@ -15,9 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widget;
 
-import android.app.ProgressDialog;
-import android.widget.Toast;
-
+import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.SearcherModel;
 import io.github.rosemoe.editor.mvc.controller.content.ContentController;
 import io.github.rosemoe.editor.mvc.view.widget.SearcherView;
