@@ -48,6 +48,9 @@ public class MkshAnalyzer extends CodeAnalyzerController {
     public void processPunctuation(Object ...nodes) {
         processNodes(theme.accent3,nodes);
     }
+    public void processIdentifier(Object ...nodes) {
+        processNodes(theme.accent1,nodes);
+    }
     @Override
     public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
@@ -70,7 +73,7 @@ public class MkshAnalyzer extends CodeAnalyzerController {
                     case RETURN: case SET: case SHIFT: case TIMES: case TRAP: case UNSET: case BUILTIN:
                     case GLOBAL: case TYPESET: case WAIT: case ALIAS: case BG: case BIND: case CAT: case CD:
                     case COMMAND: case ECHO: case FALSE: case TRUE: case FC: case FG: case GETOPTS: case JOBS:
-                    case KILL: case LET: case MKNOD: case PRINT: case PWD: case READ: case REALPATH: case RENAME:
+                    case KILL: case MKNOD: case PRINT: case PWD: case READ: case REALPATH: case RENAME:
                     case SLEEP: case SUSPEND: case TEST: case ULIMIT: case UMASK: case UNALIAS: case WHENCE:
                         processNode(theme.accent3,token);
                         break;
@@ -92,13 +95,18 @@ public class MkshAnalyzer extends CodeAnalyzerController {
                 processFunctionIdentifier(ctx.identifier());
                 processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
             }
-            // arithmetic expression
-            @Override public void enterArit(AritContext ctx) { processKeywords(ctx.ARIT_OPERATOR_L(),ctx.ARIT_OPERATOR_R(),ctx.LET()); }
+            // arithmetic expression TODO
+            @Override public void enterArit(AritContext ctx) {
+                processKeywords(ctx.ARIT_OPERATOR_L(),ctx.ARIT_OPERATOR_R(),ctx.LET());
+            }
             @Override public void enterExpression_end(Expression_endContext ctx) { processPunctuation(ctx.P_SEMI()); }
 
             @Override
-            public void enterIdentifier(IdentifierContext ctx) {
-                processNodes(theme.accent1, ctx.IDENTIFIER());
+            public void enterAssignment(AssignmentContext ctx) {
+                processPunctuation(ctx.ARIT_A());
+                if ( ctx.identifier() != null ) {
+                    processIdentifier(ctx.identifier().IDENTIFIER());
+                }
             }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.start());

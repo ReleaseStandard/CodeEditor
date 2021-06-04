@@ -37,7 +37,7 @@ options {
 
 start                : file ;
 file                 : expr EOF ;
-expr                 : ( ( ( arit | execution_control | instruction ) expression_end ) 
+expr                 : ( ( ( arit | execution_control | instruction | assignment ) expression_end ) 
 				| comment 
 				| TERMINATOR+ ) expr? ;
 instruction          : ( primary_keyword | secondary_keyword ) ;
