@@ -15,10 +15,13 @@
  */
 package io.github.rosemoe.editor.extension;
 
+import java.util.HashMap;
+
 import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.extension.events.EventDestination;
 import io.github.rosemoe.editor.extension.events.EventQueue;
 import io.github.rosemoe.editor.extension.events.EventSource;
+import io.github.rosemoe.editor.plugins.Plugin;
 
 
 /**
@@ -30,7 +33,28 @@ import io.github.rosemoe.editor.extension.events.EventSource;
  * And the plugin as an higher level plugin.
  *
  */
-public class Extension implements EventSource, EventDestination  {
+public class Extension implements EventSource, EventDestination, Comparable  {
+    /**
+     * Plugin priority declaration : WARNING they should be putted from low to high priority.
+     * that is plugin can be given a priority.
+     */
+    public enum PRIORITY {
+        LOW,
+        STD,
+        HIGH
+    }
+    public Plugin.PRIORITY priorityRing = Plugin.PRIORITY.STD;
+    private HashMap<String, Boolean> subscribedEventTypes = new HashMap<>();
+
+    @Override
+    public int compareTo(Object o) {
+        if ( o instanceof Plugin) {
+            Plugin p = (Plugin) o;
+            return priorityRing.compareTo(p.priorityRing);
+        }
+        return 0;
+    }
+
     public boolean enabled = true;
     /**
      * Is the plugin enabled
@@ -60,7 +84,7 @@ public class Extension implements EventSource, EventDestination  {
     }
 
 
-    EventQueue dispatchQueue = new EventQueue() {
+    private EventQueue dispatchQueue = new EventQueue() {
         @Override
         public void handlePolling(Event e) {
             handleEventDispatch(e,e.getType(),e.getSubType());
@@ -75,6 +99,7 @@ public class Extension implements EventSource, EventDestination  {
 
     @Override
     public void subscribe(String type) {
+
         subscribedEventTypes.put(type,true);
     }
 

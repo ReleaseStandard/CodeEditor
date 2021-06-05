@@ -30,6 +30,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
+import static io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent.TYPE_LOOPBACK;
 import static io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent.*;
 import static io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel.*;
 import static io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel.isSameSign;
@@ -52,8 +53,6 @@ public final class UserInputController extends Widget {
     private final static int SELECTION_HANDLE_RESIZE_DELAY = 10;
     public final static int HIDE_DELAY_HANDLE = 5000;
     public static final long INTERACTION_END_DELAY = 100;
-
-
 
     private SelectionHandle insert = null, left = null, right = null;
     private float downY = 0;
@@ -437,6 +436,7 @@ public final class UserInputController extends Widget {
 
     @Override
     public void handleEventDispatch(Event e, String type, String subtype) {
+        Logger.debug("TYPE_LOOPBACK=",issubscribed(TYPE_LOOPBACK),",TYPE_USERINPUT=",issubscribed(UserInputEvent.TYPE_USERINPUT));
         UserInputEvent uie = (UserInputEvent) e;
         switch(subtype) {
         }

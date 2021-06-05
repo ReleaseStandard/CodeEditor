@@ -13,31 +13,26 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.plugins;
+package io.github.rosemoe.editor.mvc.controller.widgets.loopback;
 
-import io.github.rosemoe.editor.extension.Extension;
 import io.github.rosemoe.editor.extension.events.Event;
 
-
 /**
- * You may implement handleEventDispatch, handleEventEmit
- * then when using the plugin : .dispatch() and .emit()
- * @author ReleaseStandard
+ * This widget is important because it allows communication between plugins.
  */
-public class Plugin extends Extension {
-
-    /**
-     * Override this method to execute action when a given event is dispatched.
-     * @param e
-     * @param type
-     */
-    @Override
-    protected void handleEventDispatch(Event e, String type, String subtype) {
-
+public class LoopbackEvent extends Event {
+    // primary type we can subclass in java
+    public final static String TYPE_LOOPBACK = "loopback";
+    // secondary keywords
+    // same // public final static String PLUGINS_BROADCAST = "loopback";
+    // action
+    public final static String PLUGINS_BROADCAST = "loopback";
+    public LoopbackEvent() {
+        super();
+        type = TYPE_LOOPBACK;
     }
-
-    @Override
-    protected void handleEventEmit(Event e) {
-
+    public LoopbackEvent(String subtype, Object ...args) {
+        super(subtype,args);
+        type = TYPE_LOOPBACK;
     }
 }

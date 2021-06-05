@@ -44,9 +44,7 @@ public class UserInputEvent extends Event {
         type = TYPE_USERINPUT;
     }
     public UserInputEvent(String subtype, Object ...args) {
-        super();
+        super(subtype,args);
         type = TYPE_USERINPUT;
-        this.subtype = subtype;
-        putArgs(args);
     }
 }

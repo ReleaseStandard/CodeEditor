@@ -27,7 +27,6 @@ public interface EventDestination {
      */
     void dispatch(Event e);
 
-    HashMap<String, Boolean> subscribedEventTypes = new HashMap<>();
     /**
      * Subscribe to this type of events
      * @param type

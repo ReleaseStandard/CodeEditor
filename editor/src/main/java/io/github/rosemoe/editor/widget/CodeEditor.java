@@ -61,10 +61,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
 import io.github.rosemoe.editor.extension.ExtensionContainer;
-import io.github.rosemoe.editor.extension.events.EventQueue;
+import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.plugins.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
@@ -577,8 +576,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         setLineInfoTextSize(mPaint.getTextSize());
         mColors = ColorSchemeController.DEFAULT();
         userInput = new UserInputController(this,getContext());
-
-        widgets.put(userInput);
+        widgets.put(userInput,new LoopbackWidget(this));
         plugins.put(new ExamplePlugin(this));
 
         mViewRect = new Rect(0, 0, 0, 0);

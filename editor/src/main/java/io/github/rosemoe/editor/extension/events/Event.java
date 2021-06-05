@@ -24,7 +24,7 @@ import io.github.rosemoe.editor.util.Logger;
  *
  * @author Release Standard
  */
-public class Event implements Comparable {
+public abstract class Event implements Comparable {
 
     @Override
     public int compareTo(Object o) {
@@ -78,7 +78,10 @@ public class Event implements Comparable {
         this.subtype = subtype;
     }
     public Event() {
-
+    }
+    public Event(String subtype, Object ...args) {
+        this.subtype = subtype;
+        putArgs(args);
     }
     /**
      * Get argument associated with a given index.

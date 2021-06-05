@@ -59,9 +59,11 @@ public class ExtensionContainer extends Extension {
 
     /**
      * Add an extension in the container.
-     * @param extension extension to add
+     * @param extensions extension(s) to add
      */
-    public void put(Extension extension) {
-        extensions.add(extension);
+    public void put(Extension ...extensions) {
+        for(Extension extension : extensions) {
+            this.extensions.add(extension);
+        }
     }
 }
