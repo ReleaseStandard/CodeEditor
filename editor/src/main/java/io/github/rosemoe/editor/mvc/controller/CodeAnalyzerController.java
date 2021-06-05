@@ -33,7 +33,7 @@ import io.github.rosemoe.editor.util.Logger;
  */
 public abstract class CodeAnalyzerController {
 
-    public static ColorSchemeController theme = ColorSchemeController.DEFAULT();
+    public static ColorSchemeController theme = null;
     private TextAnalyzerView colors = null;
 
     public static void setTheme(ColorSchemeController theme) { CodeAnalyzerController.theme = theme; }

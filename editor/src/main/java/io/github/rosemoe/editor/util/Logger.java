@@ -20,7 +20,7 @@ import android.util.Log;
 import static io.github.rosemoe.editor.widget.CodeEditor.LOG_TAG;
 
 public class Logger {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static String OFFSET = "    ";
 
     /**
@@ -35,7 +35,12 @@ public class Logger {
         if (! DEBUG ) { return ; }
         String msg = "";
         for(Object arg : args) {
-            msg += arg.toString();
+            if ( arg == null ) {
+                msg += "null";
+            }
+            else {
+                msg += arg.toString();
+            }
         }
         Log.v(LOG_TAG + "/" + CallStack.getLastCaller(), msg);
     }

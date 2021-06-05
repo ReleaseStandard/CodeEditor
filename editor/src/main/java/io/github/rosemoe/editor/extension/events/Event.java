@@ -88,7 +88,13 @@ public abstract class Event implements Comparable {
      * @param index index of argument to get.
      * @return
      */
-    public Object getArg(int index) { return args.get(index); }
+    public Object getArg(int index) {
+        try {
+            return args.get(index);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     /**
      * Put a given arg in the event.
      * @param arg

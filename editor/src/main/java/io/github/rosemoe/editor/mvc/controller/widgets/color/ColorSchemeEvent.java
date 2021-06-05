@@ -13,22 +13,26 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets;
+package io.github.rosemoe.editor.mvc.controller.widgets.color;
 
-import io.github.rosemoe.editor.extension.Extension;
 import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.util.Logger;
 
 /**
- * This class provide a widget system for CodeEditor.
- * Each widget can provide custom xml attributes and colors for the color widget.
- *
- * @author Release Standard
+ * This widget is important because it allows communication between plugins.
  */
-public class Widget extends Extension {
-    @Override
-    public void dispatch(Event e) {
-        super.dispatch(e);
-        Logger.debug("Dispatch on widget requested");
+public class ColorSchemeEvent extends Event {
+    // primary type we can subclass in java
+    public final static String TYPE_COLOR_SCHEME = "colorScheme";
+    // secondary keywords
+    // action
+    public final static String UPDATE_COLOR = "update_color";
+    public final static String UPDATE_THEME = "update_theme";
+    public ColorSchemeEvent() {
+        super();
+        type = TYPE_COLOR_SCHEME;
+    }
+    public ColorSchemeEvent(String subtype, Object ...args) {
+        super(subtype,args);
+        type = TYPE_COLOR_SCHEME;
     }
 }

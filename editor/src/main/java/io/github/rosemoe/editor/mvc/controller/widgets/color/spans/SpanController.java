@@ -37,7 +37,7 @@ public class SpanController {
      * @return an empty span with default settings.
      */
     public static SpanController EMPTY() {
-        return obtain(0, ColorSchemeController.DEFAULT().getTextNormal());
+        return obtain(0, 0xFF0000FF);
     }
     /**
      * Create a new span

@@ -22,6 +22,7 @@ import io.github.rosemoe.editor.extension.events.EventDestination;
 import io.github.rosemoe.editor.extension.events.EventQueue;
 import io.github.rosemoe.editor.extension.events.EventSource;
 import io.github.rosemoe.editor.plugins.Plugin;
+import io.github.rosemoe.editor.util.Logger;
 
 
 /**
@@ -43,13 +44,13 @@ public class Extension implements EventSource, EventDestination, Comparable  {
         STD,
         HIGH
     }
-    public Plugin.PRIORITY priorityRing = Plugin.PRIORITY.STD;
+    public PRIORITY priorityRing = PRIORITY.STD;
     private HashMap<String, Boolean> subscribedEventTypes = new HashMap<>();
 
     @Override
     public int compareTo(Object o) {
-        if ( o instanceof Plugin) {
-            Plugin p = (Plugin) o;
+        if ( o instanceof Extension) {
+            Extension p = (Extension) o;
             return priorityRing.compareTo(p.priorityRing);
         }
         return 0;
@@ -93,6 +94,8 @@ public class Extension implements EventSource, EventDestination, Comparable  {
     @Override
     public void dispatch(Event e) {
         if( issubscribed(e.getType()) ) {
+            Logger.debug("Inserting event in the pq");
+            e.dump("      ");
             dispatchQueue.add(e);
         }
     }

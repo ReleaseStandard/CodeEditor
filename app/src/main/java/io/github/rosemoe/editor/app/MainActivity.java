@@ -53,7 +53,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.SymbolInputView;
-import io.github.rosemoe.editor.plugins.themes.*;
+import io.github.rosemoe.editor.plugins.color.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,16 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText search, replace;
 
     private MainActivityModel mam = new MainActivityModel();
-    private static HashMap<String, ColorSchemeController> themes = new HashMap<String, ColorSchemeController>() {{
-        put("Default", ColorSchemeController.DEFAULT());
-        put("Eclipse",new Eclipse());
-        put("Darcula",new Darcula());
-        put("VS2019",new VS2019());
-        put("NotepadXX",new NotepadXX());
-        put("HTML",new HTML());
-        put("Solarized",new Solarized());
-        put("SolarizedDark",new Solarized(true));
-        put("GitHub",new GitHub());
+    private static HashMap<String, ColorPlugin> themes = new HashMap<String, ColorPlugin>() {{
+
     }};
     private static HashMap<String, LanguageController> languages = new HashMap<String, LanguageController>() {{
         put("C",new UniversalLanguage(new CDescription()));
@@ -115,7 +107,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editor = findViewById(R.id.editor);
-
+        themes.put("Default", ColorPlugin.DEFAULT(editor));
+        themes.put("Eclipse",new ColorPluginEclipse(editor));
+        themes.put("Darcula",new ColorPluginDarcula(editor));
+        themes.put("VS2019",new ColorPluginVS2019(editor));
+        themes.put("NotepadXX",new ColorPluginNotepadXX(editor));
+        themes.put("HTML",new ColorPluginHTML(editor));
+        themes.put("Solarized",new ColorPluginSolarized(editor));
+        //themes.put("SolarizedDark",new ColorPluginSolarized(editor,true));
+        themes.put("GitHub",new ColorPluginGithub(editor));
         panel = findViewById(R.id.search_panel);
         search = findViewById(R.id.search_editor);
         replace = findViewById(R.id.replace_editor);
@@ -146,7 +146,9 @@ public class MainActivity extends AppCompatActivity {
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
         setEditorLanguage(new JavaLanguage(), "samples/java/java.txt");
         if ( Logger.DEBUG ) {
-            editor.setColorScheme(new Debug());
+            new ColorPluginDebug(editor).apply();
+        } else {
+            ColorPlugin.DEFAULT(editor).apply();
         }
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
@@ -225,8 +227,9 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
-                            ColorSchemeController theme = themes.get(mam.themes[which]);
-                            editor.setColorScheme(theme);
+                            ColorPlugin theme = themes.get(mam.themes[which]);
+                            //editor.setColorScheme(theme);
+                            theme.apply();
                             mam.checkedTheme=which;
                             dialog.dismiss();
                         })

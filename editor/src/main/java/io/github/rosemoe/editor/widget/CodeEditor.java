@@ -574,9 +574,13 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mStartedActionMode = ACTION_MODE_NONE;
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
-        mColors = ColorSchemeController.DEFAULT();
+        mColors = new ColorSchemeController(this);
         userInput = new UserInputController(this,getContext());
-        widgets.put(userInput,new LoopbackWidget(this));
+        widgets.put(
+                userInput,
+                new LoopbackWidget(this),
+                mColors
+        );
         plugins.put(new ExamplePlugin(this));
 
         mViewRect = new Rect(0, 0, 0, 0);

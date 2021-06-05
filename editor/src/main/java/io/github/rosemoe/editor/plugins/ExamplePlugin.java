@@ -15,9 +15,12 @@
  */
 package io.github.rosemoe.editor.plugins;
 
+import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
+import io.github.rosemoe.editor.plugins.color.ColorPluginDarcula;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
@@ -44,8 +47,8 @@ public class ExamplePlugin extends Plugin {
         } else {
             taps ++;
         }
-        if ( taps >= 4 ) {
-            Logger.debug("Multitap detected, sending a loopback event");
+        if ( taps >= 3 ) {
+            Logger.debug("Tripletap detected, sending a loopback event");
             LoopbackEvent e = new LoopbackEvent(LoopbackEvent.PLUGINS_BROADCAST,true);
             editor.widgets.dispatch(e);
             taps = 0;
@@ -61,6 +64,15 @@ public class ExamplePlugin extends Plugin {
             }
             if ( e.getSubType() == UserInputEvent.SINGLETAPUP ) {
                 incOrReset();
+            }
+            if ( e.getSubType() == UserInputEvent.ONSCALEBEGIN ) {
+                Logger.debug("Multiple tap detected, sending background color change");
+                ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF00FF00);
+                editor.widgets.dispatch(cse);
+            }
+            if ( e.getSubType() == UserInputEvent.ONSCROLL ) {
+                new ColorPluginDarcula(editor);
+                //editor.widgets.dispatch(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground, ));
             }
         }
         if ( e.getType() == LoopbackEvent.TYPE_LOOPBACK ) {
@@ -78,6 +90,7 @@ public class ExamplePlugin extends Plugin {
 
     public ExamplePlugin(CodeEditor editor) {
         super();
+        setEnabled(Logger.DEBUG);
         this.editor = editor;
     }
 }

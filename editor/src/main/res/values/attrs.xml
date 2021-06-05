@@ -79,6 +79,14 @@
         <attr name="widget.color.base2" format="color"/>
         <attr name="widget.color.base3" format="color"/>
         <attr name="widget.color.base4" format="color"/>
+        <attr name="widget.color.accent1" format="color"/>
+        <attr name="widget.color.accent2" format="color"/>
+        <attr name="widget.color.accent3" format="color"/>
+        <attr name="widget.color.accent4" format="color"/>
+        <attr name="widget.color.accent5" format="color"/>
+        <attr name="widget.color.accent6" format="color"/>
+        <attr name="widget.color.accent7" format="color"/>
+        <attr name="widget.color.accent8" format="color"/>
 
     </declare-styleable>
 </resources>

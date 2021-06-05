@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.extension.events;
 
+import android.util.Log;
+
 import java.util.PriorityQueue;
 
 import io.github.rosemoe.editor.util.Logger;
@@ -34,7 +36,6 @@ public class EventQueue extends PriorityQueue<Event> {
                     try {
                         Event e = EventQueue.this.poll();
                         while ( e != null ) {
-                            Logger.debug("Event found in the priority queue !");
                             handlePolling(e);
                             e = EventQueue.this.poll();
                         }

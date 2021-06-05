@@ -13,22 +13,21 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets;
+package io.github.rosemoe.editor.plugins.color;
 
-import io.github.rosemoe.editor.extension.Extension;
-import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.plugins.Plugin;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
-/**
- * This class provide a widget system for CodeEditor.
- * Each widget can provide custom xml attributes and colors for the color widget.
- *
- * @author Release Standard
- */
-public class Widget extends Extension {
-    @Override
-    public void dispatch(Event e) {
-        super.dispatch(e);
-        Logger.debug("Dispatch on widget requested");
+public abstract class ColorPlugin extends Plugin {
+    CodeEditor editor;
+    boolean invert = false;
+    public abstract void apply();
+    public static ColorPlugin DEFAULT(CodeEditor editor) { return new ColorPluginSolarized(editor); }
+    public ColorPlugin(CodeEditor editor) {
+        this.editor = editor;
+    }
+    public ColorPlugin(CodeEditor editor, boolean invert) {
+        this.editor = editor;
+        this.invert = invert;
     }
 }
