@@ -1,7 +1,4 @@
-include ':language-cobol85'
-include ':language-mksh'
-include ':language-golang'
-include ':editor' /*******************************************************************************
+/*******************************************************************************
  *   Copyright 2020-2021 Rosemoe
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +13,15 @@ include ':editor' /*************************************************************
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  ******************************************************************************/
-
+include ':language-cobol85'
+include ':language-mksh'
+include ':language-golang'
+include ':editor' 
 include ':language-universal'
 include ':language-java'
 include ':language-html'
 include ':language-base'
 include ':language-python'
-include ':debug-logger'
 include ':editor'
 include ':app'
 rootProject.name='CodeEditor'
