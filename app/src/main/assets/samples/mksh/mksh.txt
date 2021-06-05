@@ -1,73 +1,246 @@
-####################################
-#
-# This script does nothing except show
-# live log output.
-#
-####################################
-while true ; do
-    echo "ok";
-    sleep 0.5;
-done
+# Generated test 1622852019
+# function
+function myfunction() {
+			 		true;
+		         		}
+function function() { true; }
+myfunction() { true; }
+mymymyfunction() { true; }
+ok() a='1'
+ok() ((a=1))
+ok() ( true )
+ok() { true }
+ok() { ( true ) ; }
+ok()
 
-echo "zaenpoezarnbipb:;:";
 
-let a=1+2;
-echo "$a";
-let b=$a;
 
-function test(a) {
-    echo "ok";
-    echo "$a";
-}
 
-for ((a=0;a<10;a=a+1)) ; do
-    echo "$a";
-    break;
-done
+						true;
+				
+ok() true;
+ok()
 
-echo "ok";
 
-set -o posix
-jobs
 
-## Exaustive test
-# Keywords
-a="ok";
+
+
+
+						{ true; }
+				
+function ok()
+
+
+
+						{ true; }
+				
+function ok
+						() { true ; }
+
+# case_end
+
+					case a in
+						("ok")
+							true;
+						;;
+						"kk")
+							false;
+						;&
+						"ii")
+							true
+						;|
+					esac
+				
+case case in esac
 case a in
-    *)
-        echo "ok";
-    ;;
-esac
 
-if true then
-    echo "kk";
-fi
 
-time
+
+						"ok")
+
+
+
+						;;
+
+					esac
+				
+
+# if_then_else
+if true ; then true; fi
+if true ; then true; elif true ; then true ; else true ; fi
+if true ; then true; elif true ; then true ; elif true ; then true ; else true ; fi
+
+# for_do_done
+for a in 'a' 'b' 'c' ; do true ; done
+
+# select_in
+select ok in 'ok' ; do true ; done
+select k in 'a' 'b' 'c' ; do true ; done
+
+# until_do
+until true ; do true ; done
+until true ; do true ; done
+
+# while_do
+while true ; do true ; done
+while true ; do true ; done
+
+					while true ; do
+					 true;
+					done
+				
+
+					while true ; do
+					 true;
+					 true;
+					 true
+					done
+				
+
+					while true ; do
+					 true;
+					 true;
+					 true
+					 while true ; do
+					  true;
+					  while true ; do
+					   true;
+					  done
+					 done
+					done
+				
+
+# let
+let a=1+1
+let a=1
+let a+=1
+let a-=1
+let a*=1
+let a/=1
+let a%=1
+let a<<<=1
+let a>>>=1
+let a<<=1
+let a>>=1
+let a&=1
+let a^=1
+let a|=1
+let a=1,a=1
+
+# test files
+#
+#
+#
 while true ; do true; done
 
-
-if true ; then
-elif true ; then
-else true ; fi
-
-until false ; do
-    echo "ok";
+while true ; do
+    true ;
 done
 
-# Additionnal builtins
-while true ; do break; done
-while true ; do continue ; done
-eval "echo ok"
-exec ls
-exit
-export a=1
-readonly a
+while true ; do
+    while true ; do
+        while true
+            do true
+        done
+    done
+done
+
+while true ; do while true ; do while true ; do true ; done ; done ; done
+
+true; true; true; true; true;
+true; true;
+
+
+while true ; do
+    if true ; then
+        true ;
+    fi
+done
+
+until true ; do
+    true;
+done
+
+for true in "ok" ; do
+    true ;
+done
+
+if true ; then true ; fi
+if true ; then
+    if true ; then
+        true ;
+    fi
+fi
+
 function test() {
-    return 1;
+    true;
 }
-set -o posix
-function test() { shift ; shift ; echo "$1"; }
-test a b c
-times
-trap STP test
+#
+#
+#
+while true ; do true; done
+
+while true ; do
+    true ;
+done
+
+while true ; do
+    while true ; do
+        while true
+            do true
+        done
+    done
+done
+
+while true ; do while true ; do while true ; do true ; done ; done ; done
+
+true; true; true; true; true;
+true; true;
+
+
+while true ; do
+    if true ; then
+        true ;
+    fi
+done
+
+until true ; do
+    true;
+done
+
+for true in "ok" ; do
+    true ;
+done
+
+if true ; then true ; fi
+if true ; then
+    if true ; then
+        true ;
+    fi
+fi
+
+function test() {
+    true;
+}
+
+# test assignement
+a="ok"
+a='ok'
+azeazeazeza='okokokokokokoko'
+
+# test exec
+exec false
+exec true
+exec false
+eval true
+eval exec true
+exec exec exec exec true
+exec eval exec true
+( true ) 
+( exec eval exec true )
+( ( ( true ) ) )
+( ( ( false ) ) )
+( { true } )
+( { { { true } } } )
+( exec true )
+

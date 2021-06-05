@@ -38,15 +38,15 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitExpr(MkshParser.ExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#instruction}.
+	 * Enter a parse tree produced by {@link MkshParser#encapsulated_expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterInstruction(MkshParser.InstructionContext ctx);
+	void enterEncapsulated_expression(MkshParser.Encapsulated_expressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#instruction}.
+	 * Exit a parse tree produced by {@link MkshParser#encapsulated_expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitInstruction(MkshParser.InstructionContext ctx);
+	void exitEncapsulated_expression(MkshParser.Encapsulated_expressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MkshParser#expression_end}.
 	 * @param ctx the parse tree
@@ -78,6 +78,26 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitIdentifier(MkshParser.IdentifierContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MkshParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void enterString(MkshParser.StringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void exitString(MkshParser.StringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#instruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstruction(MkshParser.InstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#instruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstruction(MkshParser.InstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MkshParser#primary_keyword}.
 	 * @param ctx the parse tree
 	 */
@@ -98,6 +118,46 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitSecondary_keyword(MkshParser.Secondary_keywordContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MkshParser#secondary_instruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterSecondary_instruction(MkshParser.Secondary_instructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#secondary_instruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitSecondary_instruction(MkshParser.Secondary_instructionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#instruction_time}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstruction_time(MkshParser.Instruction_timeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#instruction_time}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstruction_time(MkshParser.Instruction_timeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#executable_instruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterExecutable_instruction(MkshParser.Executable_instructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#executable_instruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitExecutable_instruction(MkshParser.Executable_instructionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#instruction_exec}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstruction_exec(MkshParser.Instruction_execContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#instruction_exec}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstruction_exec(MkshParser.Instruction_execContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MkshParser#execution_control}.
 	 * @param ctx the parse tree
 	 */
@@ -108,75 +168,85 @@ public interface MkshParserListener extends ParseTreeListener {
 	 */
 	void exitExecution_control(MkshParser.Execution_controlContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#for_do_done}.
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_case_esac}.
 	 * @param ctx the parse tree
 	 */
-	void enterFor_do_done(MkshParser.For_do_doneContext ctx);
+	void enterExecution_control_case_esac(MkshParser.Execution_control_case_esacContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#for_do_done}.
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_case_esac}.
 	 * @param ctx the parse tree
 	 */
-	void exitFor_do_done(MkshParser.For_do_doneContext ctx);
+	void exitExecution_control_case_esac(MkshParser.Execution_control_case_esacContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#if_then_else}.
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_for_do_done}.
 	 * @param ctx the parse tree
 	 */
-	void enterIf_then_else(MkshParser.If_then_elseContext ctx);
+	void enterExecution_control_for_do_done(MkshParser.Execution_control_for_do_doneContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#if_then_else}.
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_for_do_done}.
 	 * @param ctx the parse tree
 	 */
-	void exitIf_then_else(MkshParser.If_then_elseContext ctx);
+	void exitExecution_control_for_do_done(MkshParser.Execution_control_for_do_doneContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#select_in}.
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_if_then_else}.
 	 * @param ctx the parse tree
 	 */
-	void enterSelect_in(MkshParser.Select_inContext ctx);
+	void enterExecution_control_if_then_else(MkshParser.Execution_control_if_then_elseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#select_in}.
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_if_then_else}.
 	 * @param ctx the parse tree
 	 */
-	void exitSelect_in(MkshParser.Select_inContext ctx);
+	void exitExecution_control_if_then_else(MkshParser.Execution_control_if_then_elseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#until_do}.
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_select_in}.
 	 * @param ctx the parse tree
 	 */
-	void enterUntil_do(MkshParser.Until_doContext ctx);
+	void enterExecution_control_select_in(MkshParser.Execution_control_select_inContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#until_do}.
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_select_in}.
 	 * @param ctx the parse tree
 	 */
-	void exitUntil_do(MkshParser.Until_doContext ctx);
+	void exitExecution_control_select_in(MkshParser.Execution_control_select_inContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#while_do}.
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_until_do}.
 	 * @param ctx the parse tree
 	 */
-	void enterWhile_do(MkshParser.While_doContext ctx);
+	void enterExecution_control_until_do(MkshParser.Execution_control_until_doContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#while_do}.
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_until_do}.
 	 * @param ctx the parse tree
 	 */
-	void exitWhile_do(MkshParser.While_doContext ctx);
+	void exitExecution_control_until_do(MkshParser.Execution_control_until_doContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#function}.
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_while_do}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunction(MkshParser.FunctionContext ctx);
+	void enterExecution_control_while_do(MkshParser.Execution_control_while_doContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#function}.
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_while_do}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunction(MkshParser.FunctionContext ctx);
+	void exitExecution_control_while_do(MkshParser.Execution_control_while_doContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MkshParser#string}.
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_function}.
 	 * @param ctx the parse tree
 	 */
-	void enterString(MkshParser.StringContext ctx);
+	void enterExecution_control_function(MkshParser.Execution_control_functionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MkshParser#string}.
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_function}.
 	 * @param ctx the parse tree
 	 */
-	void exitString(MkshParser.StringContext ctx);
+	void exitExecution_control_function(MkshParser.Execution_control_functionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MkshParser#execution_control_function_wo_kwrd}.
+	 * @param ctx the parse tree
+	 */
+	void enterExecution_control_function_wo_kwrd(MkshParser.Execution_control_function_wo_kwrdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MkshParser#execution_control_function_wo_kwrd}.
+	 * @param ctx the parse tree
+	 */
+	void exitExecution_control_function_wo_kwrd(MkshParser.Execution_control_function_wo_kwrdContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MkshParser#arit}.
 	 * @param ctx the parse tree
@@ -247,14 +317,4 @@ public interface MkshParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignment(MkshParser.AssignmentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MkshParser#exec}.
-	 * @param ctx the parse tree
-	 */
-	void enterExec(MkshParser.ExecContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MkshParser#exec}.
-	 * @param ctx the parse tree
-	 */
-	void exitExec(MkshParser.ExecContext ctx);
 }

@@ -85,16 +85,52 @@ public class MkshAnalyzer extends CodeAnalyzerController {
             }
 
             // This should normally all primary keywords.
-            @Override public void enterFor_do_done(For_do_doneContext ctx) { processKeywords(ctx.DO(),ctx.DONE(),ctx.IN(),ctx.FOR()); }
-            @Override public void enterIf_then_else(If_then_elseContext ctx) { processKeywords(ctx.IF(),ctx.ELSE(),ctx.FI()); processKeywords(ctx.THEN()); processKeywords(ctx.ELIF()); }
-            @Override public void enterSelect_in(Select_inContext ctx) { processKeywords(ctx.DO(),ctx.SELECT(),ctx.DONE(),ctx.IN()); }
-            @Override public void enterUntil_do(Until_doContext ctx) { processKeywords(ctx.UNTIL(), ctx.DO(), ctx.DONE()); }
-            @Override public void enterWhile_do(While_doContext ctx) { processKeywords(ctx.DONE(),ctx.DO(),ctx.WHILE()); }
-            @Override public void enterFunction(FunctionContext ctx) {
+
+            @Override
+            public void enterExecution_control_for_do_done(Execution_control_for_do_doneContext ctx) {
+                processKeywords(ctx.DO(),ctx.DONE(),ctx.IN(),ctx.FOR());
+            }
+
+            @Override
+            public void enterExecution_control_if_then_else(Execution_control_if_then_elseContext ctx) {
+                processKeywords(ctx.IF(),ctx.ELSE(),ctx.FI()); processKeywords(ctx.THEN()); processKeywords(ctx.ELIF());
+            }
+
+            @Override
+            public void enterExecution_control_select_in(Execution_control_select_inContext ctx) {
+                processKeywords(ctx.DO(),ctx.SELECT(),ctx.DONE(),ctx.IN());
+            }
+
+            @Override
+            public void enterExecution_control_until_do(Execution_control_until_doContext ctx) {
+                processKeywords(ctx.UNTIL(), ctx.DO(), ctx.DONE());
+            }
+
+            @Override
+            public void enterExecution_control_while_do(Execution_control_while_doContext ctx) {
+                processKeywords(ctx.DONE(),ctx.DO(),ctx.WHILE());
+            }
+
+            @Override
+            public void enterExecution_control_function(Execution_control_functionContext ctx) {
                 processKeywords(ctx.FUNCTION(),ctx.P_R_BRACKET(),ctx.P_L_BRACKET());
                 processFunctionIdentifier(ctx.identifier());
                 processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
             }
+
+            @Override
+            public void enterExecution_control_case_esac(Execution_control_case_esacContext ctx) {
+                processKeywords(ctx.CASE(),ctx.ESAC(),ctx.IN());
+                processPunctuation(ctx.P_L_PARENTHESIS(),ctx.P_R_PARENTHESIS());
+                processPunctuation(ctx.EXECUTION_CONTROL_CASE_ESAC_TERMINATOR());
+            }
+
+            @Override
+            public void exitExecution_control_function_wo_kwrd(Execution_control_function_wo_kwrdContext ctx) {
+                processFunctionIdentifier(ctx.identifier());
+                processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
+            }
+
             // arithmetic expression TODO
             @Override public void enterArit(AritContext ctx) {
                 processKeywords(ctx.ARIT_OPERATOR_L(),ctx.ARIT_OPERATOR_R(),ctx.LET());
@@ -107,6 +143,11 @@ public class MkshAnalyzer extends CodeAnalyzerController {
                 if ( ctx.identifier() != null ) {
                     processIdentifier(ctx.identifier().IDENTIFIER());
                 }
+            }
+
+            @Override
+            public void enterEncapsulated_expression(Encapsulated_expressionContext ctx) {
+                processPunctuation(ctx.P_L_BRACKET(),ctx.P_R_BRACKET(),ctx.P_L_PARENTHESIS(),ctx.P_R_PARENTHESIS());
             }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.start());

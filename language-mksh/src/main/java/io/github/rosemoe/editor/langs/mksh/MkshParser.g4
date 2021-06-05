@@ -27,7 +27,7 @@
 */
 /*
  * From the man pages here : https://linux.die.net/man/1/mksh
- * CAT_* are a basic parsing definition.
+ * Tested under @(#)MIRBSD KSH R58 2020/03/27
  */
 
 parser grammar MkshParser; 
@@ -37,27 +37,65 @@ options {
 
 start                : file ;
 file                 : expr EOF ;
-expr                 : ( ( ( arit | execution_control | instruction | assignment ) expression_end ) 
-				| comment 
-				| TERMINATOR+ ) expr? ;
-instruction          : ( primary_keyword | secondary_keyword ) ;
-expression_end       : P_SEMI | TERMINATOR ; 
+expr                 : (
+                        (
+                            (
+                                arit
+                                | execution_control
+                                | instruction
+                                | assignment
+                            )
+                            expression_end? )
+                        | encapsulated_expression
+				        | comment
+				        | TERMINATOR+ )
+				        expr?
+                    ;
+encapsulated_expression : P_L_PARENTHESIS expr P_R_PARENTHESIS expression_end?
+                          | P_L_BRACKET expr P_R_BRACKET expression_end?
+                          ;
+expression_end       : P_SEMI | TERMINATOR ;
 comment              : LINE_COMMENT ;
 identifier           : IDENTIFIER | primary_keyword | secondary_keyword ;
-primary_keyword      : CASE | ELSE | FUNCTION | THEN | DO | ESAC | IF | TIME | DONE | FI | IN | UNTIL | ELIF | FOR | SELECT | WHILE ;
-secondary_keyword    : BREAK | CONTINUE | EVAL | EXEC | EXIT | EXPORT | READONLY | RETURN | SET | SHIFT | TIMES | TRAP | UNSET | BUILTIN | GLOBAL |
-                        TYPESET | WAIT | ALIAS | BG | BIND | CAT | CD | COMMAND | ECHO | FALSE | TRUE | FC | FG | GETOPTS | JOBS | KILL | LET |
-                        MKNOD | PRINT | PWD | READ | REALPATH | RENAME | SLEEP | SUSPEND | TEST | ULIMIT | UMASK | UNALIAS | WHENCE ;
+string               : STRING ;
+instruction          : ( instruction_time | secondary_instruction ) ;
+primary_keyword          : CASE | ELSE | FUNCTION | TIME | THEN | DO | ESAC | IF | DONE | FI | IN | UNTIL | ELIF | FOR | SELECT | WHILE ;
+secondary_keyword        : BREAK | CONTINUE | EXEC | EVAL | EXIT | EXPORT | READONLY | RETURN | SET | SHIFT | TIMES | TRAP | UNSET | BUILTIN | GLOBAL |
+                           TYPESET | WAIT | ALIAS | BG | BIND | CAT | CD | COMMAND | ECHO | FALSE | TRUE | FC | FG | GETOPTS | JOBS | KILL | LET |
+                           MKNOD | PRINT | PWD | READ | REALPATH | RENAME | SLEEP | SUSPEND | TEST | ULIMIT | UMASK | UNALIAS | WHENCE ;
+secondary_instruction    : BREAK | CONTINUE | instruction_exec | EXIT | EXPORT | READONLY | RETURN | SET | SHIFT | TIMES | TRAP | UNSET | BUILTIN | GLOBAL |
+                           TYPESET | WAIT | ALIAS | BG | BIND | CAT | CD | COMMAND | ECHO | FALSE | TRUE | FC | FG | GETOPTS | JOBS | KILL | LET |
+                           MKNOD | PRINT | PWD | READ | REALPATH | RENAME | SLEEP | SUSPEND | TEST | ULIMIT | UMASK | UNALIAS | WHENCE ;
+instruction_time: TIME;
+//// exec rule
+// eval, exec are parsed in the same way, they differ only by there execution implementation
+//
+executable_instruction : secondary_instruction | instruction_time;
+instruction_exec       : EXEC executable_instruction | EVAL executable_instruction ;
 
 // execution flow control
-execution_control    : for_do_done | if_then_else | select_in | until_do | while_do | function ;
-for_do_done          : FOR identifier ( IN string* )? expression_end DO expr DONE ;
-if_then_else         : IF expr THEN expr (ELIF expr THEN expr)* (ELSE expr)? FI ;
-select_in            : SELECT identifier (IN string*) expression_end DO expr DONE ;
-until_do             : UNTIL expr DO expr DONE;
-while_do             : WHILE expr DO expr DONE;
-function             : FUNCTION identifier P_L_PARENTHESIS (identifier (P_COMMA identifier)*)? P_R_PARENTHESIS P_L_BRACKET expr P_R_BRACKET;
-string               : STRING ;
+execution_control                      :  execution_control_case_esac
+                                        | execution_control_for_do_done
+                                        | execution_control_if_then_else
+                                        | execution_control_select_in
+                                        | execution_control_until_do
+                                        | execution_control_while_do
+                                        | execution_control_function
+                                        | execution_control_function_wo_kwrd
+                                        ;
+execution_control_case_esac            : CASE identifier TERMINATOR* IN expression_end* ( P_L_PARENTHESIS? STRING P_R_PARENTHESIS expression_end* expr EXECUTION_CONTROL_CASE_ESAC_TERMINATOR expression_end* )* ESAC ;
+execution_control_for_do_done          : FOR identifier ( TERMINATOR* IN ( TERMINATOR* string TERMINATOR* )* )? expression_end+ DO expr DONE ;
+execution_control_if_then_else         : IF expr THEN expr (ELIF expr THEN expr)* (ELSE expr)? FI ;
+execution_control_select_in            : SELECT identifier TERMINATOR* (IN ( TERMINATOR* string TERMINATOR* )*)? expression_end+ DO expr DONE ;
+execution_control_until_do             : UNTIL expr DO expr DONE;
+execution_control_while_do             : WHILE expr DO expr DONE;
+execution_control_function             : FUNCTION identifier TERMINATOR* P_L_PARENTHESIS (identifier (P_COMMA identifier)*)? P_R_PARENTHESIS TERMINATOR* P_L_BRACKET expr P_R_BRACKET;
+execution_control_function_wo_kwrd     : identifier P_L_PARENTHESIS (identifier (P_COMMA identifier)*)? P_R_PARENTHESIS TERMINATOR*
+                                                                                                                        ( encapsulated_expression
+                                                                                                                        | executable_instruction
+                                                                                                                        | assignment
+                                                                                                                        | arit
+                                                                                                                        );
 
 // arithmetic expression
 arit                 : LET a_expr | ARIT_OPERATOR_L a_expr ARIT_OPERATOR_R;
@@ -70,7 +108,4 @@ a_operator_unary     : ;
 
 
 
-assignment           : identifier ARIT_A string ; 
-
-// builtins parsing
-exec                 : EXEC expr | BACK_TICK expr BACK_TICK;
+assignment           : identifier ARIT_A string ;

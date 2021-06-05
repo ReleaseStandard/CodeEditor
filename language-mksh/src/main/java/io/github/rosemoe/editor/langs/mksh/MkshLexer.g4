@@ -125,6 +125,7 @@ ARIT_A_R_ROTATE           : '>>>=';
 ARIT_A_XOR                : '^=';
 ARIT_A_AND                : '&=';
 ARIT_A_OR                 : '|=';
+EXECUTION_CONTROL_CASE_ESAC_TERMINATOR : ';;' | ';&' | ';|';
 
 // Punctuations
 //CAT_PUNCTUATIONS            : P_SEMI | P_INTERO | P_L_BRACKET | P_R_BRACKET | P_L_PARENTHESIS | P_R_PARENTHESIS;
