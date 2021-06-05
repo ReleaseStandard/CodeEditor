@@ -199,11 +199,15 @@ public class WordwrapLayout extends AbstractLayout {
             WordwrapModel.RowRegion currentRegion = null;
             if ( index >= 0 && index < model.rowTable.size()) {
                 currentRegion = model.rowTable.get(currentRow);
-            } else { Logger.debug("Warning : cannot get current region index=",index,",rowTableSize=",model.rowTable.size()); }
+            } else {
+                Logger.debug("Warning : cannot get current region index=",index,",rowTableSize=",model.rowTable.size());
+            }
             WordwrapModel.RowRegion previousRegion = null;
             if ( index-1 >= 0 && index-1 < model.rowTable.size() ) {
                 previousRegion = model.rowTable.get(currentRow - 1);
-            } else { Logger.debug("Warning : cannot get previous region index=",index-1,",rowTableSize=",model.rowTable.size()); }
+            } else {
+                Logger.debug("Warning : cannot get previous region index=",index-1,",rowTableSize=",model.rowTable.size());
+            }
             row.initFromRegion(currentRegion,previousRegion,currentRow);
             currentRow++;
             return row;

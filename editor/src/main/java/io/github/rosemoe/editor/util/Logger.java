@@ -22,6 +22,12 @@ import static io.github.rosemoe.editor.widget.CodeEditor.LOG_TAG;
 public class Logger {
     public static boolean DEBUG = false;
     public static String OFFSET = "    ";
+
+    /**
+     * This function is used to Show debug information to end user.
+     * WARNING : you must always put Logger.debug on a single line.
+     *   scripts/getprodcode.sh can so remove them clearly.
+     */
     public static void debug() {
         debug("");
     }
