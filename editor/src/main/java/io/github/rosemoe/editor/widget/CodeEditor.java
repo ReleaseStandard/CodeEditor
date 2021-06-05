@@ -57,14 +57,15 @@ import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.WidgetController;
+import io.github.rosemoe.editor.mvc.controller.editor.AbstractPluginContainer;
+import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
 import io.github.rosemoe.editor.mvc.controller.editor.events.EventQueue;
+import io.github.rosemoe.editor.mvc.controller.editor.plugins.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widget.userinput.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
@@ -169,7 +170,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     private static final float SCALE_MINI_GRAPH = 0.9f;
 
-    public EventQueue eventQueue;
+    public EventQueue eventFromWidgets;
     /*
      * Internal state identifiers of action mode
      */
@@ -229,7 +230,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private ContextActionController contextAction;                          // Manage context action showing, eg copy paste
     private CompletionWindowController completionWindow;                    // Manage completion item showing
     public  UserInputController userInput;                                  // Manage all user input, eg scale scrolling
-    public HashMap<String, WidgetController> widgets = new HashMap<>();     // Declared widgets
+
+    public AbstractPluginContainer widgets = new AbstractPluginContainer();
+    public AbstractPluginContainer plugins = new AbstractPluginContainer();
 
     private Paint mPaint;
     private Paint lineNumberPaint;
@@ -575,9 +578,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         setLineInfoTextSize(mPaint.getTextSize());
         mColors = ColorSchemeController.DEFAULT();
         userInput = new UserInputController(this,getContext());
-        widgets.put("userinput",userInput);
-        eventQueue = new EventQueue();
-        eventQueue.pollingThread();
+        widgets.put(userInput);
+        plugins.put(new ExamplePlugin());
+        eventFromWidgets = new EventQueue();
         mViewRect = new Rect(0, 0, 0, 0);
         mRect = new RectF();
         mInsertHandle = new RectF();

@@ -15,5 +15,33 @@
  */
 package io.github.rosemoe.editor.mvc.controller.editor.events;
 
+import java.util.HashMap;
+
+/**
+ * Interface for event destination.
+ */
 public interface EventDestination {
+    /**
+     * Dispatch the event e to the given destination.
+     * @param e
+     */
+    void dispatch(Event e);
+
+    HashMap<Integer,Boolean> subscribedEventTypes = new HashMap<>();
+    /**
+     * Subscribe to this type of events
+     * @param type
+     */
+    void subscribe(int type);
+    /**
+     * Unsubscribe to this type of events.
+     * @param type event type to unsubscribe.
+     */
+    void unsubscribe(int type);
+    /**
+     * Test if current event destination is subscribed to event.
+     * @param type
+     * @return
+     */
+    boolean issubscribed(int type);
 }

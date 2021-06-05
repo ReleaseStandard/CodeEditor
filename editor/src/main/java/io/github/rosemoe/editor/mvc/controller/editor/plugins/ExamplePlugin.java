@@ -13,15 +13,23 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.editor.events;
+package io.github.rosemoe.editor.mvc.controller.editor.plugins;
 
 import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
+import io.github.rosemoe.editor.util.Logger;
 
-/**
- * Event process by UserInput stuff.
- *
- * @author Release Standard
- */
-public class UserInputEvent extends Event {
-    public final static int TYPE_SCROLL = 1;
+public class ExamplePlugin extends Plugin {
+    /**
+     * To receive all type of events
+     * @param type
+     * @return
+     */
+    @Override
+    public boolean issubscribed(int type) {
+        return true;
+    }
+    @Override
+    protected void handleEventDispatch(Event e, int type) {
+        Logger.debug("Event e, type=",type," has been received");
+    }
 }

@@ -20,9 +20,8 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.widget.OverScroller;
 
-import io.github.rosemoe.editor.mvc.controller.WidgetController;
+import io.github.rosemoe.editor.mvc.controller.Widget;
 import io.github.rosemoe.editor.mvc.controller.editor.events.UserInputEvent;
-import io.github.rosemoe.editor.mvc.controller.editor.events.EventSource;
 import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
 import io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.editor.eventsrc.UserInputView;
@@ -31,6 +30,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
+import static io.github.rosemoe.editor.mvc.controller.editor.events.UserInputEvent.*;
 import static io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel.*;
 import static io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel.isSameSign;
 
@@ -43,7 +43,7 @@ import static io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel.
  * @author Rose
  */
 @SuppressWarnings("CanBeFinal")
-public final class UserInputController extends WidgetController implements EventSource {
+public final class UserInputController extends Widget {
 
     public UserInputModel model = new UserInputModel();
     public final UserInputView  view;
@@ -61,26 +61,12 @@ public final class UserInputController extends WidgetController implements Event
     private int touchedHandleType = -1;
 
     /**
-     * Emit an event on the attached CodeEditor.
-     * Destination of the event may vary.
-     */
-    public void emitEvent() {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                Logger.debug("Need to emit an event on the CodeEditor !");
-                view.editor.eventQueue.add(new UserInputEvent());
-            }
-        }.start();
-    }
-
-    /**
      * Create a event handler for the given editor
      *
      * @param editor Host editor
      */
     public UserInputController(CodeEditor editor, Context ctx) {
+        super();
         view = new UserInputView(editor,ctx) {
             @Override
             public long refreshLastScroll() {
@@ -98,61 +84,61 @@ public final class UserInputController extends WidgetController implements Event
                 return model.mLastInteraction;
             }
             @Override public boolean handleOnScroll() {
-                emitEvent();
+                emit();
                 return super.handleOnScroll();
             }
             @Override public boolean handleOnSingleTapUp() {
-                emitEvent();
+                emit();
                 return super.handleOnSingleTapUp();
             }
             @Override public void handleOnLongPress() {
-                emitEvent();
+                emit();
                 super.handleOnLongPress();
             }
             @Override public boolean handleOnFling(){
-                emitEvent();
+                emit();
                 return super.handleOnFling();
             }
             @Override
             public boolean handleOnScale() {
                 model.isScaling = true;
-                emitEvent();
+                emit();
                 return super.handleOnScale();
             }
             @Override
             public boolean handleOnScaleBegin() {
-                emitEvent();
+                emit();
                 return super.handleOnScaleBegin();
             }
             @Override
             public boolean handleOnScaleEnd() {
                 model.isScaling = false;
-                emitEvent();
+                emit();
                 return super.handleOnScaleEnd();
             }
             @Override
             public boolean handleOnDown() {
-                emitEvent();
+                emit();
                 return super.handleOnDown();
             }
             @Override
             public void handleOnShowPress() {
-                emitEvent();
+                emit();
                 super.handleOnShowPress();
             }
             @Override
             public boolean handleOnSingleTapConfirmed() {
-                emitEvent();
+                emit();
                 return super.handleOnSingleTapConfirmed();
             }
             @Override
             public boolean handleOnDoubleTap(){
-                emitEvent();
+                emit();
                 return super.handleOnDoubleTap();
             }
             @Override
             public boolean handleOnDoubleTapEvent() {
-                emitEvent();
+                emit();
                 return super.handleOnDoubleTapEvent();
             }
         };
@@ -238,7 +224,6 @@ public final class UserInputController extends WidgetController implements Event
     public void notifyTouchedSelectionHandlerLater() {
         model.mLastTouchedSelectionHandle = System.currentTimeMillis();
         class InvalidateNotifier implements Runnable {
-
             @Override
             public void run() {
                 if (System.currentTimeMillis() - model.mLastTouchedSelectionHandle >= SELECTION_HANDLE_RESIZE_DELAY) {
@@ -430,11 +415,30 @@ public final class UserInputController extends WidgetController implements Event
         return touchedHandleType;
     }
 
-    @Override
-    public void emit(Event e) {
-
+    /**
+     * Emit an event on the attached CodeEditor.
+     * Destination of the event may vary.
+     */
+    public void emit() {
+        emit(new UserInputEvent());
     }
 
+    @Override
+    public void handleEventEmit(Event e) {
+        super.handleEventEmit(e);
+        Logger.debug("Dispatching event to plugins !");
+        view.editor.plugins.dispatch(e);
+    }
+
+    @Override
+    public void handleEventDispatch(Event e, int type) {
+        UserInputEvent uie = (UserInputEvent) e;
+        switch ( type ) {
+            case TYPE_SCROLL:
+                view.scrollBy((Float)uie.getArg(0),(Float)uie.getArg(1));
+                break;
+        }
+    }
 
     /**
      * This is a helper for EventHandler to control handles

@@ -178,7 +178,6 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
     public void notifyScrolled() {
         long mLastScroll = refreshLastSetSelection();
         class ScrollNotifier implements Runnable {
-
             @Override
             public void run() {
                 if (System.currentTimeMillis() - mLastScroll >= HIDE_DELAY_HANDLE) {

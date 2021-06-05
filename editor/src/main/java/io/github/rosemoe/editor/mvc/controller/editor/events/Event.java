@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.mvc.controller.editor.events;
 
+import java.util.ArrayList;
+
 /**
  * Event class, it is a generic class that can handle any type of event.
  * it can represent a keypress, language related action, scaling event scrolling event.
@@ -46,7 +48,8 @@ public class Event implements Comparable {
     public PRIORITY priorityRing = PRIORITY.STD;
     public boolean stopHorizontalPropagation = false;
     public boolean stopVerticalPropagation   = false;
-
+    public final static int TYPE_NONE = 0;
+    public int type = TYPE_NONE;
     /**
      * Stop propagation of this event at the current propagation state.
      */
@@ -59,4 +62,25 @@ public class Event implements Comparable {
     public void stopVerticalPropagation() {
         stopVerticalPropagation = true;
     }
+
+    /**
+     * Type of event (subtype).
+     * @return
+     */
+    public int getType() { return type; }
+
+
+    public ArrayList<Object> args = new ArrayList<>();
+
+    /**
+     * Get argument associated with a given index.
+     * @param index index of argument to get.
+     * @return
+     */
+    public Object getArg(int index) { return args.get(index); }
+    /**
+     * Put a given arg in the event.
+     * @param arg
+     */
+    public void putArg(Object arg) { args.add(arg); }
 }

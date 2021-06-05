@@ -22,8 +22,9 @@ import io.github.rosemoe.editor.util.Logger;
 
 public class EventQueue extends PriorityQueue<Event> {
 
+    public final static int POLLING_MS = 100;
     public EventQueue() {
-
+        pollingThread();
     }
     Thread t ;
     public void pollingThread() {
@@ -35,9 +36,10 @@ public class EventQueue extends PriorityQueue<Event> {
                         Event e = EventQueue.this.poll();
                         while ( e != null ) {
                             Logger.debug("Event found in the priority queue !");
+                            handlePolling(e);
                             e = EventQueue.this.poll();
                         }
-                        Thread.sleep(100);
+                        Thread.sleep(POLLING_MS);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -46,5 +48,5 @@ public class EventQueue extends PriorityQueue<Event> {
         };
         t.start();
     }
-
+    public void handlePolling(Event e) { }
 }
