@@ -112,23 +112,30 @@ public class MkshAnalyzer extends CodeAnalyzerController {
             }
 
             @Override
-            public void enterExecution_control_function(Execution_control_functionContext ctx) {
-                processKeywords(ctx.FUNCTION(),ctx.P_R_BRACKET(),ctx.P_L_BRACKET());
-                processFunctionIdentifier(ctx.identifier());
-                processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
+            public void enterIdentifier(IdentifierContext ctx) {
+                processIdentifier(ctx.IDENTIFIER());
             }
 
+            @Override
+            public void enterExecution_control_function(Execution_control_functionContext ctx) {
+                processKeywords(ctx.FUNCTION(),ctx.P_R_BRACKET(),ctx.P_L_BRACKET());
+                /*if ( ctx.identifier() != null && ctx.identifier().size() > 0 ) {
+                    processFunctionIdentifier(ctx.identifier().get(0));
+                }*/
+                processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
+            }
+            @Override
+            public void exitExecution_control_function_wo_kwrd(Execution_control_function_wo_kwrdContext ctx) {
+                if ( ctx.identifier() != null && ctx.identifier().size() > 0 ) {
+                    processFunctionIdentifier(ctx.identifier().get(0));
+                }
+                processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
+            }
             @Override
             public void enterExecution_control_case_esac(Execution_control_case_esacContext ctx) {
                 processKeywords(ctx.CASE(),ctx.ESAC(),ctx.IN());
                 processPunctuation(ctx.P_L_PARENTHESIS(),ctx.P_R_PARENTHESIS());
                 processPunctuation(ctx.EXECUTION_CONTROL_CASE_ESAC_TERMINATOR());
-            }
-
-            @Override
-            public void exitExecution_control_function_wo_kwrd(Execution_control_function_wo_kwrdContext ctx) {
-                processFunctionIdentifier(ctx.identifier());
-                processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
             }
 
             // arithmetic expression TODO
