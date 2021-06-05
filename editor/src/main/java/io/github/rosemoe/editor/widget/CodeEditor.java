@@ -612,7 +612,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mOverrideSymbolPairs = new SymbolPairMatch();
         setEditorLanguage(null);
         setText(null);
-        setTextActionMode(TextActionMode.ACTION_MODE);
+        setTextActionMode(TextActionMode.POPUP_WINDOW_2);
         setTabWidth(4);
         setHighlightCurrentLine(true);
         setAutoIndentEnabled(true);
@@ -3930,7 +3930,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        cursor.blink.model.valid = false;
+        mCursorBlink.valid = false;
+        removeCallbacks(mCursorBlink);
     }
 
     @Override
@@ -4114,6 +4115,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
          * In this way, the editor shows a windows inside the editor to present actions
          */
         POPUP_WINDOW,
+        /**
+         * Beautified text action window by @RandunuRtx
+         */
         POPUP_WINDOW_2,
         /**
          * In this way, the editor starts a {@link ActionMode} to present actions
