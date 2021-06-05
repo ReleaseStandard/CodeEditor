@@ -70,6 +70,27 @@ public final class CharPosition {
         return this;
     }
 
+    @Override
+    public boolean equals(Object another) {
+        if (another instanceof CharPosition) {
+            CharPosition a = (CharPosition) another;
+            return a.column == column &&
+                    a.line == line &&
+                    a.index == index;
+        }
+        return false;
+    }
+
+    /**
+     * Convert {@link CharPosition#line} and {@link CharPosition#column} to a Long number
+     *
+     * First integer is line and second integer is column
+     * @return A Long integer describing the position
+     */
+    public long toIntPair() {
+        return IntPair.pack(line, column);
+    }
+
     /**
      * Make a copy of this CharPosition and return the copy
      *

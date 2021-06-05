@@ -32,16 +32,11 @@ import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatc
 
 public class UserInputConnexionView extends BaseInputConnection {
     public final CodeEditor editor;
+    final static int TEXT_LENGTH_LIMIT = 1000000;
 
     public UserInputConnexionView(View targetView, boolean fullEditor) {
         super(targetView, fullEditor);
         editor = (CodeEditor) targetView;
-    }
-    @Override
-    public Editable getEditable() {
-        // This action is not supported by editor
-        // We handle all the requests by ourselves
-        return null;
     }
 
     @Override
@@ -79,12 +74,16 @@ public class UserInputConnexionView extends BaseInputConnection {
         //it can be quite large text and costs time, which will finally cause ANR
         int left = getCursor().getLeft();
         int right = getCursor().getRight();
-        if (right - left > 1000) {
-            right = left + 1000;
+        if (right - left > TEXT_LENGTH_LIMIT) {
+            right = left + TEXT_LENGTH_LIMIT;
         }
         return handleSelectedText(right,left,flags);
     }
-
+    @Override
+    public boolean clearMetaKeyStates(int states) {
+        editor.mKeyMetaStates.clearMetaStates(states);
+        return true;
+    }
     public CharSequence handleGetTextBeforeCursor(int length, int flags, int start) { return ""; }
     @Override
     public CharSequence getTextBeforeCursor(int length, int flags) {
