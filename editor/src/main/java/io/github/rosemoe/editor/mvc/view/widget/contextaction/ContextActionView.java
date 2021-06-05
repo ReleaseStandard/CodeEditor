@@ -64,6 +64,21 @@ public class ContextActionView extends EditorBasePopupWindow implements View.OnC
         mCutBtn.setVisibility(editor.getCursor().isSelected() ? View.VISIBLE : View.GONE);
         mRootView.measure(View.MeasureSpec.makeMeasureSpec(1000000, View.MeasureSpec.AT_MOST), View.MeasureSpec.makeMeasureSpec(100000, View.MeasureSpec.AT_MOST));
     }
+
+    @Override
+    public void onBeginTextSelect() {
+        float dpUnit = mEditor.getDpUnit();
+        setHeight((int) (dpUnit * 60));
+        maxWidth = (int) (dpUnit * 230);
+        setWidth(maxWidth);
+    }
+
+    @Override
+    public boolean onExit() {
+        boolean result = isShowing();
+        hide();
+        return result;
+    }
     public void click(CodeEditor editor,View p1) {
         int id = p1.getId();
         if (id == R.id.panel_btn_select_all) {
