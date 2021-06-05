@@ -20,10 +20,20 @@ package io.github.rosemoe.editor.mvc.controller.editor.events;
  * it can represent a keypress, language related action, scaling event scrolling event.
  * Events will be proceeded from top priority to lower priority.
  * Events will be propagated from top prio to lower prio.
+ * An event could be from the programmer to or from event source to programmer(plugin)
  *
  * @author Release Standard
  */
-public class Event {
+public class Event implements Comparable {
+
+    @Override
+    public int compareTo(Object o) {
+        if ( o instanceof Event ) {
+            Event e = (Event) o;
+            return priorityRing.compareTo(e.priorityRing);
+        }
+        return 0;
+    }
 
     /**
      * Event priority declaration : WARNING they should be putted from low to high priority.

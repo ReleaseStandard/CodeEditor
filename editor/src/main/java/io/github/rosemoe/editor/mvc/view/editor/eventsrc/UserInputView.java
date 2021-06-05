@@ -33,7 +33,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
-import static io.github.rosemoe.editor.mvc.controller.editor.events.source.userinput.UserInputController.*;
+import static io.github.rosemoe.editor.mvc.controller.widget.userinput.UserInputController.*;
 import static io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel.isWhitespace;
 
 /**

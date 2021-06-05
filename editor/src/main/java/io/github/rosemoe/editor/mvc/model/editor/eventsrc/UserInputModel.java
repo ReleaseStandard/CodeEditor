@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.model.editor.eventsrc;
 
-import static io.github.rosemoe.editor.mvc.controller.editor.events.source.userinput.UserInputController.HIDE_DELAY;
+import static io.github.rosemoe.editor.mvc.controller.widget.userinput.UserInputController.HIDE_DELAY;
 
 public class UserInputModel {
 

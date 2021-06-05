@@ -13,14 +13,16 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.editor.events.source.userinput;
+package io.github.rosemoe.editor.mvc.controller.widget.userinput;
 
 import android.content.Context;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.widget.OverScroller;
 
-import io.github.rosemoe.editor.mvc.controller.editor.events.source.EventSource;
+import io.github.rosemoe.editor.mvc.controller.WidgetController;
+import io.github.rosemoe.editor.mvc.controller.editor.events.UserInputEvent;
+import io.github.rosemoe.editor.mvc.controller.editor.events.EventSource;
 import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
 import io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.editor.eventsrc.UserInputView;
@@ -35,10 +37,13 @@ import static io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel.
 /**
  * Handles touch events of editor
  * This is an event source for our mvc.
+ * Each widget could an event source or an event destination.
+ *
+ *
  * @author Rose
  */
 @SuppressWarnings("CanBeFinal")
-public final class UserInputController implements EventSource {
+public final class UserInputController extends WidgetController implements EventSource {
 
     public UserInputModel model = new UserInputModel();
     public final UserInputView  view;
@@ -55,11 +60,19 @@ public final class UserInputController implements EventSource {
     private float downX = 0;
     private int touchedHandleType = -1;
 
-
-
+    /**
+     * Emit an event on the attached CodeEditor.
+     * Destination of the event may vary.
+     */
     public void emitEvent() {
-        Logger.debug("Need to emit an event on the CodeEditor !");
-        emit(new UserInputEvent());
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Logger.debug("Need to emit an event on the CodeEditor !");
+                view.editor.eventQueue.add(new UserInputEvent());
+            }
+        }.start();
     }
 
     /**

@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.editor.events.source.userinput;
+package io.github.rosemoe.editor.mvc.controller.widget.userinput;
 
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;

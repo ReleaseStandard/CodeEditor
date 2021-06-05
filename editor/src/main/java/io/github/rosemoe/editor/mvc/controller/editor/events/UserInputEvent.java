@@ -13,7 +13,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.editor.events.destination;
+package io.github.rosemoe.editor.mvc.controller.editor.events;
 
-public interface EventDestination {
+import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
+
+/**
+ * Event process by UserInput stuff.
+ *
+ * @author Release Standard
+ */
+public class UserInputEvent extends Event {
 }
