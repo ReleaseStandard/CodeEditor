@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.editor.events.source.userinput;
 
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -21,8 +21,8 @@ import android.text.TextUtils;
 
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
-import io.github.rosemoe.editor.mvc.model.UserInputConnexionModel;
-import io.github.rosemoe.editor.mvc.view.UserInputConnexionView;
+import io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputConnexionModel;
+import io.github.rosemoe.editor.mvc.view.editor.eventsrc.UserInputConnexionView;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 

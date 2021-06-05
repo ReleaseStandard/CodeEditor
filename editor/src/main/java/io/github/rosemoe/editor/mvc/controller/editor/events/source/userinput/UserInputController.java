@@ -13,22 +13,24 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.editor.events.source.userinput;
 
 import android.content.Context;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.widget.OverScroller;
 
-import io.github.rosemoe.editor.mvc.model.UserInputModel;
-import io.github.rosemoe.editor.mvc.view.UserInputView;
+import io.github.rosemoe.editor.mvc.controller.editor.events.source.EventSource;
+import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
+import io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel;
+import io.github.rosemoe.editor.mvc.view.editor.eventsrc.UserInputView;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
-import static io.github.rosemoe.editor.mvc.model.UserInputModel.*;
-import static io.github.rosemoe.editor.mvc.model.UserInputModel.isSameSign;
+import static io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel.*;
+import static io.github.rosemoe.editor.mvc.model.editor.eventsrc.UserInputModel.isSameSign;
 
 /**
  * Handles touch events of editor
@@ -36,7 +38,7 @@ import static io.github.rosemoe.editor.mvc.model.UserInputModel.isSameSign;
  * @author Rose
  */
 @SuppressWarnings("CanBeFinal")
-public final class UserInputController {
+public final class UserInputController implements EventSource {
 
     public UserInputModel model = new UserInputModel();
     public final UserInputView  view;
@@ -54,6 +56,11 @@ public final class UserInputController {
     private int touchedHandleType = -1;
 
 
+
+    public void emitEvent() {
+        Logger.debug("Need to emit an event on the CodeEditor !");
+        emit(new UserInputEvent());
+    }
 
     /**
      * Create a event handler for the given editor
@@ -77,17 +84,63 @@ public final class UserInputController {
                 model.mLastInteraction = System.currentTimeMillis();
                 return model.mLastInteraction;
             }
-
+            @Override public boolean handleOnScroll() {
+                emitEvent();
+                return super.handleOnScroll();
+            }
+            @Override public boolean handleOnSingleTapUp() {
+                emitEvent();
+                return super.handleOnSingleTapUp();
+            }
+            @Override public void handleOnLongPress() {
+                emitEvent();
+                super.handleOnLongPress();
+            }
+            @Override public boolean handleOnFling(){
+                emitEvent();
+                return super.handleOnFling();
+            }
             @Override
             public boolean handleOnScale() {
                 model.isScaling = true;
-                return true;
+                emitEvent();
+                return super.handleOnScale();
             }
-
+            @Override
+            public boolean handleOnScaleBegin() {
+                emitEvent();
+                return super.handleOnScaleBegin();
+            }
             @Override
             public boolean handleOnScaleEnd() {
                 model.isScaling = false;
-                return false;
+                emitEvent();
+                return super.handleOnScaleEnd();
+            }
+            @Override
+            public boolean handleOnDown() {
+                emitEvent();
+                return super.handleOnDown();
+            }
+            @Override
+            public void handleOnShowPress() {
+                emitEvent();
+                super.handleOnShowPress();
+            }
+            @Override
+            public boolean handleOnSingleTapConfirmed() {
+                emitEvent();
+                return super.handleOnSingleTapConfirmed();
+            }
+            @Override
+            public boolean handleOnDoubleTap(){
+                emitEvent();
+                return super.handleOnDoubleTap();
+            }
+            @Override
+            public boolean handleOnDoubleTapEvent() {
+                emitEvent();
+                return super.handleOnDoubleTapEvent();
             }
         };
         setOverScrollEnabled(true);
@@ -364,6 +417,10 @@ public final class UserInputController {
         return touchedHandleType;
     }
 
+    @Override
+    public void emit(Event e) {
+
+    }
 
 
     /**

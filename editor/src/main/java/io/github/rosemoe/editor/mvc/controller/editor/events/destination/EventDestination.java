@@ -13,25 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.editor.events.destination;
 
-/**
- * This class provide a widget system for CodeEditor.
- * Each widget can provide custom xml attributes and colors for the color widget.
- *
- * @author Release Standard
- */
-public class WidgetController {
-    public boolean enabled = true;
-
-    /**
-     * Is the plugin enabled
-     * @param state
-     */
-    public void setEnabled(boolean state) {
-        enabled = state;
-    }
-    public boolean isEnabled() {
-        return enabled;
-    }
+public interface EventDestination {
 }

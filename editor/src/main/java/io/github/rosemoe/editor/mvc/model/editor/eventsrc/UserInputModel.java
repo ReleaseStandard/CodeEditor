@@ -13,9 +13,9 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.model;
+package io.github.rosemoe.editor.mvc.model.editor.eventsrc;
 
-import static io.github.rosemoe.editor.mvc.controller.UserInputController.HIDE_DELAY;
+import static io.github.rosemoe.editor.mvc.controller.editor.events.source.userinput.UserInputController.HIDE_DELAY;
 
 public class UserInputModel {
 

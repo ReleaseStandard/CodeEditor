@@ -13,25 +13,19 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.editor.events.source;
+
+import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
 
 /**
- * This class provide a widget system for CodeEditor.
- * Each widget can provide custom xml attributes and colors for the color widget.
- *
- * @author Release Standard
+ * An event source for CodeEditor
+ * could be user input, layout display, scroll tap, coloration.
  */
-public class WidgetController {
-    public boolean enabled = true;
+public interface EventSource {
 
     /**
-     * Is the plugin enabled
-     * @param state
+     * emit is called when an event is create in the event source
+     * @param e event from the source.
      */
-    public void setEnabled(boolean state) {
-        enabled = state;
-    }
-    public boolean isEnabled() {
-        return enabled;
-    }
+    void emit(Event e);
 }

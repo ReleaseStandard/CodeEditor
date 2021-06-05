@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.model;
+package io.github.rosemoe.editor.mvc.model.editor.eventsrc;
 
 public class UserInputConnexionModel {
     public int composingLine = -1;
