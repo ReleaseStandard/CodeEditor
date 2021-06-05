@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.getSearcher().search(editable.toString());
             }
         });
-        //editor.setTypefaceText(Typeface.MONOSPACE);
+        editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
