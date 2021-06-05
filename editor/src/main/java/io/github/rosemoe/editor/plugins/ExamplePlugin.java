@@ -25,11 +25,11 @@ public class ExamplePlugin extends Plugin {
      * @return
      */
     @Override
-    public boolean issubscribed(int type) {
+    public boolean issubscribed(String type) {
         return true;
     }
     @Override
-    protected void handleEventDispatch(Event e, int type) {
+    protected void handleEventDispatch(Event e, String type, String subtype) {
         Logger.debug("Event e, type=",type," has been received");
     }
 }

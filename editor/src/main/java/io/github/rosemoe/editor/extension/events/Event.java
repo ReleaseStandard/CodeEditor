@@ -18,11 +18,7 @@ package io.github.rosemoe.editor.extension.events;
 import java.util.ArrayList;
 
 /**
- * Event class, it is a generic class that can handle any type of event.
- * it can represent a keypress, language related action, scaling event scrolling event.
- * Events will be proceeded from top priority to lower priority.
- * Events will be propagated from top prio to lower prio.
- * An event could be from the programmer to or from event source to programmer(plugin)
+ * Basically any type of events.
  *
  * @author Release Standard
  */
@@ -48,18 +44,18 @@ public class Event implements Comparable {
     public PRIORITY priorityRing = PRIORITY.STD;
     public boolean stopHorizontalPropagation = false;
     public boolean stopVerticalPropagation   = false;
-    public final static int TYPE_NONE = 0;
-    public int type = TYPE_NONE;
+    public final static String TYPE_NONE = "none";
+    public String type = TYPE_NONE;
     /**
      * Type of event, eg event type from EventInput, event type from the layout
      * @return
      */
-    public int getType() { return type; }
+    public String getType() { return type; }
     /**
      * We define a subtype, eg if event type if UserInput, we can user the scrollby subtype.
      */
-    public int subtype = TYPE_NONE;
-    public int getSubType() { return subtype; }
+    public String subtype = TYPE_NONE;
+    public String getSubType() { return subtype; }
     /**
      * Stop propagation of this event at the current propagation state.
      */
@@ -86,4 +82,9 @@ public class Event implements Comparable {
      * @param arg
      */
     public void putArg(Object arg) { args.add(arg); }
+    public void putArgs(Object ...args) {
+        for(Object arg : args) {
+            putArg(arg);
+        }
+    }
 }

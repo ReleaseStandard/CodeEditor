@@ -63,7 +63,7 @@ public class Extension implements EventSource, EventDestination  {
     EventQueue dispatchQueue = new EventQueue() {
         @Override
         public void handlePolling(Event e) {
-            handleEventDispatch(e,e.getType());
+            handleEventDispatch(e,e.getType(),e.getSubType());
         }
     };
     @Override
@@ -74,17 +74,17 @@ public class Extension implements EventSource, EventDestination  {
     }
 
     @Override
-    public void subscribe(int type) {
+    public void subscribe(String type) {
         subscribedEventTypes.put(type,true);
     }
 
     @Override
-    public void unsubscribe(int type) {
+    public void unsubscribe(String type) {
         subscribedEventTypes.put(type,false);
     }
 
     @Override
-    public boolean issubscribed(int type) {
+    public boolean issubscribed(String type) {
         return subscribedEventTypes.containsKey(type);
     }
 
@@ -93,7 +93,5 @@ public class Extension implements EventSource, EventDestination  {
      * @param e
      * @param type
      */
-    protected void handleEventDispatch(Event e, int type) {
-
-    }
+    protected void handleEventDispatch(Event e, String type, String subtype) { }
 }

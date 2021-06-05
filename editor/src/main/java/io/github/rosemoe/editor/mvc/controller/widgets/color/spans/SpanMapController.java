@@ -40,7 +40,7 @@ public class SpanMapController {
      * This allow row shifting durign analysis.
      * line 0..n-1
      */
-    public TreeMap<Integer, SpanLineController> map = new TreeMap<>();
+    public TreeMap<Integer, SpanLineController> map = new TreeMap<Integer, SpanLineController>();
     public void SpanMap() {
 
     }

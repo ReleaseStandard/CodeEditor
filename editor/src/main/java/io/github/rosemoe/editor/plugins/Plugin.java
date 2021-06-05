@@ -51,7 +51,7 @@ public class Plugin extends Extension implements Comparable {
      * @param type
      */
     @Override
-    protected void handleEventDispatch(Event e, int type) {
+    protected void handleEventDispatch(Event e, String type, String subtype) {
 
     }
 

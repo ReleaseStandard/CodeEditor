@@ -28,7 +28,7 @@ public class ExtensionContainer extends Extension {
     public PriorityQueue<Extension> plugins = new PriorityQueue<Extension>();
 
     @Override
-    public boolean issubscribed(int type) {
+    public boolean issubscribed(String type) {
         return true;
     }
 
@@ -41,7 +41,7 @@ public class ExtensionContainer extends Extension {
      * @param type
      */
     @Override
-    protected void handleEventDispatch(Event e, int type) {
+    protected void handleEventDispatch(Event e, String type, String subtype) {
         for (Iterator<Extension> it = plugins.iterator(); it.hasNext(); ) {
             Extension plugin = it.next();
             plugin.dispatch(e);

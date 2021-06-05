@@ -21,7 +21,6 @@ import android.view.MotionEvent;
 import android.widget.OverScroller;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
-import io.github.rosemoe.editor.extension.events.UserInputEvent;
 import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputView;
@@ -30,7 +29,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
-import static io.github.rosemoe.editor.extension.events.UserInputEvent.*;
+import static io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent.*;
 import static io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel.*;
 import static io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel.isSameSign;
 
@@ -84,61 +83,61 @@ public final class UserInputController extends Widget {
                 return model.mLastInteraction;
             }
             @Override public boolean handleOnScroll() {
-                emit();
+                emit(ONSCROLL);
                 return super.handleOnScroll();
             }
             @Override public boolean handleOnSingleTapUp() {
-                emit();
+                emit(SINGLETAPUP);
                 return super.handleOnSingleTapUp();
             }
             @Override public void handleOnLongPress() {
-                emit();
+                emit(LONGPRESS);
                 super.handleOnLongPress();
             }
             @Override public boolean handleOnFling(){
-                emit();
+                emit(ONFLING);
                 return super.handleOnFling();
             }
             @Override
             public boolean handleOnScale() {
                 model.isScaling = true;
-                emit();
+                emit(ONSCALE);
                 return super.handleOnScale();
             }
             @Override
             public boolean handleOnScaleBegin() {
-                emit();
+                emit(ONSCALEBEGIN);
                 return super.handleOnScaleBegin();
             }
             @Override
             public boolean handleOnScaleEnd() {
                 model.isScaling = false;
-                emit();
+                emit(ONSCALEEND);
                 return super.handleOnScaleEnd();
             }
             @Override
             public boolean handleOnDown() {
-                emit();
+                emit(ONDOWN);
                 return super.handleOnDown();
             }
             @Override
             public void handleOnShowPress() {
-                emit();
+                emit(ONSHOWPRESS);
                 super.handleOnShowPress();
             }
             @Override
             public boolean handleOnSingleTapConfirmed() {
-                emit();
+                emit(ONSINGLETAPCONFIRMED);
                 return super.handleOnSingleTapConfirmed();
             }
             @Override
             public boolean handleOnDoubleTap(){
-                emit();
+                emit(ONDOUBLETAP);
                 return super.handleOnDoubleTap();
             }
             @Override
             public boolean handleOnDoubleTapEvent() {
-                emit();
+                emit(ONDOUBLETAPEVENT);
                 return super.handleOnDoubleTapEvent();
             }
         };
@@ -419,8 +418,11 @@ public final class UserInputController extends Widget {
      * Emit an event on the attached CodeEditor.
      * Destination of the event may vary.
      */
-    public void emit() {
-        emit(new UserInputEvent());
+    public void emit(String subtype,Object ...args) {
+        UserInputEvent e = new UserInputEvent();
+        e.putArgs(args);
+        e.subtype = subtype;
+        emit(e);
     }
 
     @Override
@@ -431,11 +433,17 @@ public final class UserInputController extends Widget {
     }
 
     @Override
-    public void handleEventDispatch(Event e, int type) {
+    public void handleEventDispatch(Event e, String type, String subtype) {
         UserInputEvent uie = (UserInputEvent) e;
         switch ( type ) {
-            case TYPE_SCROLL:
-                view.scrollBy((Float)uie.getArg(0),(Float)uie.getArg(1));
+            case USERINPUT:
+                break;
+            default:
+                return;
+        }
+        switch(subtype) {
+            case ACTION_SCROLL:
+                view.scrollBy((Float) uie.getArg(0), (Float) uie.getArg(1));
                 break;
         }
     }

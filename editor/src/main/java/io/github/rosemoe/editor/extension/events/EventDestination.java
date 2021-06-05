@@ -27,21 +27,21 @@ public interface EventDestination {
      */
     void dispatch(Event e);
 
-    HashMap<Integer,Boolean> subscribedEventTypes = new HashMap<>();
+    HashMap<String, Boolean> subscribedEventTypes = new HashMap<>();
     /**
      * Subscribe to this type of events
      * @param type
      */
-    void subscribe(int type);
+    void subscribe(String type);
     /**
      * Unsubscribe to this type of events.
      * @param type event type to unsubscribe.
      */
-    void unsubscribe(int type);
+    void unsubscribe(String type);
     /**
      * Test if current event destination is subscribed to event.
      * @param type
      * @return
      */
-    boolean issubscribed(int type);
+    boolean issubscribed(String type);
 }
