@@ -65,7 +65,7 @@ public class TextAnalyzerView {
      */
     public void add(int spanLine, SpanController span) {
         spanMap.getAddIfNeeded(spanLine).add(span);
-        spanMap.dump();
+        //spanMap.dump();
     }
 
     /**

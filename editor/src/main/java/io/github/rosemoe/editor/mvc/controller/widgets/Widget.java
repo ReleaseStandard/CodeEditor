@@ -25,5 +25,4 @@ import io.github.rosemoe.editor.extension.Extension;
  */
 public class Widget extends Extension {
 
-
 }

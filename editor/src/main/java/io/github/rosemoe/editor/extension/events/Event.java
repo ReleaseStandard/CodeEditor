@@ -17,6 +17,8 @@ package io.github.rosemoe.editor.extension.events;
 
 import java.util.ArrayList;
 
+import io.github.rosemoe.editor.util.Logger;
+
 /**
  * Basically any type of events.
  *
@@ -71,6 +73,13 @@ public class Event implements Comparable {
 
     public ArrayList<Object> args = new ArrayList<>();
 
+    public Event(String type, String subtype) {
+        this.type = type;
+        this.subtype = subtype;
+    }
+    public Event() {
+
+    }
     /**
      * Get argument associated with a given index.
      * @param index index of argument to get.
@@ -86,5 +95,11 @@ public class Event implements Comparable {
         for(Object arg : args) {
             putArg(arg);
         }
+    }
+    public void dump() {
+        dump("");
+    }
+    public void dump(String offset) {
+        Logger.debug(offset + "type=",type,",subtype=",subtype);
     }
 }

@@ -16,9 +16,12 @@
 package io.github.rosemoe.editor.plugins;
 
 import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
 import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
 public class ExamplePlugin extends Plugin {
+    CodeEditor editor ;
     /**
      * To receive all type of events
      * @param type
@@ -28,8 +31,25 @@ public class ExamplePlugin extends Plugin {
     public boolean issubscribed(String type) {
         return true;
     }
+
     @Override
     protected void handleEventDispatch(Event e, String type, String subtype) {
         Logger.debug("Event e, type=",type," has been received");
+        // scroll by 20 20 on double tap
+        if ( e.getType() == UserInputEvent.TYPE_USERINPUT ) {
+            if ( e.getSubType() == UserInputEvent.ONDOUBLETAP ) {
+                Logger.debug("Double tap received");
+            }
+        }
+    }
+
+    @Override
+    protected void handleEventEmit(Event e) {
+        editor.widgets.dispatch(e);
+    }
+
+    public ExamplePlugin(CodeEditor editor) {
+        super();
+        this.editor = editor;
     }
 }

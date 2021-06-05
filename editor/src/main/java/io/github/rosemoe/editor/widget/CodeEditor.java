@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
+import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
 import io.github.rosemoe.editor.extension.ExtensionContainer;
 import io.github.rosemoe.editor.extension.events.EventQueue;
@@ -169,7 +170,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     private static final float SCALE_MINI_GRAPH = 0.9f;
 
-    public EventQueue eventFromWidgets;
     /*
      * Internal state identifiers of action mode
      */
@@ -577,9 +577,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         setLineInfoTextSize(mPaint.getTextSize());
         mColors = ColorSchemeController.DEFAULT();
         userInput = new UserInputController(this,getContext());
+
         widgets.put(userInput);
-        plugins.put(new ExamplePlugin());
-        eventFromWidgets = new EventQueue();
+        plugins.put(new ExamplePlugin(this));
+
         mViewRect = new Rect(0, 0, 0, 0);
         mRect = new RectF();
         mInsertHandle = new RectF();
@@ -1192,7 +1193,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                     if( spanStart > lastVisibleChar || spanEnd < firstVisibleChar ) { continue ; }
                     float width = measureText(mBuffer, paintStart, paintEnd - paintStart);
 
-                    Logger.debug("line=",line,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color,",paintStart=",paintStart,",paintEnd=",paintEnd,",paintingOffset=",paintingOffset);
+                    //Logger.debug("line=",line,",firstVisibleChar=",firstVisibleChar,",lastVisibleChar=",lastVisibleChar,",color=",span.model.color,",paintStart=",paintStart,",paintEnd=",paintEnd,",paintingOffset=",paintingOffset);
 
                     // Draw text
                     drawRegionText(canvas, paintingOffset, getRowBaseline(row) - getOffsetY(), line, paintStart, paintEnd, columnCount, span.model.color);

@@ -268,9 +268,9 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
             leftOrRight = true;
         }
         editor.invalidate();
-        return handleOnScroll();
+        return handleOnScroll(e1,e2,distanceX,distanceY,endX,endY);
     }
-    public boolean handleOnScroll() { return true; }
+    public boolean handleOnScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY, int endX, int endY) { return true; }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
@@ -296,7 +296,7 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
             }
         }
         editor.performClick();
-        return handleOnSingleTapUp();
+        return handleOnSingleTapUp(line,column);
     }
     private void handleSelectedTextClick(MotionEvent e, int line, int column) {
         boolean isShowing1 = editor.getTextActionPresenter() instanceof ContextActionView && ((ContextActionView) editor.getTextActionPresenter()).isShowing();
@@ -306,7 +306,7 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
             editor.setSelection(line, column);
         else editor.getTextActionPresenter().onSelectedTextClicked(e);
     }
-    public boolean handleOnSingleTapUp() { return true; }
+    public boolean handleOnSingleTapUp(int line, int column) { return true; }
 
     @Override
     public void onLongPress(MotionEvent e) {
@@ -348,8 +348,9 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
             }
         }
         editor.setSelectionRegion(startLine, startColumn, endLine, endColumn);
+        handleOnLongPress(e,startLine, startColumn, endLine, endColumn);
     }
-    public void handleOnLongPress() { }
+    public void handleOnLongPress(MotionEvent e,int startLine,int startColumn, int endLine, int endColumn) { }
     private void handleLongPressForModifiedTextAction(MotionEvent e) {
         if (editor.getCursor().isSelected() || e.getPointerCount() != 1) {
             return;
@@ -404,9 +405,9 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
         if (Math.abs(velocityY) >= minVe) {
             editor.getVerticalEdgeEffect().finish();
         }
-        return false;
+        return handleOnFling(e1,e2,velocityX,velocityY);
     }
-    public boolean handleOnFling() { return true; }
+    public boolean handleOnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) { return true; }
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
@@ -424,57 +425,57 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
             editor.invalidate();
             float newY = firstVisible * editor.getRowHeight() + top * editor.getRowHeight() / height;
             mScroller.startScroll(mScroller.getCurrX(), (int) newY, 0, 0, 0);
-            return handleOnScale();
+            return handleOnScale(firstVisible,top,height,newY);
         }
         return false;
     }
-    public boolean handleOnScale() { return true; }
+    public boolean handleOnScale(int firstVisibleRow, float top, int height, float newY) { return true; }
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
         mScroller.forceFinished(true);
-        return editor.isScalable() && handleOnScaleBegin();
+        return editor.isScalable() && handleOnScaleBegin(detector);
     }
-    public boolean handleOnScaleBegin() { return true; }
+    public boolean handleOnScaleBegin(ScaleGestureDetector detector) { return true; }
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
         editor.createLayout();
         editor.invalidate();
-        handleOnScaleEnd();
+        handleOnScaleEnd(detector);
     }
-    public boolean handleOnScaleEnd() { return true; }
+    public boolean handleOnScaleEnd(ScaleGestureDetector detector) { return true; }
 
     @Override
     public boolean onDown(MotionEvent e) {
-        return editor.isEnabled() && handleOnDown();
+        return editor.isEnabled() && handleOnDown(e);
     }
-    public boolean handleOnDown() { return true; }
+    public boolean handleOnDown(MotionEvent e) { return true; }
 
     @Override
     public void onShowPress(MotionEvent e) {
-        handleOnShowPress();
+        handleOnShowPress(e);
     }
-    public void handleOnShowPress() { }
+    public void handleOnShowPress(MotionEvent e) { }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        return handleOnSingleTapConfirmed();
+        return handleOnSingleTapConfirmed(e);
     }
-    public boolean handleOnSingleTapConfirmed() { return true; }
+    public boolean handleOnSingleTapConfirmed(MotionEvent e) { return true; }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
         onLongPress(e);
-        return handleOnDoubleTap();
+        return handleOnDoubleTap(e);
     }
-    public boolean handleOnDoubleTap(){ return true; }
+    public boolean handleOnDoubleTap(MotionEvent e){ return true; }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
-        return handleOnDoubleTapEvent();
+        return handleOnDoubleTapEvent(e);
     }
-    public boolean handleOnDoubleTapEvent() { return true; }
+    public boolean handleOnDoubleTapEvent(MotionEvent e) { return true; }
 
 
 }

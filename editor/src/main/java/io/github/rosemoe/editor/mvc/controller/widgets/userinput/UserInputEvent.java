@@ -24,7 +24,7 @@ import io.github.rosemoe.editor.extension.events.Event;
  */
 public class UserInputEvent extends Event {
     // primary type we can subclass in java
-    public final static String USERINPUT = "userinput";
+    public final static String TYPE_USERINPUT = "userinput";
     // Events from this widget
     public final static String ONSCROLL = "onscroll";
     public final static String SINGLETAPUP = "singletapup";
@@ -39,9 +39,14 @@ public class UserInputEvent extends Event {
     public final static String ONDOUBLETAP = "ondoubletap";
     public final static String ONDOUBLETAPEVENT = "ondoubletapevent";
     // Actions
-    public static final String ACTION_SCROLL = "scroll";
     public UserInputEvent() {
         super();
-        type = USERINPUT;
+        type = TYPE_USERINPUT;
+    }
+    public UserInputEvent(String subtype, Object ...args) {
+        super();
+        type = TYPE_USERINPUT;
+        this.subtype = subtype;
+        putArgs(args);
     }
 }

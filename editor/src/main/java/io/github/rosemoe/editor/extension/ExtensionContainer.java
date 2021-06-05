@@ -19,13 +19,14 @@ import java.util.Iterator;
 import java.util.PriorityQueue;
 
 import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.util.Logger;
 
 /**
  * This is class is a container for extension with a priority queue.
  */
 public class ExtensionContainer extends Extension {
 
-    public PriorityQueue<Extension> plugins = new PriorityQueue<Extension>();
+    public PriorityQueue<Extension> extensions = new PriorityQueue<Extension>();
 
     @Override
     public boolean issubscribed(String type) {
@@ -42,10 +43,13 @@ public class ExtensionContainer extends Extension {
      */
     @Override
     protected void handleEventDispatch(Event e, String type, String subtype) {
-        for (Iterator<Extension> it = plugins.iterator(); it.hasNext(); ) {
-            Extension plugin = it.next();
-            plugin.dispatch(e);
+        Logger.debug("Event dispatched : type=",type,",subtype=",subtype);
+        for (Iterator<Extension> it = extensions.iterator(); it.hasNext(); ) {
+            Extension extension = it.next();
+            Logger.debug("plugin : enabled=",extension.enabled);
+            extension.dispatch(e);
         }
+        Logger.debug();
     }
     @Override
     protected void handleEventEmit(Event e) {
@@ -58,6 +62,6 @@ public class ExtensionContainer extends Extension {
      * @param extension extension to add
      */
     public void put(Extension extension) {
-        plugins.add(extension);
+        extensions.add(extension);
     }
 }
