@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
-import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**

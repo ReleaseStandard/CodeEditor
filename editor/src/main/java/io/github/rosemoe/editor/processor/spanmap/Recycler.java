@@ -18,9 +18,9 @@ package io.github.rosemoe.editor.processor.spanmap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanController;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanLineController;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanMapController;
 import io.github.rosemoe.editor.util.Logger;
 
 /**

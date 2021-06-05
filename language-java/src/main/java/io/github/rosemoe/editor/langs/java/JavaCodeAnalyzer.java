@@ -19,7 +19,7 @@ import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.langs.helpers.TrieTree;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.util.Logger;
 

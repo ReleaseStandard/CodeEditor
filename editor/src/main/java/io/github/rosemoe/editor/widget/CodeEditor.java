@@ -62,40 +62,39 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.editor.AbstractPluginContainer;
-import io.github.rosemoe.editor.mvc.controller.editor.events.Event;
-import io.github.rosemoe.editor.mvc.controller.editor.events.EventQueue;
-import io.github.rosemoe.editor.mvc.controller.editor.plugins.ExamplePlugin;
-import io.github.rosemoe.editor.mvc.controller.widget.userinput.UserInputConnexionController;
+import io.github.rosemoe.editor.extension.ExtensionContainer;
+import io.github.rosemoe.editor.extension.events.EventQueue;
+import io.github.rosemoe.editor.plugins.ExamplePlugin;
+import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
-import io.github.rosemoe.editor.mvc.controller.widget.userinput.UserInputController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionWindowController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
-import io.github.rosemoe.editor.mvc.controller.widget.layout.RowIterator;
-import io.github.rosemoe.editor.mvc.controller.widget.searcher.SearcherController;
-import io.github.rosemoe.editor.mvc.controller.widget.contextaction.ContextActionController;
-import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
-import io.github.rosemoe.editor.mvc.controller.widget.layout.WordwrapLayout;
+import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionWindowController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatch;
+import io.github.rosemoe.editor.mvc.controller.widgets.layout.RowIterator;
+import io.github.rosemoe.editor.mvc.controller.widgets.searcher.SearcherController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contextaction.ContextActionController;
+import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionAdapter;
+import io.github.rosemoe.editor.mvc.controller.widgets.layout.WordwrapLayout;
 import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.view.MaterialEdgeEffect;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanLineController;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
 import io.github.rosemoe.editor.mvc.view.TextComposeBasePopup;
-import io.github.rosemoe.editor.mvc.view.editor.eventsrc.UserInputView;
+import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputView;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.TextFormatter;
@@ -104,8 +103,8 @@ import io.github.rosemoe.editor.processor.spanmap.Updater;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
-import io.github.rosemoe.editor.mvc.controller.widget.layout.Layout;
-import io.github.rosemoe.editor.mvc.controller.widget.layout.LineBreakLayout;
+import io.github.rosemoe.editor.mvc.controller.widgets.layout.Layout;
+import io.github.rosemoe.editor.mvc.controller.widgets.layout.LineBreakLayout;
 
 /**
  * CodeEditor is a editor that can highlight text regions by doing basic syntax analyzing
@@ -231,8 +230,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private CompletionWindowController completionWindow;                    // Manage completion item showing
     public  UserInputController userInput;                                  // Manage all user input, eg scale scrolling
 
-    public AbstractPluginContainer widgets = new AbstractPluginContainer();
-    public AbstractPluginContainer plugins = new AbstractPluginContainer();
+    public ExtensionContainer widgets = new ExtensionContainer();
+    public ExtensionContainer plugins = new ExtensionContainer();
 
     private Paint mPaint;
     private Paint lineNumberPaint;

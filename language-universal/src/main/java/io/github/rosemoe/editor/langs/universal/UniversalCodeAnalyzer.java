@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.langs.universal;
 
 import java.util.Stack;
 
-import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;

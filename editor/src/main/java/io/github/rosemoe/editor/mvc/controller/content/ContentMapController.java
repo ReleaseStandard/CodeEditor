@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.model.content.ContentMapModel;
 import io.github.rosemoe.editor.mvc.view.content.ContentMapView;

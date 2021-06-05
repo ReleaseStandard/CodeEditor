@@ -21,11 +21,11 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
-import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
 

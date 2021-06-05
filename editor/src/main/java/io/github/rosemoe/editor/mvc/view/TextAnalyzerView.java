@@ -18,9 +18,9 @@ package io.github.rosemoe.editor.mvc.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanController;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanLineController;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 import io.github.rosemoe.editor.util.Logger;

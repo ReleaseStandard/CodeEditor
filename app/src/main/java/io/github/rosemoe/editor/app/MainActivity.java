@@ -17,7 +17,6 @@ package io.github.rosemoe.editor.app;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,7 +37,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import io.github.rosemoe.editor.langs.cobol85.Cobol85Language;
-import io.github.rosemoe.editor.mvc.controller.widget.color.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
@@ -54,7 +53,7 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
 import io.github.rosemoe.editor.widget.SymbolInputView;
-import io.github.rosemoe.editor.themes.*;
+import io.github.rosemoe.editor.plugins.themes.*;
 
 public class MainActivity extends AppCompatActivity {
 

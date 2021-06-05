@@ -19,7 +19,7 @@ import android.app.ProgressDialog;
 import android.widget.Toast;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
-import io.github.rosemoe.editor.mvc.controller.widget.cursor.CursorController;
+import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 public class SearcherView {

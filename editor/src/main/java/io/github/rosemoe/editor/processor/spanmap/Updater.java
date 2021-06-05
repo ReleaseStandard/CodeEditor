@@ -15,8 +15,8 @@
  */
 package io.github.rosemoe.editor.processor.spanmap;
 
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanMapController;
-import io.github.rosemoe.editor.mvc.controller.widget.color.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanLineController;
 import io.github.rosemoe.editor.util.Logger;
 
 /**

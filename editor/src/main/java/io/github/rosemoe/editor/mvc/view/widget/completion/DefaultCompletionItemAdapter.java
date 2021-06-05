@@ -24,8 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionAdapter;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionAdapter;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 

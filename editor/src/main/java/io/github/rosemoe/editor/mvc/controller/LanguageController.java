@@ -15,10 +15,10 @@
  */
 package io.github.rosemoe.editor.mvc.controller;
 
-import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.IdentifierAutoComplete;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.SymbolPairMatch;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatch;
 
 /**
  * Language for editor

@@ -3,9 +3,9 @@ package io.github.rosemoe.editor.langs.html;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.widget.completion.AutoCompleteProviderController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.mvc.controller.widget.completion.CompletionItemController;
+import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
 
 /**
  * Provides auto complete items for HTML Language
