@@ -43,7 +43,7 @@ public class MkshAnalyzer extends CodeAnalyzerController {
         processNodes(theme.accent3,nodes);
     }
     public void processFunctionIdentifier(Object ...nodes) {
-        processNodes(0xFF00FF00,nodes);
+        processNodes(theme.accent6,nodes);
     }
     public void processPunctuation(Object ...nodes) {
         processNodes(theme.accent3,nodes);
@@ -111,24 +111,42 @@ public class MkshAnalyzer extends CodeAnalyzerController {
                 processKeywords(ctx.DONE(),ctx.DO(),ctx.WHILE());
             }
 
+            boolean isFunctionIdentifier = false;
             @Override
             public void enterIdentifier(IdentifierContext ctx) {
-                processIdentifier(ctx.IDENTIFIER());
+                Logger.debug();
+                if ( isFunctionIdentifier ) {
+                    Logger.debug("function identifier found");
+                    processFunctionIdentifier(ctx.IDENTIFIER());
+                    if ( ctx.primary_keyword() != null ) {
+                        processFunctionIdentifier(ctx.primary_keyword().getStart());
+                    }
+                    if ( ctx.secondary_keyword() != null ) {
+                        processFunctionIdentifier(ctx.secondary_keyword().getStart());
+                    }
+                    isFunctionIdentifier = false;
+                } else {
+                    processIdentifier(ctx.IDENTIFIER());
+                    if ( ctx.primary_keyword() != null ) {
+                        processIdentifier(ctx.primary_keyword().getStart());
+                    }
+                    if ( ctx.secondary_keyword() != null ) {
+                        processIdentifier(ctx.secondary_keyword().getStart());
+                    }
+                }
             }
 
             @Override
             public void enterExecution_control_function(Execution_control_functionContext ctx) {
+                Logger.debug();
+                isFunctionIdentifier = true;
                 processKeywords(ctx.FUNCTION(),ctx.P_R_BRACKET(),ctx.P_L_BRACKET());
-                /*if ( ctx.identifier() != null && ctx.identifier().size() > 0 ) {
-                    processFunctionIdentifier(ctx.identifier().get(0));
-                }*/
                 processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
             }
             @Override
-            public void exitExecution_control_function_wo_kwrd(Execution_control_function_wo_kwrdContext ctx) {
-                if ( ctx.identifier() != null && ctx.identifier().size() > 0 ) {
-                    processFunctionIdentifier(ctx.identifier().get(0));
-                }
+            public void enterExecution_control_function_wo_kwrd(Execution_control_function_wo_kwrdContext ctx) {
+                Logger.debug();
+                isFunctionIdentifier = true;
                 processFunctionIdentifier(ctx.P_R_PARENTHESIS(),ctx.P_L_PARENTHESIS());
             }
             @Override
@@ -146,10 +164,8 @@ public class MkshAnalyzer extends CodeAnalyzerController {
 
             @Override
             public void enterAssignment(AssignmentContext ctx) {
+                Logger.debug();
                 processPunctuation(ctx.ARIT_A());
-                if ( ctx.identifier() != null ) {
-                    processIdentifier(ctx.identifier().IDENTIFIER());
-                }
             }
 
             @Override
