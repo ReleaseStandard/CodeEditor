@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.plugins;
 
+import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.extension.Extension;
 import io.github.rosemoe.editor.extension.events.Event;
 
@@ -25,6 +26,21 @@ import io.github.rosemoe.editor.extension.events.Event;
  * @author ReleaseStandard
  */
 public abstract class Plugin extends Extension {
+
+    /**
+     * Below defined constantes are for convenience only.
+     * As a good citizen, you should not use them.
+     * Because some languages may not have secondary keyword, or literals.
+     * Or accent colors may be used for a totally different purpose.
+     */
+    public final static int KEYWORD           = R.styleable.CodeEditor_widget_color_accent1;
+    public final static int SECONDARY_KEYWORD = R.styleable.CodeEditor_widget_color_accent2;
+    public final static int UNDERLINE         = R.styleable.CodeEditor_widget_color_accent3;
+    public final static int ID_VARIABLE       = R.styleable.CodeEditor_widget_color_accent4;
+    public final static int ID_CLASS          = R.styleable.CodeEditor_widget_color_accent5;
+    public final static int ID_FUNCT          = R.styleable.CodeEditor_widget_color_accent6;
+    public final static int LITERAL           = R.styleable.CodeEditor_widget_color_accent7;
+    public final static int PUNCT             = R.styleable.CodeEditor_widget_color_accent8;
 
     /**
      * Override this method to execute action when a given event is dispatched.

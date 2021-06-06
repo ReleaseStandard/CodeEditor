@@ -30,22 +30,6 @@ public abstract class ColorPlugin extends Plugin {
     CodeEditor editor;
     boolean invert = false;
 
-    /**
-     * Below defined constantes are for convenience only.
-     * As a good citizen, you should not use them.
-     * Because some languages may not have secondary keyword, or literals.
-     * Or accent colors may be used for a totally different purpose.
-     */
-    public final static int KEYWORD           = R.styleable.CodeEditor_widget_color_accent1;
-    public final static int SECONDARY_KEYWORD = R.styleable.CodeEditor_widget_color_accent2;
-    public final static int UNDERLINE         = R.styleable.CodeEditor_widget_color_accent3;
-    public final static int ID_VARIABLE       = R.styleable.CodeEditor_widget_color_accent4;
-    public final static int ID_CLASS          = R.styleable.CodeEditor_widget_color_accent5;
-    public final static int ID_FUNCT          = R.styleable.CodeEditor_widget_color_accent6;
-    public final static int LITERAL           = R.styleable.CodeEditor_widget_color_accent7;
-    public final static int PUNCT             = R.styleable.CodeEditor_widget_color_accent8;
-
-
     public static ColorPlugin DEFAULT(CodeEditor editor) { return new ColorPluginSolarized(editor); }
     public ColorPlugin(CodeEditor editor) {
         this.editor = editor;

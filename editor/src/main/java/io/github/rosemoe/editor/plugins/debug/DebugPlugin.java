@@ -31,6 +31,11 @@ public abstract class DebugPlugin extends Plugin {
         editor.widgets.dispatch(e);
     }
 
+    @Override
+    public boolean issubscribed(String type) {
+        return true;
+    }
+
     public DebugPlugin(CodeEditor editor) {
         super();
         setEnabled(Logger.DEBUG);

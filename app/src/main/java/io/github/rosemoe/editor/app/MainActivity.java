@@ -136,11 +136,11 @@ public class MainActivity extends AppCompatActivity {
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
         setEditorLanguage(new JavaLanguage(), "samples/java/java.txt");
-        //if ( Logger.DEBUG ) {
-        //    new ColorPluginDebug(editor).apply();
-        //} else {
+        if ( Logger.DEBUG ) {
+            new ColorPluginDebug(editor).apply();
+        } else {
             ColorPlugin.DEFAULT(editor).apply();
-        //}
+        }
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
 
