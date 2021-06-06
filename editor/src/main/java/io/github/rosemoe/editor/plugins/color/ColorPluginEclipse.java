@@ -37,6 +37,7 @@ public class ColorPluginEclipse extends ColorPlugin {
     @Override
     public void apply() {
         HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
+            put(R.styleable.CodeEditor_widget_color_accent1, 0xff7f0074);
             put(R.styleable.CodeEditor_widget_color_base00, 0xff000000);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff3f7f5f);
             put(R.styleable.CodeEditor_widget_color_base2, 0xffe8f2fe);
