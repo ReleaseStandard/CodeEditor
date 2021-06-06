@@ -32,8 +32,8 @@ public class ColorPluginEclipse extends ColorPlugin {
     }
 
     @Override
-    public void apply() {
-        HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
+    public HashMap<Integer, Integer> getColors() {
+        return new HashMap<Integer, Integer>() {{
             put(R.styleable.CodeEditor_widget_color_base00, 0xff000000);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff3f7f5f);
             put(R.styleable.CodeEditor_widget_color_base2, 0xffe8f2fe);
@@ -57,6 +57,5 @@ public class ColorPluginEclipse extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_blockLine, 0xffd8d8d8);
             put(R.styleable.CodeEditor_widget_color_blockLineCurrent, 0);
         }};
-        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,colors));
     }
 }

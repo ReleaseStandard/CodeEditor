@@ -24,7 +24,7 @@ import io.github.rosemoe.editor.extension.events.Event;
  * then when using the plugin : .dispatch() and .emit()
  * @author ReleaseStandard
  */
-public class Plugin extends Extension {
+public abstract class Plugin extends Extension {
 
     /**
      * Override this method to execute action when a given event is dispatched.

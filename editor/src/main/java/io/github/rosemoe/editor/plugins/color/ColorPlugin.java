@@ -15,17 +15,20 @@
  */
 package io.github.rosemoe.editor.plugins.color;
 
+import androidx.annotation.Nullable;
+
 import java.util.HashMap;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.plugins.Plugin;
+import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 public abstract class ColorPlugin extends Plugin {
     CodeEditor editor;
     boolean invert = false;
-    public abstract void apply();
 
     /**
      * Below defined constantes are for convenience only.
@@ -55,4 +58,19 @@ public abstract class ColorPlugin extends Plugin {
     @Override protected void handleEventEmit(Event e) {
         editor.widgets.dispatch(e);
     }
+
+    public void apply() {
+        HashMap<Integer,Integer> colors = getColors();
+        if ( colors == null ) {
+            colors = new HashMap<>();
+        }
+        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,colors));
+    }
+
+    /**
+     * Define you color scheme here.
+     * @return
+     */
+    @Nullable
+    public abstract HashMap<Integer,Integer> getColors();
 }

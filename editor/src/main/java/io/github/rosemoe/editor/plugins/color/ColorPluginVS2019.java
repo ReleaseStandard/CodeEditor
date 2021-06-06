@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.plugins.color;
 
+import androidx.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +33,10 @@ public class ColorPluginVS2019 extends ColorPlugin {
         super(editor);
     }
 
+    @Nullable
     @Override
-    public void apply() {
-        HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
+    public HashMap<Integer, Integer> getColors() {
+        return new HashMap<Integer, Integer>() {{
             put(R.styleable.CodeEditor_widget_color_base00, 0xffdcdcdc);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff57a64a);
             put(R.styleable.CodeEditor_widget_color_base2, 0xff3676b8);
@@ -61,6 +64,5 @@ public class ColorPluginVS2019 extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_blockLineCurrent, 0);
             put(R.styleable.CodeEditor_widget_color_nonPrintableChar, 0xffdddddd);
         }};
-        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,colors));
     }
 }

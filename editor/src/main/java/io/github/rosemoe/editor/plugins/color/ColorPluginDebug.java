@@ -35,8 +35,8 @@ public class ColorPluginDebug extends ColorPlugin {
     }
 
     @Override
-    public void apply() {
-        HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
+    public HashMap<Integer, Integer> getColors() {
+        return new HashMap<Integer, Integer>() {{
             put(R.styleable.CodeEditor_widget_color_base03, 0xFFFF0000);
             put(R.styleable.CodeEditor_widget_color_base02, 0xFF00FF00);
             put(R.styleable.CodeEditor_widget_color_base01, 0xFF0000FF);
@@ -59,6 +59,5 @@ public class ColorPluginDebug extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_textSelected,0xFF00FF00);
             put(R.styleable.CodeEditor_widget_color_selectedTextBackground, 0xFFFF0000);
         }};
-        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,colors));
     }
 }

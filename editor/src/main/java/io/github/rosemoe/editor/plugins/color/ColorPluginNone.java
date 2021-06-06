@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.plugins.color;
 
+import androidx.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +36,11 @@ public class ColorPluginNone extends ColorPlugin {
         super(editor);
     }
 
+    @Nullable
     @Override
-    public void apply() {
-        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,new HashMap<>()));
+    public HashMap<Integer, Integer> getColors() {
+        return null;
     }
+
+
 }

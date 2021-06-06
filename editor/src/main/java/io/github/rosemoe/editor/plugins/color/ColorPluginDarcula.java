@@ -32,8 +32,8 @@ public class ColorPluginDarcula extends ColorPlugin {
     }
 
     @Override
-    public void apply() {
-        HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
+    public HashMap<Integer, Integer> getColors() {
+        return new HashMap<Integer, Integer>() {{
             put(R.styleable.CodeEditor_widget_color_base00, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff606366);
             put(R.styleable.CodeEditor_widget_color_base2, 0xff323232);
@@ -59,6 +59,6 @@ public class ColorPluginDarcula extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_blockLineCurrent, 0xdd575757);
             put(R.styleable.CodeEditor_widget_color_nonPrintableChar, 0xff6a8759);
         }};
-        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,colors));
     }
+
 }

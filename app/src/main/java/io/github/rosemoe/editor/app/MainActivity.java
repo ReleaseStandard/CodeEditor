@@ -44,6 +44,7 @@ import io.github.rosemoe.editor.langs.html.HTMLLanguage;
 import io.github.rosemoe.editor.langs.java.JavaLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -69,8 +70,17 @@ public class MainActivity extends AppCompatActivity {
         put("None",new EmptyLanguage());
     }};
 
-    protected void setThemes() {
-
+    protected void loadThemes() {
+        themes.put("Default", ColorPlugin.DEFAULT(editor));
+        themes.put("Eclipse",new ColorPluginEclipse(editor));
+        themes.put("Darcula",new ColorPluginDarcula(editor));
+        themes.put("VS2019",new ColorPluginVS2019(editor));
+        themes.put("NotepadXX",new ColorPluginNotepadXX(editor));
+        themes.put("HTML",new ColorPluginHTML(editor));
+        themes.put("Solarized",new ColorPluginSolarized(editor));
+        themes.put("GitHub",new ColorPluginGithub(editor));
+        themes.put("None", new ColorPluginNone(editor));
+        themes.put("Debug", new ColorPluginDebug(editor));
     }
     protected void setEditorLanguage(LanguageController el, String fname) {
         editor.setEditorLanguage(el);
@@ -94,20 +104,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CrashHandler.INSTANCE.init(this);
-        setThemes();
         setContentView(R.layout.activity_main);
-
         editor = findViewById(R.id.editor);
-        themes.put("Default", ColorPlugin.DEFAULT(editor));
-        themes.put("Eclipse",new ColorPluginEclipse(editor));
-        themes.put("Darcula",new ColorPluginDarcula(editor));
-        themes.put("VS2019",new ColorPluginVS2019(editor));
-        themes.put("NotepadXX",new ColorPluginNotepadXX(editor));
-        themes.put("HTML",new ColorPluginHTML(editor));
-        themes.put("Solarized",new ColorPluginSolarized(editor));
-        themes.put("GitHub",new ColorPluginGithub(editor));
-        themes.put("None", new ColorPluginNone(editor));
-        themes.put("Debug", new ColorPluginDebug(editor));
+        loadThemes();
         panel = findViewById(R.id.search_panel);
         search = findViewById(R.id.search_editor);
         replace = findViewById(R.id.replace_editor);

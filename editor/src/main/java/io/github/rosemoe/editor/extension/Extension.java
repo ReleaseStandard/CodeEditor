@@ -34,7 +34,7 @@ import io.github.rosemoe.editor.util.Logger;
  * And the plugin as an higher level plugin.
  *
  */
-public class Extension implements EventSource, EventDestination, Comparable  {
+public abstract class Extension implements EventSource, EventDestination, Comparable  {
     /**
      * Plugin priority declaration : WARNING they should be putted from low to high priority.
      * that is plugin can be given a priority.

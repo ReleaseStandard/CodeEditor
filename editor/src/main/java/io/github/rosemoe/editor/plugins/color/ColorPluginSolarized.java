@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.plugins.color;
 
+import androidx.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,9 +37,10 @@ public class ColorPluginSolarized extends ColorPlugin {
         super(editor);
     }
 
+    @Nullable
     @Override
-    public void apply() {
-        HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
+    public HashMap<Integer, Integer> getColors() {
+        return new HashMap<Integer, Integer>() {{
             put(R.styleable.CodeEditor_widget_color_base03, 0xFF002b36);
             put(R.styleable.CodeEditor_widget_color_base02, 0xFF073642);
             put(R.styleable.CodeEditor_widget_color_base01, 0xFF586e75);
@@ -67,6 +70,5 @@ public class ColorPluginSolarized extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_blockLine, 0xffd8d8d8);
             put(R.styleable.CodeEditor_widget_color_blockLineCurrent, 0);
         }};
-        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,colors));
     }
 }

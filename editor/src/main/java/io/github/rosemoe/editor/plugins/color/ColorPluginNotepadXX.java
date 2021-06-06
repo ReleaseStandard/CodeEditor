@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.plugins.color;
 
+import androidx.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +33,10 @@ public class ColorPluginNotepadXX extends ColorPlugin {
 
     }
 
+    @Nullable
     @Override
-    public void apply() {
-        HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
+    public HashMap<Integer, Integer> getColors() {
+        return new HashMap<Integer, Integer>() {{
             put(R.styleable.CodeEditor_widget_color_base00, 0xff000000);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff008000);
             put(R.styleable.CodeEditor_widget_color_base2, 0xffe4e4e4);
@@ -57,6 +60,5 @@ public class ColorPluginNotepadXX extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_blockLine, 0xffc0c0c0);
             put(R.styleable.CodeEditor_widget_color_blockLineCurrent, 0);
         }};
-        emit(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_THEME,colors));
     }
 }

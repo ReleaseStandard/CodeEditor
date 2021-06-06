@@ -25,7 +25,7 @@ import io.github.rosemoe.editor.util.Logger;
  *
  * @author Release Standard
  */
-public class Widget extends Extension {
+public abstract class Widget extends Extension {
     @Override
     public void dispatch(Event e) {
         super.dispatch(e);
