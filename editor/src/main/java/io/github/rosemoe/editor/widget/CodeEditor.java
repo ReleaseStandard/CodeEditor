@@ -219,14 +219,14 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
     UserInputConnexionController mConnection;             // Manage other part of the user input, eg copy, paste
     // core
-    private LanguageController mLanguage;
+    public LanguageController mLanguage;
     public ColorSchemeController mColors;
 
     // widgets
     private CursorController cursor;                                        // Manage the cursor
     private SearcherController searcher;                                    // Manage search in the displayed text
     private ContextActionController contextAction;                          // Manage context action showing, eg copy paste
-    private CompletionWindowController completionWindow;                    // Manage completion item showing
+    public CompletionWindowController completionWindow;                    // Manage completion item showing
     public  UserInputController userInput;                                  // Manage all user input, eg scale scrolling
 
     public ExtensionContainer widgets = new ExtensionContainer();
@@ -348,7 +348,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         super(context, attrs, defStyleAttr, defStyleRes);
         initialize();
         TypedArray ta = getContext().obtainStyledAttributes(attrs,R.styleable.CodeEditor);
-        mColors.initFromAttributeSets(attrs,ta);
+        getColorScheme().initFromAttributeSets(attrs,ta);
         initFromAttributeSet(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -574,16 +574,14 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mStartedActionMode = ACTION_MODE_NONE;
         setTextSize(DEFAULT_TEXT_SIZE);
         setLineInfoTextSize(mPaint.getTextSize());
-        mColors = new ColorSchemeController(this);
         userInput = new UserInputController(this,getContext());
         widgets.put(
-                userInput,
-                new LoopbackWidget(this),
-                mColors
+            userInput,
+            new LoopbackWidget(this),
+            new ColorSchemeController(this)
         );
         plugins.put(new ExamplePlugin(this));
-        Logger.debug("textNormal = ", mColors.getTextNormal(), ", textNormaldirect ", mColors.textNormal);
-        mColors.dump();
+        getColorScheme().dump();
 
         mViewRect = new Rect(0, 0, 0, 0);
         mRect = new RectF();
@@ -746,7 +744,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             analyzer.setCallback(null);
         }
         CodeAnalyzerController analyzer = lang.getAnalyzer();
-        analyzer.setTheme(mColors);
+        analyzer.setTheme(getColorScheme());
         this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
         if (mText != null) {
@@ -994,10 +992,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         if (mFormatThread != null) {
             String text = "Formatting your code...";
             float centerY = getHeight() / 2f;
-            drawColor(canvas, mColors.getLineNumberPanel(), mRect);
+            drawColor(canvas, getColorScheme().getLineNumberPanel(), mRect);
             float baseline = centerY - getRowHeight() / 2f + getRowBaseline(0);
             float centerX = getWidth() / 2f;
-            mPaint.setColor(mColors.getLineNumberPanelText());
+            mPaint.setColor(getColorScheme().getLineNumberPanelText());
             mPaint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(text, centerX, baseline, mPaint);
             mPaint.setTextAlign(Paint.Align.LEFT);
@@ -1006,8 +1004,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
         getCursor().updateCache(getFirstVisibleLine());
 
-        ColorSchemeController color = mColors;
-        drawColor(canvas, mColors.getWholeBackground(), mViewRect);
+        ColorSchemeController color = getColorScheme();
+        drawColor(canvas, getColorScheme().getWholeBackground(), mViewRect);
 
         float lineNumberWidth = measureLineNumber();
         float offsetX = -getOffsetX() + measureTextRegionOffset();
@@ -1042,9 +1040,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
 
         if (isLineNumberEnabled()) {
 
-            drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, mColors.getLineNumberBackground());
+            drawLineNumberBackground(canvas, offsetX, lineNumberWidth + mDividerMargin, getColorScheme().getLineNumberBackground());
             drawDivider(canvas, offsetX + lineNumberWidth + mDividerMargin,color.getLineDivider());
-            int lineNumberColor = mColors.getLineNumberPanelText();
+            int lineNumberColor = getColorScheme().getLineNumberPanelText();
             for (int i = 0; i < postDrawLineNumbers.size(); i++) {
                 long packed = postDrawLineNumbers.get(i);
                 drawLineNumber(canvas, IntPair.getFirst(packed), IntPair.getSecond(packed), offsetX, lineNumberWidth, lineNumberColor);
@@ -1097,7 +1095,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         SpanMapController spanMap = analyzer.getResult().spanMap;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = cursor.isSelected() ? -1 : cursor.getLeftLine();
-        int currentLineBgColor = mColors.getCurrentLine();
+        int currentLineBgColor = getColorScheme().getCurrentLine();
         int lastPreparedLine = -1;
         int leadingWhitespaceEnd = 0;
         int trailingWhitespaceStart = 0;
@@ -1151,7 +1149,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             // Draw matched text background
             if (!matchedPositions.isEmpty()) {
                 for (int position : matchedPositions) {
-                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + searcher.model.searchText.length(), mColors.getTextSelectedBackground());
+                    drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, position, position + searcher.model.searchText.length(), getColorScheme().getTextSelectedBackground());
                 }
             }
 
@@ -1167,7 +1165,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 if (line == cursor.getRightLine()) {
                     selectionEnd = cursor.getRightColumn();
                 }
-                drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, selectionStart, selectionEnd, mColors.getTextSelectedBackground());
+                drawRowRegionBackground(canvas, paintingOffset, row, firstVisibleChar, lastVisibleChar, selectionStart, selectionEnd, getColorScheme().getTextSelectedBackground());
             }
 
             // Draw current line background
@@ -1251,7 +1249,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                     mRect.bottom = mRect.top + getRowHeight() * 0.06f;
                     mRect.left = paintingOffset + measureText(mBuffer, firstVisibleChar, paintStart - firstVisibleChar);
                     mRect.right = mRect.left + measureText(mBuffer, paintStart, paintEnd - paintStart);
-                    drawColor(canvas, mColors.getUnderline(), mRect);
+                    drawColor(canvas, getColorScheme().getUnderline(), mRect);
                 }
             }
 
@@ -1303,7 +1301,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void drawWhitespaces(Canvas canvas, float offset, int row, int rowStart, int rowEnd, int min, int max, float circleRadius) {
         int paintStart = Math.max(rowStart, Math.min(rowEnd, min));
         int paintEnd = Math.max(rowStart, Math.min(rowEnd, max));
-        lineNumberPaint.setColor(mColors.getNonPrintableChar());
+        lineNumberPaint.setColor(getColorScheme().getNonPrintableChar());
 
         if (paintStart < paintEnd) {
             float spaceWidth = mFontCache.measureChar(' ', mPaint);
@@ -1457,7 +1455,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                         drawText(canvas, mBuffer, startIndex, selectionStart - startIndex, offsetX, baseline);
                         float deltaX = measureText(mBuffer, startIndex, selectionStart - startIndex);
                         //selectionStart - selectionEnd
-                        mPaint.setColor(mColors.getTextSelected());
+                        mPaint.setColor(getColorScheme().getTextSelected());
                         drawText(canvas, mBuffer, selectionStart, selectionEnd - selectionStart, offsetX + deltaX, baseline);
                         deltaX += measureText(mBuffer, selectionStart, selectionEnd - selectionStart);
                         //selectionEnd - endIndex
@@ -1468,7 +1466,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                         //startIndex - selectionStart
                         drawText(canvas, mBuffer, startIndex, selectionStart - startIndex, offsetX, baseline);
                         //selectionStart - endIndex
-                        mPaint.setColor(mColors.getTextSelected());
+                        mPaint.setColor(getColorScheme().getTextSelected());
                         drawText(canvas, mBuffer, selectionStart, endIndex - selectionStart, offsetX + measureText(mBuffer, startIndex, selectionStart - startIndex), baseline);
                     }
                 } else {
@@ -1478,11 +1476,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                         //selectionEnd - endIndex
                         drawText(canvas, mBuffer, selectionEnd, endIndex - selectionEnd, offsetX + measureText(mBuffer, startIndex, selectionEnd - startIndex), baseline);
                         //startIndex - selectionEnd
-                        mPaint.setColor(mColors.getTextSelected());
+                        mPaint.setColor(getColorScheme().getTextSelected());
                         drawText(canvas, mBuffer, startIndex, selectionEnd - startIndex, offsetX, baseline);
                     } else {
                         //One region
-                        mPaint.setColor(mColors.getTextSelected());
+                        mPaint.setColor(getColorScheme().getTextSelected());
                         drawText(canvas, mBuffer, startIndex, endIndex - startIndex, offsetX, baseline);
                     }
                 }
@@ -1575,7 +1573,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         resultRect.right = right;
         resultRect.top = top;
         resultRect.bottom = bottom;
-        mPaint.setColor(mColors.getSelectionHandle());
+        mPaint.setColor(getColorScheme().getSelectionHandle());
         canvas.drawCircle(centerX, (top + bottom) / 2, radius, mPaint);
     }
 
@@ -1618,7 +1616,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                     mRect.left = centerX - mDpUnit * mBlockLineWidth / 2;
                     mRect.right = centerX + mDpUnit * mBlockLineWidth / 2;
 
-                    drawColor(canvas, curr == cursorIdx ? mColors.getBlockLineCurrent() : mColors.getBlockLine(), mRect);
+                    drawColor(canvas, curr == cursorIdx ? getColorScheme().getBlockLineCurrent() : getColorScheme().getBlockLine(), mRect);
                 } catch (IndexOutOfBoundsException e) {
                     //Ignored
                     //Because the exception usually occurs when the content changed.
@@ -1664,7 +1662,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             mRect.left = getWidth() - mDpUnit * 10;
             mRect.top = 0;
             mRect.bottom = getHeight();
-            drawColor(canvas, mColors.getScrollBarTrack(), mRect);
+            drawColor(canvas, getColorScheme().getScrollBarTrack(), mRect);
         }
     }
 
@@ -1693,7 +1691,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.top = topY;
         mRect.bottom = topY + length;
         userInput.view.getVerticalScrollBarRect().set(mRect);
-        drawColor(canvas, userInput.holdVerticalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
+        drawColor(canvas, userInput.holdVerticalScrollBar() ? getColorScheme().getScrollBarThumbPressed() : getColorScheme().getScrollBarThumb(), mRect);
     }
     /**
      * Draw horizontal scroll bar track
@@ -1706,7 +1704,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             mRect.bottom = getHeight();
             mRect.right = getWidth();
             mRect.left = 0;
-            drawColor(canvas, mColors.getScrollBarTrack(), mRect);
+            drawColor(canvas, getColorScheme().getScrollBarTrack(), mRect);
         }
     }
 
@@ -1725,7 +1723,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.right = leftX + length;
         mRect.left = leftX;
         userInput.view.getHorizontalScrollBarRect().set(mRect);
-        drawColor(canvas, userInput.holdHorizontalScrollBar() ? mColors.getScrollBarThumbPressed() : mColors.getScrollBarThumb(), mRect);
+        drawColor(canvas, userInput.holdHorizontalScrollBar() ? getColorScheme().getScrollBarThumbPressed() : getColorScheme().getScrollBarThumb(), mRect);
     }
 
     /**
@@ -1750,10 +1748,10 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mRect.bottom = centerY + getRowHeight() / 2f + expand;
         mRect.right = rightX;
         mRect.left = rightX - expand * 2 - textWidth;
-        drawColor(canvas, mColors.getLineNumberPanel(), mRect);
+        drawColor(canvas, getColorScheme().getLineNumberPanel(), mRect);
         float baseline = centerY - getRowHeight() / 2f + getRowBaseline(0);
         float centerX = (mRect.left + mRect.right) / 2;
-        mPaint.setColor(mColors.getLineNumberPanelText());
+        mPaint.setColor(getColorScheme().getLineNumberPanelText());
         mPaint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(text, centerX, baseline, mPaint);
         mPaint.setTextAlign(Paint.Align.LEFT);
@@ -1858,7 +1856,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
             mRect.right = centerX + mInsertSelWidth / 2f;
-            drawColor(canvas, mColors.getSelectionInsert(), mRect);
+            drawColor(canvas, getColorScheme().getSelectionInsert(), mRect);
         }
         if (handle != null) {
             drawHandle(canvas, row, centerX, handle, -1);
@@ -1874,7 +1872,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             mRect.bottom = getRowBottom(row) - getOffsetY();
             mRect.left = centerX - mInsertSelWidth / 2f;
             mRect.right = centerX + mInsertSelWidth / 2f;
-            drawColor(canvas, mColors.getSelectionInsert(), mRect);
+            drawColor(canvas, getColorScheme().getSelectionInsert(), mRect);
         }
         if (handle != null) {
             drawHandle(canvas, row, centerX, handle, handleType);
@@ -3458,7 +3456,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             analyzer.shutdown();
         }
         CodeAnalyzerController analyzer = mLanguage.getAnalyzer();
-        analyzer.setTheme(mColors);
+        analyzer.setTheme(getColorScheme());
         this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
 
@@ -3536,26 +3534,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      */
     @NonNull
     public ColorSchemeController getColorScheme() {
-        return mColors;
-    }
-
-    /**
-     * Set a new color scheme for editor.
-     * <p>
-     * It can be a subclass of {@link ColorSchemeController}.
-     * The scheme object can only be applied to one editor instance.
-     * Otherwise, an IllegalStateException is thrown.
-     *
-     * @param colors A non-null and free ColorSchemeController
-     */
-    public void setColorScheme(@NonNull ColorSchemeController colors) {
-        colors.attachEditor(this);
-        mColors = colors;
-        if (completionWindow != null) {
-            completionWindow.applyColorScheme();
-        }
-        setEditorLanguage(this.mLanguage);
-        invalidate();
+        return (ColorSchemeController) widgets.get("color");
     }
 
     /**
@@ -3603,7 +3582,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
      * @param type Color type changed
      */
     public void onColorUpdated(int type) {
-        if (type == mColors.getCompletionPanelBackground() || type == mColors.getCompletionPanelCorner()) {
+        if (type == getColorScheme().getCompletionPanelBackground() || type == getColorScheme().getCompletionPanelCorner()) {
             if (completionWindow != null)
                 completionWindow.applyColorScheme();
             return;

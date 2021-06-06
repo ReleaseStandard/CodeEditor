@@ -15,11 +15,13 @@
  */
 package io.github.rosemoe.editor.extension;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
 import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.util.Random;
 
 /**
  * This is class is a container for extension with a priority queue.
@@ -77,5 +79,24 @@ public class ExtensionContainer extends Extension {
         for(Extension extension : extensions) {
             this.extensions.add(extension);
         }
+    }
+
+
+
+
+    /**
+     * Retrieve an extension by it's name.
+     * Extensions number is so low that we don't have to cache theses results.
+     * @param name extension name
+     * @return extension for the given name or null
+     */
+    public Extension get(String name) {
+        for (Iterator<Extension> it = extensions.iterator(); it.hasNext(); ) {
+            Extension extension = it.next();
+            if( extension.name == name ) {
+                return extension;
+            }
+        }
+        return null;
     }
 }

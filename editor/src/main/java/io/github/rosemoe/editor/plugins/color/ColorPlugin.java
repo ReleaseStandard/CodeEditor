@@ -27,21 +27,18 @@ import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 public abstract class ColorPlugin extends Plugin {
-    CodeEditor editor;
     boolean invert = false;
 
     public static ColorPlugin DEFAULT(CodeEditor editor) { return new ColorPluginSolarized(editor); }
     public ColorPlugin(CodeEditor editor) {
-        this.editor = editor;
+        super(editor);
     }
     public ColorPlugin(CodeEditor editor, boolean invert) {
-        this.editor = editor;
+        super(editor);
         this.invert = invert;
     }
 
-    @Override protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
+
 
     public void apply() {
         HashMap<Integer,Integer> colors = getColors();

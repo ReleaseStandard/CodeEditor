@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.plugins;
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.extension.Extension;
 import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.widget.CodeEditor;
 
 
 /**
@@ -27,6 +28,7 @@ import io.github.rosemoe.editor.extension.events.Event;
  */
 public abstract class Plugin extends Extension {
 
+    protected CodeEditor editor;
     /**
      * Below defined constantes are for convenience only.
      * As a good citizen, you should not use them.
@@ -52,8 +54,10 @@ public abstract class Plugin extends Extension {
 
     }
 
-    @Override
-    protected void handleEventEmit(Event e) {
-
+    @Override protected void handleEventEmit(Event e) {
+        editor.widgets.dispatch(e);
+    }
+    public Plugin(CodeEditor editor) {
+        this.editor = editor;
     }
 }

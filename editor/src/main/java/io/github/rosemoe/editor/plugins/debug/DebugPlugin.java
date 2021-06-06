@@ -25,20 +25,13 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  */
 public abstract class DebugPlugin extends Plugin {
 
-    CodeEditor editor;
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
-
     @Override
     public boolean issubscribed(String type) {
         return true;
     }
 
     public DebugPlugin(CodeEditor editor) {
-        super();
+        super(editor);
         setEnabled(Logger.DEBUG);
-        this.editor = editor;
     }
 }

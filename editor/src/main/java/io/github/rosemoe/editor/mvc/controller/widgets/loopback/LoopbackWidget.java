@@ -29,6 +29,7 @@ public class LoopbackWidget extends Widget {
         subscribe(TYPE_LOOPBACK);
         Logger.debug("TYPE_LOOPBACK=",issubscribed(TYPE_LOOPBACK),",TYPE_USERINPUT=",issubscribed(UserInputEvent.TYPE_USERINPUT));
         this.editor = editor;
+        this.name   = "loopback";
     }
     @Override
     public void handleEventEmit(Event e) {

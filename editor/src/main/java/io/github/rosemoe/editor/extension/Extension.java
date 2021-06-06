@@ -47,6 +47,19 @@ public abstract class Extension implements EventSource, EventDestination, Compar
     public PRIORITY priorityRing = PRIORITY.STD;
     private HashMap<String, Boolean> subscribedEventTypes = new HashMap<>();
 
+    /**
+     * Name of the extension.
+     */
+    public  String name       = "default";
+    /**
+     * Extension's description.
+     */
+    public String description = "default description";
+    /**
+     * Image for the extension.
+     */
+    public Object image       = "plugin image";
+
     @Override
     public int compareTo(Object o) {
         if ( o instanceof Extension) {
