@@ -67,6 +67,7 @@ public class Extension implements EventSource, EventDestination, Comparable  {
     public boolean isEnabled() {
         return enabled;
     }
+    public boolean isDisabled() { return ! enabled; }
 
     /**
      * Override this method of the widget to provide action in the widget on event emission.
@@ -75,7 +76,7 @@ public class Extension implements EventSource, EventDestination, Comparable  {
     protected void handleEventEmit(Event e) { }
     @Override
     public void emit(Event e) {
-        if ( isEnabled() ) {
+        if ( isDisabled() ) {
             Logger.debug("Cannot emit as this extension is disabled !");
             return;
         }
@@ -97,7 +98,7 @@ public class Extension implements EventSource, EventDestination, Comparable  {
     };
     @Override
     public void dispatch(Event e) {
-        if ( isEnabled() ) {
+        if ( isDisabled() ) {
             Logger.debug("Cannot emit as this extension is disabled !");
             return;
         }

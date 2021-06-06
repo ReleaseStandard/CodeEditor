@@ -13,22 +13,36 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.plugins;
+package io.github.rosemoe.editor.plugins.debug;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
+import io.github.rosemoe.editor.plugins.Plugin;
 import io.github.rosemoe.editor.plugins.color.ColorPluginDarcula;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
-public class ExamplePlugin extends Plugin {
-    CodeEditor editor ;
+/**
+ * WARNING : it is disabled by default, you have to set Logger.DEBUG=true in the Logger.java file.
+ *
+ * This plugin is very simple.
+ * It will change various colors of the interface in response to touch events.
+ * eg: scaling editor cause background turn into green.
+ *
+ * @author Release Standard.
+ */
+public class ExamplePlugin extends DebugPlugin {
 
     long currentTime = 0;
     int taps = 0;
+
+    public ExamplePlugin(CodeEditor editor) {
+        super(editor);
+    }
+
     private void incOrReset() {
         long newTime = System.currentTimeMillis();
         long diff = newTime - currentTime;
@@ -74,14 +88,5 @@ public class ExamplePlugin extends Plugin {
 
     }
 
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
 
-    public ExamplePlugin(CodeEditor editor) {
-        super();
-        setEnabled(Logger.DEBUG);
-        this.editor = editor;
-    }
 }

@@ -36,17 +36,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-import io.github.rosemoe.editor.langs.cobol85.Cobol85Language;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
 import io.github.rosemoe.editor.langs.desc.CppDescription;
-import io.github.rosemoe.editor.langs.desc.JavaScriptDescription;
-import io.github.rosemoe.editor.langs.golang.GoLangLanguage;
 import io.github.rosemoe.editor.langs.html.HTMLLanguage;
 import io.github.rosemoe.editor.langs.java.JavaLanguage;
-import io.github.rosemoe.editor.langs.mksh.MkshLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
 import io.github.rosemoe.editor.util.Logger;
@@ -69,13 +64,9 @@ public class MainActivity extends AppCompatActivity {
         put("C",new UniversalLanguage(new CDescription()));
         put("C++",new UniversalLanguage(new CppDescription()));
         put("Java",new JavaLanguage());
-        put("Javascript",new UniversalLanguage(new JavaScriptDescription()));
         put("HTML",new HTMLLanguage());
         put("Python",new PythonLanguage());
         put("None",new EmptyLanguage());
-        put("GoLang",new GoLangLanguage());
-        put("Mksh",new MkshLanguage());
-        put("Cobol85",new Cobol85Language());
     }};
 
     protected void setThemes() {
@@ -114,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         themes.put("NotepadXX",new ColorPluginNotepadXX(editor));
         themes.put("HTML",new ColorPluginHTML(editor));
         themes.put("Solarized",new ColorPluginSolarized(editor));
-        //themes.put("SolarizedDark",new ColorPluginSolarized(editor,true));
         themes.put("GitHub",new ColorPluginGithub(editor));
         panel = findViewById(R.id.search_panel);
         search = findViewById(R.id.search_editor);

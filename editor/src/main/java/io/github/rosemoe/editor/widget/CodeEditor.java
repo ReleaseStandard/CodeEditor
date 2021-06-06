@@ -64,7 +64,7 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
 import io.github.rosemoe.editor.extension.ExtensionContainer;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
-import io.github.rosemoe.editor.plugins.ExamplePlugin;
+import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;

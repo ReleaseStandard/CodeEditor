@@ -19,10 +19,10 @@ import java.util.HashMap;
 
 public class MainActivityModel {
 
-    public String [] themes = new String[]{"Default", "Eclipse", "Darcula", "VS2019", "NotepadXX", "HTML","Solarized"/*, "SolarizedDark"*/,"GitHub"};
+    public String [] themes = new String[]{"Default", "Eclipse", "Darcula", "VS2019", "NotepadXX", "HTML","Solarized","GitHub"};
     public int checkedTheme = 0;
 
-    public String[] languages = new String[]{"C", "C++", "Java", "JavaScript", "HTML", "Python", "None", "GoLang", "Mksh","Cobol85"};
+    public String[] languages = new String[]{"C", "C++", "Java", "HTML", "Python", "None"};
     public HashMap<String,String> languages_samples = new HashMap<String, String>(){{
         put("C","samples/c/c.txt");
         put("C++","samples/cpp/cpp.txt");

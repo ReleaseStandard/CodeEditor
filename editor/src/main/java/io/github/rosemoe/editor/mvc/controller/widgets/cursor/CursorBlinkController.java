@@ -54,7 +54,7 @@ public final class CursorBlinkController extends Widget implements Runnable {
 
     @Override
     public void run() {
-        if (! isEnabled() ) { return ; }
+        if ( isDisabled() ) { return ; }
         if (model.valid && model.period > 0) {
             if (System.currentTimeMillis() - model.lastSelectionModificationTime >= model.period * 2) {
                 model.visibility = !model.visibility;
