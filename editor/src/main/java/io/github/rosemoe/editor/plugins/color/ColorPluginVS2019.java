@@ -45,6 +45,7 @@ public class ColorPluginVS2019 extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_base3, 0xff1e1e1e);
             put(R.styleable.CodeEditor_widget_color_accent1, 0xff569cd6);
             put(R.styleable.CodeEditor_widget_color_accent5, 0xff4ec9b0);
+            put(R.styleable.CodeEditor_widget_color_accent4, 0xffdcdcaa);
             put(R.styleable.CodeEditor_widget_color_accent6, 0xffdcdcdc);
             put(R.styleable.CodeEditor_widget_color_accent7, 0xffd69d85);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff57a64a);

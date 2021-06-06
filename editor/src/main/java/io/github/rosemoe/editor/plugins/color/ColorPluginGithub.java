@@ -45,6 +45,7 @@ public class ColorPluginGithub extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_accent1, 0xffde3a49);
             put(R.styleable.CodeEditor_widget_color_accent6, 0xff24292e);
             put(R.styleable.CodeEditor_widget_color_accent7, 0xff032f62);
+            put(R.styleable.CodeEditor_widget_color_accent8, 0xff005cc5);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff6a737d);
             put(R.styleable.CodeEditor_widget_color_wholeBackground, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_textNormal, 0xff24292e);

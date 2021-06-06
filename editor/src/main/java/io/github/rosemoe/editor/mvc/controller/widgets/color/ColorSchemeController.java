@@ -54,10 +54,9 @@ public class ColorSchemeController extends Widget {
     public static final int HIDDEN = 0;
     private final int DEFAULT = HIDDEN;
     /**
-     * That's our color scheme, no matter what it correspond to in the language, we just need colors.
-     * The it's up to the analyzer to apply colors on keywords and so on.
-     * By default the theme do nothing on the text.
-     * If you want a specific behaviour in your theme, eg that the selected text color not follow rules, please override the method getTextSelected()
+     * Base color scheme to display the CodeEditor.
+     * You should provide a gradient here.
+     * Check for example the Solarized theme here : https://ethanschoonover.com/solarized/.
      */
     // Background tone
     public int base03 = DEFAULT;
@@ -70,26 +69,51 @@ public class ColorSchemeController extends Widget {
     // Background tone
     public int base2 = DEFAULT; // line number panel, line number background, currentline, selected text background
     public int base3 = DEFAULT; // whole background
-    // Accent colors
+
+
+    // Accent colors : Theses colors are put on text for show up to user a particular meaning, purpose may vary between languages.
     /**
-     * Generally we use it for keywords.
+     * EXAMPLE: keyword.
      */
     private Integer accent1 = DEFAULT;
     public int getAccent1() { return accent1 == null ? getTextNormal() : accent1; }
+    /**
+     * EXAMPLE: Secondary keyword.
+     */
     private Integer accent2 = DEFAULT;
     public int getAccent2() { return accent2 == null ? getTextNormal() : accent2; }
+    /**
+     * EXAMPLE: underline.
+     */
     private Integer accent3 = DEFAULT;
     public int getAccent3() { return accent3 == null ? getTextNormal() : accent3; }
+    /**
+     * EXAMPLE: variable identifier.
+     */
     private Integer accent4 = DEFAULT;
     public int getAccent4() { return accent4 == null ? getTextNormal() : accent4; }
+    /**
+     * EXAMPLE: Class identifier.
+     */
     private Integer accent5 = DEFAULT;
     public int getAccent5() { return accent5 == null ? getTextNormal() : accent5; }
+    /**
+     * EXAMPLE: Function identifier.
+     */
     private Integer accent6 = DEFAULT;
     public int getAccent6() { return accent6 == null ? getTextNormal() : accent6; }
+    /**
+     * EXAMPLE: Literals.
+     */
     private Integer accent7 = DEFAULT;
     public int getAccent7() { return accent7 == null ? getTextNormal() : accent7; }
+    /**
+     * EXAMPLE: Punctuation.
+     */
     private Integer accent8 = DEFAULT;
     public int getAccent8() { return accent8 == null ? getTextNormal() : accent8; }
+
+
     /**
      * We can choose to invert the color scheme.
      * Assuming Theme editor put white variant, isInverted <=> is black theme.
@@ -103,6 +127,8 @@ public class ColorSchemeController extends Widget {
     }
     public String theme_name = "Default";
     public String theme_description = "Default description";
+
+
     /**
      * Here we put colors that do not depends on which language is parsed.
      * All language inserted into CodeEditor must have theses.

@@ -44,6 +44,7 @@ public class ColorPluginNotepadXX extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_accent1, 0xff8000ff);
             put(R.styleable.CodeEditor_widget_color_accent6, 0xff000000);
             put(R.styleable.CodeEditor_widget_color_accent7, 0xff808080);
+            put(R.styleable.CodeEditor_widget_color_accent8, 0xff0000ff);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff008000);
             put(R.styleable.CodeEditor_widget_color_wholeBackground, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_textNormal, 0xff000000);

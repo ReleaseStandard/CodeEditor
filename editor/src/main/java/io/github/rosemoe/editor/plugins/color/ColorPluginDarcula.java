@@ -44,6 +44,7 @@ public class ColorPluginDarcula extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_base2, 0xff323232);
             put(R.styleable.CodeEditor_widget_color_base3, 0xff2b2b2b);
             put(R.styleable.CodeEditor_widget_color_accent1, 0xffcc7832);
+            put(R.styleable.CodeEditor_widget_color_accent4, 0xFF9876aa);
             put(R.styleable.CodeEditor_widget_color_accent6, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_accent7, 0xff6a8759);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff808080);

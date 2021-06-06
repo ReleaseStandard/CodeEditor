@@ -42,6 +42,7 @@ public class ColorPluginEclipse extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_base2, 0xffe8f2fe);
             put(R.styleable.CodeEditor_widget_color_base3, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_accent1, 0xff7f0074);
+            put(R.styleable.CodeEditor_widget_color_accent4, 0xffb8633e);
             put(R.styleable.CodeEditor_widget_color_accent6, 0xff000000);
             put(R.styleable.CodeEditor_widget_color_accent7, 0xff2a00ff);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff3f7f5f);

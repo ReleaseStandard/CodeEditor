@@ -112,7 +112,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                     }
                     if (classNamePrevious) {
                         //Var name
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colors.addIfNeeded(line, column, theme.getAccent4());
                         classNamePrevious = false;
                         break;
                     }
@@ -225,7 +225,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                         break;
                     }
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, theme.getTextNormal());
+                    colors.addIfNeeded(line, column, theme.getAccent8());
             }
             first = false;
             helper.update(thisLength);
