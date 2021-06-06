@@ -17,6 +17,7 @@ package io.github.rosemoe.editor.app;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;

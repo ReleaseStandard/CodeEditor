@@ -19,10 +19,12 @@ import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
+import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorModel;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
 /**
@@ -39,10 +41,6 @@ public final class CursorController extends Widget {
     public CursorBlinkController blink;        // Manage cursor blink effect
     public final CodeEditor editor;
     private CharPosition mLeft, mRight;
-    private CharPosition cache0, cache1, cache2;
-    private boolean mAutoIndentEnabled;
-    private EditorLanguage mLanguage;
-    private int mTabWidth;
 
     /**
      * Create a new CursorController for ContentMapController

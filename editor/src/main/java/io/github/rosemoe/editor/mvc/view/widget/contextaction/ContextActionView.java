@@ -68,8 +68,9 @@ public class ContextActionView extends EditorBasePopupWindow implements View.OnC
     @Override
     public void onBeginTextSelect() {
         float dpUnit = mEditor.getDpUnit();
+        int maxWidth = (int) (dpUnit * 230);
         setHeight((int) (dpUnit * 60));
-        maxWidth = (int) (dpUnit * 230);
+        handleOnBeginTextSelect(maxWidth);
         setWidth(maxWidth);
     }
 
@@ -155,20 +156,6 @@ public class ContextActionView extends EditorBasePopupWindow implements View.OnC
     private void updateBtnState() {
         updateBtnState(mEditor);
         handleUpdateBtnState();
-    }
-
-    @Override
-    public void onBeginTextSelect() {
-        float dpUnit = mEditor.getDpUnit();
-        int maxWidth = (int) (dpUnit * 230);
-        setHeight((int) (dpUnit * 60));
-        handleOnBeginTextSelect(maxWidth);
-        setWidth(maxWidth);
-    }
-
-    @Override
-    public void onExit() {
-        hide();
     }
 
     @Override

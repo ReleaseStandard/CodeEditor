@@ -17,6 +17,7 @@ package io.github.rosemoe.editor.mvc.model;
 
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.util.IntPair;
 
 /**
  * This a data class of a character position in {@link ContentMapController}

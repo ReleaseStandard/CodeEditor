@@ -15,8 +15,10 @@
  */
 package io.github.rosemoe.editor.mvc.view.widget.userinput;
 
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.BaseInputConnection;
@@ -32,7 +34,7 @@ import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatc
 
 public class UserInputConnexionView extends BaseInputConnection {
     public final CodeEditor editor;
-    final static int TEXT_LENGTH_LIMIT = 1000000;
+    public final static int TEXT_LENGTH_LIMIT = 1000000;
 
     public UserInputConnexionView(View targetView, boolean fullEditor) {
         super(targetView, fullEditor);
@@ -84,6 +86,20 @@ public class UserInputConnexionView extends BaseInputConnection {
         editor.mKeyMetaStates.clearMetaStates(states);
         return true;
     }
+    /**
+     * Perform enter key pressed
+     */
+    private void sendEnterKeyEvent() {
+        long eventTime = SystemClock.uptimeMillis();
+        sendKeyEvent(new KeyEvent(eventTime, eventTime,
+                KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER, 0, 0,
+                KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
+                KeyEvent.FLAG_SOFT_KEYBOARD | KeyEvent.FLAG_KEEP_TOUCH_MODE));
+        sendKeyEvent(new KeyEvent(SystemClock.uptimeMillis(), eventTime,
+                KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER, 0, 0,
+                KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
+                KeyEvent.FLAG_SOFT_KEYBOARD | KeyEvent.FLAG_KEEP_TOUCH_MODE));
+    }
     public CharSequence handleGetTextBeforeCursor(int length, int flags, int start) { return ""; }
     @Override
     public CharSequence getTextBeforeCursor(int length, int flags) {
@@ -108,7 +124,7 @@ public class UserInputConnexionView extends BaseInputConnection {
             return false;
         }
         if (text.equals("\n")) {
-            editor.onKeyDown(KeyEvent.KEYCODE_ENTER, null);
+            sendEnterKeyEvent();
             return true;
         }
         commitTextInternal(text, true);
