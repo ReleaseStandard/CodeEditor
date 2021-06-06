@@ -81,7 +81,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                     identifiers.addIdentifier(text.substring(tokenizer.getIndex(), tokenizer.getTokenLength() + tokenizer.getIndex()));
                     //The previous so this will be the annotation's type name
                     if (previous == Tokens.AT) {
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colors.addIfNeeded(line, column, theme.getAccent1());
                         break;
                     }
                     //Here we have to get next token to see if it is function
@@ -90,7 +90,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                     Tokens next = tokenizer.directNextToken();
                     //The next is LPAREN,so this is function name or type name
                     if (next == Tokens.LPAREN) {
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colors.addIfNeeded(line, column, theme.getAccent6());
                         tokenizer.pushBack(tokenizer.getTokenLength());
                         break;
                     }
@@ -98,7 +98,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                     tokenizer.pushBack(tokenizer.getTokenLength());
                     //This is a class definition
                     if (previous == Tokens.CLASS) {
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colors.addIfNeeded(line, column, theme.getAccent5());
                         //Add class name
                         classNames.put(text, thisIndex, thisLength, OBJECT);
                         break;
@@ -123,7 +123,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                 case FLOATING_POINT_LITERAL:
                 case INTEGER_LITERAL:
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, theme.accent7);
+                    colors.addIfNeeded(line, column, theme.getAccent7());
                     break;
                 case INT:
                 case LONG:
@@ -135,7 +135,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                 case SHORT:
                 case VOID:
                     classNamePrevious = true;
-                    colors.addIfNeeded(line, column, theme.accent1);
+                    colors.addIfNeeded(line, column, theme.getAccent1());
                     break;
                 case ABSTRACT:
                 case ASSERT:
@@ -182,11 +182,11 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                 case FALSE:
                 case NULL:
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, theme.accent1);
+                    colors.addIfNeeded(line, column, theme.getAccent1());
                     break;
                 case LBRACE: {
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, theme.getTextNormal());
+                    colors.addIfNeeded(line, column, theme.getAccent8());
                     if (stack.isEmpty()) {
                         if (currSwitch > maxSwitch) {
                             maxSwitch = currSwitch;
@@ -202,7 +202,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                 }
                 case RBRACE: {
                     classNamePrevious = false;
-                    colors.addIfNeeded(line, column, theme.getTextNormal());
+                    colors.addIfNeeded(line, column, theme.getAccent8());
                     if (!stack.isEmpty()) {
                         BlockLineModel block = stack.pop();
                         block.endLine = line;
@@ -221,7 +221,7 @@ public class JavaCodeAnalyzer extends CodeAnalyzerController {
                 default:
                     Logger.debug("Default case line=",line,",column=",column);
                     if (token == Tokens.LBRACK || (token == Tokens.RBRACK && previous == Tokens.LBRACK)) {
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colors.addIfNeeded(line, column, theme.getAccent8());
                         break;
                     }
                     classNamePrevious = false;

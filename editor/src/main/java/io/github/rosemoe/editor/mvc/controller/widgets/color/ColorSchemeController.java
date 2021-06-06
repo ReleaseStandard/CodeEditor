@@ -52,7 +52,7 @@ public class ColorSchemeController extends Widget {
      */
     public static final int TODO = 0xFFFF0000;
     public static final int HIDDEN = 0;
-    private final int DEFAULT = TODO;
+    private final int DEFAULT = HIDDEN;
     /**
      * That's our color scheme, no matter what it correspond to in the language, we just need colors.
      * The it's up to the analyzer to apply colors on keywords and so on.
@@ -71,14 +71,25 @@ public class ColorSchemeController extends Widget {
     public int base2 = DEFAULT; // line number panel, line number background, currentline, selected text background
     public int base3 = DEFAULT; // whole background
     // Accent colors
-    public int accent1 = DEFAULT;
-    public int accent2 = DEFAULT;
-    public int accent3 = DEFAULT;
-    public int accent4 = DEFAULT;
-    public int accent5 = DEFAULT;
-    public int accent6 = DEFAULT;
-    public int accent7 = DEFAULT;
-    public int accent8 = DEFAULT;
+    /**
+     * Generally we use it for keywords.
+     */
+    private Integer accent1 = DEFAULT;
+    public int getAccent1() { return accent1 == null ? getTextNormal() : accent1; }
+    private Integer accent2 = DEFAULT;
+    public int getAccent2() { return accent2 == null ? getTextNormal() : accent2; }
+    private Integer accent3 = DEFAULT;
+    public int getAccent3() { return accent3 == null ? getTextNormal() : accent3; }
+    private Integer accent4 = DEFAULT;
+    public int getAccent4() { return accent4 == null ? getTextNormal() : accent4; }
+    private Integer accent5 = DEFAULT;
+    public int getAccent5() { return accent5 == null ? getTextNormal() : accent5; }
+    private Integer accent6 = DEFAULT;
+    public int getAccent6() { return accent6 == null ? getTextNormal() : accent6; }
+    private Integer accent7 = DEFAULT;
+    public int getAccent7() { return accent7 == null ? getTextNormal() : accent7; }
+    private Integer accent8 = DEFAULT;
+    public int getAccent8() { return accent8 == null ? getTextNormal() : accent8; }
     /**
      * We can choose to invert the color scheme.
      * Assuming Theme editor put white variant, isInverted <=> is black theme.
@@ -132,7 +143,7 @@ public class ColorSchemeController extends Widget {
     public Integer comment = null;
     public int getComment() { return comment == null ? base1: comment; }
     public Integer matchedTextBackground = null;
-    public int getMatchedTextBackground() { return matchedTextBackground == null ? accent1: matchedTextBackground; }
+    public int getMatchedTextBackground() { return matchedTextBackground == null ? getAccent1(): matchedTextBackground; }
     public Integer blockLine = null;
     public int getBlockLine() { return blockLine == null ? base2:blockLine ; }
     public Integer blockLineCurrent = null;
@@ -146,6 +157,7 @@ public class ColorSchemeController extends Widget {
     public Integer scrollbarthumbpressed = null;
     public int getScrollBarThumbPressed() { return scrollbarthumbpressed == null ? base2 : scrollbarthumbpressed ; }
     public Integer scrollBarTrack = null;
+
     public int getScrollBarTrack() { return scrollBarTrack == null ? getWholeBackground() : scrollBarTrack; }
     public Integer nonprintablechar = null;
     public int getNonPrintableChar() { return nonprintablechar == null ? 0x00000000 : nonprintablechar ; }
@@ -154,7 +166,7 @@ public class ColorSchemeController extends Widget {
     public Integer completionPanelCorner = null;
     public int getCompletionPanelCorner() { return completionPanelCorner == null ?  base2 : completionPanelCorner ; }
     public Integer underLine = null;
-    public int getUnderline() { return underLine == null ? accent3: underLine; }
+    public int getUnderline() { return underLine == null ? getAccent3(): underLine; }
     public Integer lineDivider = null;
     public int getLineDivider() { return lineDivider == null ? base1: lineDivider; }
     public Integer autoCompleteItemCurrentPosition = null;
@@ -193,7 +205,21 @@ public class ColorSchemeController extends Widget {
             invertColorScheme();
         }
     }
-
+    public void applyDefault() {
+        int text = 0xFF999999;
+        int background = 0xffffffff;
+        for(int entry : ALL_COLORS) {
+            updateColor(entry,null);
+        }
+        updateColor(R.styleable.CodeEditor_widget_color_base03, background);
+        updateColor(R.styleable.CodeEditor_widget_color_base02, background);
+        updateColor(R.styleable.CodeEditor_widget_color_base01, text);
+        updateColor(R.styleable.CodeEditor_widget_color_base00, text);
+        updateColor(R.styleable.CodeEditor_widget_color_base0, text);
+        updateColor(R.styleable.CodeEditor_widget_color_base1, 0xFFdddddd);
+        updateColor(R.styleable.CodeEditor_widget_color_base2, 0x10000000);
+        updateColor(R.styleable.CodeEditor_widget_color_base3, background);
+    }
     /**
      * Called by editor
      */
@@ -208,17 +234,9 @@ public class ColorSchemeController extends Widget {
                 colorId == R.styleable.CodeEditor_widget_color_base0 ||
                 colorId == R.styleable.CodeEditor_widget_color_base1 ||
                 colorId == R.styleable.CodeEditor_widget_color_base2 ||
-                colorId == R.styleable.CodeEditor_widget_color_base3 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent1 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent2 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent3 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent4 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent5 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent6 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent7 ||
-                colorId == R.styleable.CodeEditor_widget_color_accent8 ) {
+                colorId == R.styleable.CodeEditor_widget_color_base3 ) {
             if ( colorValue == null ) {
-                colorValue = DEFAULT;
+                return;
             }
         }
 
@@ -348,12 +366,9 @@ public class ColorSchemeController extends Widget {
             case UPDATE_THEME:
                 Logger.debug("Theme update received");
                 colors = (HashMap<Integer, Integer>) e.getArg(0);
-                for( Integer entry : ALL_COLORS) {
-                    if ( colors.containsKey(entry) ) {
-                        updateColor(entry, colors.get(entry));
-                    } else {
-                        updateColor(entry,null);
-                    }
+                applyDefault();
+                for( Integer entry : colors.keySet()) {
+                    updateColor(entry, colors.get(entry));
                 }
                 editor.setColorScheme(ColorSchemeController.this);
                 break;
@@ -365,7 +380,7 @@ public class ColorSchemeController extends Widget {
     public void dump(String offset) {
         Logger.debug(offset, "0xFFFFFF=",0xFFFFFFFF,",TODO=",TODO,",DEFAULT=",DEFAULT);
         Logger.debug(offset , "base00=" , base00 ,",base01=" ,base01 ,",base02=" , base02 , ",base0=",base0, ",base1=",base1,",base2=",base2,",base3=",base3);
-        Logger.debug(offset, "accent1=",accent1,",accent2=",accent2,",accent3=",accent3,",accent4=",accent4, "accent5=",accent5,",accent6=",accent6,",accent7=",accent7,",accent8=",accent8);
+        Logger.debug(offset, "accent1=",getAccent1(),",accent2=",getAccent2(),",accent3=",getAccent3(),",accent4=",getAccent4(), "accent5=",getAccent5(),",accent6=",getAccent6(),",accent7=",getAccent7(),",accent8=",getAccent8());
         Logger.debug(offset, "lineNumberPanel=",lineNumberPanel,",lineNumberBackground=",lineNumberBackground,",currentLine=",currentLine,",textSelected=",textSelected);
         Logger.debug(offset, "textSelectedBackground=", textSelectedBackground, ",lineNumberPanelText=", lineNumberPanelText ,",wholeBackground=",wholeBackground);
         Logger.debug(offset, "textNormal=",textNormal,",comment=",comment,",matchedTextBackground=",matchedTextBackground);

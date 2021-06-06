@@ -57,14 +57,14 @@ public class UniversalCodeAnalyzer extends CodeAnalyzerController {
                 int column = helper.getColumn();
                 switch (token) {
                     case KEYWORD:
-                        colors.addIfNeeded(line, column, theme.accent1);
+                        colors.addIfNeeded(line, column, theme.getAccent1());
                         break;
                     case IDENTIFIER:
                         identifiers.addIdentifier(text.substring(index, index + tokenizer.getTokenLength()));
                         colors.addIfNeeded(line, column, theme.getTextNormal());
                         break;
                     case LITERAL:
-                        colors.addIfNeeded(line, column, theme.accent7);
+                        colors.addIfNeeded(line, column, theme.getAccent7());
                         break;
                     case LINE_COMMENT:
                     case LONG_COMMENT:

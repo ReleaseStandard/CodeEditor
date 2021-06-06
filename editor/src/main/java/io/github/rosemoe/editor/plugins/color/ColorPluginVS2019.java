@@ -43,10 +43,15 @@ public class ColorPluginVS2019 extends ColorPlugin {
             put(R.styleable.CodeEditor_widget_color_base1, 0xff57a64a);
             put(R.styleable.CodeEditor_widget_color_base2, 0xff3676b8);
             put(R.styleable.CodeEditor_widget_color_base3, 0xff1e1e1e);
+            put(R.styleable.CodeEditor_widget_color_accent1, 0xff569cd6);
+            put(R.styleable.CodeEditor_widget_color_accent5, 0xff4ec9b0);
+            put(R.styleable.CodeEditor_widget_color_accent6, 0xffdcdcdc);
+            put(R.styleable.CodeEditor_widget_color_accent7, 0xffd69d85);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff57a64a);
             put(R.styleable.CodeEditor_widget_color_wholeBackground, 0xff1e1e1e);
             put(R.styleable.CodeEditor_widget_color_textNormal, 0xffdcdcdc);
             put(R.styleable.CodeEditor_widget_color_lineNumberBackground, 0xff1e1e1e);
+            put(R.styleable.CodeEditor_widget_color_lineNumberPanelText, 0xff2b9eaf);
             put(R.styleable.CodeEditor_widget_color_lineNumberPanel, 0xff2b9eaf);
             put(R.styleable.CodeEditor_widget_color_linedivider, 0xff2b9eaf);
             put(R.styleable.CodeEditor_widget_color_scrollbarThumb, 0xff3e3e42);

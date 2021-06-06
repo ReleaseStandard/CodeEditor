@@ -40,16 +40,16 @@ import static io.github.rosemoe.editor.langs.mksh.MkshParser.*;
 public class MkshAnalyzer extends CodeAnalyzerController {
 
     public void processKeywords(Object ...nodes) {
-        processNodes(theme.accent3,nodes);
+        processNodes(theme.getAccent3(),nodes);
     }
     public void processFunctionIdentifier(Object ...nodes) {
-        processNodes(theme.accent6,nodes);
+        processNodes(theme.getAccent6(),nodes);
     }
     public void processPunctuation(Object ...nodes) {
-        processNodes(theme.accent3,nodes);
+        processNodes(theme.getAccent3(),nodes);
     }
     public void processIdentifier(Object ...nodes) {
-        processNodes(theme.accent1,nodes);
+        processNodes(theme.getAccent1(),nodes);
     }
     @Override
     public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
@@ -75,12 +75,12 @@ public class MkshAnalyzer extends CodeAnalyzerController {
                     case COMMAND: case ECHO: case FALSE: case TRUE: case FC: case FG: case GETOPTS: case JOBS:
                     case KILL: case MKNOD: case PRINT: case PWD: case READ: case REALPATH: case RENAME:
                     case SLEEP: case SUSPEND: case TEST: case ULIMIT: case UMASK: case UNALIAS: case WHENCE:
-                        processNode(theme.accent3,token);
+                        processNode(theme.getAccent3(),token);
                         break;
                     case LINE_COMMENT:
                         processNodes(theme.getComment(),token);
                     case STRING:
-                        processNodes(theme.accent7,token);
+                        processNodes(theme.getAccent7(),token);
                 }
             }
 

@@ -64,14 +64,14 @@ public class Cobol85Analyzer extends CodeAnalyzerController {
                     case MOVE: case TO: case USING: case THEN: case PERFORM: case NOT: case END_ACCEPT:
                     case END_CALL: case END_COMPUTE: case END_DELETE: case END_DIVIDE: case END_EVALUATE:
                     case END_MULTIPLY: case END_PERFORM:
-                        processNode(theme.accent2,token);
+                        processNode(theme.getAccent2(),token);
                         break;
                     case STRING:
                     case INTEGER: case INTEGERLITERAL:
-                        processNode(theme.accent7,token);
+                        processNode(theme.getAccent7(),token);
                         break;
                     case COMMACHAR:
-                        processNodes(theme.accent1,token);
+                        processNodes(theme.getAccent1(),token);
                 }
             }
         };

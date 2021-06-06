@@ -37,16 +37,20 @@ public class ColorPluginEclipse extends ColorPlugin {
     @Override
     public void apply() {
         HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
-            put(R.styleable.CodeEditor_widget_color_accent1, 0xff7f0074);
             put(R.styleable.CodeEditor_widget_color_base00, 0xff000000);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff3f7f5f);
             put(R.styleable.CodeEditor_widget_color_base2, 0xffe8f2fe);
             put(R.styleable.CodeEditor_widget_color_base3, 0xffffffff);
+            put(R.styleable.CodeEditor_widget_color_accent1, 0xff7f0074);
+            put(R.styleable.CodeEditor_widget_color_accent6, 0xff000000);
+            put(R.styleable.CodeEditor_widget_color_accent7, 0xff2a00ff);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff3f7f5f);
             put(R.styleable.CodeEditor_widget_color_wholeBackground, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_textNormal, 0xff000000);
             put(R.styleable.CodeEditor_widget_color_lineNumberBackground, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_lineNumberPanel, 0xff787878);
+            put(R.styleable.CodeEditor_widget_color_linedivider,0xffd8d8d8);
+            put(R.styleable.CodeEditor_widget_color_lineNumberPanelText,0xffd8d8d8);
             put(R.styleable.CodeEditor_widget_color_selectedTextBackground, 0xff3399ff);
             put(R.styleable.CodeEditor_widget_color_matchedTextBackground, 0xffd4d4d4);
             put(R.styleable.CodeEditor_widget_color_currentLine, 0xffe8f2fe);

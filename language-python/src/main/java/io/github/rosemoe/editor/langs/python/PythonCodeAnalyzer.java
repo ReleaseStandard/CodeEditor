@@ -89,16 +89,15 @@ public class PythonCodeAnalyzer extends CodeAnalyzerController {
                     case PythonLexer.BREAK:
                     case PythonLexer.ASYNC:
                     case PythonLexer.AWAIT:
-                        colors.addIfNeeded(line, column, theme.accent2);
+                        colors.addIfNeeded(line, column, theme.getAccent2());
                         break;
                     case PythonLexer.COMMENT:
                         colors.addIfNeeded(line, column, theme.getComment());
                         break;
                     case PythonLexer.STRING:
-                        colors.addIfNeeded(line, column, theme.accent7);
-                        break;
                     case PythonLexer.DECIMAL_INTEGER:
-                        colors.addIfNeeded(line, column, theme.getLineNumberPanelText());
+                        colors.addIfNeeded(line, column, theme.getAccent7());
+                        colors.addIfNeeded(line, column, theme.getAccent7());
                         break;
                     case PythonLexer.OPEN_BRACE:
                     case PythonLexer.CLOSE_BRACE:
@@ -147,17 +146,17 @@ public class PythonCodeAnalyzer extends CodeAnalyzerController {
                     case PythonLexer.RIGHT_SHIFT_ASSIGN:
                     case PythonLexer.POWER_ASSIGN:
                     case PythonLexer.IDIV_ASSIGN:
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colors.addIfNeeded(line, column, theme.getAccent1());
                         break;
                     case PythonLexer.NAME: {
                         if (previous == null) {
                             colors.addIfNeeded(line, column, theme.getTextNormal());
                             break;
                         } else if (previous.getType() == PythonLexer.DEF) {
-                            colors.addIfNeeded(line, column, theme.accent6);
+                            colors.addIfNeeded(line, column, theme.getAccent6());
                             break;
                         } else if (previous.getType() == PythonLexer.CLASS) {
-                            colors.addIfNeeded(line, column, theme.accent6);
+                            colors.addIfNeeded(line, column, theme.getAccent6());
                             break;
                         }
                     }

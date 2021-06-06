@@ -15,6 +15,9 @@
  */
 package io.github.rosemoe.editor.plugins.color;
 
+import java.util.HashMap;
+
+import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.plugins.Plugin;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
@@ -22,6 +25,7 @@ public abstract class ColorPlugin extends Plugin {
     CodeEditor editor;
     boolean invert = false;
     public abstract void apply();
+
     public static ColorPlugin DEFAULT(CodeEditor editor) { return new ColorPluginSolarized(editor); }
     public ColorPlugin(CodeEditor editor) {
         this.editor = editor;

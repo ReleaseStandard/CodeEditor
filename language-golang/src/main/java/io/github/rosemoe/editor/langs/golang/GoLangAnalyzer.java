@@ -59,7 +59,7 @@ public class GoLangAnalyzer extends CodeAnalyzerController {
                 case GO: case MAP: case STRUCT: case CHAN: case ELSE: case GOTO: case PACKAGE:
                 case SWITCH: case CONST: case FALLTHROUGH: case IF: case RANGE: case TYPE:
                 case CONTINUE: case FOR: case IMPORT: case RETURN: case VAR:
-                    colors.addIfNeeded(line,column, theme.accent2);
+                    colors.addIfNeeded(line,column, theme.getAccent2());
                     break;
 
                 case PLUS:  case MINUS: case STAR: case DIV: case MOD:
@@ -82,7 +82,7 @@ public class GoLangAnalyzer extends CodeAnalyzerController {
                 case DECIMAL_LIT: case BINARY_LIT: case DECIMAL_FLOAT_LIT: case FLOAT_LIT:
                 case HEX_FLOAT_LIT: case HEX_LIT: case IMAGINARY_LIT: case INTERPRETED_STRING_LIT: case NIL_LIT:
                 case OCTAL_LIT: case RAW_STRING_LIT: case RUNE_LIT:
-                    colors.addIfNeeded(line,column,theme.accent7);
+                    colors.addIfNeeded(line,column,theme.getAccent7());
 
                 default:
                     colors.addIfNeeded(line,column,theme.getTextNormal());

@@ -39,11 +39,13 @@ public class ColorPluginDarcula extends ColorPlugin {
     @Override
     public void apply() {
         HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
-            put(R.styleable.CodeEditor_widget_color_accent1, 0xff32593d);
             put(R.styleable.CodeEditor_widget_color_base00, 0xffffffff);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff606366);
             put(R.styleable.CodeEditor_widget_color_base2, 0xff323232);
             put(R.styleable.CodeEditor_widget_color_base3, 0xff2b2b2b);
+            put(R.styleable.CodeEditor_widget_color_accent1, 0xffcc7832);
+            put(R.styleable.CodeEditor_widget_color_accent6, 0xffffffff);
+            put(R.styleable.CodeEditor_widget_color_accent7, 0xff6a8759);
             put(R.styleable.CodeEditor_widget_color_comment, 0xff808080);
             put(R.styleable.CodeEditor_widget_color_wholeBackground, 0xff2b2b2b);
             put(R.styleable.CodeEditor_widget_color_textNormal, 0xffffffff);
