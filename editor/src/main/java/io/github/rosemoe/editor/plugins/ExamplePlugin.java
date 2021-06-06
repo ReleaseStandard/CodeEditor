@@ -26,15 +26,6 @@ import io.github.rosemoe.editor.widget.CodeEditor;
 
 public class ExamplePlugin extends Plugin {
     CodeEditor editor ;
-    /**
-     * To receive all type of events
-     * @param type
-     * @return
-     */
-    @Override
-    public boolean issubscribed(String type) {
-        return true;
-    }
 
     long currentTime = 0;
     int taps = 0;

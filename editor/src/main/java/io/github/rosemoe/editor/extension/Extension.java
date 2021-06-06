@@ -75,6 +75,10 @@ public class Extension implements EventSource, EventDestination, Comparable  {
     protected void handleEventEmit(Event e) { }
     @Override
     public void emit(Event e) {
+        if ( isEnabled() ) {
+            Logger.debug("Cannot emit as this extension is disabled !");
+            return;
+        }
         new Thread() {
             @Override
             public void run() {
@@ -93,6 +97,10 @@ public class Extension implements EventSource, EventDestination, Comparable  {
     };
     @Override
     public void dispatch(Event e) {
+        if ( isEnabled() ) {
+            Logger.debug("Cannot emit as this extension is disabled !");
+            return;
+        }
         if( issubscribed(e.getType()) ) {
             Logger.debug("Inserting event in the pq");
             e.dump("      ");
@@ -102,7 +110,6 @@ public class Extension implements EventSource, EventDestination, Comparable  {
 
     @Override
     public void subscribe(String type) {
-
         subscribedEventTypes.put(type,true);
     }
 
