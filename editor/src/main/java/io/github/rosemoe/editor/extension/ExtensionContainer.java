@@ -44,10 +44,22 @@ public class ExtensionContainer extends Extension {
     @Override
     protected void handleEventDispatch(Event e, String type, String subtype) {
         Logger.debug("Event dispatched : type=",type,",subtype=",subtype);
+        Extension olde = null;
         for (Iterator<Extension> it = extensions.iterator(); it.hasNext(); ) {
             Extension extension = it.next();
             Logger.debug("plugin : enabled=",extension.enabled);
             extension.dispatch(e);
+            if( e.stopHorizontalPropagation ) {
+                Logger.debug("Vertical propagation of event stopped");
+                break;
+            }
+            if ( e.stopVerticalPropagation ) {
+                if ( extension.compareTo(olde) < 0 ) {
+                    Logger.debug("Vertical propagation stopped");
+                    break;
+                }
+            }
+            olde = extension;
         }
         Logger.debug();
     }
