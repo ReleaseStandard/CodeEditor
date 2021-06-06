@@ -582,6 +582,8 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
                 mColors
         );
         plugins.put(new ExamplePlugin(this));
+        Logger.debug("textNormal = ", mColors.getTextNormal(), ", textNormaldirect ", mColors.textNormal);
+        mColors.dump();
 
         mViewRect = new Rect(0, 0, 0, 0);
         mRect = new RectF();

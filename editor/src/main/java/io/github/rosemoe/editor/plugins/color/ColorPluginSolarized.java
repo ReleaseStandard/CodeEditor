@@ -24,13 +24,13 @@ import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeControll
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
+/**
+ * https://ethanschoonover.com/solarized/
+ *
+ * @author Release Standard
+ */
 public class ColorPluginSolarized extends ColorPlugin {
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
-    //theme_name = "Eclipse";
-    //theme_description = "picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)";
+
     public ColorPluginSolarized(CodeEditor editor) {
         super(editor);
     }

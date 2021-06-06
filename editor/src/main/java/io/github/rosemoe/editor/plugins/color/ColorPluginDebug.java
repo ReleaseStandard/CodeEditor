@@ -23,15 +23,15 @@ import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
+/**
+ * This theme is useful for debugging.
+ *
+ * @author Release Standard
+ */
 public class ColorPluginDebug extends ColorPlugin {
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
+
     public ColorPluginDebug(CodeEditor editor) {
         super(editor);
-        //theme_name = "Darcula";
-        //theme_description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
     }
 
     @Override

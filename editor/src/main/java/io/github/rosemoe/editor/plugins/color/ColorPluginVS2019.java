@@ -23,21 +23,16 @@ import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
+//theme_name = "VS2019";
+//theme_description = "picked from Visual Studio 2019, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
 public class ColorPluginVS2019 extends ColorPlugin {
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
+
     public ColorPluginVS2019(CodeEditor editor) {
         super(editor);
-        //theme_name = "VS2019";
-        //theme_description = "picked from Visual Studio 2019, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
-
     }
 
     @Override
     public void apply() {
-
         HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>() {{
             put(R.styleable.CodeEditor_widget_color_base00, 0xffdcdcdc);
             put(R.styleable.CodeEditor_widget_color_base1, 0xff57a64a);

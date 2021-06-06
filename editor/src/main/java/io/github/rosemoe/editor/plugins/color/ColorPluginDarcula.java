@@ -23,17 +23,12 @@ import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
+//theme_name = "Darcula";
+//theme_description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
 public class ColorPluginDarcula extends ColorPlugin {
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
+
     public ColorPluginDarcula(CodeEditor editor) {
         super(editor);
-        //theme_name = "Darcula";
-        //theme_description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
-
-
     }
 
     @Override

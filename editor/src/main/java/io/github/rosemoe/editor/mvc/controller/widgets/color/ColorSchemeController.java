@@ -210,9 +210,6 @@ public class ColorSchemeController extends Widget {
      */
     private CodeEditor mEditor;
 
-    public void initTheme() {
-        Logger.debug("You must implement the init function of your theme in order to act on the text");
-    }
     /**
      * For sub classes
      */
@@ -220,20 +217,24 @@ public class ColorSchemeController extends Widget {
         this.editor = editor;
         subscribe(TYPE_COLOR_SCHEME);
         mColors = new SparseIntArray();
-        initTheme();
     }
     public ColorSchemeController(CodeEditor editor, boolean invert) {
         this.editor = editor;
         subscribe(TYPE_COLOR_SCHEME);
         mColors = new SparseIntArray();
-        initTheme();
         if ( invert ) {
             invertColorScheme();
         }
     }
+    public static int DEFAULT_TEXT_COLOR() {
+        return 0xFF999999;
+    }
+    public static int DEFAULT_BACKGROUND_COLOR() {
+        return 0xffffffff;
+    }
     public void applyDefault() {
-        int text = 0xFF999999;
-        int background = 0xffffffff;
+        int text = DEFAULT_TEXT_COLOR();
+        int background = DEFAULT_BACKGROUND_COLOR();
         for(int entry : ALL_COLORS) {
             updateColor(entry,null);
         }

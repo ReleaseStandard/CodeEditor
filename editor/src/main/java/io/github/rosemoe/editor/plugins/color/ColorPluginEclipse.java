@@ -23,15 +23,12 @@ import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
+//theme_name = "Eclipse";
+//theme_description = "picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)";
 public class ColorPluginEclipse extends ColorPlugin {
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
+
     public ColorPluginEclipse(CodeEditor editor) {
         super(editor);
-        //theme_name = "Eclipse";
-        //theme_description = "picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)";
     }
 
     @Override

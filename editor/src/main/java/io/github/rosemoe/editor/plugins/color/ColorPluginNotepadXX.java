@@ -22,16 +22,13 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.widget.CodeEditor;
-
+//theme_name = "NotepadXX";
+//theme_description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
 public class ColorPluginNotepadXX extends ColorPlugin {
-    @Override
-    protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
+
     public ColorPluginNotepadXX(CodeEditor editor) {
         super(editor);
-        //theme_name = "NotepadXX";
-        //theme_description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
+
     }
 
     @Override

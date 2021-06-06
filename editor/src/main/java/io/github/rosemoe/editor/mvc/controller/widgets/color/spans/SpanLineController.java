@@ -200,7 +200,7 @@ public class SpanLineController {
      */
     public static SpanLineController EMPTY() {
         SpanLineController line = new SpanLineController();
-        line.add(SpanController.obtain(0, 0xFFFF0000));
+        line.add(SpanController.obtain(0, ColorSchemeController.DEFAULT_TEXT_COLOR()));
         return line;
     }
 

@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.plugins.color;
 import java.util.HashMap;
 
 import io.github.rosemoe.editor.R;
+import io.github.rosemoe.editor.extension.events.Event;
 import io.github.rosemoe.editor.plugins.Plugin;
 import io.github.rosemoe.editor.widget.CodeEditor;
 
@@ -49,5 +50,9 @@ public abstract class ColorPlugin extends Plugin {
     public ColorPlugin(CodeEditor editor, boolean invert) {
         this.editor = editor;
         this.invert = invert;
+    }
+
+    @Override protected void handleEventEmit(Event e) {
+        editor.widgets.dispatch(e);
     }
 }

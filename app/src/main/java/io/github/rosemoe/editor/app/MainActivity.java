@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         themes.put("HTML",new ColorPluginHTML(editor));
         themes.put("Solarized",new ColorPluginSolarized(editor));
         themes.put("GitHub",new ColorPluginGithub(editor));
+        themes.put("None", new ColorPluginNone(editor));
+        themes.put("Debug", new ColorPluginDebug(editor));
         panel = findViewById(R.id.search_panel);
         search = findViewById(R.id.search_editor);
         replace = findViewById(R.id.replace_editor);
@@ -135,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
         editor.setTextActionMode(CodeEditor.TextActionMode.POPUP_WINDOW_2);
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
         setEditorLanguage(new JavaLanguage(), "samples/java/java.txt");
-        if ( Logger.DEBUG ) {
-            new ColorPluginDebug(editor).apply();
-        } else {
+        //if ( Logger.DEBUG ) {
+        //    new ColorPluginDebug(editor).apply();
+        //} else {
             ColorPlugin.DEFAULT(editor).apply();
-        }
+        //}
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
 
