@@ -97,7 +97,9 @@ public abstract class CodeAnalyzer {
      * Recycle the content of all analysis result.
      */
     public void recycle() {
-        Logger.debug("TODO TODO TODO");
+        for(CodeAnalyzerResult result : results.values()) {
+            result.recycler.recycle();
+        }
     }
 
     /**
