@@ -30,7 +30,7 @@ public class CodeAnalyzerResultColor extends TokenEmitterResult {
      * A color result must have a theme attached to it.
      */
     public ColorSchemeController theme = null;
-    SpanMapController map = new SpanMapController();
+    public SpanMapController map = new SpanMapController();
 
     public CodeAnalyzerResultColor() {
         recycler = new ColorAnalyzerResultRecycler();

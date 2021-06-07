@@ -1051,7 +1051,8 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      */
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorView.CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
-        SpanMapController spanMap = analyzer.getResult().spanMap;
+        CodeAnalyzerResultColor colRes = (CodeAnalyzerResultColor) analyzer.mCodeAnalyzer.getResultListener("color");
+        SpanMapController spanMap = colRes.map;
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = cursor.isSelected() ? -1 : cursor.getLeftLine();
         int currentLineBgColor = getColorScheme().getCurrentLine();

@@ -18,6 +18,8 @@ package io.github.rosemoe.editor.mvc.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
@@ -30,21 +32,21 @@ import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 public class TextAnalyzerView {
 
     public final List<BlockLineModel> mBlocks;
-    public final SpanMapController spanMap;
     public Object mExtra;
     protected int mSuppressSwitch = Integer.MAX_VALUE;
+    CodeAnalyzer analyzer;
 
     /**
      * Create a new result
      */
-    public TextAnalyzerView() {
-        spanMap = new SpanMapController();
+    public TextAnalyzerView(CodeAnalyzer analyzer) {
         mBlocks = new ArrayList<>(1024);
+        this.analyzer = analyzer;
     }
 
 
     public SpanMapController getSpanMap() {
-        return spanMap;
+        return ((CodeAnalyzerResultColor)analyzer.getResultListener("color")).map;
     }
     /**
      * Add text line in the span line if there is nothing in the map.
@@ -59,7 +61,7 @@ public class TextAnalyzerView {
      * @param line The line is the line last of text
      */
     public void determine(int line) {
-        spanMap.appendLines(line);
+        getSpanMap().appendLines(line);
     }
 
     /**
@@ -124,7 +126,7 @@ public class TextAnalyzerView {
      * Reset the anaylysis result
      */
     public void clear() {
-        spanMap.clear();
+        getSpanMap().clear();
         mBlocks.clear();
         mSuppressSwitch = Integer.MAX_VALUE;
         mExtra = null;

@@ -50,9 +50,9 @@ public class TextAnalyzerController {
         if (codeAnalyzer0 == null) {
             throw new IllegalArgumentException();
         }
-        currentResult = new TextAnalyzerView();
         //TODO:currentResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
+        currentResult = new TextAnalyzerView(mCodeAnalyzer);
     }
 
 
@@ -70,7 +70,7 @@ public class TextAnalyzerController {
      * Stop the text analyzer
      */
     public void shutdown() {
-        // TODO
+        mCodeAnalyzer.shutdown();
     }
 
     /**
@@ -86,7 +86,7 @@ public class TextAnalyzerController {
      * @param origin The source text
      */
     public synchronized void analyze(ContentMapController origin) {
-        // TODO
+        mCodeAnalyzer.start(origin);
     }
 
     /**
