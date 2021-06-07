@@ -61,13 +61,13 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.extension.ExtensionContainer;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
 import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
-import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
@@ -3415,8 +3415,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
 
-        TextAnalyzerView colors = this.analyzer.getResult();
-        colors.getSpanMap().clear();
+        this.analyzer.getResult().getSpanMap().clear();
         this.analyzer.analyze(getText());
 
         requestLayout();
@@ -4150,7 +4149,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     }
 
     @Override
-    public void onAnalyzeDone(io.github.rosemoe.editor.mvc.controller.TextAnalyzerController provider) {
+    public void onAnalyzeDone(TextAnalyzerController provider) {
         if (provider == analyzer) {
             if (mHighlightCurrentBlock) {
                 cursorPosition = findCursorBlock();

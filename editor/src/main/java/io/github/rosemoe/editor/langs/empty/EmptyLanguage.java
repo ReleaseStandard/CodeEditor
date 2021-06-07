@@ -20,10 +20,10 @@ import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
-import io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController.AnalyzeThread.Delegate;
 
 /**
  * Empty language without any effect

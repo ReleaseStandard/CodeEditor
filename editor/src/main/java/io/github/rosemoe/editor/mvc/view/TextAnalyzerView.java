@@ -44,29 +44,17 @@ public class TextAnalyzerView {
         mBlocks = new ArrayList<>(1024);
     }
 
-    /**
-     * Add a new span if required (color is different from last)
-     *
-     * @param spanLine Line
-     * @param column   Column
-     * @param color  Type
-     */
-    public void addIfNeeded(int spanLine, int column, int color) {
-        Logger.debug("spanLine=",spanLine,",column=",column,",color=",color);
-        add(spanLine, SpanController.obtain(column, color));
+
+
+    public SpanMapController getSpanMap() {
+        return spanMap;
     }
     /**
-     * Add a span directly
-     * Note: the line should always >= the line of span last committed
-     * if two spans are on the same line, you must add them in order by their column
-     *
-     * @param spanLine The line position of span
-     * @param span     The span
+     * Add text line in the span line if there is nothing in the map.
+     * @return
      */
-    public void add(int spanLine, SpanController span) {
-        spanMap.getAddIfNeeded(spanLine).add(span);
-        //spanMap.dump();
-    }
+
+
 
     /**
      * This method must be called when whole text is analyzed
@@ -133,18 +121,6 @@ public class TextAnalyzerView {
      */
     public void setSuppressSwitch(int suppressSwitch) {
         mSuppressSwitch = suppressSwitch;
-    }
-    public SpanMapController getSpanMap() {
-        return spanMap;
-    }
-
-    /**
-     * Add text line in the span line if there is nothing in the map.
-     * @return
-     */
-    public SpanLineController addNormalIfNull() {
-        spanMap.appendLines(1);
-        return spanMap.get(0);
     }
 
     /**

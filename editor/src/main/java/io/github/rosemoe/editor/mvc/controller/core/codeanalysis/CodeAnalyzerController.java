@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.controller.core.codeanalysis;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -33,27 +33,28 @@ import io.github.rosemoe.editor.util.Logger;
  */
 public abstract class CodeAnalyzerController {
 
-    public static ColorSchemeController theme = null;
-    private TextAnalyzerView colors = null;
-
-    public static void setTheme(ColorSchemeController theme) { CodeAnalyzerController.theme = theme; }
-
     /**
      * Analyze spans for the given input
      *
      * @param content  The input text
      * @param colors   Result dest
      * @param delegate Delegate between thread and analyzer
-     * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController#analyze(ContentMapController)
-     * @see io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate#shouldAnalyze()
+     * @see TextAnalyzerController#analyze(ContentMapController)
+     * @see TextAnalyzerController.AnalyzeThread.Delegate#shouldAnalyze()
      */
-    public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzerView colors, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         this.colors = colors;
     }
     public static int antlrLineIndexToCodeEditor(int line) {
         return line-1;
     }
 
+
+
+    public static ColorSchemeController theme = null;
+    private TextAnalyzerView colors = null;
+
+    public static void setTheme(ColorSchemeController theme) { CodeAnalyzerController.theme = theme; }
     private void addColor(TextAnalyzerView colors, int spanLine, int column, int color) {
         colors.addIfNeeded(spanLine,column,color);
     }

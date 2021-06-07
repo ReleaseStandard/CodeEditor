@@ -22,12 +22,13 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
-import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
 public class PythonCodeAnalyzer extends CodeAnalyzerController {
     @Override
-    public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, TextAnalyzerView colors, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         super.analyze(content,colors,delegate);
         try {
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));

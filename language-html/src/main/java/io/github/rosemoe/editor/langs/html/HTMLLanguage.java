@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 
 public class HTMLLanguage extends LanguageController {

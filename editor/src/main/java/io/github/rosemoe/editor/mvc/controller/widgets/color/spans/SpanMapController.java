@@ -220,6 +220,10 @@ public class SpanMapController {
         }
     }
 
+    public SpanLineController addNormalIfNull() {
+        appendLines(1);
+        return get(0);
+    }
     /**
      * This function is used to avoid concurrent exception when working with Collections.
      * @return
