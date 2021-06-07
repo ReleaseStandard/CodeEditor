@@ -77,6 +77,10 @@ public class UserInputConnexionController {
                     model.composingEnd = model.composingStart + text.length();
                     editor.getText().insert(model.composingLine, model.composingStart, text);
                 }
+                if (text.length() == 0) {
+                    finishComposingText();
+                    return true;
+                }
                 return true;
             }
             @Override
