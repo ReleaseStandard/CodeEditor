@@ -16,6 +16,7 @@
 package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 
@@ -27,7 +28,7 @@ import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerCon
  */
 public abstract class CodeAnalyzer {
 
-    public ArrayList<CodeAnalyzerResult> results = new ArrayList<>();
+    public HashMap<String, CodeAnalyzerResult> results = new HashMap<>();
 
     public abstract void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate);
 
@@ -36,8 +37,8 @@ public abstract class CodeAnalyzer {
      * (No matter what type is expected by results)
      */
     public void dispatchResult(Object ...args) {
-        for(CodeAnalyzerResult result : results) {
-            result.putResult(args);
+        for(CodeAnalyzerResult result : results.values()) {
+            result.dispatchResult(args);
         }
     }
 
@@ -45,8 +46,12 @@ public abstract class CodeAnalyzer {
      * This add a result listener on the code analyzer.
      * @param listener
      */
-    public void addResultListener(CodeAnalyzerResult listener) {
-        results.add(listener);
+    public void addResultListener(String name, CodeAnalyzerResult listener) {
+        results.put(name,listener);
+    }
+
+    public CodeAnalyzerResult getResultListener(String name) {
+        return results.get(name);
     }
 }
 

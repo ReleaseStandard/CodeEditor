@@ -13,21 +13,26 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results;
+package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis;
 
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.TokenEmitterResult;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.util.Logger;
 
+/**
+ * This class provide Interface that every language code analyzer will input into.
+ */
 public class CodeAnalyzerResultColor extends TokenEmitterResult {
 
+    public ColorSchemeController theme = null;
     SpanMapController map = new SpanMapController();
 
     @Override
-    public void putResult(Object... args) {
+    public void dispatchResult(Object... args) {
         if ( args.length < 0 ) {
-
+            map.addNormalIfNull();
         }
         if ( args.length >= 3 ) {
             addIfNeeded(args[0],args[1],args[2]);

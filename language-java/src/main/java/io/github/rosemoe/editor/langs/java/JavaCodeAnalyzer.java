@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.langs.java;
 import io.github.rosemoe.editor.langs.helpers.TrieTree;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.TokenEmitter;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
@@ -39,13 +39,13 @@ public class JavaCodeAnalyzer extends TokenEmitter {
 
     CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
     CodeAnalyzerResultContent content   = new CodeAnalyzerResultContent();
-    ColorSchemeController     theme     = null;
 
-    public static JavaCodeAnalyzer DEFAULT() {
-        JavaCodeAnalyzer emitter = new JavaCodeAnalyzer();
-        emitter.addResultListener(emitter.colorResult);
-        emitter.addResultListener(emitter.content);
-        return emitter;
+    /**
+     * By default we enable color result and content result (minimal functionnality for editor).
+     */
+    public JavaCodeAnalyzer() {
+        addResultListener("color",colorResult);
+        addResultListener("content",content);
     }
 
     @Override
@@ -82,11 +82,12 @@ public class JavaCodeAnalyzer extends TokenEmitter {
             // Backup values because looking ahead in function name match will change them
             int thisIndex = tokenizer.getIndex();
             int thisLength = tokenizer.getTokenLength();
+            dispatchResult(line,column);
             switch (token) {
                 case WHITESPACE:
                 case NEWLINE:
                     if (first) {
-                        colorResult.putResult();
+                        colorResult.dispatchResult();
                     }
                     break;
                 case IDENTIFIER:
@@ -94,7 +95,7 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                     identifiers.addIdentifier(text.substring(tokenizer.getIndex(), tokenizer.getTokenLength() + tokenizer.getIndex()));
                     //The previous so this will be the annotation's type name
                     if (previous == Tokens.AT) {
-                        colorResult.putResult(line, column, theme.getAccent1());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent1());
                         break;
                     }
                     //Here we have to get next token to see if it is function
@@ -103,7 +104,7 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                     Tokens next = tokenizer.directNextToken();
                     //The next is LPAREN,so this is function name or type name
                     if (next == Tokens.LPAREN) {
-                        colorResult.putResult(line, column, theme.getAccent6());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent6());
                         tokenizer.pushBack(tokenizer.getTokenLength());
                         break;
                     }
@@ -111,32 +112,32 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                     tokenizer.pushBack(tokenizer.getTokenLength());
                     //This is a class definition
                     if (previous == Tokens.CLASS) {
-                        colorResult.putResult(line, column, theme.getAccent5());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent5());
                         //Add class name
                         classNames.put(text, thisIndex, thisLength, OBJECT);
                         break;
                     }
                     //Has class name
                     if (classNames.get(text, thisIndex, thisLength) == OBJECT) {
-                        colorResult.putResult(line, column, theme.getTextNormal());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                         //Mark it
                         classNamePrevious = true;
                         break;
                     }
                     if (classNamePrevious) {
                         //Var name
-                        colorResult.putResult(line, column, theme.getAccent4());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent4());
                         classNamePrevious = false;
                         break;
                     }
-                    colorResult.putResult(line, column, theme.getTextNormal());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                     break;
                 case CHARACTER_LITERAL:
                 case STRING:
                 case FLOATING_POINT_LITERAL:
                 case INTEGER_LITERAL:
                     classNamePrevious = false;
-                    colorResult.putResult(line, column, theme.getAccent7());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getAccent7());
                     break;
                 case INT:
                 case LONG:
@@ -148,7 +149,7 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                 case SHORT:
                 case VOID:
                     classNamePrevious = true;
-                    colorResult.putResult(line, column, theme.getAccent1());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getAccent1());
                     break;
                 case ABSTRACT:
                 case ASSERT:
@@ -195,11 +196,11 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                 case FALSE:
                 case NULL:
                     classNamePrevious = false;
-                    colorResult.putResult(line, column, theme.getAccent1());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getAccent1());
                     break;
                 case LBRACE: {
                     classNamePrevious = false;
-                    colorResult.putResult(line, column, theme.getAccent8());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getAccent8());
                     if (stack.isEmpty()) {
                         if (currSwitch > maxSwitch) {
                             maxSwitch = currSwitch;
@@ -215,7 +216,7 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                 }
                 case RBRACE: {
                     classNamePrevious = false;
-                    colorResult.putResult(line, column, theme.getAccent8());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getAccent8());
                     if (!stack.isEmpty()) {
                         BlockLineModel block = stack.pop();
                         block.endLine = line;
@@ -229,16 +230,16 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                 case LINE_COMMENT:
                 case LONG_COMMENT:
                     Logger.debug("Long comment line=",line,",column=",column);
-                    colorResult.putResult(line, column, theme.getComment());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getComment());
                     break;
                 default:
                     Logger.debug("Default case line=",line,",column=",column);
                     if (token == Tokens.LBRACK || (token == Tokens.RBRACK && previous == Tokens.LBRACK)) {
-                        colorResult.putResult(line, column, theme.getAccent8());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent8());
                         break;
                     }
                     classNamePrevious = false;
-                    colorResult.putResult(line, column, theme.getAccent8());
+                    colorResult.dispatchResult(line, column, colorResult.theme.getAccent8());
             }
             first = false;
             helper.update(thisLength);

@@ -18,6 +18,8 @@ package io.github.rosemoe.editor.langs.universal;
 import java.util.Stack;
 
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
@@ -26,19 +28,20 @@ import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
 import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;
 
-public class UniversalCodeAnalyzer extends CodeAnalyzerController {
+public class UniversalCodeAnalyzer extends CodeAnalyzer {
     private LanguageDescription mLanguage;
     private UniversalTokenizer tokenizer;
     private UniversalTokenizer tokenizer2;
+    CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
 
     public UniversalCodeAnalyzer(LanguageDescription description, UniversalTokenizer tokenizer1, UniversalTokenizer tokenizer2) {
         this.mLanguage = description;
         this.tokenizer = tokenizer1;
         this.tokenizer2 = tokenizer2;
+        addResultListener("color",colorResult);
     }
     @Override
-    public void analyze(CharSequence content, TextAnalyzerView colors, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
-        super.analyze(content,colors,delegate);
+    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         tokenizer.setInput(text);
         LineNumberCalculator helper = new LineNumberCalculator(text);
@@ -58,25 +61,25 @@ public class UniversalCodeAnalyzer extends CodeAnalyzerController {
                 int column = helper.getColumn();
                 switch (token) {
                     case KEYWORD:
-                        colors.addIfNeeded(line, column, theme.getAccent1());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent1());
                         break;
                     case IDENTIFIER:
                         identifiers.addIdentifier(text.substring(index, index + tokenizer.getTokenLength()));
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                         break;
                     case LITERAL:
-                        colors.addIfNeeded(line, column, theme.getAccent7());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent7());
                         break;
                     case LINE_COMMENT:
                     case LONG_COMMENT:
-                        colors.addIfNeeded(line, column, theme.getComment());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getComment());
                         break;
                     case OPERATOR:
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                         if (mLanguage.isSupportBlockLine()) {
                             String op = text.substring(index, index + tokenizer.getTokenLength());
                             if (mLanguage.isBlockStart(op)) {
-                                BlockLineModel blockLine = colors.obtainNewBlock();
+                                /*TODO:BlockLineModel blockLine = colors.obtainNewBlock();
                                 blockLine.startLine = line;
                                 blockLine.startColumn = column;
                                 stack.add(blockLine);
@@ -85,13 +88,13 @@ public class UniversalCodeAnalyzer extends CodeAnalyzerController {
                                 } else {
                                     currSwitch++;
                                 }
-                                layer++;
+                                layer++;*/
                             } else if (mLanguage.isBlockEnd(op)) {
                                 if (!stack.isEmpty()) {
                                     BlockLineModel blockLine = stack.pop();
                                     blockLine.endLine = line;
                                     blockLine.endColumn = column;
-                                    colors.addBlockLine(blockLine);
+                                    //TODO:colors.addBlockLine(blockLine);
                                     if (layer == 1) {
                                         if (currSwitch > maxSwitch) {
                                             maxSwitch = currSwitch;
@@ -104,10 +107,10 @@ public class UniversalCodeAnalyzer extends CodeAnalyzerController {
                         break;
                     case WHITESPACE:
                     case NEWLINE:
-                        colors.addNormalIfNull();
+                        colorResult.dispatchResult();
                         break;
                     case UNKNOWN:
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                         break;
                 }
                 helper.update(tokenizer.getTokenLength());
@@ -115,14 +118,14 @@ public class UniversalCodeAnalyzer extends CodeAnalyzerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        colors.determine(helper.getLine());
+        //TODO:colors.determine(helper.getLine());
         identifiers.finish();
-        colors.mExtra = identifiers;
+        //TODO:colors.mExtra = identifiers;
         tokenizer.setInput(null);
         if (currSwitch > maxSwitch) {
             maxSwitch = currSwitch;
         }
-        colors.setSuppressSwitch(maxSwitch + 50);
+        //TODO:colors.setSuppressSwitch(maxSwitch + 50);
     }
 
 }

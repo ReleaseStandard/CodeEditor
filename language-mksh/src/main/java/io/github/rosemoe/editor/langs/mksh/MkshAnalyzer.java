@@ -28,18 +28,20 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.util.Logger;
 
 import static io.github.rosemoe.editor.langs.mksh.MkshParser.*;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 
 /**
  * Role of this class is to apply colors to language's syntaxe (here produced by antlr).
  */
-public class MkshAnalyzer extends CodeAnalyzerController {
+public class MkshAnalyzer extends CodeAnalyzer {
 
-    public void processKeywords(Object ...nodes) {
+   /* public void processKeywords(Object ...nodes) {
         processNodes(theme.getAccent3(),nodes);
     }
     public void processFunctionIdentifier(Object ...nodes) {
@@ -51,9 +53,11 @@ public class MkshAnalyzer extends CodeAnalyzerController {
     public void processIdentifier(Object ...nodes) {
         processNodes(theme.getAccent1(),nodes);
     }
+
+    */
     @Override
-    public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
-        super.analyze(content,colors,delegate);
+    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+        /*super.analyze(content,colors,delegate);
         CodePointCharStream stream = null;
         try {
             stream = CharStreams.fromReader(new StringReader(content.toString()));
@@ -174,6 +178,8 @@ public class MkshAnalyzer extends CodeAnalyzerController {
             }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.start());
+
+         */
     }
 
 }

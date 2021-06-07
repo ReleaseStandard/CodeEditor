@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 package io.github.rosemoe.editor.langs.cobol85;
-
+/*
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,27 +23,27 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
+*/
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.util.Logger;
 
 import static io.github.rosemoe.editor.langs.cobol85.Cobol85Parser.*;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 
 /**
  * Role of this class is to apply colors to language's syntaxe (here produced by antlr).
  */
-public class Cobol85Analyzer extends CodeAnalyzerController {
+public class Cobol85Analyzer extends CodeAnalyzer {
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
-        super.analyze(content,colors,delegate);
-        CodePointCharStream stream = null;
+    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+      /*  CodePointCharStream stream = null;
         try {
             stream = CharStreams.fromReader(new StringReader(content.toString()));
         } catch (IOException e) {
@@ -64,18 +64,20 @@ public class Cobol85Analyzer extends CodeAnalyzerController {
                     case MOVE: case TO: case USING: case THEN: case PERFORM: case NOT: case END_ACCEPT:
                     case END_CALL: case END_COMPUTE: case END_DELETE: case END_DIVIDE: case END_EVALUATE:
                     case END_MULTIPLY: case END_PERFORM:
-                        processNode(theme.getAccent2(),token);
+                        //TODO:processNode(theme.getAccent2(),token);
                         break;
                     case STRING:
                     case INTEGER: case INTEGERLITERAL:
-                        processNode(theme.getAccent7(),token);
+                        //TODO:processNode(theme.getAccent7(),token);
                         break;
                     case COMMACHAR:
-                        processNodes(theme.getAccent1(),token);
+                        //TODO:processNodes(theme.getAccent1(),token);
                 }
             }
         };
         ParseTreeWalker.DEFAULT.walk(walkListener,parser.startRule());
+
+       */
     }
 
 

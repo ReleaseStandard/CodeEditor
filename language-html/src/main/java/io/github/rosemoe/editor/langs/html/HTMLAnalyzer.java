@@ -9,12 +9,21 @@ import java.io.StringReader;
 
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.TokenEmitter;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
-public class HTMLAnalyzer extends CodeAnalyzerController {
+public class HTMLAnalyzer extends TokenEmitter {
+
+    CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
+
+    public HTMLAnalyzer() {
+        addResultListener("color",colorResult);
+    }
+
     @Override
-    public void analyze(CharSequence content, TextAnalyzerView colors, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
-        super.analyze(content,colors,delegate);
+    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         try {
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
             HTMLLexer lexer = new HTMLLexer(stream);
@@ -32,10 +41,10 @@ public class HTMLAnalyzer extends CodeAnalyzerController {
                 line = token.getLine() - 1;
                 column = token.getCharPositionInLine();
                 lastLine = line;
-
+                dispatchResult(line,column);
                 switch (token.getType()) {
                     case HTMLLexer.TAG_WHITESPACE:
-                        if (first) colors.addNormalIfNull();
+                        if (first) colorResult.dispatchResult();
                         break;
                     case HTMLLexer.TAG_OPEN:
                     case HTMLLexer.TAG_SLASH:
@@ -43,29 +52,29 @@ public class HTMLAnalyzer extends CodeAnalyzerController {
                     case HTMLLexer.TAG_CLOSE:
                     case HTMLLexer.TAG_NAME:
                     case HTMLLexer.XML:
-                        colors.addIfNeeded(line, column, theme.getAccent6());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent6());
                         break;
                     case HTMLLexer.CDATA:
                     case HTMLLexer.ATTRIBUTE:
                     case HTMLLexer.TAG_EQUALS:
-                        colors.addIfNeeded(line, column, theme.getAccent1());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent1());
                         break;
                     case HTMLLexer.ATTVALUE_VALUE:
-                        colors.addIfNeeded(line, column, theme.getAccent7());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent7());
                         break;
                     case HTMLLexer.HTML_CONDITIONAL_COMMENT:
                     case HTMLLexer.HTML_COMMENT:
-                        colors.addIfNeeded(line, column, theme.getComment());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getComment());
                         break;
                     case HTMLLexer.HTML_TEXT:
                     default:
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                         break;
                 }
 
                 first = false;
             }
-            colors.determine(lastLine);
+            //TODO:colors.determine(lastLine);
         } catch (IOException e) {
             e.printStackTrace();
         }

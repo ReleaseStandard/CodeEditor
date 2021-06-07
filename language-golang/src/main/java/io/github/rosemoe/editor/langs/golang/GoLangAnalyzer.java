@@ -22,17 +22,17 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
-import io.github.rosemoe.editor.mvc.controller.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
 import static io.github.rosemoe.editor.langs.golang.GoLangLexer.*;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 
-public class GoLangAnalyzer extends CodeAnalyzerController {
+public class GoLangAnalyzer extends CodeAnalyzer {
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzerView colors, io.github.rosemoe.editor.mvc.controller.TextAnalyzerController.AnalyzeThread.Delegate delegate) {
-        super.analyze(content,colors,delegate);
-        CodePointCharStream stream = null;
+    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+/*        CodePointCharStream stream = null;
         try {
             stream = CharStreams.fromReader(new StringReader(content.toString()));
         } catch (IOException e) {
@@ -89,6 +89,8 @@ public class GoLangAnalyzer extends CodeAnalyzerController {
             }
         }
         colors.determine(lastLine);
+        */
+
     }
 
 }

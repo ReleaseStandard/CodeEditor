@@ -16,5 +16,5 @@
 package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer;
 
 public abstract class CodeAnalyzerResult {
-    public abstract void putResult(Object... args);
+    public abstract void dispatchResult(Object... args);
 }

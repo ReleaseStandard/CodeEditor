@@ -63,6 +63,8 @@ import java.util.Map;
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.extension.ExtensionContainer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
 import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
@@ -85,10 +87,10 @@ import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.view.MaterialEdgeEffect;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanLineController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
@@ -698,8 +700,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             analyzer.shutdown();
             analyzer.setCallback(null);
         }
-        CodeAnalyzerController analyzer = lang.getAnalyzer();
-        analyzer.setTheme(getColorScheme());
+        CodeAnalyzer analyzer = lang.getAnalyzer();
+        CodeAnalyzerResultColor result = ((CodeAnalyzerResultColor)analyzer.getResultListener("color"));
+        if ( result != null ) {
+            result.theme = getColorScheme();
+        }
         this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
         if (mText != null) {
@@ -3410,8 +3415,11 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             analyzer.setCallback(null);
             analyzer.shutdown();
         }
-        CodeAnalyzerController analyzer = mLanguage.getAnalyzer();
-        analyzer.setTheme(getColorScheme());
+        CodeAnalyzer analyzer = mLanguage.getAnalyzer();
+        CodeAnalyzerResultColor result = ((CodeAnalyzerResultColor)analyzer.getResultListener("color"));
+        if ( result != null ) {
+            result.theme = getColorScheme();
+        }
         this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
 

@@ -24,12 +24,19 @@ import java.io.StringReader;
 
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.TokenEmitter;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
-public class PythonCodeAnalyzer extends CodeAnalyzerController {
+public class PythonCodeAnalyzer extends TokenEmitter {
+
+    CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
+    public PythonCodeAnalyzer() {
+        addResultListener("color",colorResult);
+    }
     @Override
-    public void analyze(CharSequence content, TextAnalyzerView colors, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
-        super.analyze(content,colors,delegate);
+    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         try {
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
             PythonLexer lexer = new PythonLexer(stream);
@@ -49,12 +56,12 @@ public class PythonCodeAnalyzer extends CodeAnalyzerController {
                 line = token.getLine() - 1;
                 column = token.getCharPositionInLine();
                 lastLine = line;
-
+                dispatchResult(line,column);
                 switch (token.getType()) {
                     case PythonLexer.WS:
                     case PythonLexer.NEWLINE:
                         if (first) {
-                            colors.addNormalIfNull();
+                            colorResult.dispatchResult();
                         }
                         break;
                     case PythonLexer.DEF:
@@ -90,15 +97,15 @@ public class PythonCodeAnalyzer extends CodeAnalyzerController {
                     case PythonLexer.BREAK:
                     case PythonLexer.ASYNC:
                     case PythonLexer.AWAIT:
-                        colors.addIfNeeded(line, column, theme.getAccent2());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent2());
                         break;
                     case PythonLexer.COMMENT:
-                        colors.addIfNeeded(line, column, theme.getComment());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getComment());
                         break;
                     case PythonLexer.STRING:
                     case PythonLexer.DECIMAL_INTEGER:
-                        colors.addIfNeeded(line, column, theme.getAccent7());
-                        colors.addIfNeeded(line, column, theme.getAccent7());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent7());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent7());
                         break;
                     case PythonLexer.OPEN_BRACE:
                     case PythonLexer.CLOSE_BRACE:
@@ -147,22 +154,22 @@ public class PythonCodeAnalyzer extends CodeAnalyzerController {
                     case PythonLexer.RIGHT_SHIFT_ASSIGN:
                     case PythonLexer.POWER_ASSIGN:
                     case PythonLexer.IDIV_ASSIGN:
-                        colors.addIfNeeded(line, column, theme.getAccent1());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getAccent1());
                         break;
                     case PythonLexer.NAME: {
                         if (previous == null) {
-                            colors.addIfNeeded(line, column, theme.getTextNormal());
+                            colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                             break;
                         } else if (previous.getType() == PythonLexer.DEF) {
-                            colors.addIfNeeded(line, column, theme.getAccent6());
+                            colorResult.dispatchResult(line, column, colorResult.theme.getAccent6());
                             break;
                         } else if (previous.getType() == PythonLexer.CLASS) {
-                            colors.addIfNeeded(line, column, theme.getAccent6());
+                            colorResult.dispatchResult(line, column, colorResult.theme.getAccent6());
                             break;
                         }
                     }
                     default:
-                        colors.addIfNeeded(line, column, theme.getTextNormal());
+                        colorResult.dispatchResult(line, column, colorResult.theme.getTextNormal());
                         break;
                 }
                 first = false;
@@ -172,7 +179,7 @@ public class PythonCodeAnalyzer extends CodeAnalyzerController {
                 }
             }
 
-            colors.determine(lastLine);
+            //TODO:colors.determine(lastLine);
         } catch (IOException e) {
             e.printStackTrace();
         }

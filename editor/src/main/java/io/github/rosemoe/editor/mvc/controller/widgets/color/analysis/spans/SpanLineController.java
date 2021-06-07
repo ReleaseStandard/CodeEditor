@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets.color.spans;
+package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans;
 
 import java.util.TreeMap;
 

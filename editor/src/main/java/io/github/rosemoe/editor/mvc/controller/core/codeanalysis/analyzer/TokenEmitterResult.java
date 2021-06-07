@@ -15,7 +15,6 @@
  */
 package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer;
 
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerResult;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -23,14 +22,15 @@ import io.github.rosemoe.editor.util.Logger;
  */
 public abstract class TokenEmitterResult extends CodeAnalyzerResult {
     @Override
-    public void putResult(Object... args) {
+    public void dispatchResult(Object... args) {
         if( args.length < 2 ) {
             Logger.debug("Not enough arguments to put in this result");
             return;
         }
-        putResult(args[0],args[1]);
+        Integer i1 = (Integer) args[0], i2 = (Integer) args[1];
+        dispatchResult(i1.intValue(),i2.intValue());
     }
-    public void putResult(int col, int line) {
+    public void dispatchResult(int col, int line) {
         Logger.debug("Using default implementation");
     }
 }

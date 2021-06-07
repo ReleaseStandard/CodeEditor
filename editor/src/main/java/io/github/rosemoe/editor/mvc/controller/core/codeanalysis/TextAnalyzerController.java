@@ -20,7 +20,8 @@ import android.util.Log;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
@@ -43,18 +44,18 @@ public class TextAnalyzerController {
     private TextAnalyzerView currentResult;
     private Callback mCallback;
     private AnalyzeThread mThread;
-    public CodeAnalyzerController mCodeAnalyzer;
+    public CodeAnalyzer mCodeAnalyzer;
     /**
      * Create a new manager for the given codeAnalyzer
      *
      * @param codeAnalyzer0 Target codeAnalyzer
      */
-    public TextAnalyzerController(CodeAnalyzerController codeAnalyzer0) {
+    public TextAnalyzerController(CodeAnalyzer codeAnalyzer0) {
         if (codeAnalyzer0 == null) {
             throw new IllegalArgumentException();
         }
         currentResult = new TextAnalyzerView();
-        currentResult.addNormalIfNull();
+        //TODO:currentResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
     }
 
@@ -173,18 +174,17 @@ public class TextAnalyzerController {
      */
     public class AnalyzeThread extends Thread {
 
-        private final CodeAnalyzerController codeAnalyzer;
+        private final CodeAnalyzer codeAnalyzer;
         private final Object lock;
         private volatile boolean waiting = false;
         private ContentMapController content;
 
         /**
          * Create a new thread
-         *
-         * @param a       The CodeAnalyzerController to call
+         *  @param a       The CodeAnalyzerController to call
          * @param content The ContentMapController to analyze
          */
-        public AnalyzeThread(Object lock, CodeAnalyzerController a, ContentMapController content) {
+        public AnalyzeThread(Object lock, CodeAnalyzer a, ContentMapController content) {
             this.lock = lock;
             codeAnalyzer = a;
             this.content = content;
@@ -203,7 +203,7 @@ public class TextAnalyzerController {
                     do {
                         waiting = false;
                         StringBuilder c = content.toStringBuilder();
-                        codeAnalyzer.analyze(c, newResult, d);
+                        codeAnalyzer.analyze(c, d);
                         if (waiting) {
                             newResult.clear();
                         }
@@ -211,7 +211,7 @@ public class TextAnalyzerController {
 
                     recycler.putToDigest(currentResult);
                     currentResult = newResult;
-                    newResult.addNormalIfNull();
+                    //TODO:newResult.addNormalIfNull();
                     try {
                         if (mCallback != null) {
                             mCallback.onAnalyzeDone(TextAnalyzerController.this);

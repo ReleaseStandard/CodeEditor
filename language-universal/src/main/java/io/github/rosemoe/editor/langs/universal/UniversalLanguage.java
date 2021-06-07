@@ -16,8 +16,8 @@
 package io.github.rosemoe.editor.langs.universal;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 
@@ -41,7 +41,7 @@ public class UniversalLanguage extends LanguageController {
     }
 
     @Override
-    public CodeAnalyzerController getAnalyzer() {
+    public CodeAnalyzer getAnalyzer() {
         return new UniversalCodeAnalyzer(mLanguage,tokenizer,tokenizer2);
     }
 

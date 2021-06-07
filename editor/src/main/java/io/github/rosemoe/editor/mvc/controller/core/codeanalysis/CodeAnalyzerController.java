@@ -15,8 +15,6 @@
  */
 package io.github.rosemoe.editor.mvc.controller.core.codeanalysis;
 
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
@@ -42,7 +40,7 @@ public abstract class CodeAnalyzerController {
      * @see TextAnalyzerController#analyze(ContentMapController)
      * @see TextAnalyzerController.AnalyzeThread.Delegate#shouldAnalyze()
      */
-    public void analyze(CharSequence content, TextAnalyzerView colors, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+/*    public void analyze(CharSequence content, TextAnalyzerView colors, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
         this.colors = colors;
     }
     public static int antlrLineIndexToCodeEditor(int line) {
@@ -94,5 +92,5 @@ public abstract class CodeAnalyzerController {
                 }
             }
         }
-    }
+    }*/
 }
