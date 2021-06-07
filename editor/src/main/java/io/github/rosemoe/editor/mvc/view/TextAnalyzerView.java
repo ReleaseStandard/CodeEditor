@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 
@@ -40,7 +41,6 @@ public class TextAnalyzerView {
         spanMap = new SpanMapController();
         mBlocks = new ArrayList<>(1024);
     }
-
 
 
     public SpanMapController getSpanMap() {

@@ -35,6 +35,7 @@ import io.github.rosemoe.editor.util.Logger;
 
 import static io.github.rosemoe.editor.langs.mksh.MkshParser.*;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 /**
  * Role of this class is to apply colors to language's syntaxe (here produced by antlr).
@@ -56,7 +57,7 @@ public class MkshAnalyzer extends CodeAnalyzer {
 
     */
     @Override
-    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
         /*super.analyze(content,colors,delegate);
         CodePointCharStream stream = null;
         try {

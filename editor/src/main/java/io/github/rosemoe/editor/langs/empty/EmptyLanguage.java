@@ -20,11 +20,11 @@ import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController.AnalyzeThread.Delegate;
 
 /**
  * Empty language without any effect
@@ -61,8 +61,8 @@ public class EmptyLanguage extends LanguageController {
     private static class EmptyCodeAnalyzer extends CodeAnalyzer {
 
         @Override
-        public void analyze(CharSequence content, Delegate delegate) {
-            //colors.addNormalIfNull();
+        protected void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
+            // TODO : colors.addNormalIfNull();
         }
     }
 }

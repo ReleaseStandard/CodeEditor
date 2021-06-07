@@ -13,8 +13,9 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer;
+package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter;
 
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerResult;
 import io.github.rosemoe.editor.util.Logger;
 
 /**

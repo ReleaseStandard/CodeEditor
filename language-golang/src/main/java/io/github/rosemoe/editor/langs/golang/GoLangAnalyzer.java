@@ -27,11 +27,12 @@ import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import static io.github.rosemoe.editor.langs.golang.GoLangLexer.*;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class GoLangAnalyzer extends CodeAnalyzer {
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
 /*        CodePointCharStream stream = null;
         try {
             stream = CharStreams.fromReader(new StringReader(content.toString()));

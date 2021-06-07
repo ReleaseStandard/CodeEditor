@@ -69,7 +69,6 @@ import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
 import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
@@ -102,7 +101,7 @@ import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.TextFormatter;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
-import io.github.rosemoe.editor.processor.spanmap.Updater;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanUpdater;
 import io.github.rosemoe.editor.util.IntPair;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.LongArrayList;
@@ -120,7 +119,7 @@ import io.github.rosemoe.editor.mvc.controller.widgets.layout.LineBreakLayout;
  *
  * @author Rosemoe
  */
-public class CodeEditor extends View implements ContentListener, TextAnalyzerController.Callback, TextFormatter.FormatResultReceiver, ContentLineRemoveListener {
+public class CodeEditor extends View implements ContentListener, TextFormatter.FormatResultReceiver, ContentLineRemoveListener {
 
     /**
      * The default size when creating the editor object. Unit is sp.
@@ -698,7 +697,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         // Update spanner
         if (analyzer != null) {
             analyzer.shutdown();
-            analyzer.setCallback(null);
+            // TODO analyzer.setCallback(null);
         }
         CodeAnalyzer analyzer = lang.getAnalyzer();
         CodeAnalyzerResultColor result = ((CodeAnalyzerResultColor)analyzer.getResultListener("color"));
@@ -706,7 +705,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             result.theme = getColorScheme();
         }
         this.analyzer = new TextAnalyzerController(analyzer);
-        this.analyzer.setCallback(this);
+        // TODO : this.analyzer.setCallback(this);
         if (mText != null) {
             this.analyzer.analyze(mText);
         }
@@ -948,7 +947,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     private void drawView(Canvas canvas) {
         //record();
         //counter = 0;
-        analyzer.notifyRecycle();
+        // TODO analyzer.notifyRecycle();
         if (mFormatThread != null) {
             String text = "Formatting your code...";
             float centerY = getHeight() / 2f;
@@ -3412,7 +3411,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         mText.setLineListener(this);
 
         if (analyzer != null) {
-            analyzer.setCallback(null);
+            // TODO analyzer.setCallback(null);
             analyzer.shutdown();
         }
         CodeAnalyzer analyzer = mLanguage.getAnalyzer();
@@ -3421,9 +3420,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             result.theme = getColorScheme();
         }
         this.analyzer = new TextAnalyzerController(analyzer);
-        this.analyzer.setCallback(this);
+        // TODO this.analyzer.setCallback(this);
 
-        this.analyzer.getResult().getSpanMap().clear();
+        this.analyzer.mCodeAnalyzer.clear();
         this.analyzer.analyze(getText());
 
         requestLayout();
@@ -4025,9 +4024,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
-                Updater.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                SpanUpdater.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                Updater.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                SpanUpdater.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -4084,9 +4083,9 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
     public void afterDelete(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
-                Updater.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                SpanUpdater.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                Updater.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                SpanUpdater.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -4156,7 +4155,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
         }
     }
 
-    @Override
+   /* @Override
     public void onAnalyzeDone(TextAnalyzerController provider) {
         if (provider == analyzer) {
             if (mHighlightCurrentBlock) {
@@ -4164,7 +4163,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzerCon
             }
             postInvalidate();
         }
-    }
+    } TODO */
 
     public void onEndTextSelect() {
         showTextActionPopup();

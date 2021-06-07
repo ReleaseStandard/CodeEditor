@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.processor.spanmap;
+package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -26,18 +26,18 @@ import io.github.rosemoe.editor.util.Logger;
 /**
  * Remove object on an other thread to prevent ui freeze.
  */
-public class Recycler {
+public class SpanRecycler {
 
-    private static Recycler INSTANCE;
+    private static SpanRecycler INSTANCE;
     private final BlockingQueue<SpanMapController> taskQueue;
     private Thread recycleThread;
-    private Recycler() {
+    private SpanRecycler() {
         taskQueue = new ArrayBlockingQueue<>(8);
     }
 
-    public static synchronized Recycler getInstance() {
+    public static synchronized SpanRecycler getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new Recycler();
+            INSTANCE = new SpanRecycler();
         }
         return INSTANCE;
     }
@@ -85,7 +85,7 @@ public class Recycler {
             } catch (Exception e) {
                 Logger.debug(e.toString());
             }
-            Logger.debug("Recycler exited");
+            Logger.debug("SpanRecycler exited");
         }
 
     }

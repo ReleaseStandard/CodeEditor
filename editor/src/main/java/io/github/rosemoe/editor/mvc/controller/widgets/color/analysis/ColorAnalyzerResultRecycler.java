@@ -13,41 +13,41 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer;
+package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis;
 
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerResult;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerResultRecycler;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.util.Logger;
 
-public abstract class CodeAnalyzerResult {
-    /**
-     * This method choose how to process arguments when the analyzer send some.
-     * @param args
-     */
-    public abstract void dispatchResult(Object... args);
+public class ColorAnalyzerResultRecycler extends CodeAnalyzerResultRecycler {
+    SpanMapController spanMap;
 
     /**
-     * Report if the result is computer/ready.
-     * @return is the result computed
+     * Process objects currently in the recycler.
      */
-    public boolean isReady() {
-        return true;
-    }
-    public boolean isAvaliable() {
-        return isReady();
+    public void recycle() {
+        SpanRecycler.getInstance().recycle(spanMap);
+        spanMap = null;
     }
 
     /**
-     * Clear the analysis report.
+     * Put an analysis result to digestion by the recycler.
+     * @param result
      */
-    public void clear() {
-
+    @Override
+    public void putToDigest(CodeAnalyzerResult result) {
+        if ( ! (result instanceof CodeAnalyzerResultColor)) {
+            Logger.debug("It don't digest that sorry");
+            return;
+        }
+        CodeAnalyzerResultColor caro = (CodeAnalyzerResultColor) result;
+        spanMap = caro.map;
     }
-
-    public CodeAnalyzerResultRecycler recycler;
-
 }

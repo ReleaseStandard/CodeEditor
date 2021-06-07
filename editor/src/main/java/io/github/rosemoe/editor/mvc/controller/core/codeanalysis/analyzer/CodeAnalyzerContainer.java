@@ -32,7 +32,7 @@ public class CodeAnalyzerContainer {
 
     public HashMap<Integer, CodeAnalyzer> analyzers = new HashMap<>();
 
-    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
         for(CodeAnalyzer analyzer : analyzers.values()) {
             analyzer.analyze(content, delegate);
         }

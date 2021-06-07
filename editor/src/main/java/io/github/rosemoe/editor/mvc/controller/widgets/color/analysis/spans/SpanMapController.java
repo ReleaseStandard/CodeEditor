@@ -18,9 +18,9 @@ package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans;
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
 import io.github.rosemoe.editor.mvc.model.widget.color.spans.SpanMapModel;
 import io.github.rosemoe.editor.mvc.view.widget.color.spans.SpanMapView;
-import io.github.rosemoe.editor.processor.spanmap.Recycler;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -127,7 +127,7 @@ public class SpanMapController {
      * Recycle spans in the map.
      */
     public void recyle() {
-        Recycler.getInstance().recycle(this);
+        SpanRecycler.getInstance().recycle(this);
     }
     public SpanLineController[] getLines() {
         return concurrentSafeGetValues();

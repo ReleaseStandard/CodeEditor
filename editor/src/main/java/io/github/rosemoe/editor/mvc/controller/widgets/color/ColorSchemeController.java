@@ -49,7 +49,7 @@ public class ColorSchemeController extends Widget {
     private static final int HIDDEN = 0;
     private static final int DEFAULT = HIDDEN;
     // colors definition
-    private HashMap<Integer,Integer> COLORS = new HashMap<Integer, Integer>(){{
+    public HashMap<Integer,Integer> COLORS = new HashMap<Integer, Integer>(){{
         put(R.styleable.CodeEditor_widget_color_base03,DEFAULT);put(R.styleable.CodeEditor_widget_color_base02,DEFAULT);put(R.styleable.CodeEditor_widget_color_base01,DEFAULT);put(R.styleable.CodeEditor_widget_color_base00,DEFAULT);put(R.styleable.CodeEditor_widget_color_base0,DEFAULT);put(R.styleable.CodeEditor_widget_color_base1,DEFAULT);put(R.styleable.CodeEditor_widget_color_base2,DEFAULT);
         put(R.styleable.CodeEditor_widget_color_base3,DEFAULT);put(R.styleable.CodeEditor_widget_color_accent1,null);put(R.styleable.CodeEditor_widget_color_accent2,null);put(R.styleable.CodeEditor_widget_color_accent3,null);put(R.styleable.CodeEditor_widget_color_accent4,null);put(R.styleable.CodeEditor_widget_color_accent5,null);put(R.styleable.CodeEditor_widget_color_accent6,null);put(R.styleable.CodeEditor_widget_color_accent7,null);
         put(R.styleable.CodeEditor_widget_color_accent8,null);put(R.styleable.CodeEditor_widget_color_lineNumberPanel,null);put(R.styleable.CodeEditor_widget_color_lineNumberBackground,null);put(R.styleable.CodeEditor_widget_color_currentLine,null);put(R.styleable.CodeEditor_widget_color_textSelected,null);put(R.styleable.CodeEditor_widget_color_selectedTextBackground,null);put(R.styleable.CodeEditor_widget_color_lineNumberPanelText,null);put(R.styleable.CodeEditor_widget_color_wholeBackground,null);put(R.styleable.CodeEditor_widget_color_textNormal,null);

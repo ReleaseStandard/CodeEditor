@@ -25,8 +25,10 @@ import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class UniversalCodeAnalyzer extends CodeAnalyzer {
     private LanguageDescription mLanguage;
@@ -41,7 +43,7 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
         addResultListener("color",colorResult);
     }
     @Override
-    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         tokenizer.setInput(text);
         LineNumberCalculator helper = new LineNumberCalculator(text);

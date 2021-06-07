@@ -7,12 +7,10 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.TokenEmitter;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter.TokenEmitter;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class HTMLAnalyzer extends TokenEmitter {
 
@@ -23,7 +21,7 @@ public class HTMLAnalyzer extends TokenEmitter {
     }
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
         try {
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
             HTMLLexer lexer = new HTMLLexer(stream);
@@ -41,7 +39,7 @@ public class HTMLAnalyzer extends TokenEmitter {
                 line = token.getLine() - 1;
                 column = token.getCharPositionInLine();
                 lastLine = line;
-                dispatchResult(line,column);
+                dispatchResultPart(line,column);
                 switch (token.getType()) {
                     case HTMLLexer.TAG_WHITESPACE:
                         if (first) colorResult.dispatchResult();

@@ -15,10 +15,17 @@
  */
 package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer;
 
+import android.os.Bundle;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.Callback;
+import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
 /**
  * This could be :
@@ -29,15 +36,16 @@ import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerCon
 public abstract class CodeAnalyzer {
 
     public HashMap<String, CodeAnalyzerResult> results = new HashMap<>();
+    public HashMap<String, CodeAnalyzerResult> inProcessResults = new HashMap<>();
 
-    public abstract void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate);
+    protected abstract void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate);
 
     /**
-     * Dispatch (partial) results of an analysis on results objects.
+     * Dispatch (partial) results of an analysis on result objects, to show the result of processing, use updateView()
      * (No matter what type is expected by results)
      */
-    public void dispatchResult(Object ...args) {
-        for(CodeAnalyzerResult result : results.values()) {
+    public void dispatchResultPart(Object ...args) {
+        for(CodeAnalyzerResult result : inProcessResults.values()) {
             result.dispatchResult(args);
         }
     }
@@ -50,8 +58,81 @@ public abstract class CodeAnalyzer {
         results.put(name,listener);
     }
 
+    /**
+     * Launch a clear for all result listener inside this analyzer.
+     */
+    public void clear() {
+        clearBuilded();
+        clearInBuild();
+    }
+    /**
+     * Clear what have been done in the analyzer (view).
+     */
+    public void clearBuilded() {
+        for(CodeAnalyzerResult result : results.values()) {
+            result.clear();
+        }
+    }
+    /**
+     * Clear what is being done in the analyzer.
+     */
+    public void clearInBuild() {
+        for(CodeAnalyzerResult inProcessResult : inProcessResults.values()) {
+            inProcessResult.clear();
+        }
+    }
+
+    /**
+     * Get the result listener for a given name.
+     * @param name
+     * @return
+     */
     public CodeAnalyzerResult getResultListener(String name) {
         return results.get(name);
     }
+
+
+    /**
+     * This call will put inProcessResults to results and create an
+     * empty inProcessResults.
+     */
+    public void updateView() {
+        for(Map.Entry<String, CodeAnalyzerResult> e : results.entrySet()) {
+            CodeAnalyzerResult result = e.getValue();
+            String key = e.getKey();
+            result.recycler.putToDigest(result);
+            CodeAnalyzerResult newResult = inProcessResults.get(key);
+            results.put(key, newResult);
+            result.clear();
+            inProcessResults.put(key, result);
+        }
+    }
+
+    // TODO private Callback mCallback;
+
+
+    /**
+     * Start an analysis thread of a given text/code.
+     */
+    public CodeAnalyzerThread mThread;
+    public synchronized void start(ContentMapController origin) {
+        CodeAnalyzerThread thread = this.mThread;
+        if (thread == null || !thread.isAlive()) {
+            thread = this.mThread = CodeAnalyzerThread.newInstance(origin, this);
+        } else {
+            thread.restartWith(origin);
+            synchronized (thread.lock) {
+                thread.lock.notify();
+            }
+        }
+    }
+    public void shutdown() {
+        final CodeAnalyzerThread thread = mThread;
+        if (thread != null && thread.isAlive()) {
+            thread.interrupt();
+            mThread = null;
+        }
+    }
+
 }
 

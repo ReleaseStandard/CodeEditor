@@ -13,14 +13,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results;
+package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter;
 
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter.TokenEmitterResult;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
 
-public class CodeAnalyzerResultContent extends TokenEmitterResult {
+/**
+ * Token emitter is a type of code analysis,
+ * where each time a token is encountered, we process an action.
+ */
+public abstract class TokenEmitter extends CodeAnalyzer {
 
-    @Override
-    public boolean isReady() {
-        return false;
-    }
 }

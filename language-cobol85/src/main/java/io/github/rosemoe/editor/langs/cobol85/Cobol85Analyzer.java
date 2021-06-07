@@ -35,6 +35,7 @@ import io.github.rosemoe.editor.util.Logger;
 import static io.github.rosemoe.editor.langs.cobol85.Cobol85Parser.*;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 /**
  * Role of this class is to apply colors to language's syntaxe (here produced by antlr).
@@ -42,7 +43,7 @@ import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerCon
 public class Cobol85Analyzer extends CodeAnalyzer {
 
     @Override
-    public void analyze(CharSequence content, TextAnalyzerController.AnalyzeThread.Delegate delegate) {
+    public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
       /*  CodePointCharStream stream = null;
         try {
             stream = CharStreams.fromReader(new StringReader(content.toString()));

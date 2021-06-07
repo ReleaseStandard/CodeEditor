@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis;
 
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.TokenEmitterResult;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter.TokenEmitterResult;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
@@ -26,16 +26,37 @@ import io.github.rosemoe.editor.util.Logger;
  */
 public class CodeAnalyzerResultColor extends TokenEmitterResult {
 
+    /**
+     * A color result must have a theme attached to it.
+     */
     public ColorSchemeController theme = null;
     SpanMapController map = new SpanMapController();
 
+    public CodeAnalyzerResultColor() {
+        recycler = new ColorAnalyzerResultRecycler();
+    }
     @Override
     public void dispatchResult(Object... args) {
         if ( args.length < 0 ) {
             map.addNormalIfNull();
         }
         if ( args.length >= 3 ) {
-            addIfNeeded(args[0],args[1],args[2]);
+            if ( args[2] instanceof String ) {
+                addFromColorName(args[0],args[1],args[2]);
+            } else {
+                addIfNeeded(args[0], args[1], args[2]);
+            }
+        }
+    }
+
+    @Override
+    public boolean isReady() {
+        return map != null && theme != null;
+    }
+    @Override
+    public void clear() {
+        if ( map != null ) {
+            map.clear();
         }
     }
     /**
@@ -45,8 +66,12 @@ public class CodeAnalyzerResultColor extends TokenEmitterResult {
      * @param color  Type
      */
     private void addIfNeeded(Object spanLine, Object column, Object color) {
-        Logger.debug("spanLine=",spanLine,",column=",column,",color=",color);
+        Logger.debug("Add a new span into the line : spanLine=",spanLine,",column=",column,",color=",color);
         add((Integer)spanLine, SpanController.obtain((Integer)column, (Integer)color));
+    }
+    private void addFromColorName(Object spanLine, Object column, Object colorName) {
+        String colName = (String) colorName;
+        addIfNeeded(spanLine,column,theme.COLORS.get(theme.CONVENINENT.get(colName)));
     }
     /**
      * Add a span directly
@@ -57,7 +82,12 @@ public class CodeAnalyzerResultColor extends TokenEmitterResult {
      * @param span     The span
      */
     private void add(int spanLine, SpanController span) {
+        if ( theme == null ) {
+            Logger.debug("WARNING : the color result has no theme attached so you will get no colors.");
+            return;
+        }
         map.getAddIfNeeded(spanLine).add(span);
     }
+
 }
 
