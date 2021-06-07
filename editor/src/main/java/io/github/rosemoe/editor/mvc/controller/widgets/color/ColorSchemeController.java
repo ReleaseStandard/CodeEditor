@@ -49,7 +49,7 @@ public class ColorSchemeController extends Widget {
     private static final int HIDDEN = 0;
     private static final int DEFAULT = HIDDEN;
     // colors definition
-    public HashMap<Integer,Integer> COLORS = new HashMap<Integer, Integer>(){{
+    private HashMap<Integer,Integer> COLORS = new HashMap<Integer, Integer>(){{
         put(R.styleable.CodeEditor_widget_color_base03,DEFAULT);put(R.styleable.CodeEditor_widget_color_base02,DEFAULT);put(R.styleable.CodeEditor_widget_color_base01,DEFAULT);put(R.styleable.CodeEditor_widget_color_base00,DEFAULT);put(R.styleable.CodeEditor_widget_color_base0,DEFAULT);put(R.styleable.CodeEditor_widget_color_base1,DEFAULT);put(R.styleable.CodeEditor_widget_color_base2,DEFAULT);
         put(R.styleable.CodeEditor_widget_color_base3,DEFAULT);put(R.styleable.CodeEditor_widget_color_accent1,null);put(R.styleable.CodeEditor_widget_color_accent2,null);put(R.styleable.CodeEditor_widget_color_accent3,null);put(R.styleable.CodeEditor_widget_color_accent4,null);put(R.styleable.CodeEditor_widget_color_accent5,null);put(R.styleable.CodeEditor_widget_color_accent6,null);put(R.styleable.CodeEditor_widget_color_accent7,null);
         put(R.styleable.CodeEditor_widget_color_accent8,null);put(R.styleable.CodeEditor_widget_color_lineNumberPanel,null);put(R.styleable.CodeEditor_widget_color_lineNumberBackground,null);put(R.styleable.CodeEditor_widget_color_currentLine,null);put(R.styleable.CodeEditor_widget_color_textSelected,null);put(R.styleable.CodeEditor_widget_color_selectedTextBackground,null);put(R.styleable.CodeEditor_widget_color_lineNumberPanelText,null);put(R.styleable.CodeEditor_widget_color_wholeBackground,null);put(R.styleable.CodeEditor_widget_color_textNormal,null);
@@ -139,7 +139,81 @@ public class ColorSchemeController extends Widget {
      * All language inserted into CodeEditor must have theses.
      * Override it in your theme if you want to change the behaviour.
      */
-    public int getColor(Integer color, Integer fallback) {
+    public int getColor(String name) {
+        return getColor(CONVENINENT.get(name));
+    }
+    public int getColor(@StyleableRes Integer colorId) {
+            if( isBaseColor(colorId) ) {
+                return COLORS.get(colorId);
+            }
+            if( R.styleable.CodeEditor_widget_color_accent1 == colorId ) {
+                return getAccent1();
+            } else if ( R.styleable.CodeEditor_widget_color_accent2 == colorId ) {
+                return getAccent2();
+            } else if ( R.styleable.CodeEditor_widget_color_accent3 == colorId ) {
+                return getAccent3();
+            }else if ( R.styleable.CodeEditor_widget_color_accent4 == colorId ) {
+                return getAccent4();
+            }else if ( R.styleable.CodeEditor_widget_color_accent5 == colorId ) {
+                return getAccent5();
+            }else if ( R.styleable.CodeEditor_widget_color_accent6 == colorId ) {
+                return getAccent6();
+            }else if ( R.styleable.CodeEditor_widget_color_accent7 == colorId ) {
+                return getAccent7();
+            }else if ( R.styleable.CodeEditor_widget_color_accent8 == colorId ) {
+                return getAccent8();
+            }else if ( R.styleable.CodeEditor_widget_color_lineNumberPanel == colorId ) {
+                return getLineNumberPanel();
+            }else if ( R.styleable.CodeEditor_widget_color_lineNumberBackground == colorId ) {
+                return getLineNumberBackground();
+            }else if ( R.styleable.CodeEditor_widget_color_currentLine == colorId ) {
+                return getCurrentLine();
+            }else if ( R.styleable.CodeEditor_widget_color_textSelected == colorId ) {
+                return getTextSelected();
+            }else if ( R.styleable.CodeEditor_widget_color_selectedTextBackground == colorId ) {
+                return getTextSelectedBackground();
+            }else if ( R.styleable.CodeEditor_widget_color_lineNumberPanelText == colorId ) {
+                return getLineNumberPanelText();
+            }else if ( R.styleable.CodeEditor_widget_color_wholeBackground== colorId ) {
+                return getWholeBackground();
+            }else if ( R.styleable.CodeEditor_widget_color_textNormal == colorId ) {
+                return getTextNormal();
+            }else if ( R.styleable.CodeEditor_widget_color_comment == colorId ) {
+                return getComment();
+            }else if ( R.styleable.CodeEditor_widget_color_matchedTextBackground == colorId ) {
+                return getMatchedTextBackground();
+            }else if ( R.styleable.CodeEditor_widget_color_blockLine == colorId ) {
+                return getBlockLine();
+            }else if ( R.styleable.CodeEditor_widget_color_blockLineCurrent== colorId ) {
+                return getBlockLineCurrent();
+            }else if ( R.styleable.CodeEditor_widget_color_selectionInsert== colorId ) {
+                return getSelectionInsert();
+            }else if ( R.styleable.CodeEditor_widget_color_selectionHandle == colorId ) {
+                return getSelectionHandle();
+            }else if ( R.styleable.CodeEditor_widget_color_scrollbarThumb == colorId ) {
+                return getScrollBarThumb();
+            }else if ( R.styleable.CodeEditor_widget_color_scrollbarThumbPressed == colorId ) {
+                return getScrollBarThumbPressed();
+            }else if ( R.styleable.CodeEditor_widget_color_nonPrintableChar == colorId ) {
+                return getNonPrintableChar();
+            }else if ( R.styleable.CodeEditor_widget_completion_color_panelBackground == colorId ) {
+                return getCompletionPanelBackground();
+            }else if ( R.styleable.CodeEditor_widget_completion_color_panelCorner== colorId ) {
+                return getCompletionPanelCorner();
+            }else if ( R.styleable.CodeEditor_widget_color_scrollbartrack== colorId ) {
+                return getScrollBarTrack();
+            }else if ( R.styleable.CodeEditor_widget_color_underline == colorId ) {
+                return getUnderline();
+            }else if ( R.styleable.CodeEditor_widget_color_linedivider== colorId ) {
+                return getLineDivider();
+            }else if ( R.styleable.CodeEditor_widget_completion_color_item == colorId ) {
+                return getAutoCompleteItem();
+            }else if ( R.styleable.CodeEditor_widget_completion_color_itemCurrentPosition == colorId ) {
+                return getAutoCompleteItemCurrentPosition();
+            }
+        return DEFAULT;
+    }
+    private int getColor(Integer color, Integer fallback) {
         return color == null ? fallback: color;
     }
     public int getLineNumberPanel() {
@@ -267,15 +341,18 @@ public class ColorSchemeController extends Widget {
         updateColor(R.styleable.CodeEditor_widget_color_base2, 0x10000000);
         updateColor(R.styleable.CodeEditor_widget_color_base3, background);
     }
-    public void updateColor(@StyleableRes int colorId, Integer colorValue) {
-        if ( colorId == R.styleable.CodeEditor_widget_color_base03 ||
+    private boolean isBaseColor(@StyleableRes Integer colorId) {
+        return colorId == R.styleable.CodeEditor_widget_color_base03 ||
                 colorId == R.styleable.CodeEditor_widget_color_base02 ||
                 colorId == R.styleable.CodeEditor_widget_color_base01 ||
                 colorId == R.styleable.CodeEditor_widget_color_base00 ||
                 colorId == R.styleable.CodeEditor_widget_color_base0 ||
                 colorId == R.styleable.CodeEditor_widget_color_base1 ||
                 colorId == R.styleable.CodeEditor_widget_color_base2 ||
-                colorId == R.styleable.CodeEditor_widget_color_base3 ) {
+                colorId == R.styleable.CodeEditor_widget_color_base3;
+    }
+    public void updateColor(@StyleableRes int colorId, Integer colorValue) {
+        if ( isBaseColor(colorId) ) {
             if ( colorValue == null ) {
                 return;
             }

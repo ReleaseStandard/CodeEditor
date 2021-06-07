@@ -48,6 +48,6 @@ public abstract class CodeAnalyzerResult {
 
     }
 
-    public CodeAnalyzerResultRecycler recycler;
+    public CodeAnalyzerResultRecycler recycler = new CodeAnalyzerResultRecycler();
 
 }

@@ -71,7 +71,9 @@ public class CodeAnalyzerResultColor extends TokenEmitterResult {
     }
     private void addFromColorName(Object spanLine, Object column, Object colorName) {
         String colName = (String) colorName;
-        addIfNeeded(spanLine,column,theme.COLORS.get(theme.CONVENINENT.get(colName)));
+        Integer color = theme.getColor((String) colorName);
+        Logger.debug("colName=",colName,",color=",color);
+        addIfNeeded(spanLine,column,color);
     }
     /**
      * Add a span directly
