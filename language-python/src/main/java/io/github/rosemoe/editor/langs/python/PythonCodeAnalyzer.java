@@ -22,6 +22,7 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
+import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter.TokenEmitter;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
@@ -30,8 +31,11 @@ import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAn
 public class PythonCodeAnalyzer extends TokenEmitter {
 
     CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
+    CodeAnalyzerResultContent contentResult   = new CodeAnalyzerResultContent();
+
     public PythonCodeAnalyzer() {
         addResultListener("color",colorResult);
+        addResultListener("content", contentResult);
     }
     @Override
     public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
@@ -176,8 +180,7 @@ public class PythonCodeAnalyzer extends TokenEmitter {
                     previous = token;
                 }
             }
-
-            //TODO:colors.determine(lastLine);
+            colorResult.determine(lastLine);
         } catch (IOException e) {
             e.printStackTrace();
         }

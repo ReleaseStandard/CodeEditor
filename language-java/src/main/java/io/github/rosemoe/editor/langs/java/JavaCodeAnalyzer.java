@@ -16,10 +16,10 @@
 package io.github.rosemoe.editor.langs.java;
 
 import io.github.rosemoe.editor.langs.helpers.TrieTree;
+import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter.TokenEmitter;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
@@ -37,14 +37,14 @@ public class JavaCodeAnalyzer extends TokenEmitter {
     private final static Object OBJECT = new Object();
 
     CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
-    CodeAnalyzerResultContent content   = new CodeAnalyzerResultContent();
+    CodeAnalyzerResultContent contentResult   = new CodeAnalyzerResultContent();
 
     /**
      * By default we enable color result and content result (minimal functionnality for editor).
      */
     public JavaCodeAnalyzer() {
-        addResultListener("color",colorResult);
-        addResultListener("content",content);
+        addResultListener("color", colorResult);
+        addResultListener("content", contentResult);
     }
 
     @Override
@@ -207,10 +207,10 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                         currSwitch = 0;
                     }
                     currSwitch++;
-                    //TODO:BlockLineModel block = colorResult.obtainNewBlock();
-                    //TODO:block.startLine = line;
-                    //TODO:block.startColumn = column;
-                    //TODO:stack.push(block);
+                    BlockLineModel block = contentResult.obtainNewBlock();
+                    block.startLine = line;
+                    block.startColumn = column;
+                    stack.push(block);
                     break;
                 }
                 case RBRACE: {
@@ -220,9 +220,9 @@ public class JavaCodeAnalyzer extends TokenEmitter {
                         BlockLineModel block = stack.pop();
                         block.endLine = line;
                         block.endColumn = column;
-                        //TODO:if (block.startLine != block.endLine) {
-                        //TODO:    colorResult.addBlockLine(block);
-                        //TODO:}
+                        if (block.startLine != block.endLine) {
+                            contentResult.addBlockLine(block);
+                        }
                     }
                     break;
                 }
@@ -254,7 +254,6 @@ public class JavaCodeAnalyzer extends TokenEmitter {
             }
         }
         identifiers.finish();
-        //colorResult.theme
         //TODO:colorResult.determine(line);
         //TODO:colorResult.mExtra = identifiers;
         //TODO:colorResult.setSuppressSwitch(maxSwitch + 10);

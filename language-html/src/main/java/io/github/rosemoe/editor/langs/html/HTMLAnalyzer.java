@@ -72,7 +72,7 @@ public class HTMLAnalyzer extends TokenEmitter {
 
                 first = false;
             }
-            //TODO:colors.determine(lastLine);
+            colorResult.determine(lastLine);
         } catch (IOException e) {
             e.printStackTrace();
         }

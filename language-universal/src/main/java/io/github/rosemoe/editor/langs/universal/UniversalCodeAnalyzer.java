@@ -17,6 +17,7 @@ package io.github.rosemoe.editor.langs.universal;
 
 import java.util.Stack;
 
+import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
@@ -34,13 +35,16 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
     private LanguageDescription mLanguage;
     private UniversalTokenizer tokenizer;
     private UniversalTokenizer tokenizer2;
+
     CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
+    CodeAnalyzerResultContent contentResult   = new CodeAnalyzerResultContent();
 
     public UniversalCodeAnalyzer(LanguageDescription description, UniversalTokenizer tokenizer1, UniversalTokenizer tokenizer2) {
         this.mLanguage = description;
         this.tokenizer = tokenizer1;
         this.tokenizer2 = tokenizer2;
         addResultListener("color",colorResult);
+        addResultListener("content", contentResult);
     }
     @Override
     public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
@@ -96,7 +100,7 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
                                     BlockLineModel blockLine = stack.pop();
                                     blockLine.endLine = line;
                                     blockLine.endColumn = column;
-                                    //TODO:colors.addBlockLine(blockLine);
+                                    contentResult.addBlockLine(blockLine);
                                     if (layer == 1) {
                                         if (currSwitch > maxSwitch) {
                                             maxSwitch = currSwitch;

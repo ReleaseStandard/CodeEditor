@@ -91,5 +91,9 @@ public class CodeAnalyzerResultColor extends TokenEmitterResult {
         map.getAddIfNeeded(spanLine).add(span);
     }
 
+    public void determine(int line) {
+        map.appendLines(line);
+    }
+
 }
 

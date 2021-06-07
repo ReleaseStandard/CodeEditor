@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.mvc.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
@@ -31,7 +32,6 @@ import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
  */
 public class TextAnalyzerView {
 
-    public final List<BlockLineModel> mBlocks;
     public Object mExtra;
     protected int mSuppressSwitch = Integer.MAX_VALUE;
     CodeAnalyzer analyzer;
@@ -40,7 +40,6 @@ public class TextAnalyzerView {
      * Create a new result
      */
     public TextAnalyzerView(CodeAnalyzer analyzer) {
-        mBlocks = new ArrayList<>(1024);
         this.analyzer = analyzer;
     }
 
@@ -48,39 +47,9 @@ public class TextAnalyzerView {
     public SpanMapController getSpanMap() {
         return ((CodeAnalyzerResultColor)analyzer.getResultListener("color")).map;
     }
-    /**
-     * Add text line in the span line if there is nothing in the map.
-     * @return
-     */
 
-
-
-    /**
-     * This method must be called when whole text is analyzed
-     *
-     * @param line The line is the line last of text
-     */
-    public void determine(int line) {
-        getSpanMap().appendLines(line);
-    }
-
-    /**
-     * Get a new BlockLineModel object
-     * <strong>It fields maybe not initialized with zero</strong>
-     *
-     * @return An idle BlockLineModel
-     */
-    public BlockLineModel obtainNewBlock() {
-        return BlockLineManager.obtain();
-    }
-
-    /**
-     * Add a new code block info
-     *
-     * @param block Info of code block
-     */
-    public void addBlockLine(BlockLineModel block) {
-        mBlocks.add(block);
+    public List<BlockLineModel> getContent() {
+        return ((CodeAnalyzerResultContent)analyzer.getResultListener("content")).mBlocks;
     }
 
     /**
@@ -89,7 +58,7 @@ public class TextAnalyzerView {
      * @return code blocks
      */
     public List<BlockLineModel> getBlocks() {
-        return mBlocks;
+        return getContent();
     }
 
     /**
@@ -126,8 +95,7 @@ public class TextAnalyzerView {
      * Reset the anaylysis result
      */
     public void clear() {
-        getSpanMap().clear();
-        mBlocks.clear();
+        analyzer.clear();
         mSuppressSwitch = Integer.MAX_VALUE;
         mExtra = null;
     }

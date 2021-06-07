@@ -947,7 +947,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
     private void drawView(Canvas canvas) {
         //record();
         //counter = 0;
-        // TODO analyzer.notifyRecycle();
+        analyzer.notifyRecycle();
         if (mFormatThread != null) {
             String text = "Formatting your code...";
             float centerY = getHeight() / 2f;
@@ -1052,7 +1052,12 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorView.CursorPaintAction> postDrawCursor) {
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
         CodeAnalyzerResultColor colRes = (CodeAnalyzerResultColor) analyzer.mCodeAnalyzer.getResultListener("color");
-        SpanMapController spanMap = colRes.map;
+        if ( colRes == null ) {
+            Logger.debug("spanmap is not ready");
+            analyzer.mCodeAnalyzer.dump();
+            return;
+        }
+        SpanMapController spanMap = analyzer.getSpanMap();
         List<Integer> matchedPositions = new ArrayList<>();
         int currentLine = cursor.isSelected() ? -1 : cursor.getLeftLine();
         int currentLineBgColor = getColorScheme().getCurrentLine();
@@ -1544,7 +1549,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * @param offsetX The start x offset for text
      */
     private void drawBlockLines(Canvas canvas, float offsetX) {
-        List<BlockLineModel> blocks = analyzer == null ? null : analyzer.getResult().getBlocks();
+        List<BlockLineModel> blocks = analyzer == null ? null : analyzer.getContent();
         if (blocks == null || blocks.isEmpty()) {
             return;
         }
@@ -1554,10 +1559,11 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            TextAnalyzerView colors = analyzer.getResult();
-            if (colors != null) {
-                maxCount = colors.getSuppressSwitch();
-            }
+            // TODO
+            //TextAnalyzerView colors = analyzer.getResult();
+            //if (colors != null) {
+            //    maxCount = colors.getSuppressSwitch();
+            //}
         }
         int mm = binarySearchEndBlock(first, blocks);
         int cursorIdx = cursorPosition;
@@ -1883,7 +1889,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * If cursor is not in any code block,just -1.
      */
     private int findCursorBlock() {
-        List<BlockLineModel> blocks = analyzer == null ? null : analyzer.getResult().getBlocks();
+        List<BlockLineModel> blocks = analyzer == null ? null : analyzer.getContent();
         if (blocks == null || blocks.isEmpty()) {
             return -1;
         }
@@ -1906,10 +1912,11 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            TextAnalyzerView result = analyzer.getResult();
-            if (result != null) {
-                maxCount = result.getSuppressSwitch();
-            }
+            // TODO
+            //TextAnalyzerView result = analyzer.getResult();
+            //if (result != null) {
+            //    maxCount = result.getSuppressSwitch();
+            //}
         }
         for (int i = min; i <= max; i++) {
             BlockLineModel block = blocks.get(i);
@@ -2170,7 +2177,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * Whether span map is valid
      */
     private boolean isSpanMapPrepared(boolean insert, int delta) {
-        SpanMapController map = analyzer.getResult().getSpanMap();
+        SpanMapController map = analyzer.getSpanMap();
         if (map != null) {
             if (insert) {
                 return map.size() == getLineCount() - delta;
@@ -4025,9 +4032,9 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
-                SpanUpdater.shiftSpansOnSingleLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                SpanUpdater.shiftSpansOnSingleLineInsert(analyzer.getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                SpanUpdater.shiftSpansOnMultiLineInsert(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                SpanUpdater.shiftSpansOnMultiLineInsert(analyzer.getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 
@@ -4084,9 +4091,9 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
     public void afterDelete(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
-                SpanUpdater.shiftSpansOnSingleLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endColumn);
+                SpanUpdater.shiftSpansOnSingleLineDelete(analyzer.getSpanMap(), startLine, startColumn, endColumn);
             } else {
-                SpanUpdater.shiftSpansOnMultiLineDelete(analyzer.getResult().getSpanMap(), startLine, startColumn, endLine, endColumn);
+                SpanUpdater.shiftSpansOnMultiLineDelete(analyzer.getSpanMap(), startLine, startColumn, endLine, endColumn);
             }
         }
 

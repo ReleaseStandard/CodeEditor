@@ -22,6 +22,7 @@ import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.proc
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.util.Logger;
 
 public abstract class CodeAnalyzerResult {
     /**
@@ -49,5 +50,14 @@ public abstract class CodeAnalyzerResult {
     }
 
     public CodeAnalyzerResultRecycler recycler = new CodeAnalyzerResultRecycler();
+
+    public void dump() {
+        dump("");
+    }
+    public void dump(String offset) {
+        Logger.debug(offset,"CodeAnalyzerResult:");
+        Logger.debug(offset," isReady=",isReady());
+        Logger.debug(offset, " isAvaliable=",isAvaliable());
+    }
 
 }

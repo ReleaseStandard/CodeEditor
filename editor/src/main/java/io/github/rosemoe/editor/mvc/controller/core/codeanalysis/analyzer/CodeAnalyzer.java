@@ -26,6 +26,7 @@ import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.util.Logger;
 
 /**
  * This could be :
@@ -88,9 +89,16 @@ public abstract class CodeAnalyzer {
      * @return
      */
     public CodeAnalyzerResult getResultListener(String name) {
+        Logger.debug("name=",name);
         return results.get(name);
     }
 
+    /**
+     * Recycle the content of all analysis result.
+     */
+    public void recycle() {
+        Logger.debug("TODO TODO TODO");
+    }
 
     /**
      * This call will put inProcessResults to results and create an
@@ -126,6 +134,10 @@ public abstract class CodeAnalyzer {
             }
         }
     }
+
+    /**
+     * Stopping analysis thread.
+     */
     public void shutdown() {
         final CodeAnalyzerThread thread = mThread;
         if (thread != null && thread.isAlive()) {
@@ -134,5 +146,32 @@ public abstract class CodeAnalyzer {
         }
     }
 
+    /**
+     * Dump analyzer content.
+     */
+    public void dump() {
+        dump("");
+    }
+    public void dump(String offset) {
+        Logger.debug(offset,"CodeAnalyzer:");
+        Logger.debug(offset,"  results = " + results.size());
+        for(Map.Entry<String, CodeAnalyzerResult> entry : results.entrySet()) {
+            Logger.debug(offset, entry.getKey());
+            if ( entry.getValue() != null ) {
+                entry.getValue().dump(offset);
+            } else {
+                Logger.debug("entry getValue is null");
+            }
+        }
+        Logger.debug(offset,"  inProcessResults = " + inProcessResults.size());
+        for(Map.Entry<String, CodeAnalyzerResult> entry : results.entrySet()) {
+            Logger.debug(offset, entry.getKey());
+            if ( entry.getValue() != null ) {
+                entry.getValue().dump(offset);
+            } else {
+                Logger.debug("entry getValue is null");
+            }
+        }
+    }
 }
 

@@ -240,6 +240,7 @@ public class CompletionWindowController {
         public MatchThread(long requestTime, String prefix) {
             mTime = requestTime;
             mPrefix = prefix;
+            // get production ready result from here
             mColors = mEditor.getTextAnalyzeResult();
             mLine = mEditor.getCursor().getLeftLine();
             mInner = (!mEditor.isHighlightCurrentBlock()) || (mEditor.getBlockIndex() != -1);

@@ -19,8 +19,10 @@ import android.util.Log;
 
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
@@ -55,7 +57,15 @@ public class TextAnalyzerController {
         currentResult = new TextAnalyzerView(mCodeAnalyzer);
     }
 
+    public SpanMapController getSpanMap() {
+        CodeAnalyzerResultColor color = (CodeAnalyzerResultColor)mCodeAnalyzer.getResultListener("color");
+        return color == null ? null : color.map;
+    }
 
+    public List<BlockLineModel> getContent() {
+        CodeAnalyzerResultContent content = (CodeAnalyzerResultContent)mCodeAnalyzer.getResultListener("content");
+        return content == null ? null : content.mBlocks;
+    }
 
     /**
      * Set callback of analysis
@@ -76,9 +86,9 @@ public class TextAnalyzerController {
     /**
      * Called from painting process to recycle outdated objects for reusing
      */
-    //public void notifyRecycle() {
-    //    recycler.recycle();
-    //}
+    public void notifyRecycle() {
+        mCodeAnalyzer.recycle();
+    }
 
     /**
      * Analyze the given text
