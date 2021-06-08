@@ -61,14 +61,14 @@ public class CodeAnalyzerThread extends Thread {
                 codeAnalyzer.updateView();
 
                 //TODO:newResult.addNormalIfNull();
-                //try {
-                //    if (mCallback != null) {
-                //        mCallback.onAnalyzeDone(111111);
-                //    }
-                //} catch (NullPointerException e) {
-                //    e.printStackTrace();
-                //}
-                //TODO
+                try {
+                    if (mCallback != null) {
+                        mCallback.onAnalyzeDone(111111);
+                    }
+                }
+                catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     synchronized (lock) {

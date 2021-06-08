@@ -64,6 +64,7 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.extension.ExtensionContainer;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
@@ -119,7 +120,7 @@ import io.github.rosemoe.editor.mvc.controller.widgets.layout.LineBreakLayout;
  *
  * @author Rosemoe
  */
-public class CodeEditor extends View implements ContentListener, TextFormatter.FormatResultReceiver, ContentLineRemoveListener {
+public class CodeEditor extends View implements ContentListener, TextFormatter.FormatResultReceiver, ContentLineRemoveListener, Callback {
 
     /**
      * The default size when creating the editor object. Unit is sp.
@@ -697,7 +698,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         // Update spanner
         if (analyzer != null) {
             analyzer.shutdown();
-            // TODO analyzer.setCallback(null);
+            analyzer.setCallback(null);
         }
         CodeAnalyzer analyzer = lang.getAnalyzer();
         CodeAnalyzerResultColor result = ((CodeAnalyzerResultColor)analyzer.getResultListener("color"));
@@ -705,7 +706,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
             result.theme = getColorScheme();
         }
         this.analyzer = new TextAnalyzerController(analyzer);
-        // TODO : this.analyzer.setCallback(this);
+        this.analyzer.setCallback(this);
         if (mText != null) {
             this.analyzer.analyze(mText);
         }
@@ -3419,7 +3420,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         mText.setLineListener(this);
 
         if (analyzer != null) {
-            // TODO analyzer.setCallback(null);
+            analyzer.setCallback(null);
             analyzer.shutdown();
         }
         CodeAnalyzer analyzer = mLanguage.getAnalyzer();
@@ -3428,7 +3429,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
             result.theme = getColorScheme();
         }
         this.analyzer = new TextAnalyzerController(analyzer);
-        // TODO this.analyzer.setCallback(this);
+        this.analyzer.setCallback(this);
 
         this.analyzer.mCodeAnalyzer.clear();
         this.analyzer.analyze(getText());
@@ -4163,22 +4164,20 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         }
     }
 
-   /* @Override
-    public void onAnalyzeDone(TextAnalyzerController provider) {
-        if (provider == analyzer) {
-            if (mHighlightCurrentBlock) {
-                cursorPosition = findCursorBlock();
-            }
-            postInvalidate();
-        }
-    } TODO */
-
     public void onEndTextSelect() {
         showTextActionPopup();
     }
 
     public void onEndGestureInteraction() {
         showTextActionPopup();
+    }
+
+    @Override
+    public void onAnalyzeDone(CodeAnalyzer analyzer) {
+        if (mHighlightCurrentBlock) {
+                cursorPosition = findCursorBlock();
+        }
+        postInvalidate();
     }
 
     //-------------------------------------------------------------------------------

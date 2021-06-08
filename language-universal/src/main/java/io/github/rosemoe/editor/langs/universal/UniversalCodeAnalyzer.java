@@ -85,7 +85,7 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
                         if (mLanguage.isSupportBlockLine()) {
                             String op = text.substring(index, index + tokenizer.getTokenLength());
                             if (mLanguage.isBlockStart(op)) {
-                                /*TODO:BlockLineModel blockLine = colors.obtainNewBlock();
+                                BlockLineModel blockLine = contentResult.obtainNewBlock();
                                 blockLine.startLine = line;
                                 blockLine.startColumn = column;
                                 stack.add(blockLine);
@@ -94,7 +94,7 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
                                 } else {
                                     currSwitch++;
                                 }
-                                layer++;*/
+                                layer++;
                             } else if (mLanguage.isBlockEnd(op)) {
                                 if (!stack.isEmpty()) {
                                     BlockLineModel blockLine = stack.pop();
@@ -124,7 +124,7 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //TODO:colors.determine(helper.getLine());
+        colorResult.determine(helper.getLine());
         identifiers.finish();
         //TODO:colors.mExtra = identifiers;
         tokenizer.setInput(null);

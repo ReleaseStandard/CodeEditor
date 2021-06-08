@@ -22,6 +22,7 @@ import java.util.List;
 import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
@@ -41,7 +42,7 @@ public class TextAnalyzerController {
      * Debug:Start time
      */
     private TextAnalyzerView currentResult;
-    //private Callback mCallback;
+    private Callback mCallback;
     public CodeAnalyzer mCodeAnalyzer;
     /**
      * Create a new manager for the given codeAnalyzer
@@ -72,9 +73,9 @@ public class TextAnalyzerController {
      *
      * @param cb New callback
      */
-    //public void setCallback(Callback cb) {
-    //    mCallback = cb;
-    //}
+    public void setCallback(Callback cb) {
+        mCallback = cb;
+    }
 
     /**
      * Stop the text analyzer

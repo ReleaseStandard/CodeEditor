@@ -118,7 +118,7 @@ public abstract class CodeAnalyzer {
         }
     }
 
-    // TODO private Callback mCallback;
+    private Callback mCallback;
 
 
     /**
