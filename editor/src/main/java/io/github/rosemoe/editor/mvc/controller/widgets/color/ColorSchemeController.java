@@ -26,7 +26,11 @@ import java.util.Map;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
+import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.util.Logger;
 import io.github.rosemoe.editor.util.Objects;
 import io.github.rosemoe.editor.widget.CodeEditor;
@@ -406,10 +410,13 @@ public class ColorSchemeController extends Widget {
      * Reload colors into the editor.
      */
     public void reloadColorScheme() {
-        if (editor.completionWindow != null) {
-            editor.completionWindow.applyColorScheme();
+
+        // Update spanner
+        if (editor.analyzer != null) {
+            editor.analyzer.shutdown();
+            editor.analyzer.setCallback(null);
         }
-        //editor.setEditorLanguage(editor.mLanguage);
+        editor.setEditorLanguage(editor.mLanguage);
         editor.invalidate();
     }
     public void dump() {

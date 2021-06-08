@@ -233,6 +233,7 @@ public class SpanLineController {
                 entries=null;
             }
         }
+        Logger.debug("concurrent access success");
         return entries;
     }
 }

@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
                             ColorPlugin theme = themes.get(mam.themes[which]);
-                            //editor.setColorScheme(theme);
                             theme.apply();
                             mam.checkedTheme=which;
                             dialog.dismiss();

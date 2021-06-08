@@ -218,7 +218,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
     private ClipboardManager mClipboardManager;
     private InputMethodManager mInputMethodManager;
     private ContentMapController mText;
-    private TextAnalyzerController analyzer;
+    public TextAnalyzerController analyzer;
 
     UserInputConnexionController mConnection;             // Manage other part of the user input, eg copy, paste
     // core

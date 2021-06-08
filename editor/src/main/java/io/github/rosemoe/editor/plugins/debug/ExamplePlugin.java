@@ -61,7 +61,7 @@ public class ExamplePlugin extends DebugPlugin {
     }
     @Override
     protected void handleEventDispatch(Event e, String type, String subtype) {
-        Logger.v("Event e, type=",type," has been received");
+        Logger.debug("Event e, type=",type," has been received");
         if ( e.getType() == UserInputEvent.TYPE_USERINPUT ) {
             if ( e.getSubType() == UserInputEvent.ONDOUBLETAP ) {
                 incOrReset();

@@ -101,7 +101,6 @@ public abstract class CodeAnalyzer {
     public CodeAnalyzerResult getResultListener(String name) {
         CodeAnalyzerResult result = results.get(name);
         Logger.debug("name=",name,",result=",result);
-        Logger.printStackTrace();
         return result;
     }
 
