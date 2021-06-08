@@ -31,6 +31,7 @@ import io.github.rosemoe.editor.widget.CodeEditor;
  * This plugin is very simple.
  * It will change various colors of the interface in response to touch events.
  * eg: scaling editor cause background turn into green.
+ * eg  triple tap cause background to red.
  *
  * @author Release Standard.
  */
@@ -52,10 +53,12 @@ public class ExamplePlugin extends DebugPlugin {
         } else {
             taps ++;
         }
-        if ( taps >= 3 ) {
+        if ( taps > 3 ) {
             Logger.debug("Tripletap detected, sending a loopback event");
             LoopbackEvent e = new LoopbackEvent(LoopbackEvent.PLUGINS_BROADCAST,true);
-            editor.widgets.dispatch(e);
+            emit(e);
+            ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFFFF0000);
+            emit(cse);
             taps = 0;
         }
     }
@@ -69,14 +72,17 @@ public class ExamplePlugin extends DebugPlugin {
             }
             if (e.getSubType().equals(UserInputEvent.SINGLETAPUP)) {
                 incOrReset();
+                ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF0000FF);
+                emit(cse);
             }
             if (e.getSubType().equals(UserInputEvent.ONSCALEBEGIN)) {
                 Logger.v("Multiple tap detected, sending background color change");
                 ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF00FF00);
-                editor.widgets.dispatch(cse);
+                emit(cse);
             }
             if (e.getSubType().equals(UserInputEvent.ONSCROLL)) {
-                new ColorPluginDarcula(editor);
+                Logger.v("Scroll detected, changing theme");
+                new ColorPluginDarcula(editor).apply();
                 //editor.widgets.dispatch(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground, ));
             }
         }
