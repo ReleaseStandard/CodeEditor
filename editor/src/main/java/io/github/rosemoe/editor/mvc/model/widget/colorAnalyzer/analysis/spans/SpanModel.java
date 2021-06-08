@@ -13,17 +13,17 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.view.widget.color.analysis.spans;
+package io.github.rosemoe.editor.mvc.model.widget.colorAnalyzer.analysis.spans;
 
 /**
  * A span is a column, a color, an underline color.
  */
-public class SpanView {
+public class SpanModel {
     public int column;
     public int color;
     public int underlineColor = 0;
 
-    public void recycle() {
+    public void clear() {
         color = column = underlineColor = 0;
     }
 }

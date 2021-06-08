@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.content;
+package io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.analysis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,9 @@ import io.github.rosemoe.editor.core.codeanalysis.analyzer.tokenemitter.TokenEmi
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 
+/**
+ * Manage how the analyzer show display the content to the screen.
+ */
 public class CodeAnalyzerResultContent extends TokenEmitterResult {
     public final List<BlockLineModel> mBlocks;
     public CodeAnalyzerResultContent() {

@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.processor;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 
 /**
  * Process text formatting.

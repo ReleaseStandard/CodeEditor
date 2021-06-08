@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.mvc.controller.widgets.layout;
 
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentListener;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 
 /**

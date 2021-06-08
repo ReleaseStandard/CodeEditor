@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.core.codeanalysis.analyzer;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 import io.github.rosemoe.editor.core.util.Logger;
 
 /**

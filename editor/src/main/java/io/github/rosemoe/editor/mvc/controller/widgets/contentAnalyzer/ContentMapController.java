@@ -13,15 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.content;
+package io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.mvc.model.content.ContentMapModel;
-import io.github.rosemoe.editor.mvc.view.content.ContentMapView;
+import io.github.rosemoe.editor.mvc.model.widget.contentAnalyzer.ContentMapModel;
+import io.github.rosemoe.editor.mvc.view.widget.contentAnalyzer.ContentMapView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.processor.content.indexer.Indexer;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;

@@ -13,13 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.content;
+package io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer;
 
 import android.text.GetChars;
 import android.text.TextUtils;
 
-import io.github.rosemoe.editor.mvc.model.content.ContentLineModel;
-import io.github.rosemoe.editor.mvc.view.content.ContentLineView;
+import io.github.rosemoe.editor.mvc.model.widget.contentAnalyzer.ContentLineModel;
+import io.github.rosemoe.editor.mvc.view.widget.contentAnalyzer.ContentLineView;
 
 /**
  * One line of content in the ContentMapController.

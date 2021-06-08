@@ -13,13 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.content;
+package io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.model.content.ContentManagerModel;
-import io.github.rosemoe.editor.mvc.view.content.ContentManagerView;
+import io.github.rosemoe.editor.mvc.model.widget.contentAnalyzer.ContentManagerModel;
+import io.github.rosemoe.editor.mvc.view.widget.contentAnalyzer.ContentManagerView;
 
 /**
  * Helper class for ContentMapController to take down modification

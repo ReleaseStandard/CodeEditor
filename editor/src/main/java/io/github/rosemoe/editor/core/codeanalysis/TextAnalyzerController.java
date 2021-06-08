@@ -17,8 +17,8 @@ package io.github.rosemoe.editor.core.codeanalysis;
 
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
-import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.analysis.CodeAnalyzerResultContent;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;

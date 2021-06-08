@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.core.codeanalysis;
 
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 
 /**
  * Interface for analyzing highlight

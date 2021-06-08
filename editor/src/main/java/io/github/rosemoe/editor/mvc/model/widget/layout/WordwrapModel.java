@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.model.widget.layout;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 import io.github.rosemoe.editor.core.util.IntPair;
 
 public class WordwrapModel {

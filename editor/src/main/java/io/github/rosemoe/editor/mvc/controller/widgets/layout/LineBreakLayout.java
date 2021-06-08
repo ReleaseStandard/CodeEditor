@@ -18,8 +18,8 @@ package io.github.rosemoe.editor.mvc.controller.widgets.layout;
 import java.util.NoSuchElementException;
 
 import io.github.rosemoe.editor.mvc.controller.RowController;
-import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
-import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentLineController;
 import io.github.rosemoe.editor.core.util.BinaryHeap;
 import io.github.rosemoe.editor.core.util.IntPair;
 import io.github.rosemoe.editor.core.CodeEditor;

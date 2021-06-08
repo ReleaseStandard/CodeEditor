@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.view.widget.color.analysis.spans;
+package io.github.rosemoe.editor.mvc.view.widget.contentAnalyzer;
 
-public class SpanMapView {
+public class ContentManagerView {
 }

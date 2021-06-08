@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.mvc.model;
 
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 import io.github.rosemoe.editor.core.util.IntPair;
 
 /**

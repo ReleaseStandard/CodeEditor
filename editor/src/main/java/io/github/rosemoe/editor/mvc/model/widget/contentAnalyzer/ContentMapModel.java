@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.model.content;
+package io.github.rosemoe.editor.mvc.model.widget.contentAnalyzer;
 
 import io.github.rosemoe.editor.core.util.annotations.Experimental;
 

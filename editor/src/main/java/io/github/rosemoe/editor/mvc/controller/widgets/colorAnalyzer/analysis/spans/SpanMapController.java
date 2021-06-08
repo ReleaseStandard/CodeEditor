@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.processors.SpanRecycler;
-import io.github.rosemoe.editor.mvc.model.widget.color.analysis.spans.SpanMapModel;
-import io.github.rosemoe.editor.mvc.view.widget.color.analysis.spans.SpanMapView;
+import io.github.rosemoe.editor.mvc.model.widget.colorAnalyzer.analysis.spans.SpanMapModel;
+import io.github.rosemoe.editor.mvc.view.widget.colorAnalyzer.analysis.spans.SpanMapView;
 import io.github.rosemoe.editor.core.util.Logger;
 
 /**
