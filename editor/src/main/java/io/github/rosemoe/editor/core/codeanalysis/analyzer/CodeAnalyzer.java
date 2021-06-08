@@ -52,8 +52,18 @@ public abstract class CodeAnalyzer {
      */
     public int mSuppressSwitch = Integer.MAX_VALUE;
 
+
+    /**
+     * This is the view, all results in this hashmap are already processed results, they will not change
+     * until background thread is calling updateView method.
+     * results could be : CodeAnalyzerResultColor (display color on the screen), CodeAnalyzerResultContent (display content on the screen).
+     *                    CodeAnalyzerResultSpellCheck, CodeAnalyzerResultSyntaxeErrors ...
+     */
     public ReentrantLock resultsLock = new ReentrantLock();
     public HashMap<String, CodeAnalyzerResult> results = new HashMap<>();
+    /**
+     * This is in processing results in the analyzer.
+     */
     public ReentrantLock inProcessResultsLock = new ReentrantLock();
     public HashMap<String, CodeAnalyzerResult> inProcessResults = new HashMap<>();
 
@@ -180,7 +190,8 @@ public abstract class CodeAnalyzer {
      */
     public void recycle() {
         Logger.debug("recycle results");
-        /*for(CodeAnalyzerResult result : results.values()) {
+        /*lockView();
+        for(CodeAnalyzerResult result : results.values()) {
             if ( result != null ) {
                 result.recycle();
             }
