@@ -418,7 +418,7 @@ public class ColorSchemeController extends Widget {
     public void dump(String offset) {
         Logger.debug(offset, "0xFFFFFF=",0xFFFFFFFF,",TODO=",TODO,",DEFAULT=",DEFAULT);
         for(Map.Entry<String, Integer> e : CONVENINENT.entrySet()){
-            Logger.debug(e.getKey(),COLORS.get(e.getKey()));
+            Logger.debug(e.getKey(),"\t",COLORS.get(e.getKey()));
         }
     }
 }

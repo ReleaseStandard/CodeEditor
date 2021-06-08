@@ -92,6 +92,7 @@ public abstract class Event implements Comparable {
         try {
             return args.get(index);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

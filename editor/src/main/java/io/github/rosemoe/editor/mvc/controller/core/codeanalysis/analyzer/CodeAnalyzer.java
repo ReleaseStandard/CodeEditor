@@ -47,7 +47,11 @@ public abstract class CodeAnalyzer {
      */
     public void dispatchResultPart(Object ...args) {
         for(CodeAnalyzerResult result : inProcessResults.values()) {
-            result.dispatchResult(args);
+            if ( result != null ) {
+                result.dispatchResult(args);
+            } else {
+                Logger.debug("Cannot given results to the object since it is null");
+            }
         }
     }
 
@@ -56,6 +60,7 @@ public abstract class CodeAnalyzer {
      * @param listener
      */
     public void addResultListener(String name, CodeAnalyzerResult listener) {
+        Logger.debug("name=",name,",listener=",listener);
         results.put(name,listener);
     }
 
@@ -71,7 +76,9 @@ public abstract class CodeAnalyzer {
      */
     public void clearBuilded() {
         for(CodeAnalyzerResult result : results.values()) {
-            result.clear();
+            if ( result != null ) {
+                result.clear();
+            }
         }
     }
     /**
@@ -79,7 +86,9 @@ public abstract class CodeAnalyzer {
      */
     public void clearInBuild() {
         for(CodeAnalyzerResult inProcessResult : inProcessResults.values()) {
-            inProcessResult.clear();
+            if ( inProcessResult != null ) {
+                inProcessResult.clear();
+            }
         }
     }
 
@@ -98,7 +107,9 @@ public abstract class CodeAnalyzer {
      */
     public void recycle() {
         for(CodeAnalyzerResult result : results.values()) {
-            result.recycler.recycle();
+            if ( result != null ) {
+                result.recycle();
+            }
         }
     }
 
@@ -110,21 +121,20 @@ public abstract class CodeAnalyzer {
         for(Map.Entry<String, CodeAnalyzerResult> e : results.entrySet()) {
             CodeAnalyzerResult result = e.getValue();
             String key = e.getKey();
-            result.recycler.putToDigest(result);
             CodeAnalyzerResult newResult = inProcessResults.get(key);
             results.put(key, newResult);
-            result.clear();
+            if ( result != null ) {
+                result.recycler.putToDigest(result);
+                result.clear();
+            }
             inProcessResults.put(key, result);
         }
     }
 
-    private Callback mCallback;
-
-
     /**
      * Start an analysis thread of a given text/code.
      */
-    public CodeAnalyzerThread mThread;
+    public CodeAnalyzerThread mThread = null;
     public synchronized void start(ContentMapController origin) {
         CodeAnalyzerThread thread = this.mThread;
         if (thread == null || !thread.isAlive()) {
@@ -146,6 +156,14 @@ public abstract class CodeAnalyzer {
             thread.interrupt();
             mThread = null;
         }
+    }
+
+    /**
+     * Is analyzer's thread running ?
+     * @return
+     */
+    public boolean isRunning() {
+        return mThread != null;
     }
 
     /**

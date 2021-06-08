@@ -51,6 +51,15 @@ public abstract class CodeAnalyzerResult {
 
     public CodeAnalyzerResultRecycler recycler = new CodeAnalyzerResultRecycler();
 
+    /**
+     * Recycle this result.
+     */
+    public void recycle() {
+        Logger.debug("Recycling this result");
+        if ( recycler != null ) {
+            recycler.recycle();
+        }
+    }
     public void dump() {
         dump("");
     }

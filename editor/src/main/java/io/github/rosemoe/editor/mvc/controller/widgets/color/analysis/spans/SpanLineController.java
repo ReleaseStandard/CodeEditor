@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 import io.github.rosemoe.editor.mvc.model.widget.color.spans.SpanLineModel;
@@ -220,5 +221,18 @@ public class SpanLineController {
             }
         }
         return spans;
+    }
+    public Map.Entry<Integer, SpanController> [] concurrentSafeGetMap() {
+        Map.Entry<Integer, SpanController> [] entries = null;
+        while (entries == null ) {
+            try {
+                entries = line.entrySet().toArray(new Map.Entry[size()]);
+            } catch (java.util.ConcurrentModificationException e) {
+                Logger.debug("This error is harmless if not repeat to much");
+                e.printStackTrace();
+                entries=null;
+            }
+        }
+        return entries;
     }
 }

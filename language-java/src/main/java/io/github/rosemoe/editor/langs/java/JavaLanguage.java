@@ -32,9 +32,11 @@ import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatc
  */
 public class JavaLanguage extends LanguageController {
 
+    JavaCodeAnalyzer codeAnalyzer = new JavaCodeAnalyzer();
+
     @Override
     public CodeAnalyzer getAnalyzer() {
-        return new JavaCodeAnalyzer();
+        return codeAnalyzer;
     }
 
     @Override

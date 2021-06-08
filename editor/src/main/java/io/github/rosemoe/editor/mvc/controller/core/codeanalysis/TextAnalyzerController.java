@@ -74,7 +74,9 @@ public class TextAnalyzerController {
      * @param cb New callback
      */
     public void setCallback(Callback cb) {
-        mCallback = cb;
+        if ( mCodeAnalyzer.isRunning() ) {
+            mCodeAnalyzer.mThread.mCallback = cb;
+        }
     }
 
     /**

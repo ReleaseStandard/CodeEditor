@@ -18,7 +18,9 @@ package io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer;
 import android.util.Log;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
+import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.util.Logger;
 
 /**
  * AnalyzeThread to control
@@ -30,6 +32,7 @@ public class CodeAnalyzerThread extends Thread {
     private ContentMapController content;
     public long mOpStartTime;
     CodeAnalyzer codeAnalyzer;
+    public Callback mCallback;
     /**
      * Create a new thread
      * @param content The ContentMapController to analyze
@@ -63,7 +66,7 @@ public class CodeAnalyzerThread extends Thread {
                 //TODO:newResult.addNormalIfNull();
                 try {
                     if (mCallback != null) {
-                        mCallback.onAnalyzeDone(111111);
+                        mCallback.onAnalyzeDone(codeAnalyzer);
                     }
                 }
                 catch (NullPointerException e) {
@@ -75,12 +78,13 @@ public class CodeAnalyzerThread extends Thread {
                         lock.wait();
                     }
                 } catch (InterruptedException e) {
-                    Log.d("AnalyzeThread", "Analyze daemon is being interrupted -> Exit");
+                    Logger.debug("Analyze daemon is being interrupted -> Exit");
                     break;
                 }
             } while (true);
         } catch (Exception ex) {
-            Log.i("AnalyzeThread", "Analyze daemon got exception -> Exit", ex);
+            Logger.debug("Analyze daemon got exception -> Exit",ex);
+
         }
     }
 
@@ -91,6 +95,7 @@ public class CodeAnalyzerThread extends Thread {
      * @param content New source
      */
     public synchronized void restartWith(ContentMapController content) {
+        Logger.debug("Restarting analysis thread with some content");
         waiting = true;
         this.content = content;
     }

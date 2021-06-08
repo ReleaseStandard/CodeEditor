@@ -1146,7 +1146,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
                 if (spans == null || spans.size() == 0) {
                     spans = SpanLineController.EMPTY();
                 }
-                Map.Entry<Integer, SpanController> [] keys = spans.line.entrySet().toArray(new Map.Entry[spans.size()]);
+                Map.Entry<Integer, SpanController> [] keys = spans.concurrentSafeGetMap();
                 for (int a = 0; a < keys.length; a=a+1) {
                     SpanController span = keys[a].getValue();
                     // Draw by spans
@@ -4174,6 +4174,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
 
     @Override
     public void onAnalyzeDone(CodeAnalyzer analyzer) {
+        Logger.debug();
         if (mHighlightCurrentBlock) {
                 cursorPosition = findCursorBlock();
         }
