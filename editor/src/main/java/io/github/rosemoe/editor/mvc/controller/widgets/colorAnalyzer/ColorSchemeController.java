@@ -296,12 +296,6 @@ public class ColorSchemeController extends Widget {
         return getColor(COLORS.get(R.styleable.CodeEditor_widget_completion_color_item),COLORS.get(R.styleable.CodeEditor_widget_color_base2));
     }
 
-
-    /**
-     * Real color saver
-     */
-    protected SparseIntArray mColors;
-
     /**
      * For sub classes
      */
@@ -315,7 +309,6 @@ public class ColorSchemeController extends Widget {
         this.editor      = Objects.requireNonNull(editor);
         this.name        = "color";
         subscribe(TYPE_COLOR_SCHEME);
-        mColors = new SparseIntArray();
         if ( invert ) {
             invertColorScheme();
         }

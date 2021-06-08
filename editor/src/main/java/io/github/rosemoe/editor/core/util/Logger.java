@@ -20,7 +20,7 @@ import android.util.Log;
 import static io.github.rosemoe.editor.core.CodeEditor.LOG_TAG;
 
 public class Logger {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static boolean VERBOSE = true;
     public static String OFFSET = "    ";
 

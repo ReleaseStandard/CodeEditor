@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
+import io.github.rosemoe.editor.core.util.CallStack;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanMapController;
@@ -262,6 +263,9 @@ public abstract class CodeAnalyzer {
                 lock.isHeldByCurrentThread() &&
                 lock.isLocked() ) {
             lock.unlock();
+        } else {
+            Logger.debug("Warning somethin strange has happened on unlocking");
+            CallStack.printStackTrace();
         }
     }
     private void lock(ReentrantLock lock) {
