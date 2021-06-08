@@ -18,9 +18,9 @@ package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import io.github.rosemoe.editor.mvc.model.widget.color.spans.SpanModel;
+import io.github.rosemoe.editor.mvc.model.widget.color.analysis.spans.SpanModel;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
-import io.github.rosemoe.editor.mvc.view.widget.color.spans.SpanView;
+import io.github.rosemoe.editor.mvc.view.widget.color.analysis.spans.SpanView;
 
 /**
  * The span model
