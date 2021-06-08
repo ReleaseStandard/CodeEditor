@@ -34,16 +34,16 @@ import io.github.rosemoe.editor.core.util.Logger;
  *
  */
 public abstract class Extension implements EventSource, EventDestination, Comparable  {
+
     /**
      * Plugin priority declaration : WARNING they should be putted from low to high priority.
      * that is plugin can be given a priority.
      */
-    public enum PRIORITY {
-        LOW,
-        STD,
-        HIGH
-    }
-    public PRIORITY priorityRing = PRIORITY.STD;
+    public static final int PRIORITY_LOW = -1000;
+    public static final int PRIORITY_STD = 0;
+    public static final int PRIORITY_HIGH = 1000;
+    public int priorityRing = PRIORITY_STD;
+
     private HashMap<String, Boolean> subscribedEventTypes = new HashMap<>();
 
     /**
@@ -63,9 +63,15 @@ public abstract class Extension implements EventSource, EventDestination, Compar
     public int compareTo(Object o) {
         if ( o instanceof Extension) {
             Extension p = (Extension) o;
-            return priorityRing.compareTo(p.priorityRing);
+            if ( priorityRing < p.priorityRing ) {
+                return -1;
+            } else if(priorityRing > p.priorityRing ) {
+                return 1;
+            }
+            return 0;
         }
-        return 0;
+        // ex: compareTo null will result in null to be processed with less priority.
+        return 1;
     }
 
     public boolean enabled = true;
