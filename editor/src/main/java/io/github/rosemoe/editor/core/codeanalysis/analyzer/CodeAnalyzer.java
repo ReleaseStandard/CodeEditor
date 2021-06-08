@@ -18,18 +18,26 @@ package io.github.rosemoe.editor.core.codeanalysis.analyzer;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.analysis.CodeAnalyzerResultContent;
+import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 
 /**
  * This could be :
  *  a color analysis (display color (spans at screen)),
  *  a content analysis (display text at screen).
  *  a spellcheck result (display misspelled words at screen).
+ *
+ * @author Release Standard
  */
 public abstract class CodeAnalyzer {
 
@@ -136,6 +144,27 @@ public abstract class CodeAnalyzer {
         unlockBuild();
         unlockView();
     }
+    /**
+     * Remove any CodeAnalyzerResult from the analysis process.
+     */
+    public void rmResultsListener() {
+        lockView();lockBuild();
+        for(String key : results.keySet()) {
+            results.remove(key);
+            inProcessResults.remove(key);
+        }
+        unlockView();unlockBuild();
+    }
+    /**
+     * Remove a given CodeAnalyzerResult from the analysis process.
+     * @param name name of the result to remove.
+     */
+    public void rmResultListener(String name) {
+        lockView();lockBuild();
+        results.remove(name);
+        inProcessResults.remove(name);
+        unlockBuild();unlockView();
+    }
 
     /**
      * Launch a clear for all result listener inside this analyzer.
@@ -145,6 +174,7 @@ public abstract class CodeAnalyzer {
         clearBuilded();
         clearInBuild();
     }
+
     /**
      * Clear what have been done in the analyzer (view).
      */
@@ -188,6 +218,8 @@ public abstract class CodeAnalyzer {
     /**
      * Recycle the content of all analysis result.
      */
+
+    // TODO : initially was named notify recycle
     public void recycle() {
         Logger.debug("recycle results");
         /*lockView();
@@ -262,7 +294,7 @@ public abstract class CodeAnalyzer {
      * Start an analysis thread of a given text/code.
      */
     public CodeAnalyzerThread mThread = null;
-    public synchronized void start(ContentMapController origin) {
+    public synchronized void analyze(ContentMapController origin) {
         CodeAnalyzerThread thread = this.mThread;
         if (thread == null || !thread.isAlive()) {
             thread = this.mThread = CodeAnalyzerThread.newInstance(origin, this);
@@ -323,5 +355,28 @@ public abstract class CodeAnalyzer {
         unlockView();
     }
 
+    /**
+     * Set callback of analysis
+     *
+     * @param cb New callback
+     */
+    public void setCallback(Callback cb) {
+        if ( isRunning() ) {
+            mThread.mCallback = cb;
+        }
+    }
+
+
+
+    /// HACKISH easiers, they mut be removed
+    public SpanMapController getSpanMap() {
+        CodeAnalyzerResultColor color = (CodeAnalyzerResultColor)getResult("color");
+        return color == null ? null : color.map;
+    }
+
+    public List<BlockLineModel> getContent() {
+        CodeAnalyzerResultContent content = (CodeAnalyzerResultContent)getResult("content");
+        return content == null ? null : content.mBlocks;
+    }
 }
 

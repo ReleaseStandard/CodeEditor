@@ -61,7 +61,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.core.extension.ExtensionContainer;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
@@ -221,7 +220,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
     private ClipboardManager mClipboardManager;
     private InputMethodManager mInputMethodManager;
     private ContentMapController mText;
-    public TextAnalyzerController analyzer;
+    public CodeAnalyzer analyzer;
 
     UserInputConnexionController mConnection;             // Manage other part of the user input, eg copy, paste
     // core
@@ -234,8 +233,8 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
     public CompletionWindowController completionWindow;                    // Manage completion item showing
     public  UserInputController userInput;                                  // Manage all user input, eg scale scrolling
 
-    public ExtensionContainer widgets = new ExtensionContainer();
-    public ExtensionContainer plugins = new ExtensionContainer();
+    public ExtensionContainer widgets = new ExtensionContainer();           // System plugins
+    public ExtensionContainer plugins = new ExtensionContainer();           // Plugins designed by users
 
     private Paint mPaint;
     private Paint lineNumberPaint;
@@ -700,19 +699,18 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
 
         // Update spanner
         if (analyzer != null) {
-            analyzer.mCodeAnalyzer.lockView();
+            analyzer.lockView();
             analyzer.shutdown();
             analyzer.setCallback(null);
         }
-        CodeAnalyzer analyzer = lang.getAnalyzer();
+        analyzer = lang.getAnalyzer();
         CodeAnalyzerResultColor result = ((CodeAnalyzerResultColor)analyzer.getResult("color"));
         if ( result != null ) {
             result.theme = getColorScheme();
         }
-        this.analyzer = new TextAnalyzerController(analyzer);
         this.analyzer.setCallback(this);
         if (mText != null) {
-            this.analyzer.analyze(mText);
+            analyzer.analyze(mText);
         }
         if (completionWindow != null) {
             completionWindow.view.hide();
@@ -955,7 +953,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
     private void drawView(Canvas canvas) {
         //record();
         //counter = 0;
-        analyzer.notifyRecycle();
+        analyzer.recycle();
         if (mFormatThread != null) {
             String text = "Formatting your code...";
             float centerY = getHeight() / 2f;
@@ -1058,12 +1056,12 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * @param postDrawCursor      Cursors to be drawn later
      */
     private void drawRows(Canvas canvas, float offset, LongArrayList postDrawLineNumbers, List<CursorView.CursorPaintAction> postDrawCursor) {
-        analyzer.mCodeAnalyzer.lockView();
+        analyzer.lockView();
         RowIterator rowIterator = mLayout.obtainRowIterator(getFirstVisibleRow());
-        CodeAnalyzerResultColor colRes = (CodeAnalyzerResultColor) analyzer.mCodeAnalyzer.getResult("color");
+        CodeAnalyzerResultColor colRes = (CodeAnalyzerResultColor) analyzer.getResult("color");
         if ( colRes == null ) {
             Logger.debug("spanmap is not ready");
-            analyzer.mCodeAnalyzer.dump();
+            analyzer.dump();
             return;
         }
         SpanMapController spanMap = analyzer.getSpanMap();
@@ -1245,7 +1243,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
             }
 
         }
-        analyzer.mCodeAnalyzer.unlockView();
+        analyzer.unlockView();
     }
 
 
@@ -1569,7 +1567,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            maxCount = analyzer.mCodeAnalyzer.mSuppressSwitch;
+            maxCount = analyzer.mSuppressSwitch;
         }
         int mm = binarySearchEndBlock(first, blocks);
         int cursorIdx = cursorPosition;
@@ -1918,7 +1916,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            maxCount = analyzer.mCodeAnalyzer.mSuppressSwitch;
+            maxCount = analyzer.mSuppressSwitch;
         }
         for (int i = min; i <= max; i++) {
             BlockLineModel block = blocks.get(i);
@@ -2179,7 +2177,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * Whether span map is valid
      */
     private boolean isSpanMapPrepared(boolean insert, int delta) {
-        analyzer.mCodeAnalyzer.lockView();
+        analyzer.lockView();
         SpanMapController map = analyzer.getSpanMap();
         boolean rv = false;
         if (map != null) {
@@ -2189,7 +2187,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
                 rv=(map.size() == getLineCount() + delta);
             }
         }
-        analyzer.mCodeAnalyzer.unlockView();
+        analyzer.unlockView();
         return rv;
     }
 
@@ -3405,7 +3403,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * @param text the new text you want to display
      */
     public void setText(@Nullable CharSequence text) {
-        analyzer.mCodeAnalyzer.lockView();
+        analyzer.lockView();
         if (text == null) {
             text = "";
         }
@@ -3427,16 +3425,14 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
             analyzer.setCallback(null);
             analyzer.shutdown();
         }
-        CodeAnalyzer analyzer = mLanguage.getAnalyzer();
+        analyzer = mLanguage.getAnalyzer();
         CodeAnalyzerResultColor result = ((CodeAnalyzerResultColor)analyzer.getResult("color"));
         if ( result != null ) {
             result.theme = getColorScheme();
         }
-        this.analyzer = new TextAnalyzerController(analyzer);
-        this.analyzer.setCallback(this);
-
-        this.analyzer.mCodeAnalyzer.clear();
-        this.analyzer.analyze(getText());
+        analyzer.setCallback(this);
+        analyzer.clear();
+        analyzer.analyze(getText());
 
         requestLayout();
 
@@ -3528,7 +3524,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      */
     @NonNull
     public CodeAnalyzerResultColor getTextAnalyzeResult() {
-        return (CodeAnalyzerResultColor) analyzer.mCodeAnalyzer.getResult("color");
+        return (CodeAnalyzerResultColor) analyzer.getResult("color");
     }
 
     /**
@@ -4036,7 +4032,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
 
     @Override
     public void afterInsert(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence insertedContent) {
-        analyzer.mCodeAnalyzer.lockView();
+        analyzer.lockView();
         // Update spans
         if (isSpanMapPrepared(true, endLine - startLine)) {
             if (startLine == endLine) {
@@ -4093,12 +4089,12 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         if (mListener != null) {
             mListener.afterInsert(this, mText, startLine, startColumn, endLine, endColumn, insertedContent);
         }
-        analyzer.mCodeAnalyzer.unlockView();
+        analyzer.unlockView();
     }
 
     @Override
     public void afterDelete(ContentMapController content, int startLine, int startColumn, int endLine, int endColumn, CharSequence deletedContent) {
-        analyzer.mCodeAnalyzer.lockView();
+        analyzer.lockView();
         if (isSpanMapPrepared(false, endLine - startLine)) {
             if (startLine == endLine) {
                 SpanUpdater.shiftSpansOnSingleLineDelete(analyzer.getSpanMap(), startLine, startColumn, endColumn);
@@ -4140,7 +4136,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         if (mListener != null) {
             mListener.afterDelete(this, mText, startLine, startColumn, endLine, endColumn, deletedContent);
         }
-        analyzer.mCodeAnalyzer.unlockView();
+        analyzer.unlockView();
     }
 
     @Override

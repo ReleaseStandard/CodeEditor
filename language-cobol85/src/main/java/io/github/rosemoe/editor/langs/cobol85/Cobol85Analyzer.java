@@ -34,7 +34,6 @@ import io.github.rosemoe.editor.core.util.Logger;
 
 import static io.github.rosemoe.editor.langs.cobol85.Cobol85Parser.*;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
-import io.github.rosemoe.editor.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 /**

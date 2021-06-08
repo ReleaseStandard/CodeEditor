@@ -35,6 +35,7 @@ public class CodeAnalyzerResultColor extends TokenEmitterResult {
 
     public CodeAnalyzerResultColor() {
         recycler = new ColorAnalyzerResultRecycler();
+        map.addNormalIfNull();
     }
     @Override
     public void dispatchResult(Object... args) {

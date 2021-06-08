@@ -138,11 +138,11 @@ public class MainActivity extends AppCompatActivity {
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
         setEditorLanguage(languages.get("Java"), "samples/java/java.txt");
         //setEditorLanguage(new HTMLLanguage(),"samples/html/html.txt");
-        if ( Logger.DEBUG ) {
+        /*if ( Logger.DEBUG ) {
             new ColorPluginDebug(editor).apply();
-        } else {
+        } else {*/
             ColorPlugin.DEFAULT(editor).apply();
-        }
+        //}
         Logger.debug();
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
