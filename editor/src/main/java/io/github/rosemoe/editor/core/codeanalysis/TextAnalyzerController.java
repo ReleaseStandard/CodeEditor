@@ -47,18 +47,20 @@ public class TextAnalyzerController {
             throw new IllegalArgumentException();
         }
         mCodeAnalyzer = codeAnalyzer0;
+        mCodeAnalyzer.lockView();
         if( getSpanMap() != null ) {
             getSpanMap().addNormalIfNull();
         }
+        mCodeAnalyzer.unlockView();
     }
 
     public SpanMapController getSpanMap() {
-        CodeAnalyzerResultColor color = (CodeAnalyzerResultColor)mCodeAnalyzer.getResultListener("color");
+        CodeAnalyzerResultColor color = (CodeAnalyzerResultColor)mCodeAnalyzer.getResult("color");
         return color == null ? null : color.map;
     }
 
     public List<BlockLineModel> getContent() {
-        CodeAnalyzerResultContent content = (CodeAnalyzerResultContent)mCodeAnalyzer.getResultListener("content");
+        CodeAnalyzerResultContent content = (CodeAnalyzerResultContent)mCodeAnalyzer.getResult("content");
         return content == null ? null : content.mBlocks;
     }
 

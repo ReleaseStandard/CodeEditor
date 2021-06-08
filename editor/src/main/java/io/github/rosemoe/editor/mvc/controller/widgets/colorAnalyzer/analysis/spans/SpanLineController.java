@@ -53,7 +53,7 @@ public class SpanLineController {
         add(span.model.column,span);
     }
     public void add(SpanLineController line) {
-        for(SpanController span : line.concurrentSafeGetValues()){
+        for(SpanController span : line.line.values()){
             add(span);
         }
     }
@@ -125,7 +125,7 @@ public class SpanLineController {
         parts[0]=new SpanLineController();
         parts[1]=new SpanLineController();
         int columnIndex = 0;
-        for(SpanController span : concurrentSafeGetValues()) {
+        for(SpanController span : line.values()) {
             if ( span.model.column < col ) {
                 parts[0].add(span);
             } else {
@@ -150,7 +150,7 @@ public class SpanLineController {
             index = lastSpan.model.column;
         }
         int lastCol = 0;
-        for(SpanController span : two.concurrentSafeGetValues()) {
+        for(SpanController span : two.line.values()) {
             lastCol = span.model.column - lastCol;
             index += lastCol;
             span.setColumn(index);
@@ -166,7 +166,7 @@ public class SpanLineController {
      * @param sz size 0..n
      */
     public void insertContent(SpanController span, int col, int sz) {
-        for(SpanController s : concurrentSafeGetValues()) {
+        for(SpanController s : line.values()) {
             if ( s.model.column >= col ) {
                 line.remove(s.model.column);
                 s.setColumn(s.model.column+sz);
@@ -183,7 +183,7 @@ public class SpanLineController {
      * @param sz size 0..n
      */
     public void removeContent(int col,int sz) {
-        for(SpanController span : concurrentSafeGetValues()) {
+        for(SpanController span : line.values()) {
             if ( span.model.column < col) {
 
             } else {
@@ -221,20 +221,5 @@ public class SpanLineController {
             }
         }
         return spans;
-    }
-    public Map.Entry<Integer, SpanController> [] concurrentSafeGetMap() {
-        Map.Entry<Integer, SpanController> [] entries = null;
-        while (entries == null ) {
-            try {
-                //noinspection unchecked
-                entries = line.entrySet().toArray(new Map.Entry[size()]);
-            } catch (java.util.ConcurrentModificationException e) {
-                Logger.debug("This error is harmless if not repeat to much");
-                e.printStackTrace();
-                entries=null;
-            }
-        }
-        Logger.debug("concurrent access success");
-        return entries;
     }
 }

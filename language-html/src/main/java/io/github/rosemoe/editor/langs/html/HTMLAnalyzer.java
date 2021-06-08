@@ -13,15 +13,14 @@ import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class HTMLAnalyzer extends TokenEmitter {
 
-    CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
-
     public HTMLAnalyzer() {
-        addResultListener("color",colorResult);
+        addResultListener("color",new CodeAnalyzerResultColor());
     }
 
     @Override
     public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
         try {
+            CodeAnalyzerResultColor colorResult = (CodeAnalyzerResultColor) getResultInBuild("color");
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
             HTMLLexer lexer = new HTMLLexer(stream);
             Token token = null;

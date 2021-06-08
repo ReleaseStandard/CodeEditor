@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis;
 
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerResult;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.tokenemitter.TokenEmitterResult;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanController;
@@ -59,6 +60,12 @@ public class CodeAnalyzerResultColor extends TokenEmitterResult {
             map.clear();
         }
     }
+
+    @Override
+    public CodeAnalyzerResult clone() {
+        return new CodeAnalyzerResultColor();
+    }
+
     /**
      * Add a new span if required (color is different from last)
      *  @param spanLine Line

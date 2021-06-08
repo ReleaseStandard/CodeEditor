@@ -40,11 +40,11 @@ public class TextAnalyzerView {
 
 
     public SpanMapController getSpanMap() {
-        return ((CodeAnalyzerResultColor)analyzer.getResultListener("color")).map;
+        return ((CodeAnalyzerResultColor)analyzer.getResult("color")).map;
     }
 
     public List<BlockLineModel> getContent() {
-        return ((CodeAnalyzerResultContent)analyzer.getResultListener("content")).mBlocks;
+        return ((CodeAnalyzerResultContent)analyzer.getResult("content")).mBlocks;
     }
 
     /**

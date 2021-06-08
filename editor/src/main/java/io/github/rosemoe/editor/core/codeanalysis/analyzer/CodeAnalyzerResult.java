@@ -62,4 +62,6 @@ public abstract class CodeAnalyzerResult {
         Logger.debug(offset, " isAvaliable=",isAvaliable());
     }
 
+    public abstract CodeAnalyzerResult clone();
+
 }

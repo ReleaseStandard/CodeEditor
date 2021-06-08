@@ -36,20 +36,19 @@ public class JavaCodeAnalyzer extends TokenEmitter {
 
     private final static Object OBJECT = new Object();
 
-    CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
-    CodeAnalyzerResultContent contentResult   = new CodeAnalyzerResultContent();
-
     /**
      * By default we enable color result and content result (minimal functionnality for editor).
      */
     public JavaCodeAnalyzer() {
         Logger.debug("Adding analyzer results");
-        addResultListener("color", colorResult);
-        addResultListener("content", contentResult);
+        addResultListener("color", new CodeAnalyzerResultColor());
+        addResultListener("content", new CodeAnalyzerResultContent());
     }
 
     @Override
     public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
+        CodeAnalyzerResultColor colorResult = (CodeAnalyzerResultColor) getResultInBuild("color");
+        CodeAnalyzerResultContent contentResult = (CodeAnalyzerResultContent) getResultInBuild("content");
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         JavaTextTokenizer tokenizer = new JavaTextTokenizer(text);
         tokenizer.setCalculateLineColumn(false);

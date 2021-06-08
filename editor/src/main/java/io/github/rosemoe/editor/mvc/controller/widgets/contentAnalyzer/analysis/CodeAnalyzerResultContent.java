@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.analysis
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerResult;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.tokenemitter.TokenEmitterResult;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
 import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
@@ -52,5 +53,10 @@ public class CodeAnalyzerResultContent extends TokenEmitterResult {
     public void clear() {
         super.clear();
         mBlocks.clear();
+    }
+
+    @Override
+    public CodeAnalyzerResult clone() {
+        return new CodeAnalyzerResultContent();
     }
 }

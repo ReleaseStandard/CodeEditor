@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Logger.debug();
         CrashHandler.INSTANCE.init(this);
         setContentView(R.layout.activity_main);
         editor = findViewById(R.id.editor);
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.getSearcher().search(editable.toString());
             }
         });
+        Logger.debug();
         editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ColorPlugin.DEFAULT(editor).apply();
         }
+        Logger.debug();
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
     }
 
@@ -218,9 +221,11 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
+                            Logger.debug("Tring to apply theme");
                             ColorPlugin theme = themes.get(mam.themes[which]);
                             theme.apply();
                             mam.checkedTheme=which;
+                            Logger.debug("Theme applied");
                             dialog.dismiss();
                         })
                         .setNegativeButton(android.R.string.cancel, null)

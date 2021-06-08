@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 

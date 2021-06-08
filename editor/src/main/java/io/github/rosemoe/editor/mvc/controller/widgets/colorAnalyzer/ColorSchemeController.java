@@ -407,12 +407,19 @@ public class ColorSchemeController extends Widget {
      * Reload colors into the editor.
      */
     public void reloadColorScheme() {
+        Logger.debug();
         // Update spanner
+        //editor.analyzer.mCodeAnalyzer.lockView();
+        //editor.analyzer.mCodeAnalyzer.lockBuild();
+        //editor.analyzer.mCodeAnalyzer.clearInBuild();
+        /*
         if (editor.analyzer != null) {
             editor.analyzer.shutdown();
             editor.analyzer.setCallback(null);
         }
         editor.setEditorLanguage(editor.mLanguage);
+        editor.invalidate();
+        */
         editor.invalidate();
     }
     public void dump() {

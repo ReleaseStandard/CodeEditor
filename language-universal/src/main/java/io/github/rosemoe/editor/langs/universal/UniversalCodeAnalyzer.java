@@ -32,18 +32,17 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
     private UniversalTokenizer tokenizer;
     private UniversalTokenizer tokenizer2;
 
-    CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
-    CodeAnalyzerResultContent contentResult   = new CodeAnalyzerResultContent();
-
     public UniversalCodeAnalyzer(LanguageDescription description, UniversalTokenizer tokenizer1, UniversalTokenizer tokenizer2) {
         this.mLanguage = description;
         this.tokenizer = tokenizer1;
         this.tokenizer2 = tokenizer2;
-        addResultListener("color",colorResult);
-        addResultListener("content", contentResult);
+        addResultListener("color", new CodeAnalyzerResultColor());
+        addResultListener("content", new CodeAnalyzerResultContent());
     }
     @Override
     public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
+        CodeAnalyzerResultColor colorResult = (CodeAnalyzerResultColor) getResultInBuild("color");
+        CodeAnalyzerResultContent contentResult   = (CodeAnalyzerResultContent) getResultInBuild("content");
         StringBuilder text = content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
         tokenizer.setInput(text);
         LineNumberCalculator helper = new LineNumberCalculator(text);

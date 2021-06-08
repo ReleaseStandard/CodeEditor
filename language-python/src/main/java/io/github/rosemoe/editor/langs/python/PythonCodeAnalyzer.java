@@ -29,16 +29,13 @@ import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class PythonCodeAnalyzer extends TokenEmitter {
 
-    CodeAnalyzerResultColor colorResult = new CodeAnalyzerResultColor();
-    CodeAnalyzerResultContent contentResult   = new CodeAnalyzerResultContent();
-
     public PythonCodeAnalyzer() {
-        addResultListener("color",colorResult);
-        addResultListener("content", contentResult);
+        addResultListener("color",new CodeAnalyzerResultColor());
     }
     @Override
     public void analyze(CharSequence content, CodeAnalyzerThread.Delegate delegate) {
         try {
+            CodeAnalyzerResultColor colorResult = (CodeAnalyzerResultColor) getResultInBuild("color");
             CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
             PythonLexer lexer = new PythonLexer(stream);
             Token token = null, previous = null;

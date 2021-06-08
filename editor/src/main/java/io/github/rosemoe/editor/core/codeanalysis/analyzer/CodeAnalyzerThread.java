@@ -53,15 +53,17 @@ public class CodeAnalyzerThread extends Thread {
                 do {
                     waiting = false;
                     StringBuilder c = content.toStringBuilder();
+                    codeAnalyzer.inProcessResultsLock.lock();
                     codeAnalyzer.analyze(c, d);
                     if (waiting) {
                         codeAnalyzer.clearInBuild();
                     }
+                    codeAnalyzer.inProcessResultsLock.unlock();
                 } while (waiting);
 
                 codeAnalyzer.updateView();
 
-                CodeAnalyzerResultColor colors = (CodeAnalyzerResultColor) codeAnalyzer.getResultListener("color");
+                CodeAnalyzerResultColor colors = (CodeAnalyzerResultColor) codeAnalyzer.getResult("color");
                 if ( colors != null ) {
                     colors.map.addNormalIfNull();
                 }
