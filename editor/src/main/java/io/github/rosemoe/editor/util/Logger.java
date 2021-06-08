@@ -15,12 +15,14 @@
  */
 package io.github.rosemoe.editor.util;
 
+import android.os.Build;
 import android.util.Log;
 
 import static io.github.rosemoe.editor.widget.CodeEditor.LOG_TAG;
 
 public class Logger {
     public static boolean DEBUG = true;
+    public static boolean VERBOSE = true;
     public static String OFFSET = "    ";
 
     /**
@@ -33,6 +35,13 @@ public class Logger {
     }
     public static void debug(Object ...args) {
         if (! DEBUG ) { return ; }
+        Log.v(LOG_TAG + "/" + CallStack.getLastCaller(), getMessage(args));
+    }
+    public static void v(Object ...args) {
+        if ( ! VERBOSE ) { return ; }
+        Log.v(LOG_TAG + "/" + CallStack.getLastCaller(), getMessage(args));
+    }
+    public static String getMessage(Object ...args) {
         String msg = "";
         for(Object arg : args) {
             if ( arg == null ) {
@@ -42,6 +51,11 @@ public class Logger {
                 msg += arg.toString();
             }
         }
-        Log.v(LOG_TAG + "/" + CallStack.getLastCaller(), msg);
+        return msg;
+    }
+    public static void printStackTrace() {
+        if ( Logger.DEBUG ) {
+            CallStack.printStackTrace();
+        }
     }
 }

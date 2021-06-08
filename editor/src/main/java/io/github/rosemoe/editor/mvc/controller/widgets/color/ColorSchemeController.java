@@ -386,12 +386,12 @@ public class ColorSchemeController extends Widget {
             case UPDATE_COLOR:
                 colorId = (int) e.getArg(0);
                 colorValue = (int) e.getArg(1);
-                Logger.debug("Receive update color change colorId=",colorId,",colorValue=",colorValue);
+                Logger.v("Receive update color change colorId=",colorId,",colorValue=",colorValue);
                 updateColor(colorId,colorValue);
                 reloadColorScheme();
                 break;
             case UPDATE_THEME:
-                Logger.debug("Theme update received");
+                Logger.v("Theme update received");
                 colors = (HashMap<Integer, Integer>) e.getArg(0);
                 applyDefault();
                 for( Integer entry : colors.keySet()) {
@@ -409,7 +409,7 @@ public class ColorSchemeController extends Widget {
         if (editor.completionWindow != null) {
             editor.completionWindow.applyColorScheme();
         }
-        editor.setEditorLanguage(editor.mLanguage);
+        //editor.setEditorLanguage(editor.mLanguage);
         editor.invalidate();
     }
     public void dump() {

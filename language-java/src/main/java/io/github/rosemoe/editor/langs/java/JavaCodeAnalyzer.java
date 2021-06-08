@@ -43,6 +43,7 @@ public class JavaCodeAnalyzer extends TokenEmitter {
      * By default we enable color result and content result (minimal functionnality for editor).
      */
     public JavaCodeAnalyzer() {
+        Logger.debug("Adding analyzer results");
         addResultListener("color", colorResult);
         addResultListener("content", contentResult);
     }

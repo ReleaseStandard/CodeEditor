@@ -26,6 +26,7 @@ import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.util.CallStack;
 import io.github.rosemoe.editor.util.Logger;
 
 /**
@@ -60,7 +61,7 @@ public abstract class CodeAnalyzer {
      * @param listener
      */
     public void addResultListener(String name, CodeAnalyzerResult listener) {
-        Logger.debug("name=",name,",listener=",listener);
+        Logger.v("name=",name,",listener=",listener);
         results.put(name,listener);
     }
 
@@ -98,8 +99,10 @@ public abstract class CodeAnalyzer {
      * @return
      */
     public CodeAnalyzerResult getResultListener(String name) {
-        Logger.debug("name=",name);
-        return results.get(name);
+        CodeAnalyzerResult result = results.get(name);
+        Logger.debug("name=",name,",result=",result);
+        Logger.printStackTrace();
+        return result;
     }
 
     /**

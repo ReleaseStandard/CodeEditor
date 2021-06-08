@@ -55,7 +55,7 @@ public abstract class CodeAnalyzerResult {
      * Recycle this result.
      */
     public void recycle() {
-        Logger.debug("Recycling this result");
+        Logger.v("Recycling results");
         if ( recycler != null ) {
             recycler.recycle();
         }

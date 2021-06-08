@@ -78,12 +78,12 @@ public class CodeAnalyzerThread extends Thread {
                         lock.wait();
                     }
                 } catch (InterruptedException e) {
-                    Logger.debug("Analyze daemon is being interrupted -> Exit");
+                    Logger.v("Analyze daemon is being interrupted -> Exit");
                     break;
                 }
             } while (true);
         } catch (Exception ex) {
-            Logger.debug("Analyze daemon got exception -> Exit",ex);
+            Logger.v("Analyze daemon got exception -> Exit",ex);
 
         }
     }
@@ -95,7 +95,7 @@ public class CodeAnalyzerThread extends Thread {
      * @param content New source
      */
     public synchronized void restartWith(ContentMapController content) {
-        Logger.debug("Restarting analysis thread with some content");
+        Logger.v("Restarting analysis thread with some content");
         waiting = true;
         this.content = content;
     }

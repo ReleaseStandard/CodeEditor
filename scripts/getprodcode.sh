@@ -37,7 +37,7 @@ function init() {
 init
 
 function removeLoggerCalls() {
-	find -name "*.java" -exec bash -c "grep -v -E '(Logger.debug)' '{}' > '$tmpfile' && mv '$tmpfile' '{}'" \;
+	find -name "*.java" -exec bash -c "grep -v -E '(Logger.debug|Logger.v)' '{}' > '$tmpfile' && mv '$tmpfile' '{}'" \;
 	
 }
 removeLoggerCalls

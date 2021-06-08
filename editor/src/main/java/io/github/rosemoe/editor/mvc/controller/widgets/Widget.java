@@ -30,6 +30,6 @@ public abstract class Widget extends Extension {
     @Override
     public void dispatch(Event e) {
         super.dispatch(e);
-        Logger.debug("Dispatch on widget requested");
+        Logger.v("Dispatch on widget requested");
     }
 }

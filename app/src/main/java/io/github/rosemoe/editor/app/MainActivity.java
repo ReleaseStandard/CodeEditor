@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
-        setEditorLanguage(new JavaLanguage(), "samples/java/java.txt");
+        setEditorLanguage(languages.get("Java"), "samples/java/java.txt");
         //setEditorLanguage(new HTMLLanguage(),"samples/html/html.txt");
         if ( Logger.DEBUG ) {
             new ColorPluginDebug(editor).apply();

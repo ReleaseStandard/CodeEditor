@@ -44,7 +44,7 @@ public class ColorAnalyzerResultRecycler extends CodeAnalyzerResultRecycler {
     @Override
     public void putToDigest(CodeAnalyzerResult result) {
         if ( ! (result instanceof CodeAnalyzerResultColor)) {
-            Logger.debug("It don't digest that sorry");
+            Logger.v("It don't digest that sorry");
             return;
         }
         CodeAnalyzerResultColor caro = (CodeAnalyzerResultColor) result;

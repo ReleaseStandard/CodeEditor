@@ -48,4 +48,27 @@ public class CallStack {
         }
         return name.substring(i+1);
     }
+    public static void printStackTrace() {
+        printStackTrace(Thread.getAllStackTraces().entrySet());
+    }
+    public static void printStackTrace(Set<Map.Entry<Thread, StackTraceElement[]>> set) {
+        for (Map.Entry<Thread, StackTraceElement[]> entry : set) {
+            if (entry.getKey() == currentThread()) {
+                for (StackTraceElement ste : entry.getValue()) {
+                    Logger.debug("                  ",ste.getClassName(),"§§",ste.getMethodName(),"§§",ste.getLineNumber());
+                }
+            }
+        }
+    }
+    public static void printAllStackTrace() {
+        printAllStackTrace(Thread.getAllStackTraces().entrySet());
+    }
+    public static void printAllStackTrace(Set<Map.Entry<Thread, StackTraceElement[]>> set) {
+        for (Map.Entry<Thread, StackTraceElement[]> entry : set) {
+            for (StackTraceElement ste : entry.getValue()) {
+                Logger.debug("                  ",ste.getClassName(),"§§",ste.getMethodName(),"§§",ste.getLineNumber());
+
+            }
+        }
+    }
 }
