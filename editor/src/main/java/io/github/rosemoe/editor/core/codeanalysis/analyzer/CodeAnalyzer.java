@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.core.codeanalysis.analyzer;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
@@ -55,6 +57,33 @@ public abstract class CodeAnalyzer {
     public ReentrantLock inProcessResultsLock = new ReentrantLock();
     public HashMap<String, CodeAnalyzerResult> inProcessResults = new HashMap<>();
 
+
+    public CodeAnalyzer() {
+        if (Logger.DEBUG) {
+            new Thread() {
+                @Override
+                public void run() {
+                    while(true) {
+                        try {
+                            int a = resultsLock.getHoldCount();
+                            int b = inProcessResultsLock.getHoldCount();
+                            Thread.sleep(10000);
+                            if ( a == resultsLock.getHoldCount()
+                            ) {
+                                Logger.v("WARNING you probably have a deadlock on in builded resutls (view)");
+                            }
+                            if ( b == inProcessResultsLock.getHoldCount()
+                            ) {
+                                Logger.v("WARNING you probably have a deadlock on in building resutls (processing)");
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }.start();
+        }
+    }
     /**
      * Method responsible from building results in inProcessResults HashMap.
      * Each implementation of CodeAnalyzer is free to provide as much CodeAnalyzerResult as it want or none.
@@ -110,7 +139,6 @@ public abstract class CodeAnalyzer {
      * Clear what have been done in the analyzer (view).
      */
     public void clearBuilded() {
-        lockView();
         for(CodeAnalyzerResult result : results.values()) {
             if ( result != null ) {
                 result.clear();
@@ -121,7 +149,6 @@ public abstract class CodeAnalyzer {
      * Clear what is being done in the analyzer.
      */
     public void clearInBuild() {
-        lockBuild();
         for(CodeAnalyzerResult inProcessResult : inProcessResults.values()) {
             if ( inProcessResult != null ) {
                 inProcessResult.clear();
@@ -136,7 +163,6 @@ public abstract class CodeAnalyzer {
      * @return
      */
     public CodeAnalyzerResult getResultInBuild(String name) {
-        lockBuild();
         return inProcessResults.get(name);
     }
 
@@ -146,7 +172,6 @@ public abstract class CodeAnalyzer {
      * @return
      */
     public CodeAnalyzerResult getResult(String name) {
-        lockView();
         return results.get(name);
     }
 
@@ -169,25 +194,35 @@ public abstract class CodeAnalyzer {
      * Lock modifications done to the view.
      */
     public void lockView() {
-        resultsLock.lock();
+        lock(resultsLock);
     }
     /**
      * Allow again modifications to the view.
      */
     public void unlockView() {
-        resultsLock.unlock();
+        unlock(resultsLock);
     }
     /**
      * lock results being builded.
      */
     public void lockBuild() {
-        inProcessResultsLock.lock();
+        lock(inProcessResultsLock);
     }
     /**
      * Unlock results beeing builded.
      */
     public void unlockBuild() {
-        inProcessResultsLock.unlock();
+        unlock(inProcessResultsLock);
+    }
+    private void unlock(ReentrantLock lock) {
+        if ( lock != null &&
+                lock.isHeldByCurrentThread() &&
+                lock.isLocked() ) {
+            lock.unlock();
+        }
+    }
+    private void lock(ReentrantLock lock) {
+        lock.lock();
     }
     /**
      * This call will put inProcessResults to results and create an
