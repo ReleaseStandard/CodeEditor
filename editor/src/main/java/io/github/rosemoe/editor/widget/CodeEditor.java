@@ -68,6 +68,7 @@ import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.results.Callbac
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
+import io.github.rosemoe.editor.plugins.debug.WidgetAnalyzerPlugin;
 import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
@@ -537,7 +538,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
             new LoopbackWidget(this),
             new ColorSchemeController(this)
         );
-        plugins.put(new ExamplePlugin(this));
+        plugins.put(new ExamplePlugin(this),new WidgetAnalyzerPlugin(this));
         getColorScheme().dump();
 
         mViewRect = new Rect(0, 0, 0, 0);
