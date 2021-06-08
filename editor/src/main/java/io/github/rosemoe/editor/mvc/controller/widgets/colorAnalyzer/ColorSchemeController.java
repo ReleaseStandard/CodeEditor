@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets.color;
+package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer;
 
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -31,7 +31,7 @@ import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.util.Objects;
 import io.github.rosemoe.editor.core.CodeEditor;
 
-import static io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent.*;
+import static io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeEvent.*;
 
 /**
  * This class manages the colors of editor.
@@ -392,6 +392,7 @@ public class ColorSchemeController extends Widget {
                 break;
             case UPDATE_THEME:
                 Logger.v("Theme update received");
+                //noinspection unchecked
                 colors = (HashMap<Integer, Integer>) e.getArg(0);
                 applyDefault();
                 for( Integer entry : colors.keySet()) {
@@ -420,7 +421,7 @@ public class ColorSchemeController extends Widget {
     public void dump(String offset) {
         Logger.debug(offset, "0xFFFFFF=",0xFFFFFFFF,",TODO=",TODO,",DEFAULT=",DEFAULT);
         for(Map.Entry<String, Integer> e : CONVENINENT.entrySet()){
-            Logger.debug(e.getKey(),"\t",COLORS.get(e.getKey()));
+            Logger.debug(e.getKey(),"\t",COLORS.get(e.getValue()));
         }
     }
 }

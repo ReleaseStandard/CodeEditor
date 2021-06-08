@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.core.codeanalysis.analyzer;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 
 /**
  * AnalyzeThread to control
@@ -60,7 +61,11 @@ public class CodeAnalyzerThread extends Thread {
 
                 codeAnalyzer.updateView();
 
-                //TODO:newResult.addNormalIfNull();
+                CodeAnalyzerResultColor colors = (CodeAnalyzerResultColor) codeAnalyzer.getResultListener("color");
+                if ( colors != null ) {
+                    colors.map.addNormalIfNull();
+                }
+
                 try {
                     if (mCallback != null) {
                         mCallback.onAnalyzeDone(codeAnalyzer);

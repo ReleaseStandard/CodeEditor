@@ -49,9 +49,9 @@ public abstract class CodeAnalyzerResult {
      */
     public void recycle() {
         Logger.v("Recycling results");
-        /*if ( recycler != null ) {
-            recycler.recycle();
-        }*/
+        //if ( recycler != null ) {
+            //recycler.recycle();
+        //}
     }
     public void dump() {
         dump("");

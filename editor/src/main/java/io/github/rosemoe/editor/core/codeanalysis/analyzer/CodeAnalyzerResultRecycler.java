@@ -15,6 +15,8 @@
  */
 package io.github.rosemoe.editor.core.codeanalysis.analyzer;
 
+import io.github.rosemoe.editor.core.util.Logger;
+
 /**
  * Container for objects that are going to be recycled
  *
@@ -26,7 +28,7 @@ public class CodeAnalyzerResultRecycler {
          * Process objects currently in the recycler.
          */
         public void recycle() {
-
+                Logger.debug();
         }
 
         /**

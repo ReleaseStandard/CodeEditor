@@ -21,10 +21,9 @@ import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 
 /**
  * This is a manager of analyzing text
@@ -37,7 +36,6 @@ public class TextAnalyzerController {
     /**
      * Debug:Start time
      */
-    private TextAnalyzerView currentResult;
     public CodeAnalyzer mCodeAnalyzer;
     /**
      * Create a new manager for the given codeAnalyzer
@@ -48,9 +46,10 @@ public class TextAnalyzerController {
         if (codeAnalyzer0 == null) {
             throw new IllegalArgumentException();
         }
-        //TODO:currentResult.addNormalIfNull();
         mCodeAnalyzer = codeAnalyzer0;
-        currentResult = new TextAnalyzerView(mCodeAnalyzer);
+        if( getSpanMap() != null ) {
+            getSpanMap().addNormalIfNull();
+        }
     }
 
     public SpanMapController getSpanMap() {
@@ -96,19 +95,6 @@ public class TextAnalyzerController {
     public synchronized void analyze(ContentMapController origin) {
         mCodeAnalyzer.start(origin);
     }
-
-    /**
-     * Get analysis result
-     *
-     * @return Result of analysis
-     */
-    public TextAnalyzerView getResult() {
-        return currentResult;
-    }
-
-
-
-
 
 }
 

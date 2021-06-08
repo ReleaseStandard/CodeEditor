@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.completion;
 
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.core.util.Logger;
 
 import java.util.ArrayList;
@@ -26,13 +26,13 @@ import java.util.List;
 /**
  * Identifier auto-completion
  * You can use it to provide identifiers
- * <strong>Note:</strong> To use this, you must use {@link Identifiers} as {@link TextAnalyzerView#mExtra}
+ * <strong>Note:</strong> To use this, you must use {@link Identifiers} as
  */
 public class IdentifierAutoComplete implements AutoCompleteProviderController {
 
     private String[] mKeywords;
     private boolean mKeywordsAreLowCase;
-
+    private Object mExtra = new Object();
     public IdentifierAutoComplete() {
 
     }
@@ -83,7 +83,7 @@ public class IdentifierAutoComplete implements AutoCompleteProviderController {
     }
 
     @Override
-    public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line) {
+    public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, CodeAnalyzerResultColor colors, int line) {
         List<CompletionItemController> keywords = new ArrayList<>();
         final String[] keywordArray = mKeywords;
         final boolean lowCase = mKeywordsAreLowCase;
@@ -103,8 +103,10 @@ public class IdentifierAutoComplete implements AutoCompleteProviderController {
                 }
             }
         }
+
+        // completion analyzer
         Collections.sort(keywords, CompletionItemController.COMPARATOR_BY_NAME);
-        Object extra = colors.mExtra;
+        Object extra = mExtra;
         Identifiers userIdentifiers = (extra instanceof Identifiers) ? (Identifiers) extra : null;
         if (userIdentifiers != null) {
             List<CompletionItemController> words = new ArrayList<>();
@@ -116,6 +118,7 @@ public class IdentifierAutoComplete implements AutoCompleteProviderController {
             Collections.sort(words, CompletionItemController.COMPARATOR_BY_NAME);
             keywords.addAll(words);
         }
+
         return keywords;
     }
 

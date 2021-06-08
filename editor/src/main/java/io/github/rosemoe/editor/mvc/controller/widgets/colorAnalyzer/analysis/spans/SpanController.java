@@ -13,13 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans;
+package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import io.github.rosemoe.editor.mvc.model.widget.color.analysis.spans.SpanModel;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.view.widget.color.analysis.spans.SpanView;
 
 /**

@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans;
+package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -21,7 +21,7 @@ import java.util.TreeMap;
 import io.github.rosemoe.editor.mvc.model.widget.color.analysis.spans.SpanLineModel;
 import io.github.rosemoe.editor.mvc.view.widget.color.analysis.spans.SpanLineView;
 import io.github.rosemoe.editor.core.util.Logger;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeController;
 
 /**
  * The class handle one line in the text editor.
@@ -226,6 +226,7 @@ public class SpanLineController {
         Map.Entry<Integer, SpanController> [] entries = null;
         while (entries == null ) {
             try {
+                //noinspection unchecked
                 entries = line.entrySet().toArray(new Map.Entry[size()]);
             } catch (java.util.ConcurrentModificationException e) {
                 Logger.debug("This error is harmless if not repeat to much");

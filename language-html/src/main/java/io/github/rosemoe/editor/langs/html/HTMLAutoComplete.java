@@ -3,8 +3,8 @@ package io.github.rosemoe.editor.langs.html;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
 
 /**
@@ -16,7 +16,7 @@ import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItem
 
 public class HTMLAutoComplete implements AutoCompleteProviderController {
     @Override
-    public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line) {
+    public List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, CodeAnalyzerResultColor colors, int line) {
         List<CompletionItemController> items = new ArrayList<>();
         for (String key : HTMLLanguage.TAGS)
             if (key.toLowerCase().startsWith(prefix.toLowerCase()))

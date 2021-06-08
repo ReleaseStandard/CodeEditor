@@ -33,7 +33,6 @@ import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 import static io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent.TYPE_LOOPBACK;
 import static io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent.*;
 import static io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel.*;
-import static io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel.isSameSign;
 
 /**
  * Handles touch events of editor

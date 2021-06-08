@@ -24,7 +24,7 @@ import java.io.StringReader;
 
 import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.tokenemitter.TokenEmitter;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class PythonCodeAnalyzer extends TokenEmitter {

@@ -13,12 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis;
+package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis;
 
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.tokenemitter.TokenEmitterResult;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.core.util.Logger;
 
 /**

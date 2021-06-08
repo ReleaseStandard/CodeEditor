@@ -76,8 +76,8 @@ public class ContentMapController implements CharSequence {
         }
         model.textLength = 0;
         model.nestedBatchEdit = 0;
-        if (!model.useBlock)
-            lines = new ArrayList<>(model.getInitialLineCapacity());
+        if (!ContentMapModel.useBlock)
+            lines = new ArrayList<>(ContentMapModel.getInitialLineCapacity());
         else
             lines = new BlockLinkedList<>(5000);
         lines.add(new ContentLineController());

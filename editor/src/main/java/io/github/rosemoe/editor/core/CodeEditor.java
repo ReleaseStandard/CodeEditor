@@ -65,13 +65,13 @@ import io.github.rosemoe.editor.core.codeanalysis.TextAnalyzerController;
 import io.github.rosemoe.editor.core.extension.ExtensionContainer;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
 import io.github.rosemoe.editor.plugins.debug.WidgetAnalyzerPlugin;
 import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
@@ -88,11 +88,10 @@ import io.github.rosemoe.editor.mvc.view.EditorEventListener;
 import io.github.rosemoe.editor.mvc.view.MaterialEdgeEffect;
 import io.github.rosemoe.editor.mvc.view.NewlineHandler;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanLineController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanController;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanLineController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
@@ -103,7 +102,7 @@ import io.github.rosemoe.editor.mvc.view.util.FontCache;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.TextFormatter;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanUpdater;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.processors.SpanUpdater;
 import io.github.rosemoe.editor.core.util.IntPair;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.util.LongArrayList;
@@ -3525,8 +3524,8 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * <strong>Do not make changes to it or read concurrently</strong>
      */
     @NonNull
-    public TextAnalyzerView getTextAnalyzeResult() {
-        return analyzer.getResult();
+    public CodeAnalyzerResultColor getTextAnalyzeResult() {
+        return (CodeAnalyzerResultColor) analyzer.mCodeAnalyzer.getResultListener("color");
     }
 
     /**

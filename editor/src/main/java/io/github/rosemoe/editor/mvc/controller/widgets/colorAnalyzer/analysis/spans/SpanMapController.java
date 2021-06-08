@@ -13,12 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans;
+package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.processors.SpanRecycler;
 import io.github.rosemoe.editor.mvc.model.widget.color.analysis.spans.SpanMapModel;
 import io.github.rosemoe.editor.mvc.view.widget.color.analysis.spans.SpanMapView;
 import io.github.rosemoe.editor.core.util.Logger;
@@ -214,6 +214,7 @@ public class SpanMapController {
     public void dump(String offset) {
         if ( !Logger.DEBUG ) { return; }
         Logger.debug(offset+"number of lines in : "+ map.size());
+        //noinspection unchecked
         for(Map.Entry<Integer, SpanLineController> sl : map.entrySet().toArray(new Map.Entry[map.keySet().size()])) {
             Logger.debug(offset+"dump for line index " + sl.getKey());
             sl.getValue().dump(Logger.OFFSET);

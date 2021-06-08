@@ -15,8 +15,6 @@
  */
 package io.github.rosemoe.editor.mvc.model.content;
 
-import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
-
 public class ContentLineModel {
     public char[] value;
 

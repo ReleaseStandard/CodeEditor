@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.mvc.controller.widgets.completion;
 
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 
 /**
  * Interface for auto completion analysis
@@ -35,7 +35,7 @@ public interface AutoCompleteProviderController {
      * @param line          The line of cursor
      * @return Analyzed items
      */
-    List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, TextAnalyzerView colors, int line);
+    List<CompletionItemController> getAutoCompleteItems(String prefix, boolean isInCodeBlock, CodeAnalyzerResultColor colors, int line);
 
 }
 

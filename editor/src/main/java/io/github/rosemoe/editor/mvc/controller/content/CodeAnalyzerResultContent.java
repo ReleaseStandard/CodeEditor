@@ -44,4 +44,10 @@ public class CodeAnalyzerResultContent extends TokenEmitterResult {
     public void addBlockLine(BlockLineModel block) {
         mBlocks.add(block);
     }
+
+    @Override
+    public void clear() {
+        super.clear();
+        mBlocks.clear();
+    }
 }

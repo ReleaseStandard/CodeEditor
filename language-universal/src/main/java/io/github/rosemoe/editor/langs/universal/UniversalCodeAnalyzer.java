@@ -19,7 +19,7 @@ import java.util.Stack;
 
 import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;

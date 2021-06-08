@@ -21,11 +21,11 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeController;
+import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.widget.completion.CompletionWindowModel;
 import io.github.rosemoe.editor.mvc.view.widget.completion.CompleteWindowView;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.core.CodeEditor;
 
@@ -233,7 +233,7 @@ public class CompletionWindowController {
         private final long mTime;
         private final String mPrefix;
         private final boolean mInner;
-        private final TextAnalyzerView mColors;
+        private final CodeAnalyzerResultColor colorResult;
         private final int mLine;
         private final AutoCompleteProviderController mLocalProvider = mProvider;
 
@@ -241,7 +241,7 @@ public class CompletionWindowController {
             mTime = requestTime;
             mPrefix = prefix;
             // get production ready result from here
-            mColors = mEditor.getTextAnalyzeResult();
+            colorResult = mEditor.getTextAnalyzeResult();
             mLine = mEditor.getCursor().getLeftLine();
             mInner = (!mEditor.isHighlightCurrentBlock()) || (mEditor.getBlockIndex() != -1);
         }
@@ -249,7 +249,7 @@ public class CompletionWindowController {
         @Override
         public void run() {
             try {
-                displayResults(mLocalProvider.getAutoCompleteItems(mPrefix, mInner, mColors, mLine), mTime);
+                displayResults(mLocalProvider.getAutoCompleteItems(mPrefix, mInner, colorResult, mLine), mTime);
             } catch (Exception e) {
                 e.printStackTrace();
                 displayResults(new ArrayList<>(), mTime);
