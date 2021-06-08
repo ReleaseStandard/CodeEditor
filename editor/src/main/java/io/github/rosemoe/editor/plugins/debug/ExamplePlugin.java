@@ -62,26 +62,26 @@ public class ExamplePlugin extends DebugPlugin {
     @Override
     protected void handleEventDispatch(Event e, String type, String subtype) {
         Logger.debug("Event e, type=",type," has been received");
-        if ( e.getType() == UserInputEvent.TYPE_USERINPUT ) {
-            if ( e.getSubType() == UserInputEvent.ONDOUBLETAP ) {
+        if (e.getType().equals(UserInputEvent.TYPE_USERINPUT)) {
+            if (e.getSubType().equals(UserInputEvent.ONDOUBLETAP)) {
                 incOrReset();
                 incOrReset();
             }
-            if ( e.getSubType() == UserInputEvent.SINGLETAPUP ) {
+            if (e.getSubType().equals(UserInputEvent.SINGLETAPUP)) {
                 incOrReset();
             }
-            if ( e.getSubType() == UserInputEvent.ONSCALEBEGIN ) {
+            if (e.getSubType().equals(UserInputEvent.ONSCALEBEGIN)) {
                 Logger.v("Multiple tap detected, sending background color change");
                 ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF00FF00);
                 editor.widgets.dispatch(cse);
             }
-            if ( e.getSubType() == UserInputEvent.ONSCROLL ) {
+            if (e.getSubType().equals(UserInputEvent.ONSCROLL)) {
                 new ColorPluginDarcula(editor);
                 //editor.widgets.dispatch(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground, ));
             }
         }
-        if ( e.getType() == LoopbackEvent.TYPE_LOOPBACK ) {
-            if ( e.getSubType() == LoopbackEvent.PLUGINS_BROADCAST ) {
+        if (e.getType().equals(LoopbackEvent.TYPE_LOOPBACK)) {
+            if (e.getSubType().equals(LoopbackEvent.PLUGINS_BROADCAST)) {
                 Logger.v("Response from the widget received");
             }
         }

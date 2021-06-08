@@ -93,7 +93,7 @@ public class ExtensionContainer extends Extension {
     public Extension get(String name) {
         for (Iterator<Extension> it = extensions.iterator(); it.hasNext(); ) {
             Extension extension = it.next();
-            if( extension.name == name ) {
+            if(extension.name.equals(name)) {
                 return extension;
             }
         }
