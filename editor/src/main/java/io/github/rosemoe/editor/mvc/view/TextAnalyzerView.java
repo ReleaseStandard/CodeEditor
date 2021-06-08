@@ -29,7 +29,6 @@ import io.github.rosemoe.editor.mvc.model.BlockLineModel;
  */
 public class TextAnalyzerView {
 
-    //protected int mSuppressSwitch = Integer.MAX_VALUE; TODO
     CodeAnalyzer analyzer;
 
     /**

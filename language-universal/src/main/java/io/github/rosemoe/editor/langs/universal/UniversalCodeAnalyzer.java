@@ -127,7 +127,7 @@ public class UniversalCodeAnalyzer extends CodeAnalyzer {
         if (currSwitch > maxSwitch) {
             maxSwitch = currSwitch;
         }
-        //TODO:colors.setSuppressSwitch(maxSwitch + 50);
+        mSuppressSwitch = maxSwitch + 50;
     }
 
 }

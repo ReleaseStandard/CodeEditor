@@ -29,6 +29,25 @@ import io.github.rosemoe.editor.core.util.Logger;
  */
 public abstract class CodeAnalyzer {
 
+    /**
+     * This switch is setup by the analyzer to prevent the view from painting non displayed regions.
+     * Set suppress switch for editor
+     * What is 'suppress switch' ?:
+     * Suppress switch is a switch size for code block line drawing
+     * and for the process to find out which code block the cursor is in.
+     * Because the code blocks are not saved by the order of both start line and
+     * end line,we are unable to know exactly when we should stop the process.
+     * So without a suppress switch,it will cost a large of time to search code
+     * blocks.So I added this switch.
+     * A suppress switch is the code block count in the first layer code block
+     * (as well as its sub code blocks).
+     * If you are unsure,do not set it.
+     * The default value if Integer.MAX_VALUE
+     *
+     * @param suppressSwitch Suppress switch
+     */
+    public int mSuppressSwitch = Integer.MAX_VALUE;
+
     public HashMap<String, CodeAnalyzerResult> results = new HashMap<>();
     public HashMap<String, CodeAnalyzerResult> inProcessResults = new HashMap<>();
 
@@ -61,6 +80,7 @@ public abstract class CodeAnalyzer {
      * Launch a clear for all result listener inside this analyzer.
      */
     public void clear() {
+        mSuppressSwitch = Integer.MAX_VALUE;
         clearBuilded();
         clearInBuild();
     }

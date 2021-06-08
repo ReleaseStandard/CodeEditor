@@ -1563,11 +1563,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            // TODO
-            //TextAnalyzerView colors = analyzer.getResult();
-            //if (colors != null) {
-            //    maxCount = colors.getSuppressSwitch();
-            //}
+            maxCount = analyzer.mCodeAnalyzer.mSuppressSwitch;
         }
         int mm = binarySearchEndBlock(first, blocks);
         int cursorIdx = cursorPosition;
@@ -1916,11 +1912,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         int invalidCount = 0;
         int maxCount = Integer.MAX_VALUE;
         if (analyzer != null) {
-            // TODO
-            //TextAnalyzerView result = analyzer.getResult();
-            //if (result != null) {
-            //    maxCount = result.getSuppressSwitch();
-            //}
+            maxCount = analyzer.mCodeAnalyzer.mSuppressSwitch;
         }
         for (int i = min; i <= max; i++) {
             BlockLineModel block = blocks.get(i);

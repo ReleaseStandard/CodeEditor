@@ -257,7 +257,7 @@ public class JavaCodeAnalyzer extends TokenEmitter {
         identifiers.finish();
         colorResult.determine(line);
         //TODO:colorResult.mExtra = identifiers;
-        //TODO:colorResult.setSuppressSwitch(maxSwitch + 10);
+        mSuppressSwitch = maxSwitch + 10;
     }
 
 }
