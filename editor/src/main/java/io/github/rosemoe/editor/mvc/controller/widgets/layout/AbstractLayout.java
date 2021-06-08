@@ -17,8 +17,9 @@ package io.github.rosemoe.editor.mvc.controller.widgets.layout;
 
 import android.graphics.Paint;
 
+import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
 import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
-import io.github.rosemoe.editor.mvc.view.util.FontCache;
+import io.github.rosemoe.editor.core.util.FontCache;
 import io.github.rosemoe.editor.core.CodeEditor;
 
 /**

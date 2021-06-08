@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 import io.github.rosemoe.editor.mvc.model.widget.layout.WordwrapModel;
 import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentLineController;

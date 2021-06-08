@@ -13,16 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller;
+package io.github.rosemoe.editor.mvc.view.widget.layout;
 
-import io.github.rosemoe.editor.mvc.model.RowModel;
-import io.github.rosemoe.editor.mvc.model.widget.layout.WordwrapModel;
-import io.github.rosemoe.editor.mvc.view.RowView;
-
-public class RowController {
-    public RowModel model = new RowModel();
-    public RowView  view  = new RowView();
-    public void initFromRegion(WordwrapModel.RowRegion currentRegion,WordwrapModel.RowRegion previousRegion,int currentRow) {
-        model.init(currentRegion,previousRegion,currentRow);
-    }
+public class RowView {
 }

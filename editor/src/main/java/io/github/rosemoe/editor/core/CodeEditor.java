@@ -72,7 +72,7 @@ import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputConnexionController;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.mvc.controller.RowController;
+import io.github.rosemoe.editor.mvc.controller.widgets.layout.RowController;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputController;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionWindowController;
@@ -97,7 +97,7 @@ import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentLi
 import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentListener;
 import io.github.rosemoe.editor.mvc.view.TextComposeBasePopup;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputView;
-import io.github.rosemoe.editor.mvc.view.util.FontCache;
+import io.github.rosemoe.editor.core.util.FontCache;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.TextFormatter;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;

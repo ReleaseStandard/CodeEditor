@@ -17,8 +17,6 @@ package io.github.rosemoe.editor.mvc.controller.widgets.layout;
 
 import java.util.NoSuchElementException;
 
-import io.github.rosemoe.editor.mvc.controller.RowController;
-
 /**
  * RowModel iterator.
  * This iterator is able to return a series of RowModel objects linearly
