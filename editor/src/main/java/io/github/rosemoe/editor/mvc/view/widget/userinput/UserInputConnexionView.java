@@ -16,7 +16,6 @@
 package io.github.rosemoe.editor.mvc.view.widget.userinput;
 
 import android.os.SystemClock;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -28,8 +27,8 @@ import android.view.inputmethod.ExtractedTextRequest;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatch;
 
 public class UserInputConnexionView extends BaseInputConnection {

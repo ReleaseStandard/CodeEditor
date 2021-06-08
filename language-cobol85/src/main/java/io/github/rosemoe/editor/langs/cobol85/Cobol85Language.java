@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.langs.cobol85;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 
 public class Cobol85Language extends LanguageController {
     @Override

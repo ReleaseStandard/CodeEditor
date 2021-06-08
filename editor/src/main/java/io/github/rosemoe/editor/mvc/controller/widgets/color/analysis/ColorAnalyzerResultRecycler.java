@@ -15,16 +15,11 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis;
 
-import java.util.List;
-
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerResult;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerResultRecycler;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerResult;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerResultRecycler;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
-import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.util.Logger;
 
 public class ColorAnalyzerResultRecycler extends CodeAnalyzerResultRecycler {
     SpanMapController spanMap;

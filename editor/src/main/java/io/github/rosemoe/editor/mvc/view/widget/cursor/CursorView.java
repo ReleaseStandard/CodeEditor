@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.view.widget.cursor;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 public class CursorView {
     public CursorView() {

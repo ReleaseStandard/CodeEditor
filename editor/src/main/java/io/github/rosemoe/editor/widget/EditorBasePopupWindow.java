@@ -18,6 +18,8 @@ package io.github.rosemoe.editor.widget;
 import android.view.Gravity;
 import android.widget.PopupWindow;
 
+import io.github.rosemoe.editor.core.CodeEditor;
+
 /**
  * Editor base panel class
  *

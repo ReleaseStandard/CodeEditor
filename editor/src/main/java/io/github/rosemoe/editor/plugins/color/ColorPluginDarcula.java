@@ -16,12 +16,9 @@
 package io.github.rosemoe.editor.plugins.color;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 //theme_name = "Darcula";
 //theme_description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";

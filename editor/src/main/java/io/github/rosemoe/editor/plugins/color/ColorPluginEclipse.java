@@ -16,12 +16,9 @@
 package io.github.rosemoe.editor.plugins.color;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 //theme_name = "Eclipse";
 //theme_description = "picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)";

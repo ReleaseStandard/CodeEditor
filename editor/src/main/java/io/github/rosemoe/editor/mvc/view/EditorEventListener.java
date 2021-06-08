@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.mvc.view;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentListener;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * Listener for editor

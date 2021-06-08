@@ -17,8 +17,8 @@ package io.github.rosemoe.editor.mvc.model.content;
 
 import junit.framework.TestCase;
 
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.util.Random;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.util.Random;
 
 public class ContentLineModelTest extends TestCase {
     final static Random r = new Random();

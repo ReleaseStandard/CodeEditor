@@ -20,7 +20,7 @@ import android.view.MotionEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
 import io.github.rosemoe.editor.mvc.model.widget.contextaction.ContextActionModel;
 import io.github.rosemoe.editor.mvc.view.widget.contextaction.ContextActionView;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * This will show when selecting text

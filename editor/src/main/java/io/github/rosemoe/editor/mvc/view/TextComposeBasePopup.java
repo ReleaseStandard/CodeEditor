@@ -19,7 +19,7 @@ import android.graphics.RectF;
 import android.view.Gravity;
 import android.widget.PopupWindow;
 
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * Editor base panel class

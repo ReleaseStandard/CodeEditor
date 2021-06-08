@@ -21,19 +21,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
-import io.github.rosemoe.editor.util.IntPair;
+import io.github.rosemoe.editor.core.CodeEditor;
+import io.github.rosemoe.editor.core.util.IntPair;
 
 /**
  * Action Mode style text action panel for editor
  *
  * @author Rose
  */
-class EditorTextActionModeStarter implements CodeEditor.EditorTextActionPresenter {
+public class EditorTextActionModeStarter implements CodeEditor.EditorTextActionPresenter {
 
     private final CodeEditor mEditor;
     private ActionMode mActionMode;
 
-    EditorTextActionModeStarter(CodeEditor editor) {
+    public EditorTextActionModeStarter(CodeEditor editor) {
         mEditor = editor;
     }
 

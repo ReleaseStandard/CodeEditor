@@ -27,7 +27,7 @@ import io.github.rosemoe.editor.mvc.model.widget.completion.CompletionWindowMode
 import io.github.rosemoe.editor.mvc.view.widget.completion.CompleteWindowView;
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
 import io.github.rosemoe.editor.mvc.model.CharPosition;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * Auto complete window for editing code quicker

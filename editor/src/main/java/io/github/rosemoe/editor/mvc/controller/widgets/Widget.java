@@ -15,9 +15,9 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets;
 
-import io.github.rosemoe.editor.extension.Extension;
-import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.extension.Extension;
+import io.github.rosemoe.editor.core.extension.events.Event;
+import io.github.rosemoe.editor.core.util.Logger;
 
 /**
  * This class provide a widget system for CodeEditor.

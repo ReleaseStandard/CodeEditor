@@ -15,16 +15,13 @@
  */
 package io.github.rosemoe.editor.mvc.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.model.util.BlockLineManager;
 
 /**
  * Display the result of analysis.

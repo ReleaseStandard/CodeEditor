@@ -28,9 +28,9 @@ import io.github.rosemoe.editor.mvc.controller.widgets.contextaction.ContextActi
 import io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.TextComposeBasePopup;
 import io.github.rosemoe.editor.mvc.view.widget.contextaction.ContextActionView;
-import io.github.rosemoe.editor.util.IntPair;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.IntPair;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
 import static io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputController.*;

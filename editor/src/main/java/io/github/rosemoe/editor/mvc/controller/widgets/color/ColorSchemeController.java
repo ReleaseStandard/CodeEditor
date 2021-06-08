@@ -25,15 +25,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.util.Objects;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.util.Objects;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 import static io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent.*;
 
@@ -410,7 +406,6 @@ public class ColorSchemeController extends Widget {
      * Reload colors into the editor.
      */
     public void reloadColorScheme() {
-
         // Update spanner
         if (editor.analyzer != null) {
             editor.analyzer.shutdown();

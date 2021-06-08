@@ -16,9 +16,9 @@
 package io.github.rosemoe.editor.plugins;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.extension.Extension;
-import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.extension.Extension;
+import io.github.rosemoe.editor.core.extension.events.Event;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 
 /**

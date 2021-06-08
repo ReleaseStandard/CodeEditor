@@ -15,11 +15,11 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis;
 
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.tokenemitter.TokenEmitterResult;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.tokenemitter.TokenEmitterResult;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.util.Logger;
 
 /**
  * This class provide Interface that every language code analyzer will input into.

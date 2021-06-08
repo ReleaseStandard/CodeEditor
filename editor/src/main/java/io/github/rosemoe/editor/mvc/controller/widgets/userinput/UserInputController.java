@@ -22,12 +22,12 @@ import android.view.ScaleGestureDetector;
 import android.widget.OverScroller;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
-import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputView;
-import io.github.rosemoe.editor.util.IntPair;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.IntPair;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
 import static io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent.TYPE_LOOPBACK;

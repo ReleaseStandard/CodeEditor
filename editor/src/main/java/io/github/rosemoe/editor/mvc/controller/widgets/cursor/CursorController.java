@@ -24,8 +24,8 @@ import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorModel;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorView;
 import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
-import io.github.rosemoe.editor.util.IntPair;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.IntPair;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * @author Rose

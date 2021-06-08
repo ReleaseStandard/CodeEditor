@@ -20,9 +20,9 @@ import java.util.NoSuchElementException;
 import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
-import io.github.rosemoe.editor.util.BinaryHeap;
-import io.github.rosemoe.editor.util.IntPair;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.BinaryHeap;
+import io.github.rosemoe.editor.core.util.IntPair;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * Layout implementation of editor

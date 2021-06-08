@@ -80,7 +80,7 @@
 
     </LinearLayout>
 
-    <io.github.rosemoe.editor.widget.CodeEditor
+    <io.github.rosemoe.editor.core.CodeEditor
         android:id="@+id/editor"
         android:layout_width="match_parent"
         app:widget.color.wholeBackground="@color/green"

@@ -18,6 +18,8 @@ package io.github.rosemoe.editor.widget;
 import android.text.Editable;
 import android.view.KeyEvent;
 
+import io.github.rosemoe.editor.core.CodeEditor;
+
 /**
  * Handles key events such SHIFT
  * @author Rosemoe

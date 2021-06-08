@@ -26,8 +26,8 @@ import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
 import io.github.rosemoe.editor.processor.content.indexer.Indexer;
 import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
 import io.github.rosemoe.editor.processor.content.indexer.NoCacheIndexer;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.struct.BlockLinkedList;
 
 /**

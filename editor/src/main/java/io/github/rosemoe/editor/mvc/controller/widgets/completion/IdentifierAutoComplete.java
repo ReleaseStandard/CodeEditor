@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.mvc.controller.widgets.completion;
 
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.util.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;

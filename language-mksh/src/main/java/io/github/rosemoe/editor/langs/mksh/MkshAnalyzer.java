@@ -28,14 +28,14 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 
 import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.util.Logger;
 
 import static io.github.rosemoe.editor.langs.mksh.MkshParser.*;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
+import io.github.rosemoe.editor.core.codeanalysis.TextAnalyzerController;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 /**
  * Role of this class is to apply colors to language's syntaxe (here produced by antlr).

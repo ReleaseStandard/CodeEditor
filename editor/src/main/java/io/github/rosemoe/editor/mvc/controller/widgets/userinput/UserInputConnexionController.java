@@ -23,8 +23,8 @@ import io.github.rosemoe.editor.mvc.model.CharPosition;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputConnexionModel;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 import static android.view.inputmethod.InputConnection.GET_TEXT_WITH_STYLES;
 

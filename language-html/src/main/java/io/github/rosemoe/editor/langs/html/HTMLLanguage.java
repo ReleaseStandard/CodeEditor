@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 

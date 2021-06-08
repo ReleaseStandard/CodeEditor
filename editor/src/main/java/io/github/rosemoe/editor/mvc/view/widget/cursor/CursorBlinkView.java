@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.view.widget.cursor;
 
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 public class CursorBlinkView {
     public final CodeEditor editor;

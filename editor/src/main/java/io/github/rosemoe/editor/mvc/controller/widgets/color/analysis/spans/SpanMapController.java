@@ -21,7 +21,7 @@ import java.util.TreeMap;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.processors.SpanRecycler;
 import io.github.rosemoe.editor.mvc.model.widget.color.spans.SpanMapModel;
 import io.github.rosemoe.editor.mvc.view.widget.color.spans.SpanMapView;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.util.Logger;
 
 /**
  * This class is a SpanLineController container (line displayed to the screen).

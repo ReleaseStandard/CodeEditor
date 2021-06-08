@@ -22,6 +22,7 @@ import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.mvc.controller.SymbolChannelController;
 
 public class SymbolInputView extends LinearLayout {

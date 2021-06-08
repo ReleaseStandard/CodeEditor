@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.loopback;
 
-import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.core.extension.events.Event;
 
 /**
  * This widget is important because it allows communication between plugins.

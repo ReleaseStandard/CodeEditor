@@ -15,11 +15,11 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.loopback;
 
-import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 import static io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent.*;
 

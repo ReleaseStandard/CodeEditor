@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets.userinput;
 
-import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.core.extension.events.Event;
 
 /**
  * Event process by UserInput stuff.

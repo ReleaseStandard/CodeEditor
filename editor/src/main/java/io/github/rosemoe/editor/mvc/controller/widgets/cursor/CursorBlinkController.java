@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.mvc.controller.widgets.cursor;
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
 import io.github.rosemoe.editor.mvc.model.widget.cursor.CursorBlinkModel;
 import io.github.rosemoe.editor.mvc.view.widget.cursor.CursorBlinkView;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * This class is used to control cursor visibility

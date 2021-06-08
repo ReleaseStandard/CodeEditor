@@ -23,8 +23,8 @@ import io.github.rosemoe.editor.mvc.controller.RowController;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.model.widget.layout.WordwrapModel;
 import io.github.rosemoe.editor.mvc.controller.content.ContentLineController;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * Wordwrap layout for editor

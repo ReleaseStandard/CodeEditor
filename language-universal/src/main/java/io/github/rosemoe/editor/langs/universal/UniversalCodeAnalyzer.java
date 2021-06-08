@@ -18,18 +18,14 @@ package io.github.rosemoe.editor.langs.universal;
 import java.util.Stack;
 
 import io.github.rosemoe.editor.mvc.controller.content.CodeAnalyzerResultContent;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.TextAnalyzerController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.CodeAnalyzerController;
 import io.github.rosemoe.editor.mvc.model.BlockLineModel;
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class UniversalCodeAnalyzer extends CodeAnalyzer {
     private LanguageDescription mLanguage;

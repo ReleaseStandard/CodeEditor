@@ -19,7 +19,7 @@ import android.graphics.Paint;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.view.util.FontCache;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * Base layout implementation of {@link Layout}

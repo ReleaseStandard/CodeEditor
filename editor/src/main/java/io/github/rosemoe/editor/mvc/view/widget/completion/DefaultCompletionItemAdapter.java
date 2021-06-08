@@ -26,8 +26,8 @@ import android.widget.TextView;
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionAdapter;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * Adapter to display results

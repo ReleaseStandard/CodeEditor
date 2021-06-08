@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.mvc.controller;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * A channel to insert symbols in {@link CodeEditor}

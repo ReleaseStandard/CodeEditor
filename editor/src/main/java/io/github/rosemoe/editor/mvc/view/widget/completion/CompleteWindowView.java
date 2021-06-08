@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeController;
 import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.widget.EditorBasePopupWindow;
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionAdapter;
 

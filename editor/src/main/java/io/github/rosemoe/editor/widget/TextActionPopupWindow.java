@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import com.google.android.material.button.MaterialButton;
 
 import io.github.rosemoe.editor.R;
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.mvc.view.TextComposeBasePopup;
 
 public class TextActionPopupWindow extends TextComposeBasePopup implements View.OnClickListener, CodeEditor.EditorTextActionPresenter {

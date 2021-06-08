@@ -16,12 +16,9 @@
 package io.github.rosemoe.editor.plugins.color;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.extension.events.Event;
-import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 //theme_name = "HTML";
 //theme_description = "ColorScheme for HTML Language for editor";
 public class ColorPluginHTML extends ColorPlugin {

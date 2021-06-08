@@ -16,14 +16,13 @@
 package io.github.rosemoe.editor.plugins.debug;
 
 import io.github.rosemoe.editor.R;
-import io.github.rosemoe.editor.extension.events.Event;
+import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.ColorSchemeEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
-import io.github.rosemoe.editor.plugins.Plugin;
 import io.github.rosemoe.editor.plugins.color.ColorPluginDarcula;
-import io.github.rosemoe.editor.util.Logger;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 /**
  * WARNING : it is disabled by default, you have to set Logger.DEBUG=true in the Logger.java file.

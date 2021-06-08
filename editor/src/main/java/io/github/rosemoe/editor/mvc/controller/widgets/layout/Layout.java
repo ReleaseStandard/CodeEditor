@@ -72,7 +72,7 @@ public interface Layout extends ContentLineRemoveListener, ContentListener {
      * @param xOffset Horizontal offset on layout
      * @param yOffset Vertical offset on layout
      * @return Packed IntPair, first is line and second is column
-     * @see io.github.rosemoe.editor.util.IntPair
+     * @see io.github.rosemoe.editor.core.util.IntPair
      */
     long getCharPositionForLayoutOffset(float xOffset, float yOffset);
 

@@ -15,11 +15,8 @@
  */
 package io.github.rosemoe.editor.langs.java;
 
-import android.util.Log;
-
 import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TrieTree;
-import io.github.rosemoe.editor.util.Logger;
 
 /**
  * @author Rose

@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 
 public class SearcherView {
     public CodeEditor editor;

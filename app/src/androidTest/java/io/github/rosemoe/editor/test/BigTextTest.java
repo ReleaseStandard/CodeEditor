@@ -27,7 +27,7 @@ import java.util.Random;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.mvc.controller.content.ContentMapController;
 import io.github.rosemoe.editor.mvc.model.content.ContentMapModel;
-import io.github.rosemoe.editor.widget.CodeEditor;
+import io.github.rosemoe.editor.core.CodeEditor;
 import static org.junit.Assert.*;
 
 public class BigTextTest {

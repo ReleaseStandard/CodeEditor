@@ -21,7 +21,7 @@ import java.util.concurrent.BlockingQueue;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.util.Logger;
 
 /**
  * Remove object on an other thread to prevent ui freeze.

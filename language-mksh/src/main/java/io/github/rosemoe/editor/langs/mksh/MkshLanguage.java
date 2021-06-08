@@ -16,7 +16,7 @@
 package io.github.rosemoe.editor.langs.mksh;
 
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.mvc.controller.core.codeanalysis.analyzer.CodeAnalyzer;
+import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 
 public class MkshLanguage extends LanguageController {
 

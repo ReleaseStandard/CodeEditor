@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.model.content;
 
-import io.github.rosemoe.editor.util.annotations.Experimental;
+import io.github.rosemoe.editor.core.util.annotations.Experimental;
 
 public class ContentMapModel {
     public int textLength;

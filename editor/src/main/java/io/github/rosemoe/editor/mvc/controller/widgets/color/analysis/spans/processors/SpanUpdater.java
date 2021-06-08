@@ -17,7 +17,7 @@ package io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.pro
 
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.color.analysis.spans.SpanLineController;
-import io.github.rosemoe.editor.util.Logger;
+import io.github.rosemoe.editor.core.util.Logger;
 
 /**
  * Process text change events.
