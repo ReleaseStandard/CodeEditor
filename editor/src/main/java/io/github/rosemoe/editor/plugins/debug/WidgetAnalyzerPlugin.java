@@ -35,11 +35,6 @@ public class WidgetAnalyzerPlugin extends DebugPlugin {
         super(editor);
     }
 
-    @Override
-    public boolean issubscribed(String type) {
-        return true;
-    }
-
     private HashMap<String,Integer> eventCount = new HashMap<>();
 
     @Override

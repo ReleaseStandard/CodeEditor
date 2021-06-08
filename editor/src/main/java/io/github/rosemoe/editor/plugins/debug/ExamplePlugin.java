@@ -20,6 +20,7 @@ import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
 import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
+import io.github.rosemoe.editor.mvc.controller.widgets.widgetmanager.WidgetManagerEvent;
 import io.github.rosemoe.editor.plugins.color.ColorPluginDarcula;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.CodeEditor;
@@ -79,10 +80,9 @@ public class ExamplePlugin extends DebugPlugin {
                 ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF00FF00);
                 emit(cse);
             }
-            if (e.getSubType().equals(UserInputEvent.ONSCROLL)) {
-                Logger.v("Scroll detected, changing theme");
+            if ( e.getSubType().equals(UserInputEvent.LONGPRESS)) {
+                // emit event under the hood
                 new ColorPluginDarcula(editor).apply();
-                //editor.widgets.dispatch(new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground, ));
             }
         }
         if (e.getType().equals(LoopbackEvent.TYPE_LOOPBACK)) {
