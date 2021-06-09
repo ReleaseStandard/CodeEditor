@@ -36,5 +36,7 @@ public class Emitter extends Plugin {
 
     public Emitter(CodeEditor editor) {
         super(editor);
+        name = "emitter";
+        description = "simply allow calls to emit() by others plugins";
     }
 }

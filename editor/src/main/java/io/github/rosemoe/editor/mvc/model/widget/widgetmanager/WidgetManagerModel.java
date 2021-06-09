@@ -13,16 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.controller.widgets.widgetmanager;
+package io.github.rosemoe.editor.mvc.model.widget.widgetmanager;
 
-import io.github.rosemoe.editor.core.extension.events.Event;
-
-public class WidgetManagerEvent extends Event {
-    public final static String ISENABLED      = "isenabled";
-    public final static String TOGGLE         = "toggle";
-    public final static String GUI            = "gui";
-
-    public WidgetManagerEvent(String subtype, Object ...args) {
-        super(subtype,args);
-    }
+public class WidgetManagerModel {
 }

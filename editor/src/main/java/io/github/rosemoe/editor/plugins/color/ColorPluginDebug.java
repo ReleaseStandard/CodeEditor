@@ -29,6 +29,8 @@ public class ColorPluginDebug extends ColorPlugin {
 
     public ColorPluginDebug(CodeEditor editor) {
         super(editor);
+        name = "Debug color plugin";
+        description = "Take care it can hurt your eyes";
     }
 
     @Override

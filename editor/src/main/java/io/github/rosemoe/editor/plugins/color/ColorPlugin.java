@@ -19,6 +19,8 @@ import androidx.annotation.Nullable;
 
 import java.util.HashMap;
 
+import io.github.rosemoe.editor.core.extension.events.Event;
+import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeEvent;
 import io.github.rosemoe.editor.plugins.Plugin;
 import io.github.rosemoe.editor.core.CodeEditor;
@@ -34,7 +36,10 @@ public abstract class ColorPlugin extends Plugin {
         super(editor);
         this.invert = invert;
     }
-
+    public void init() {
+        name = "colorplugin";
+        description = "plugin that will change editor's colors";
+    }
 
 
     public void apply() {
@@ -51,4 +56,5 @@ public abstract class ColorPlugin extends Plugin {
      */
     @Nullable
     public abstract HashMap<Integer,Integer> getColors();
+
 }

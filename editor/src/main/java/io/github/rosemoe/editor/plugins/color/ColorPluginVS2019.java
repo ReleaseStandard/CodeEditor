@@ -22,12 +22,12 @@ import java.util.HashMap;
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.CodeEditor;
 
-//theme_name = "VS2019";
-//theme_description = "picked from Visual Studio 2019, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
 public class ColorPluginVS2019 extends ColorPlugin {
 
     public ColorPluginVS2019(CodeEditor editor) {
         super(editor);
+        name = "VS2019 color plugin";
+        description = "picked from Visual Studio 2019, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
     }
 
     @Nullable

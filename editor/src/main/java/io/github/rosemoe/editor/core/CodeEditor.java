@@ -64,11 +64,10 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.extension.ExtensionContainer;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
-import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.linenumberpanel.LineNumberPanelController;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
-import io.github.rosemoe.editor.mvc.controller.widgets.widgetmanager.WidgetManager;
+import io.github.rosemoe.editor.mvc.controller.widgets.widgetmanager.WidgetManagerController;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
 import io.github.rosemoe.editor.plugins.debug.TestPlugin;
 import io.github.rosemoe.editor.plugins.debug.WidgetAnalyzerPlugin;
@@ -558,7 +557,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         widgets.put(
                 userInput,
                 new LoopbackWidget(this),
-                new WidgetManager(this),
+                new WidgetManagerController(this),
                 lineNumber
         );
         mInsertSelWidth = lineNumber.getDividerWidth() / 2;

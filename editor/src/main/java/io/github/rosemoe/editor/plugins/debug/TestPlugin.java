@@ -27,6 +27,8 @@ public class TestPlugin extends DebugPlugin {
 
     public TestPlugin(CodeEditor editor) {
         super(editor);
+        name = "test";
+        description = "Test plugin";
     }
 
     @Override

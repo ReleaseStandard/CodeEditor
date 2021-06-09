@@ -305,7 +305,8 @@ public class ColorSchemeController extends Widget {
         initialize(invert);
     }
     private void initialize(boolean invert) {
-        this.name        = "color";
+        name        = "color";
+        description = "widget responsible from displaying color to the screen";
         subscribe(ColorSchemeEvent.class);
         if ( invert ) {
             invertColorScheme();

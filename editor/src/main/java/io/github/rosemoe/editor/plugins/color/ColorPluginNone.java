@@ -30,6 +30,8 @@ public class ColorPluginNone extends ColorPlugin {
 
     public ColorPluginNone(CodeEditor editor) {
         super(editor);
+        name = "None color plugin";
+        description = "Text will be displayed with no colors";
     }
 
     @Nullable

@@ -42,6 +42,8 @@ public class ExamplePlugin extends DebugPlugin {
 
     public ExamplePlugin(CodeEditor editor) {
         super(editor);
+        name = "example plugin";
+        description = "this plugin perform bunch of actions on various user input (ex: scroll, scale, doubletap)";
     }
 
     private void incOrReset() {
@@ -66,29 +68,37 @@ public class ExamplePlugin extends DebugPlugin {
     protected void handleEventDispatch(Event e, String subtype) {
         Logger.debug("Event e, subtype=",subtype," has been received");
         if (e.getType() == E_USERINPUT) {
-            if (subtype.equals(UserInputEvent.ONDOUBLETAP)) {
-                incOrReset();
-                incOrReset();
-            }
-            if (subtype.equals(UserInputEvent.SINGLETAPUP)) {
-                incOrReset();
-                ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF0000FF);
-                emit(cse);
-            }
-            if (subtype.equals(UserInputEvent.ONSCALEBEGIN)) {
-                Logger.v("Multiple tap detected, sending background color change");
-                ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF00FF00);
-                emit(cse);
-            }
-            if ( subtype.equals(UserInputEvent.LONGPRESS)) {
-                // emit event under the hood
-                new ColorPluginDarcula(editor).apply();
-            }
-            if( subtype.equals(UserInputEvent.ONSCALEEND) ) {
-                Logger.debug("On scale end");
-                WidgetManagerEvent wme = new WidgetManagerEvent(WidgetManagerEvent.TOGGLE);
-                wme.putArg("linenumberpanel");
-                emit(wme);
+            switch (subtype) {
+                case UserInputEvent.ONDOUBLETAP: {
+                    WidgetManagerEvent wme = new WidgetManagerEvent(WidgetManagerEvent.GUI);
+                    emit(wme);
+                    incOrReset();
+                    incOrReset();
+                    break;
+                }
+                case UserInputEvent.SINGLETAPUP: {
+                    incOrReset();
+                    ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF0000FF);
+                    emit(cse);
+                    break;
+                }
+                case UserInputEvent.ONSCALEBEGIN: {
+                    Logger.v("Multiple tap detected, sending background color change");
+                    ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF00FF00);
+                    emit(cse);
+                    break;
+                }
+                case UserInputEvent.LONGPRESS:
+                    // emit event under the hood
+                    new ColorPluginDarcula(editor).apply();
+                    break;
+                case UserInputEvent.ONSCALEEND: {
+                    Logger.debug("On scale end");
+                    WidgetManagerEvent wme = new WidgetManagerEvent(WidgetManagerEvent.TOGGLE);
+                    wme.putArg("linenumberpanel");
+                    emit(wme);
+                    break;
+                }
             }
         }
         if (e.getType() == E_LOOPBACK) {

@@ -19,12 +19,13 @@ import java.util.HashMap;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.CodeEditor;
-//theme_name = "HTML";
-//theme_description = "ColorScheme for HTML Language for editor";
+
 public class ColorPluginHTML extends ColorPlugin {
 
     public ColorPluginHTML(CodeEditor editor) {
         super(editor);
+        name = "HTML";
+        description = "ColorScheme for HTML Language for editor";
     }
 
     @Override

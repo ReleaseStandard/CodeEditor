@@ -20,12 +20,12 @@ import java.util.HashMap;
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.CodeEditor;
 
-//theme_name = "Darcula";
-//theme_description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
 public class ColorPluginDarcula extends ColorPlugin {
 
     public ColorPluginDarcula(CodeEditor editor) {
         super(editor);
+        name        = "Darcula color plugin";
+        description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
     }
 
     @Override

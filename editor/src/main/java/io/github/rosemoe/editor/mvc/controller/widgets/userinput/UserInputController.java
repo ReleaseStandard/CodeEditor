@@ -66,7 +66,8 @@ public final class UserInputController extends Widget {
      */
     public UserInputController(CodeEditor editor, Context ctx) {
         super(editor);
-        this.name = "userinput";
+        name = "userinput";
+        description = "widget that emits event in response to user interactions";
         subscribe(UserInputEvent.class);
         view = new UserInputView(editor,ctx) {
             @Override

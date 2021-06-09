@@ -17,5 +17,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.rosemoe.editor">
 
-
+    <application>
+        <activity android:name=".mvc.view.widget.widgetmanager.WidgetManagerView"></activity>
+    </application>
 </manifest>

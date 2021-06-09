@@ -33,6 +33,8 @@ public class WidgetAnalyzerPlugin extends DebugPlugin {
 
     public WidgetAnalyzerPlugin(CodeEditor editor) {
         super(editor);
+        name = "widget analyzer";
+        description = "widget analyzer plugin, make stats on widgets";
     }
 
     private HashMap<Class,Integer> eventCount = new HashMap<>();

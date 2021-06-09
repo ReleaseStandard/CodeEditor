@@ -28,7 +28,8 @@ public class LoopbackWidget extends Widget {
         super(editor);
         subscribe(LoopbackEvent.class);
         Logger.debug("TYPE_LOOPBACK=",issubscribed(LoopbackEvent.class),",TYPE_USERINPUT=",issubscribed(UserInputEvent.class));
-        this.name   = "loopback";
+        name        = "loopback";
+        description = "Widget that allow interactions between plugins";
     }
     @Override
     public void handleEventEmit(Event e) {

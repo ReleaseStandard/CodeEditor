@@ -50,7 +50,8 @@ public class LineNumberPanelController extends Widget {
         view = new LineNumberPanelView(editor);
         mDividerWidth  = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, Resources.getSystem().getDisplayMetrics());
         mDividerMargin = mDividerWidth;
-        this.name = "linenumberpanel";
+        name        = "linenumberpanel";
+        description = "This widget is responsible from displaying the linenumber panel";
     }
 
     @Override

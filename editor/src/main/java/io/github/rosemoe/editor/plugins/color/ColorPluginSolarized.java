@@ -31,6 +31,8 @@ public class ColorPluginSolarized extends ColorPlugin {
 
     public ColorPluginSolarized(CodeEditor editor) {
         super(editor);
+        name = "Solarized color plugin";
+        description = "https://ethanschoonover.com/solarized/";
     }
 
     @Nullable
