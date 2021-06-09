@@ -64,6 +64,7 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.extension.ExtensionContainer;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
+import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.mvc.controller.widgets.linenumberpanel.LineNumberPanelController;
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;

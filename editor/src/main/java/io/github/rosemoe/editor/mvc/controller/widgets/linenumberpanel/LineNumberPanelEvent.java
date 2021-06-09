@@ -18,16 +18,10 @@ package io.github.rosemoe.editor.mvc.controller.widgets.linenumberpanel;
 import io.github.rosemoe.editor.core.extension.events.Event;
 
 public class LineNumberPanelEvent extends Event {
-
-    public static final String TYPE_LINE_PANEL = "linepanel";
     public static final String CHANGE_ALIGN = "change";
     public static final String DIVIDER = "divider";
-    public LineNumberPanelEvent() {
-        super();
-        type = TYPE_LINE_PANEL;
-    }
+
     public LineNumberPanelEvent(String subtype, Object ...args) {
         super(subtype,args);
-        type = TYPE_LINE_PANEL;
     }
 }

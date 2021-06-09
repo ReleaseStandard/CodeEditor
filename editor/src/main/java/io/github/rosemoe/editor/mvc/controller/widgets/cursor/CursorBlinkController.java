@@ -35,6 +35,7 @@ public final class CursorBlinkController extends Widget implements Runnable {
     public final CursorBlinkView view;
 
     public CursorBlinkController(CodeEditor editor, int period) {
+        super(editor);
         model = new CursorBlinkModel(period);
         view  = new CursorBlinkView(editor);
     }

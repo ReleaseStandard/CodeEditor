@@ -30,8 +30,8 @@ public class TestPlugin extends DebugPlugin {
     }
 
     @Override
-    protected void handleEventDispatch(Event e, String type, String subtype) {
-        if ( type.equals(TYPE_USERINPUT) ) {
+    protected void handleEventDispatch(Event e, String subtype) {
+        if ( e.getType() == E_USERINPUT ) {
             if ( subtype.equals(ONDOUBLETAP) ) {
                 LineNumberPanelEvent lnpe = new LineNumberPanelEvent(LineNumberPanelEvent.CHANGE_ALIGN);
                 lnpe.putArgs(LineNumberPanelModel.ALIGN_CENTER);

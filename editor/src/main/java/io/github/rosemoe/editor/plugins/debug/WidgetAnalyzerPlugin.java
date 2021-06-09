@@ -35,18 +35,18 @@ public class WidgetAnalyzerPlugin extends DebugPlugin {
         super(editor);
     }
 
-    private HashMap<String,Integer> eventCount = new HashMap<>();
+    private HashMap<Class,Integer> eventCount = new HashMap<>();
 
     @Override
-    protected void handleEventDispatch(Event e, String type, String subtype) {
-        Integer c = eventCount.get(type);
+    protected void handleEventDispatch(Event e, String subtype) {
+        Integer c = eventCount.get(e.getType());
         if ( c == null ) {
             c = 0;
         } else {
             c++;
         }
-        eventCount.put(type,c);
-        if (e.getType().equals(UserInputEvent.TYPE_USERINPUT)) {
+        eventCount.put(e.getType(),c);
+        if (e.getType() == E_USERINPUT) {
             if (e.getSubType().equals(UserInputEvent.ONDOUBLETAP)) {
                 print();
             }
@@ -62,7 +62,7 @@ public class WidgetAnalyzerPlugin extends DebugPlugin {
     }
     public void print() {
         Logger.v("Widgets have emitted ", getEventCount() , " events");
-        for(String key : eventCount.keySet()) {
+        for(Class key : eventCount.keySet()) {
             Logger.v("    widget ",key," has emitted ",eventCount.get(key)," events");
         }
     }

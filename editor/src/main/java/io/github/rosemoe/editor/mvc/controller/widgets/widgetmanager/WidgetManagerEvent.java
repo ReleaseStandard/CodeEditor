@@ -18,15 +18,9 @@ package io.github.rosemoe.editor.mvc.controller.widgets.widgetmanager;
 import io.github.rosemoe.editor.core.extension.events.Event;
 
 public class WidgetManagerEvent extends Event {
-    public final static String TYPE_WIDGET_MGR = "widgetdisabler";
     public final static String ISENABLED      =  "isenabled";
     public final static String TOGGLE         = "toggle";
-    public WidgetManagerEvent() {
-        super();
-        type = TYPE_WIDGET_MGR;
-    }
     public WidgetManagerEvent(String subtype, Object ...args) {
         super(subtype,args);
-        type = TYPE_WIDGET_MGR;
     }
 }

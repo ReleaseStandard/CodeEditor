@@ -39,6 +39,7 @@ public class ContextActionController extends Widget {
      * @param editor Target editor
      */
     public ContextActionController(CodeEditor editor) {
+        super(editor);
         view = new ContextActionView(editor) {
             @Override
             public void handleOnBeginTextSelect(int maxWidth) {

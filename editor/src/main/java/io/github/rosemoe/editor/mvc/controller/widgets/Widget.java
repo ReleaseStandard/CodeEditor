@@ -15,6 +15,7 @@
  */
 package io.github.rosemoe.editor.mvc.controller.widgets;
 
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.core.extension.Extension;
 import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.core.util.Logger;
@@ -26,6 +27,13 @@ import io.github.rosemoe.editor.core.util.Logger;
  * @author Release Standard
  */
 public abstract class Widget extends Extension {
+
+    public Widget(CodeEditor editor) {
+        super(editor);
+    }
+
+    @Override
+    protected void handleEventEmit(Event e) { editor.plugins.dispatch(e); }
 
     @Override
     public void dispatch(Event e) {

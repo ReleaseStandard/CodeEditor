@@ -17,7 +17,6 @@ package io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer;
 
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.SparseIntArray;
 
 import androidx.annotation.StyleableRes;
 
@@ -28,7 +27,6 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
 import io.github.rosemoe.editor.core.util.Logger;
-import io.github.rosemoe.editor.core.util.Objects;
 import io.github.rosemoe.editor.core.CodeEditor;
 
 import static io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeEvent.*;
@@ -43,7 +41,6 @@ import static io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.Colo
  */
 public class ColorSchemeController extends Widget {
 
-    CodeEditor editor;
     public static final int UPDATE_COLOR_SLEEP = 100;
     private static final int TODO = 0xFFFF0000;
     private static final int HIDDEN = 0;
@@ -300,15 +297,16 @@ public class ColorSchemeController extends Widget {
      * For sub classes
      */
     public ColorSchemeController(CodeEditor editor) {
-        initialize(editor,false);
+        super(editor);
+        initialize(false);
     }
     public ColorSchemeController(CodeEditor editor, boolean invert) {
-        initialize(editor, invert);
+        super(editor);
+        initialize(invert);
     }
-    private void initialize(CodeEditor editor, boolean invert) {
-        this.editor      = Objects.requireNonNull(editor);
+    private void initialize(boolean invert) {
         this.name        = "color";
-        subscribe(TYPE_COLOR_SCHEME);
+        subscribe(ColorSchemeEvent.class);
         if ( invert ) {
             invertColorScheme();
         }
@@ -370,7 +368,7 @@ public class ColorSchemeController extends Widget {
 
 
     @Override
-    public void handleEventDispatch(Event e, String type, String subtype) {
+    public void handleEventDispatch(Event e, String subtype) {
         ColorSchemeEvent cse = (ColorSchemeEvent) e;
         @StyleableRes int colorId;
         int colorValue;

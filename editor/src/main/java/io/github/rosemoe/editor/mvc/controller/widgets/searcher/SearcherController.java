@@ -34,6 +34,8 @@ public class SearcherController extends Widget {
     public SearcherView view   = new SearcherView();
 
     public SearcherController(CodeEditor editor) {
+        super(editor);
+        // TODO : define an event
         view.editor = editor;
     }
 

@@ -25,7 +25,7 @@ import io.github.rosemoe.editor.core.CodeEditor;
 public abstract class DebugPlugin extends Plugin {
 
     @Override
-    public boolean issubscribed(String type) {
+    public boolean issubscribed(Class type) {
         return true;
     }
 

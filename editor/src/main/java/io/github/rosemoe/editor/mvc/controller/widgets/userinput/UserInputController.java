@@ -24,6 +24,7 @@ import android.widget.OverScroller;
 
 import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
 import io.github.rosemoe.editor.core.extension.events.Event;
+import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
 import io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputView;
 import io.github.rosemoe.editor.core.util.IntPair;
@@ -31,7 +32,6 @@ import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.widget.TextActionPopupWindow;
 
-import static io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent.TYPE_LOOPBACK;
 import static io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent.*;
 import static io.github.rosemoe.editor.mvc.model.widget.userinput.UserInputModel.*;
 
@@ -58,7 +58,6 @@ public final class UserInputController extends Widget {
     private float downY = 0;
     private float downX = 0;
     private int touchedHandleType = -1;
-    CodeEditor editor;
 
     /**
      * Create a event handler for the given editor
@@ -66,9 +65,9 @@ public final class UserInputController extends Widget {
      * @param editor Host editor
      */
     public UserInputController(CodeEditor editor, Context ctx) {
-        super();
-        this.editor = editor;
-        subscribe(TYPE_USERINPUT);
+        super(editor);
+        this.name = "userinput";
+        subscribe(UserInputEvent.class);
         view = new UserInputView(editor,ctx) {
             @Override
             public long refreshLastScroll() {
@@ -430,15 +429,8 @@ public final class UserInputController extends Widget {
 
 
     @Override
-    public void handleEventEmit(Event e) {
-        super.handleEventEmit(e);
-        Logger.debug("Dispatching event to plugins !");
-        view.editor.plugins.dispatch(e);
-    }
-
-    @Override
-    public void handleEventDispatch(Event e, String type, String subtype) {
-        Logger.debug("TYPE_LOOPBACK=",issubscribed(TYPE_LOOPBACK),",TYPE_USERINPUT=",issubscribed(UserInputEvent.TYPE_USERINPUT));
+    public void handleEventDispatch(Event e, String subtype) {
+        Logger.debug("TYPE_LOOPBACK=",issubscribed(LoopbackEvent.class),",TYPE_USERINPUT=",issubscribed(UserInputEvent.class));
         UserInputEvent uie = (UserInputEvent) e;
         switch(subtype) {
         }

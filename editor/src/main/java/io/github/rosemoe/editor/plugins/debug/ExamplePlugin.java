@@ -63,9 +63,9 @@ public class ExamplePlugin extends DebugPlugin {
         }
     }
     @Override
-    protected void handleEventDispatch(Event e, String type, String subtype) {
-        Logger.debug("Event e, type=",type," has been received");
-        if (type.equals(UserInputEvent.TYPE_USERINPUT)) {
+    protected void handleEventDispatch(Event e, String subtype) {
+        Logger.debug("Event e, subtype=",subtype," has been received");
+        if (e.getType() == E_USERINPUT) {
             if (subtype.equals(UserInputEvent.ONDOUBLETAP)) {
                 incOrReset();
                 incOrReset();
@@ -91,7 +91,7 @@ public class ExamplePlugin extends DebugPlugin {
                 emit(wme);
             }
         }
-        if (type.equals(LoopbackEvent.TYPE_LOOPBACK)) {
+        if (e.getType() == E_LOOPBACK) {
             if (subtype.equals(LoopbackEvent.PLUGINS_BROADCAST)) {
                 Logger.v("Response from the widget received");
             }

@@ -21,18 +21,11 @@ import io.github.rosemoe.editor.core.extension.events.Event;
  * This widget is important because it allows communication between plugins.
  */
 public class LoopbackEvent extends Event {
-    // primary type we can subclass in java
-    public final static String TYPE_LOOPBACK = "loopback";
     // secondary keywords
     // same // public final static String PLUGINS_BROADCAST = "loopback";
     // action
     public final static String PLUGINS_BROADCAST = "loopback";
-    public LoopbackEvent() {
-        super();
-        type = TYPE_LOOPBACK;
-    }
     public LoopbackEvent(String subtype, Object ...args) {
         super(subtype,args);
-        type = TYPE_LOOPBACK;
     }
 }

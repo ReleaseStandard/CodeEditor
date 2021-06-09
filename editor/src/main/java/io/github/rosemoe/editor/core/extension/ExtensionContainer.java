@@ -18,6 +18,7 @@ package io.github.rosemoe.editor.core.extension;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.core.util.Logger;
 
@@ -28,8 +29,12 @@ public class ExtensionContainer extends Extension {
 
     public PriorityQueue<Extension> extensions = new PriorityQueue<Extension>();
 
+    public ExtensionContainer() {
+        super(null);
+    }
+
     @Override
-    public boolean issubscribed(String type) {
+    public boolean issubscribed(Class type) {
         return true;
     }
 
@@ -39,11 +44,10 @@ public class ExtensionContainer extends Extension {
      * - first we check : priority of event
      * - then we check  : priority of extension
      * @param e
-     * @param type
      */
     @Override
-    protected void handleEventDispatch(Event e, String type, String subtype) {
-        Logger.debug("Event dispatched : type=",type,",subtype=",subtype);
+    protected void handleEventDispatch(Event e, String subtype) {
+        Logger.debug("Event dispatched : subtype=",subtype);
         Extension olde = null;
         for (Iterator<Extension> it = extensions.iterator(); it.hasNext(); ) {
             Extension extension = it.next();

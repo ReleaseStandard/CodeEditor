@@ -39,7 +39,6 @@ public final class CursorController extends Widget {
     public CursorModel model = new CursorModel();
 	public final CursorView view;
     public CursorBlinkController blink;        // Manage cursor blink effect
-    public final CodeEditor editor;
     private CharPosition mLeft, mRight;
     public static final boolean DEFAULT_ISAUTO_IDENT = true;
 
@@ -49,10 +48,10 @@ public final class CursorController extends Widget {
      * @param content Target content
      */
     public CursorController(ContentMapController content, CodeEditor editor) {
+        super(editor);
         mContent = content;
         mIndexer = new CachedIndexer(content);
         view     = new CursorView();
-        this.editor = editor;
         blink = new CursorBlinkController(editor, CursorBlinkController.DEFAULT_CURSOR_BLINK_PERIOD);
     }
 

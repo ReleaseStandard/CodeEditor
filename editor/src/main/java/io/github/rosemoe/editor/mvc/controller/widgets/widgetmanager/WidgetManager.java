@@ -23,14 +23,13 @@ import io.github.rosemoe.editor.mvc.controller.widgets.Widget;
  * This widget disable any other, based on the Event defined with each.
  */
 public class WidgetManager extends Widget {
-    public CodeEditor editor;
     public WidgetManager(CodeEditor editor) {
-        subscribe(WidgetManagerEvent.TYPE_WIDGET_MGR);
-        this.editor = editor;
+        super(editor);
+        subscribe(WidgetManagerEvent.class);
     }
 
     @Override
-    protected void handleEventDispatch(Event e, String type, String subtype) {
+    protected void handleEventDispatch(Event e, String subtype) {
         WidgetManagerEvent wme = (WidgetManagerEvent) e;
         switch (subtype) {
             case WidgetManagerEvent.ISENABLED: {

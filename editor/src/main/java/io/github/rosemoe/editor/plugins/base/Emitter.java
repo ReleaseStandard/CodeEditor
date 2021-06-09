@@ -30,7 +30,7 @@ import io.github.rosemoe.editor.plugins.Plugin;
 public class Emitter extends Plugin {
 
     @Override
-    public boolean issubscribed(String type) {
+    public boolean issubscribed(Class type) {
         return false;
     }
 

@@ -29,16 +29,16 @@ public interface EventDestination {
      * Subscribe to this type of events
      * @param type
      */
-    void subscribe(String type);
+    void subscribe(Class type);
     /**
      * Unsubscribe to this type of events.
      * @param type event type to unsubscribe.
      */
-    void unsubscribe(String type);
+    void unsubscribe(Class type);
     /**
      * Test if current event destination is subscribed to event.
      * @param type
      * @return
      */
-    boolean issubscribed(String type);
+    boolean issubscribed(Class type);
 }

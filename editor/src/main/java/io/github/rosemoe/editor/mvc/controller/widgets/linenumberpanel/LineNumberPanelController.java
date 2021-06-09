@@ -44,10 +44,9 @@ public class LineNumberPanelController extends Widget {
     private float mDividerWidth;
     private float mDividerMargin;
 
-    CodeEditor editor;
     public LineNumberPanelController(CodeEditor editor) {
-        super();
-        this.editor = editor;
+        super(editor);
+        subscribe(LineNumberPanelEvent.class);
         view = new LineNumberPanelView(editor);
         mDividerWidth  = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, Resources.getSystem().getDisplayMetrics());
         mDividerMargin = mDividerWidth;
@@ -55,7 +54,7 @@ public class LineNumberPanelController extends Widget {
     }
 
     @Override
-    public void handleEventDispatch(Event e, String type, String subtype) {
+    public void handleEventDispatch(Event e, String subtype) {
         LineNumberPanelEvent uie = (LineNumberPanelEvent) e;
         switch(subtype) {
             case LineNumberPanelEvent.CHANGE_ALIGN:

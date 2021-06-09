@@ -19,6 +19,8 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.extension.Extension;
 import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.core.CodeEditor;
+import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
+import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
 
 
 /**
@@ -28,7 +30,6 @@ import io.github.rosemoe.editor.core.CodeEditor;
  */
 public abstract class Plugin extends Extension {
 
-    protected CodeEditor editor;
     /**
      * Below defined constantes are for convenience only.
      * As a good citizen, you should not use them.
@@ -59,21 +60,21 @@ public abstract class Plugin extends Extension {
     public final static int ID_FUNCT          = ACCENT6;
     public final static int LITERAL           = ACCENT7;
     public final static int PUNCT             = ACCENT8;
-
+    public final static Class E_LOOPBACK      = LoopbackEvent.class;
+    public final static Class E_USERINPUT     = UserInputEvent.class;
     /**
      * Override this method to execute action when a given event is dispatched.
      * @param e
-     * @param type
      */
     @Override
-    protected void handleEventDispatch(Event e, String type, String subtype) {
+    protected void handleEventDispatch(Event e, String subtype) {
 
     }
 
-    @Override protected void handleEventEmit(Event e) {
-        editor.widgets.dispatch(e);
-    }
+    @Override
+    protected void handleEventEmit(Event e) { editor.widgets.dispatch(e); }
+
     public Plugin(CodeEditor editor) {
-        this.editor = editor;
+        super(editor);
     }
 }

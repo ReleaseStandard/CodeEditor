@@ -51,17 +51,15 @@ public abstract class Event implements Comparable {
     public int priorityRing = PRIORITY_STD;
     public boolean stopHorizontalPropagation = false;
     public boolean stopVerticalPropagation   = false;
-    public final static String TYPE_NONE = "none";
-    public String type = TYPE_NONE;
     /**
      * Type of event, eg event type from EventInput, event type from the layout
      * @return
      */
-    public String getType() { return type; }
+    public Class getType() { return this.getClass(); }
     /**
      * We define a subtype, eg if event type if UserInput, we can user the scrollby subtype.
      */
-    public String subtype = TYPE_NONE;
+    public String subtype = "none";
     public String getSubType() { return subtype; }
     /**
      * Stop propagation of this event at the current propagation state.
@@ -78,8 +76,7 @@ public abstract class Event implements Comparable {
 
     public ArrayList<Object> args = new ArrayList<>();
 
-    public Event(String type, String subtype) {
-        this.type = type;
+    public Event(Class type, String subtype) {
         this.subtype = subtype;
     }
     public Event() {
@@ -116,6 +113,6 @@ public abstract class Event implements Comparable {
         dump("");
     }
     public void dump(String offset) {
-        Logger.debug(offset + "type=",type,",subtype=",subtype);
+        Logger.debug(offset + ",subtype=",subtype);
     }
 }

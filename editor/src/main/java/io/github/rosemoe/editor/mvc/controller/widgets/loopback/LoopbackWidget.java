@@ -24,11 +24,10 @@ import io.github.rosemoe.editor.core.CodeEditor;
 import static io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent.*;
 
 public class LoopbackWidget extends Widget {
-    CodeEditor editor;
     public LoopbackWidget(CodeEditor editor) {
-        subscribe(TYPE_LOOPBACK);
-        Logger.debug("TYPE_LOOPBACK=",issubscribed(TYPE_LOOPBACK),",TYPE_USERINPUT=",issubscribed(UserInputEvent.TYPE_USERINPUT));
-        this.editor = editor;
+        super(editor);
+        subscribe(LoopbackEvent.class);
+        Logger.debug("TYPE_LOOPBACK=",issubscribed(LoopbackEvent.class),",TYPE_USERINPUT=",issubscribed(UserInputEvent.class));
         this.name   = "loopback";
     }
     @Override
@@ -38,7 +37,7 @@ public class LoopbackWidget extends Widget {
     }
 
     @Override
-    public void handleEventDispatch(Event e, String type, String subtype) {
+    public void handleEventDispatch(Event e, String subtype) {
         LoopbackEvent uie = (LoopbackEvent) e;
         switch(subtype) {
             case PLUGINS_BROADCAST:

@@ -21,18 +21,12 @@ import io.github.rosemoe.editor.core.extension.events.Event;
  * This widget is important because it allows communication between plugins.
  */
 public class ColorSchemeEvent extends Event {
-    // primary type we can subclass in java
-    public final static String TYPE_COLOR_SCHEME = "colorScheme";
     // secondary keywords
     // action
     public final static String UPDATE_COLOR = "update_color";
     public final static String UPDATE_THEME = "update_theme";
-    public ColorSchemeEvent() {
-        super();
-        type = TYPE_COLOR_SCHEME;
-    }
+
     public ColorSchemeEvent(String subtype, Object ...args) {
         super(subtype,args);
-        type = TYPE_COLOR_SCHEME;
     }
 }

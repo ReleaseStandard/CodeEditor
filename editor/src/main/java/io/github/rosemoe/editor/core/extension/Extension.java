@@ -17,11 +17,13 @@ package io.github.rosemoe.editor.core.extension;
 
 import java.util.HashMap;
 
+import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.core.extension.events.EventDestination;
 import io.github.rosemoe.editor.core.extension.events.EventQueue;
 import io.github.rosemoe.editor.core.extension.events.EventSource;
 import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
 
 
 /**
@@ -44,7 +46,7 @@ public abstract class Extension implements EventSource, EventDestination, Compar
     public static final int PRIORITY_HIGH = 1000;
     public int priorityRing = PRIORITY_STD;
 
-    private HashMap<String, Boolean> subscribedEventTypes = new HashMap<>();
+    private HashMap<Class, Boolean> subscribedEventTypes = new HashMap<>();
 
     /**
      * Name of the extension.
@@ -96,6 +98,7 @@ public abstract class Extension implements EventSource, EventDestination, Compar
      * @param e
      */
     protected void handleEventEmit(Event e) { }
+
     @Override
     public void emit(Event e) {
         if ( isDisabled() ) {
@@ -115,7 +118,7 @@ public abstract class Extension implements EventSource, EventDestination, Compar
     private EventQueue dispatchQueue = new EventQueue() {
         @Override
         public void handlePolling(Event e) {
-            handleEventDispatch(e,e.getType(),e.getSubType());
+            handleEventDispatch(e,e.getSubType());
         }
     };
     @Override
@@ -124,7 +127,7 @@ public abstract class Extension implements EventSource, EventDestination, Compar
             Logger.debug("Cannot emit as this extension is disabled !");
             return;
         }
-        if( issubscribed(e.getType()) ) {
+        if( issubscribed(e.getClass()) ) {
             Logger.debug("Inserting event in the pq");
             e.dump("      ");
             dispatchQueue.add(e);
@@ -132,24 +135,29 @@ public abstract class Extension implements EventSource, EventDestination, Compar
     }
 
     @Override
-    public void subscribe(String type) {
+    public void subscribe(Class type) {
         subscribedEventTypes.put(type,true);
     }
 
     @Override
-    public void unsubscribe(String type) {
+    public void unsubscribe(Class type) {
         subscribedEventTypes.put(type,false);
     }
 
     @Override
-    public boolean issubscribed(String type) {
+    public boolean issubscribed(Class type) {
         return subscribedEventTypes.containsKey(type);
     }
 
     /**
      * Override this method to execute action when a given event is dispatched.
      * @param e
-     * @param type
      */
-    protected void handleEventDispatch(Event e, String type, String subtype) { }
+    protected void handleEventDispatch(Event e, String subtype) { }
+
+    public final CodeEditor editor;
+    public Extension(CodeEditor editor) {
+        this.editor = editor;
+    }
+
 }
