@@ -83,20 +83,28 @@ public abstract class CodeAnalyzer {
                 @Override
                 public void run() {
                     while(true) {
-                        try {
-                            int a = resultsLock.getHoldCount();
-                            int b = inProcessResultsLock.getHoldCount();
-                            Thread.sleep(10000);
-                            if ( a == resultsLock.getHoldCount()
-                            ) {
-                                Logger.v("WARNING you probably have a deadlock on in builded resutls (view)");
+                        int checkSz = 100;
+                        int resultsLockCount = 0;
+                        int inProcessResultsLockCount = 0;
+                        for(int i = 0; i < checkSz ; i = i + 1 ) {
+                            try {
+                                if ( resultsLock.isLocked() == false ) {
+                                    resultsLockCount++;
+                                }
+                                if ( inProcessResultsLock.isLocked() == false ) {
+                                    inProcessResultsLockCount++;
+                                }
+                                Thread.sleep(10);
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
-                            if ( b == inProcessResultsLock.getHoldCount()
-                            ) {
-                                Logger.v("WARNING you probably have a deadlock on in building resutls (processing)");
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        }
+                        if (resultsLockCount == checkSz) {
+                            Logger.v("WARNING you probably have a deadlock on in builded resutls (view)");
+                        }
+                        if (inProcessResultsLockCount == checkSz) {
+                            Logger.v("WARNING you probably have a deadlock on in building resutls (processing)");
                         }
                     }
                 }

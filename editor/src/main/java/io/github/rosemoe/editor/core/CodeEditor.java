@@ -523,7 +523,8 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         plugins.put(
                 new ExamplePlugin(this),
                 new WidgetAnalyzerPlugin(this),
-                new TestPlugin(this));
+                new TestPlugin(this)
+        );
         mViewRect = new Rect(0, 0, 0, 0);
         mInsertHandle = new RectF();
         mLeftHandle = new RectF();
