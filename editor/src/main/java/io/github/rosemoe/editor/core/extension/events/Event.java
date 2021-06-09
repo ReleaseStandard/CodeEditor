@@ -105,11 +105,12 @@ public abstract class Event implements Comparable {
      * Put a given arg in the event.
      * @param arg
      */
-    public void putArg(Object arg) { args.add(arg); }
-    public void putArgs(Object ...args) {
+    public Event putArg(Object arg) { args.add(arg); return this; }
+    public Event putArgs(Object ...args) {
         for(Object arg : args) {
             putArg(arg);
         }
+        return this;
     }
     public void dump() {
         dump("");

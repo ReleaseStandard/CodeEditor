@@ -46,6 +46,7 @@ import io.github.rosemoe.editor.langs.java.JavaLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
 import io.github.rosemoe.editor.core.util.Logger;
+import io.github.rosemoe.editor.plugins.base.Emitter;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.widget.SymbolInputView;
