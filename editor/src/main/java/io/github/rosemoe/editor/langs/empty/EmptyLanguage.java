@@ -26,18 +26,17 @@ import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompletePr
 import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
 
 /**
- * Empty language without any effect
+ * Empty language without any effect,
+ * no content analyzer, no color analyzer, nothing.
  *
  * @author Rose
  */
 public class EmptyLanguage extends LanguageController {
 
-    @Override
-    public CodeAnalyzer getAnalyzer() {
-        return new EmptyCodeAnalyzer();
+    public EmptyLanguage() {
+        super();
+        analyzer = new EmptyCodeAnalyzer();
     }
-
-
     @Override
     public AutoCompleteProviderController getAutoCompleteProvider() {
         return new EmptyAutoCompleteProvider();

@@ -37,12 +37,16 @@ import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatc
  */
 public abstract class LanguageController {
 
+    protected CodeAnalyzer analyzer;
+
     /**
      * Get CodeAnalyzerController of this language object
      *
      * @return CodeAnalyzerController
      */
-    public abstract CodeAnalyzer getAnalyzer();
+    public CodeAnalyzer getAnalyzer() {
+        return analyzer;
+    }
 
     public AutoCompleteProviderController getAutoCompleteProvider() {
         IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();

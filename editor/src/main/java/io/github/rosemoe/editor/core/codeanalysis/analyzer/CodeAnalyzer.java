@@ -15,8 +15,6 @@
  */
 package io.github.rosemoe.editor.core.codeanalysis.analyzer;
 
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +23,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.core.util.CallStack;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
-import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanLineController;
 import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.spans.SpanMapController;
 import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
 import io.github.rosemoe.editor.core.util.Logger;
@@ -77,21 +74,25 @@ public abstract class CodeAnalyzer {
     public HashMap<String, CodeAnalyzerResult> inProcessResults = new HashMap<>();
 
 
+    public static int instanceCount = 0;
+
     public CodeAnalyzer() {
         if (Logger.DEBUG) {
+            instanceCount++;
             new Thread() {
                 @Override
                 public void run() {
+                    int ic = instanceCount;
                     while(true) {
                         int checkSz = 100;
                         int resultsLockCount = 0;
                         int inProcessResultsLockCount = 0;
                         for(int i = 0; i < checkSz ; i = i + 1 ) {
                             try {
-                                if ( resultsLock.isLocked() == false ) {
+                                if ( resultsLock.isLocked() ) {
                                     resultsLockCount++;
                                 }
-                                if ( inProcessResultsLock.isLocked() == false ) {
+                                if ( inProcessResultsLock.isLocked() ) {
                                     inProcessResultsLockCount++;
                                 }
                                 Thread.sleep(10);
@@ -101,10 +102,10 @@ public abstract class CodeAnalyzer {
                             }
                         }
                         if (resultsLockCount == checkSz) {
-                            Logger.v("WARNING you probably have a deadlock on in builded resutls (view)");
+                            Logger.v("WARNING you probably have a deadlock on in builded resutls (view), ic=",ic,",results=",CodeAnalyzer.this.results.size());
                         }
                         if (inProcessResultsLockCount == checkSz) {
-                            Logger.v("WARNING you probably have a deadlock on in building resutls (processing)");
+                            Logger.v("WARNING you probably have a deadlock on in building resutls (processing), ic=",ic,",results=",CodeAnalyzer.this.results.size());
                         }
                     }
                 }
@@ -254,6 +255,9 @@ public abstract class CodeAnalyzer {
     public void unlockView() {
         unlock(resultsLock);
     }
+    public boolean isViewLocked() {
+        return resultsLock.isLocked();
+    }
     /**
      * lock results being builded.
      */
@@ -265,6 +269,9 @@ public abstract class CodeAnalyzer {
      */
     public void unlockBuild() {
         unlock(inProcessResultsLock);
+    }
+    public boolean isBuildLocked() {
+        return inProcessResultsLock.isLocked();
     }
     private void unlock(ReentrantLock lock) {
         if ( lock != null &&

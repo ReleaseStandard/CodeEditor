@@ -31,9 +31,9 @@ import io.github.rosemoe.editor.langs.helpers.TextUtils;
 
 public class PythonLanguage extends LanguageController {
 
-    @Override
-    public CodeAnalyzer getAnalyzer() {
-        return new PythonCodeAnalyzer();
+    public PythonLanguage() {
+        super();
+        analyzer = new PythonCodeAnalyzer();
     }
 
 

@@ -85,13 +85,20 @@ public class CodeAnalyzerThread extends Thread {
                     }
                 } catch (InterruptedException e) {
                     Logger.v("Analyze daemon is being interrupted -> Exit");
+                    handleError();
                     break;
                 }
             } while (true);
         } catch (Exception ex) {
             Logger.v("Analyze daemon got exception -> Exit",ex);
-
+            handleError();
         }
+    }
+
+    public void handleError() {
+        codeAnalyzer.lockBuild();
+        codeAnalyzer.clearInBuild();
+        codeAnalyzer.unlockBuild();
     }
 
     /**

@@ -35,14 +35,11 @@ public class UniversalLanguage extends LanguageController {
     private UniversalTokenizer tokenizer2;
 
     public UniversalLanguage(LanguageDescription languageDescription) {
+        super();
+        analyzer = new UniversalCodeAnalyzer(mLanguage,tokenizer,tokenizer2);
         mLanguage = languageDescription;
         tokenizer = new UniversalTokenizer(mLanguage);
         tokenizer2 = new UniversalTokenizer(mLanguage);
-    }
-
-    @Override
-    public CodeAnalyzer getAnalyzer() {
-        return new UniversalCodeAnalyzer(mLanguage,tokenizer,tokenizer2);
     }
 
     @Override

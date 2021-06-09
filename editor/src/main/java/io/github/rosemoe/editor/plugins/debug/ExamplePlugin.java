@@ -65,28 +65,34 @@ public class ExamplePlugin extends DebugPlugin {
     @Override
     protected void handleEventDispatch(Event e, String type, String subtype) {
         Logger.debug("Event e, type=",type," has been received");
-        if (e.getType().equals(UserInputEvent.TYPE_USERINPUT)) {
-            if (e.getSubType().equals(UserInputEvent.ONDOUBLETAP)) {
+        if (type.equals(UserInputEvent.TYPE_USERINPUT)) {
+            if (subtype.equals(UserInputEvent.ONDOUBLETAP)) {
                 incOrReset();
                 incOrReset();
             }
-            if (e.getSubType().equals(UserInputEvent.SINGLETAPUP)) {
+            if (subtype.equals(UserInputEvent.SINGLETAPUP)) {
                 incOrReset();
                 ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF0000FF);
                 emit(cse);
             }
-            if (e.getSubType().equals(UserInputEvent.ONSCALEBEGIN)) {
+            if (subtype.equals(UserInputEvent.ONSCALEBEGIN)) {
                 Logger.v("Multiple tap detected, sending background color change");
                 ColorSchemeEvent cse = new ColorSchemeEvent(ColorSchemeEvent.UPDATE_COLOR, R.styleable.CodeEditor_widget_color_wholeBackground,0xFF00FF00);
                 emit(cse);
             }
-            if ( e.getSubType().equals(UserInputEvent.LONGPRESS)) {
+            if ( subtype.equals(UserInputEvent.LONGPRESS)) {
                 // emit event under the hood
                 new ColorPluginDarcula(editor).apply();
             }
+            if( subtype.equals(UserInputEvent.ONSCALEEND) ) {
+                Logger.debug("On scale end");
+                WidgetManagerEvent wme = new WidgetManagerEvent(WidgetManagerEvent.TOGGLE);
+                wme.putArg("linenumberpanel");
+                emit(wme);
+            }
         }
-        if (e.getType().equals(LoopbackEvent.TYPE_LOOPBACK)) {
-            if (e.getSubType().equals(LoopbackEvent.PLUGINS_BROADCAST)) {
+        if (type.equals(LoopbackEvent.TYPE_LOOPBACK)) {
+            if (subtype.equals(LoopbackEvent.PLUGINS_BROADCAST)) {
                 Logger.v("Response from the widget received");
             }
         }

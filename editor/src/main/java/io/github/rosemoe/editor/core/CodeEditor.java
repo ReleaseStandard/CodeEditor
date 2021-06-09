@@ -539,7 +539,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         setScalable(true);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        setEditorLanguage(null);
+        setEditorLanguage(new EmptyLanguage());
         setHighlightCurrentLine(true);
         setAutoCompletionEnabled(true);
         setHighlightCurrentBlock(true);
@@ -675,19 +675,16 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      *
      * @param lang New LanguageController for editor
      */
-    public void setEditorLanguage(@Nullable LanguageController lang) {
-        if (lang == null) {
-            lang = new EmptyLanguage();
-        }
+    public void setEditorLanguage(@NonNull LanguageController lang) {
         this.mLanguage = lang;
 
         // Update spanner
         if (analyzer != null) {
-            analyzer.lockView();
             analyzer.shutdown();
             analyzer.setCallback(null);
         }
         analyzer = lang.getAnalyzer();
+        analyzer.lockView();
         CodeAnalyzerResultColor result = ((CodeAnalyzerResultColor)analyzer.getResult("color"));
         if ( result != null ) {
             result.theme = getColorScheme();
@@ -717,9 +714,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
             cursor.setLanguage(mLanguage);
         }
         invalidate();
-        if ( analyzer != null ) {
-            analyzer.unlockView();
-        }
+        analyzer.unlockView();
     }
 
     /**
@@ -999,6 +994,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         if ( colRes == null ) {
             Logger.debug("spanmap is not ready");
             analyzer.dump();
+            analyzer.unlockView();
             return;
         }
         SpanMapController spanMap = analyzer.getSpanMap();

@@ -32,13 +32,10 @@ import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatc
  */
 public class JavaLanguage extends LanguageController {
 
-    JavaCodeAnalyzer codeAnalyzer = new JavaCodeAnalyzer();
-
-    @Override
-    public CodeAnalyzer getAnalyzer() {
-        return codeAnalyzer;
+    public JavaLanguage() {
+        super();
+        analyzer = new JavaCodeAnalyzer();
     }
-
     @Override
     public AutoCompleteProviderController getAutoCompleteProvider() {
         IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();

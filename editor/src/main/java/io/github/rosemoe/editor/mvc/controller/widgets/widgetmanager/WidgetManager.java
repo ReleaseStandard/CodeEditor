@@ -33,12 +33,19 @@ public class WidgetManager extends Widget {
     protected void handleEventDispatch(Event e, String type, String subtype) {
         WidgetManagerEvent wme = (WidgetManagerEvent) e;
         switch (subtype) {
-            case WidgetManagerEvent.TYPE_WIDGET_MGR:
+            case WidgetManagerEvent.ISENABLED: {
                 String wname = (String) wme.getArg(0);
                 Boolean state = (Boolean) wme.getArg(1);
                 Widget w = (Widget) editor.widgets.get(wname);
                 w.setEnabled(state);
                 break;
+            }
+            case WidgetManagerEvent.TOGGLE: {
+                String wname = (String) wme.getArg(0);
+                Widget w = (Widget) editor.widgets.get(wname);
+                w.toggleIsEnabled();
+                break;
+            }
         }
     }
 }
