@@ -17,9 +17,8 @@ package io.github.rosemoe.editor.core.util;
 
 import android.util.Log;
 
-import static io.github.rosemoe.editor.core.CodeEditor.LOG_TAG;
-
 public class Logger {
+    public static final String LOG_TAG = "CodeEditor";
     public static boolean DEBUG = true;
     public static boolean VERBOSE = true;
     public static String OFFSET = "    ";

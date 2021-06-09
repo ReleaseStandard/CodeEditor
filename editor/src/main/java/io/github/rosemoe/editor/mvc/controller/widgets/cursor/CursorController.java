@@ -41,6 +41,7 @@ public final class CursorController extends Widget {
     public CursorBlinkController blink;        // Manage cursor blink effect
     public final CodeEditor editor;
     private CharPosition mLeft, mRight;
+    public static final boolean DEFAULT_ISAUTO_IDENT = true;
 
     /**
      * Create a new CursorController for ContentMapController
@@ -247,7 +248,7 @@ public final class CursorController extends Widget {
     public void setTabWidth(int width) {
         model.mTabWidth = width;
     }
-
+    public int getTabWidth() { return model.mTabWidth; }
     public void onCommitText(CharSequence text) {
         onCommitText(text, true);
     }

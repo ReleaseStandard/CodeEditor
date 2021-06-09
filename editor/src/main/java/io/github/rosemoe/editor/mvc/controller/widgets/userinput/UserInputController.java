@@ -16,6 +16,7 @@
 package io.github.rosemoe.editor.mvc.controller.widgets.userinput;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -57,6 +58,7 @@ public final class UserInputController extends Widget {
     private float downY = 0;
     private float downX = 0;
     private int touchedHandleType = -1;
+    CodeEditor editor;
 
     /**
      * Create a event handler for the given editor
@@ -65,6 +67,7 @@ public final class UserInputController extends Widget {
      */
     public UserInputController(CodeEditor editor, Context ctx) {
         super();
+        this.editor = editor;
         subscribe(TYPE_USERINPUT);
         view = new UserInputView(editor,ctx) {
             @Override
@@ -595,6 +598,109 @@ public final class UserInputController extends Widget {
                 view.editor.postDelayed(this, 10);
             }
         }
+    }
+
+
+
+    /**
+     * Draw vertical scroll bar track
+     *
+     * @param canvas Canvas to draw
+     */
+    public void drawScrollBarTrackVertical(Canvas canvas) {
+        if (holdVerticalScrollBar()) {
+            RectF mRect = new RectF();
+            mRect.right = editor.getWidth();
+            mRect.left = editor.getWidth() - editor.mDpUnit * 10;
+            mRect.top = 0;
+            mRect.bottom = editor.getHeight();
+            editor.drawColor(canvas, editor.getColorScheme().getScrollBarTrack(), mRect);
+        }
+    }
+
+
+    /**
+     * Draw vertical scroll bar
+     *
+     * @param canvas Canvas to draw
+     */
+    public void drawScrollBarVertical(Canvas canvas) {
+        int page = editor.getHeight();
+        float all = editor.mLayout.getLayoutHeight() + editor.getHeight() / 2f;
+        float length = page / all * editor.getHeight();
+        float topY;
+        if (length < editor.mDpUnit * 30) {
+            length = editor.mDpUnit * 30;
+            topY = (editor.getOffsetY() + page / 2f) / all * (editor.getHeight() - length);
+        } else {
+            topY = editor.getOffsetY() / all * editor.getHeight();
+        }
+        if (holdVerticalScrollBar()) {
+            float centerY = topY + length / 2f;
+            editor.drawLineInfoPanel(canvas, centerY, 0);
+            // TODO : drawLineInfoPanel(canvas, centerY, mRect.left - mDpUnit * 5);
+        }
+        RectF mRect = new RectF();
+        mRect.right = editor.getWidth();
+        mRect.left = editor.getWidth() - editor.mDpUnit * 10;
+        mRect.top = topY;
+        mRect.bottom = topY + length;
+        view.getVerticalScrollBarRect().set(mRect);
+        editor.drawColor(canvas, holdVerticalScrollBar() ? editor.getColorScheme().getScrollBarThumbPressed() : editor.getColorScheme().getScrollBarThumb(), mRect);
+    }
+    /**
+     * Draw scroll bars and tracks
+     *
+     * @param canvas The canvas to draw
+     */
+    public void drawScrollBars(Canvas canvas) {
+        view.getVerticalScrollBarRect().setEmpty();
+        view.getHorizontalScrollBarRect().setEmpty();
+        if (!model.shouldDrawScrollBar()) {
+            return;
+        }
+        if (editor.isVerticalScrollBarEnabled() && editor.getScrollMaxY() > editor.getHeight() / 2) {
+            drawScrollBarTrackVertical(canvas);
+            drawScrollBarVertical(canvas);
+        }
+        if (editor.isHorizontalScrollBarEnabled() && !editor.isWordwrap() && editor.getScrollMaxX() > editor.getWidth() * 3 / 4) {
+            drawScrollBarTrackHorizontal(canvas);
+            drawScrollBarHorizontal(canvas);
+        }
+    }
+    /**
+     * Draw horizontal scroll bar track
+     *
+     * @param canvas Canvas to draw
+     */
+    private void drawScrollBarTrackHorizontal(Canvas canvas) {
+        if (holdHorizontalScrollBar()) {
+            RectF mRect = new RectF();
+            mRect.top = editor.getHeight() - editor.mDpUnit * 10;
+            mRect.bottom = editor.getHeight();
+            mRect.right = editor.getWidth();
+            mRect.left = 0;
+            editor.drawColor(canvas, editor.getColorScheme().getScrollBarTrack(), mRect);
+        }
+    }
+
+    /**
+     * Draw horizontal scroll bar
+     *
+     * @param canvas Canvas to draw
+     */
+    private void drawScrollBarHorizontal(Canvas canvas) {
+        int page = editor.getWidth();
+        float all = editor.getScrollMaxX() + editor.getWidth();
+        float length = page / all * editor.getWidth();
+        float leftX = editor.getOffsetX() / all * editor.getWidth();
+        RectF mRect = new RectF();
+        mRect.top = editor.getHeight() - editor.mDpUnit * 10;
+        mRect.bottom = editor.getHeight();
+        mRect.right = leftX + length;
+        mRect.left = leftX;
+        view.getHorizontalScrollBarRect().set(mRect);
+        editor.drawColor(canvas, holdHorizontalScrollBar() ? editor.getColorScheme().getScrollBarThumbPressed() : editor.getColorScheme().getScrollBarThumb(), mRect);
     }
 }
 

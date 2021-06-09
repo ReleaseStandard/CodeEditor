@@ -86,6 +86,10 @@ public abstract class Extension implements EventSource, EventDestination, Compar
         return enabled;
     }
     public boolean isDisabled() { return ! enabled; }
+    public boolean toggleIsEnabled() {
+        setEnabled(!isEnabled());
+        return isEnabled();
+    }
 
     /**
      * Override this method of the widget to provide action in the widget on event emission.

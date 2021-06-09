@@ -13,19 +13,21 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.mvc.model.widget.cursor;
+package io.github.rosemoe.editor.mvc.controller.widgets.linenumberpanel;
 
-import io.github.rosemoe.editor.mvc.model.CharPosition;
+import io.github.rosemoe.editor.core.extension.events.Event;
 
-import static io.github.rosemoe.editor.mvc.controller.widgets.cursor.CursorController.DEFAULT_ISAUTO_IDENT;
+public class LineNumberPanelEvent extends Event {
 
-public class CursorModel {
-    public int mTabWidth = 4;
-    public boolean mAutoIndentEnabled = DEFAULT_ISAUTO_IDENT;
-    public CharPosition mLeft, mRight;
-    public CharPosition cache0, cache1, cache2;
-    public CursorModel() {
-        mLeft = new CharPosition().zero();
-        mRight = new CharPosition().zero();
+    public static final String TYPE_LINE_PANEL = "linepanel";
+    public static final String CHANGE_ALIGN = "change";
+    public static final String DIVIDER = "divider";
+    public LineNumberPanelEvent() {
+        super();
+        type = TYPE_LINE_PANEL;
+    }
+    public LineNumberPanelEvent(String subtype, Object ...args) {
+        super(subtype,args);
+        type = TYPE_LINE_PANEL;
     }
 }

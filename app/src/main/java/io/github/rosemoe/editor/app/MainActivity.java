@@ -290,8 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 item.setChecked(Logger.DEBUG);
                 break;
             case R.id.editor_line_number: {
-                editor.setLineNumberEnabled(!editor.isLineNumberEnabled());
-                item.setChecked(editor.isLineNumberEnabled());
+                item.setChecked(editor.lineNumber.toggleIsEnabled());
                 break;
             }
         }

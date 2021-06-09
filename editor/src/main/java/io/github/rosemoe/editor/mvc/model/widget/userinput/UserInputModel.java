@@ -28,8 +28,8 @@ public class UserInputModel {
     public boolean holdingScrollbarHorizontal = false;
     public boolean mHoldingInsertHandle = false;
     public boolean mOverScrollEnabled = false;
-    public boolean mVerticalScrollBarEnabled;
-    public boolean mHorizontalScrollBarEnabled;
+    public boolean mVerticalScrollBarEnabled = true;
+    public boolean mHorizontalScrollBarEnabled = true;
 
     public final static int LEFT_EDGE   = 1;
     public final static int RIGHT_EDGE  = 1 << 1;

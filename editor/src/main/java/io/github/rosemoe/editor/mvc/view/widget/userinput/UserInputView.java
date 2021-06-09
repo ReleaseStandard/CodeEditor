@@ -17,6 +17,7 @@ package io.github.rosemoe.editor.mvc.view.widget.userinput;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -476,6 +477,8 @@ public class UserInputView implements GestureDetector.OnGestureListener, Gesture
         return handleOnDoubleTapEvent(e);
     }
     public boolean handleOnDoubleTapEvent(MotionEvent e) { return true; }
+
+
 
 
 }
