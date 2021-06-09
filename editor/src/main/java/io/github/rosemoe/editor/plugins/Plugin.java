@@ -35,14 +35,30 @@ public abstract class Plugin extends Extension {
      * Because some languages may not have secondary keyword, or literals.
      * Or accent colors may be used for a totally different purpose.
      */
-    public final static int KEYWORD           = R.styleable.CodeEditor_widget_color_accent1;
-    public final static int SECONDARY_KEYWORD = R.styleable.CodeEditor_widget_color_accent2;
-    public final static int UNDERLINE         = R.styleable.CodeEditor_widget_color_accent3;
-    public final static int ID_VARIABLE       = R.styleable.CodeEditor_widget_color_accent4;
-    public final static int ID_CLASS          = R.styleable.CodeEditor_widget_color_accent5;
-    public final static int ID_FUNCT          = R.styleable.CodeEditor_widget_color_accent6;
-    public final static int LITERAL           = R.styleable.CodeEditor_widget_color_accent7;
-    public final static int PUNCT             = R.styleable.CodeEditor_widget_color_accent8;
+    public final static int BASE03            = R.styleable.CodeEditor_widget_color_base03;
+    public final static int BASE02            = R.styleable.CodeEditor_widget_color_base02;
+    public final static int BASE01            = R.styleable.CodeEditor_widget_color_base01;
+    public final static int BASE00            = R.styleable.CodeEditor_widget_color_base00;
+    public final static int BASE0            = R.styleable.CodeEditor_widget_color_base0;
+    public final static int BASE1            = R.styleable.CodeEditor_widget_color_base1;
+    public final static int BASE2            = R.styleable.CodeEditor_widget_color_base2;
+    public final static int BASE3            = R.styleable.CodeEditor_widget_color_base3;
+    public final static int ACCENT1          = R.styleable.CodeEditor_widget_color_accent1;
+    public final static int ACCENT2          = R.styleable.CodeEditor_widget_color_accent2;
+    public final static int ACCENT3          = R.styleable.CodeEditor_widget_color_accent3;
+    public final static int ACCENT4          = R.styleable.CodeEditor_widget_color_accent4;
+    public final static int ACCENT5          = R.styleable.CodeEditor_widget_color_accent5;
+    public final static int ACCENT6          = R.styleable.CodeEditor_widget_color_accent6;
+    public final static int ACCENT7          = R.styleable.CodeEditor_widget_color_accent7;
+    public final static int ACCENT8          = R.styleable.CodeEditor_widget_color_accent8;
+    public final static int KEYWORD           = ACCENT1;
+    public final static int SECONDARY_KEYWORD = ACCENT2;
+    public final static int UNDERLINE         = ACCENT3;
+    public final static int ID_VARIABLE       = ACCENT4;
+    public final static int ID_CLASS          = ACCENT5;
+    public final static int ID_FUNCT          = ACCENT6;
+    public final static int LITERAL           = ACCENT7;
+    public final static int PUNCT             = ACCENT8;
 
     /**
      * Override this method to execute action when a given event is dispatched.
