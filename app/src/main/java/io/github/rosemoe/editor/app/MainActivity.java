@@ -222,23 +222,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.beginSearchMode();
                 break;
             case R.id.switch_colors:
-                /*
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.color_scheme)
-                        .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
-                            Logger.debug("Tring to apply theme");
-                            ColorPlugin theme = themes.get(mam.themes[which]);
-                            theme.apply();
-                            mam.checkedTheme=which;
-                            Logger.debug("Theme applied");
-                            dialog.dismiss();
-                        })
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show();
-
-                 */
-                ColorChooser chooser = (ColorChooser) editor.plugins.get("colorchooser");
-                chooser.showChooser();
+                new ColorChooser(editor)
+                        .showChooser();
                 break;
             case R.id.text_wordwrap:
                 item.setChecked(!item.isChecked());

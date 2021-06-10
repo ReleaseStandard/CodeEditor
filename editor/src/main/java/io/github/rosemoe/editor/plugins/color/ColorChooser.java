@@ -25,43 +25,25 @@ import java.util.HashMap;
 
 import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.core.extension.Extension;
+import io.github.rosemoe.editor.core.extension.ExtensionChooser;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.plugins.Plugin;
 
 
-public class ColorChooser extends Plugin {
+/**
+ * Will show all color plugin that are enabled, and allow user to pick up one.
+ */
+public class ColorChooser extends ExtensionChooser {
 
-    private int checkedTheme = 0;
 
     public ColorChooser(CodeEditor editor) {
         super(editor);
-        name = "colorchooser";
-        description = "This plugin is very simple and allow you to pick up a theme and apply to editor";
+        addFilter(ColorPlugin.class);
     }
 
-    public void showChooser() {
-        ArrayList<Extension> extensions = new ArrayList<>();
-        for(Extension e : editor.plugins.extensions) {
-            if ( e.isEnabled() &&
-                    e instanceof ColorPlugin) {
-                extensions.add(e);
-            }
-        }
-        String[] names = new String[extensions.size()];
-        for(int i = 0; i < extensions.size(); i++) {
-            names[i] = extensions.get(i).name;
-        }
-        Context ctx = editor.getContext();
-        AlertDialog.Builder adb = new AlertDialog.Builder(ctx);
-        adb.setTitle("Color theme chooser");
-        adb.setSingleChoiceItems(names,checkedTheme, ((dialog, which) ->
-        {
-            checkedTheme = which;
-            ColorPlugin cp = (ColorPlugin) extensions.get(checkedTheme);
-            cp.apply();
-            dialog.dismiss();
-        }));
-        adb.setNegativeButton("Cancel",null);
-        adb.show();
+    @Override
+    public void handleExtensionChoosed(Extension e ) {
+        ColorPlugin cp = (ColorPlugin) e;
+        cp.apply();
     }
 }
