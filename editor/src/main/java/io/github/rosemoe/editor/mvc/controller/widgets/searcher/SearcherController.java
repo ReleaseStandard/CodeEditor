@@ -39,8 +39,8 @@ public class SearcherController extends Widget {
         view.editor = editor;
     }
 
-    private void checkState() {
-        model.checkState();
+    private boolean checkState() {
+        return model.checkState();
     }
 
     public void search(String text) {
@@ -53,7 +53,7 @@ public class SearcherController extends Widget {
 
     @SuppressWarnings("UnusedReturnValue")
     public boolean replaceThis(String newText) {
-        checkState();
+        if ( ! checkState() ) { return false; }
         ContentMapController text = view.editor.getText();
         CursorController cursor = text.getCursor();
         if (cursor.isSelected()) {
@@ -70,7 +70,7 @@ public class SearcherController extends Widget {
     }
 
     public void replaceAll(final String newText) {
-        checkState();
+        if( ! checkState() ) { return; }
         final String searchText = model.searchText;
         view.showSearchDialog(searchText,newText);
     }
@@ -80,12 +80,12 @@ public class SearcherController extends Widget {
     }
 
     private void gotoNext(boolean tip) {
-        checkState();
+        if ( ! checkState() ) { return ;}
         view.gotoNext(model.searchText,tip);
     }
 
     public void gotoLast() {
-        checkState();
+        if ( ! checkState() ) { return ;}
         view.gotoLast(model.searchText);
     }
 

@@ -17,9 +17,7 @@ package io.github.rosemoe.editor.mvc.model.widget.searcher;
 
 public class SearcherModel {
     public String searchText;
-    public void checkState() {
-        if (searchText == null) {
-            throw new IllegalStateException("search text has not been set");
-        }
+    public boolean checkState() {
+        return (searchText != null);
     }
 }
