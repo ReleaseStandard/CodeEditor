@@ -69,6 +69,7 @@ import io.github.rosemoe.editor.mvc.controller.widgets.linenumberpanel.LineNumbe
 import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.mvc.controller.widgets.widgetmanager.WidgetManagerController;
 import io.github.rosemoe.editor.mvc.view.widget.userinput.UserInputConnexionView;
+import io.github.rosemoe.editor.plugins.color.ColorChooser;
 import io.github.rosemoe.editor.plugins.debug.TestPlugin;
 import io.github.rosemoe.editor.plugins.debug.WidgetAnalyzerPlugin;
 import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
@@ -523,7 +524,8 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         plugins.put(
                 new ExamplePlugin(this),
                 new WidgetAnalyzerPlugin(this),
-                new TestPlugin(this)
+                new TestPlugin(this),
+                new ColorChooser(this)
         );
         mViewRect = new Rect(0, 0, 0, 0);
         mInsertHandle = new RectF();

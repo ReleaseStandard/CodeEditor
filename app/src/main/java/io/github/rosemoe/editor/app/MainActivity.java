@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+import io.github.rosemoe.editor.core.extension.Extension;
 import io.github.rosemoe.editor.mvc.controller.LanguageController;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
     }};
 
     protected void loadThemes() {
-        themes.put("Default", ColorPlugin.DEFAULT(editor));
         themes.put("Eclipse",new ColorPluginEclipse(editor));
         themes.put("Darcula",new ColorPluginDarcula(editor));
         themes.put("VS2019",new ColorPluginVS2019(editor));
@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         themes.put("GitHub",new ColorPluginGithub(editor));
         themes.put("None", new ColorPluginNone(editor));
         themes.put("Debug", new ColorPluginDebug(editor));
+        for(Extension e : themes.values()) {
+            editor.plugins.put(e);
+        }
     }
     protected void setEditorLanguage(LanguageController el, String fname) {
         editor.setEditorLanguage(el);
@@ -219,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.beginSearchMode();
                 break;
             case R.id.switch_colors:
+                /*
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.color_scheme)
                         .setSingleChoiceItems(mam.themes, mam.checkedTheme, (dialog, which) -> {
@@ -231,6 +235,10 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .setNegativeButton(android.R.string.cancel, null)
                         .show();
+
+                 */
+                ColorChooser chooser = (ColorChooser) editor.plugins.get("colorchooser");
+                chooser.showChooser();
                 break;
             case R.id.text_wordwrap:
                 item.setChecked(!item.isChecked());
