@@ -25,8 +25,8 @@ import org.junit.Test;
 import java.util.Random;
 
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
-import io.github.rosemoe.editor.mvc.model.widget.contentAnalyzer.ContentMapModel;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentMapController;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.model.ContentMapModel;
 import io.github.rosemoe.editor.core.CodeEditor;
 import static org.junit.Assert.*;
 

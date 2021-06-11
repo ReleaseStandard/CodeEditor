@@ -15,14 +15,13 @@
  */
 package io.github.rosemoe.editor.langs.java;
 
-import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.view.NewlineHandler;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
+import io.github.rosemoe.editor.core.LanguageController;
+import io.github.rosemoe.editor.core.widgets.completion.controller.AutoCompleteProviderController;
+import io.github.rosemoe.editor.core.NewlineHandler;
+import io.github.rosemoe.editor.core.widgets.completion.controller.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 import io.github.rosemoe.editor.langs.helpers.TextUtils;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.SymbolPairMatch;
+import io.github.rosemoe.editor.core.widgets.completion.controller.SymbolPairMatch;
 
 /**
  * Java language is much complex.

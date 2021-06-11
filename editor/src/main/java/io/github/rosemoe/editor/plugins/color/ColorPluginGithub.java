@@ -24,7 +24,7 @@ public class ColorPluginGithub extends ColorPlugin {
 
     public ColorPluginGithub(CodeEditor editor) {
         super(editor);
-        name = "GitHub color plugin";
+        name = "GitHub theme";
         description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
     }
 

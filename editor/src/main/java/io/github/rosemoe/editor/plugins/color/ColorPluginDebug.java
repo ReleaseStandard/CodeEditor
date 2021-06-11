@@ -29,7 +29,7 @@ public class ColorPluginDebug extends ColorPlugin {
 
     public ColorPluginDebug(CodeEditor editor) {
         super(editor);
-        name = "Debug color plugin";
+        name = "Debug theme";
         description = "Take care it can hurt your eyes";
     }
 

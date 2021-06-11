@@ -24,7 +24,7 @@ public class ColorPluginHTML extends ColorPlugin {
 
     public ColorPluginHTML(CodeEditor editor) {
         super(editor);
-        name = "HTML";
+        name = "HTML theme";
         description = "ColorScheme for HTML Language for editor";
     }
 

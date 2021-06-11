@@ -26,7 +26,7 @@ public class ColorPluginNotepadXX extends ColorPlugin {
 
     public ColorPluginNotepadXX(CodeEditor editor) {
         super(editor);
-        name        = "NotepadXX color plugin";
+        name        = "NotepadXX theme";
         description = "picked from Notepad++ v7.8.1, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
     }
 

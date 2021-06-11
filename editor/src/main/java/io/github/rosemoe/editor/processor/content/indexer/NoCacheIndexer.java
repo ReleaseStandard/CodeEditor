@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.processor.content.indexer;
 
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentMapController;
 
 /**
  * Indexer without cache

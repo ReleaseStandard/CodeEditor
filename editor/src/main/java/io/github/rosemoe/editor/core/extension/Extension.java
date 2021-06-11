@@ -26,7 +26,6 @@ import io.github.rosemoe.editor.core.extension.events.EventDestination;
 import io.github.rosemoe.editor.core.extension.events.EventQueue;
 import io.github.rosemoe.editor.core.extension.events.EventSource;
 import io.github.rosemoe.editor.core.util.Logger;
-import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
 
 
 /**

@@ -24,7 +24,7 @@ public class ColorPluginDarcula extends ColorPlugin {
 
     public ColorPluginDarcula(CodeEditor editor) {
         super(editor);
-        name        = "Darcula color plugin";
+        name        = "Darcula theme";
         description = "picked from Android Studio, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
     }
 

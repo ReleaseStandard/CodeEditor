@@ -15,10 +15,9 @@
  */
 package io.github.rosemoe.editor.langs.universal;
 
-import io.github.rosemoe.editor.mvc.controller.LanguageController;
-import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
+import io.github.rosemoe.editor.core.LanguageController;
+import io.github.rosemoe.editor.core.widgets.completion.controller.AutoCompleteProviderController;
+import io.github.rosemoe.editor.core.widgets.completion.controller.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.MyCharacter;
 
 import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;

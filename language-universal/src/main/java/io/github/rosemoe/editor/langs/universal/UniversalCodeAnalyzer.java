@@ -17,12 +17,12 @@ package io.github.rosemoe.editor.langs.universal;
 
 import java.util.Stack;
 
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.analysis.CodeAnalyzerResultContent;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.analysis.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
-import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.IdentifierAutoComplete;
+import io.github.rosemoe.editor.core.widgets.colorAnalyzer.codeanalysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.core.widgets.completion.controller.IdentifierAutoComplete;
 import io.github.rosemoe.editor.langs.helpers.LineNumberCalculator;
-import io.github.rosemoe.editor.mvc.model.BlockLineModel;
+import io.github.rosemoe.editor.core.BlockLineModel;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 import static io.github.rosemoe.editor.langs.universal.UniversalTokens.EOF;

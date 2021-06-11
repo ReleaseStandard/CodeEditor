@@ -18,7 +18,7 @@ package io.github.rosemoe.editor.plugins.debug;
 import java.util.HashMap;
 
 import io.github.rosemoe.editor.core.extension.events.Event;
-import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
+import io.github.rosemoe.editor.core.widgets.userinput.extension.UserInputEvent;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.CodeEditor;
 

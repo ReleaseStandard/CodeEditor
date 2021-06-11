@@ -19,8 +19,8 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.extension.Extension;
 import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.core.CodeEditor;
-import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
-import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
+import io.github.rosemoe.editor.core.widgets.loopback.codeanalysis.LoopbackEvent;
+import io.github.rosemoe.editor.core.widgets.userinput.extension.UserInputEvent;
 
 
 /**

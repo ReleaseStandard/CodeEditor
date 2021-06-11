@@ -17,10 +17,10 @@ package io.github.rosemoe.editor.plugins.debug;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.extension.events.Event;
-import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.ColorSchemeEvent;
-import io.github.rosemoe.editor.mvc.controller.widgets.loopback.LoopbackEvent;
-import io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent;
-import io.github.rosemoe.editor.mvc.controller.widgets.widgetmanager.WidgetManagerEvent;
+import io.github.rosemoe.editor.core.widgets.colorAnalyzer.extension.ColorSchemeEvent;
+import io.github.rosemoe.editor.core.widgets.loopback.codeanalysis.LoopbackEvent;
+import io.github.rosemoe.editor.core.widgets.userinput.extension.UserInputEvent;
+import io.github.rosemoe.editor.core.widgets.widgetmanager.extension.WidgetManagerEvent;
 import io.github.rosemoe.editor.plugins.color.ColorPluginDarcula;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.CodeEditor;

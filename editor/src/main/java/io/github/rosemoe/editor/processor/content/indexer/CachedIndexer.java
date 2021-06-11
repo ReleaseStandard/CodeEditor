@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentListener;
-import io.github.rosemoe.editor.mvc.model.CharPosition;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentMapController;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentListener;
+import io.github.rosemoe.editor.core.CharPosition;
 
 /**
  * Indexer Impl for ContentMapController

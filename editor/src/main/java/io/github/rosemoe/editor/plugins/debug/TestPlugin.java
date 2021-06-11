@@ -17,11 +17,10 @@ package io.github.rosemoe.editor.plugins.debug;
 
 import io.github.rosemoe.editor.core.CodeEditor;
 import io.github.rosemoe.editor.core.extension.events.Event;
-import io.github.rosemoe.editor.mvc.controller.widgets.linenumberpanel.LineNumberPanelController;
-import io.github.rosemoe.editor.mvc.controller.widgets.linenumberpanel.LineNumberPanelEvent;
-import io.github.rosemoe.editor.mvc.model.widget.linenumberpanel.LineNumberPanelModel;
+import io.github.rosemoe.editor.core.widgets.linenumberpanel.extension.LineNumberPanelEvent;
+import io.github.rosemoe.editor.core.widgets.linenumberpanel.model.LineNumberPanelModel;
 
-import static io.github.rosemoe.editor.mvc.controller.widgets.userinput.UserInputEvent.*;
+import static io.github.rosemoe.editor.core.widgets.userinput.extension.UserInputEvent.*;
 
 public class TestPlugin extends DebugPlugin {
 

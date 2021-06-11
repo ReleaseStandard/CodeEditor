@@ -22,8 +22,6 @@ import org.antlr.v4.runtime.Token;
 import java.io.IOException;
 import java.io.StringReader;
 
-import io.github.rosemoe.editor.mvc.view.TextAnalyzerView;
-
 import static io.github.rosemoe.editor.langs.golang.GoLangLexer.*;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;

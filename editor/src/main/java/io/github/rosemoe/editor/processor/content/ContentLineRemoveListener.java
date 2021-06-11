@@ -15,8 +15,8 @@
  */
 package io.github.rosemoe.editor.processor.content;
 
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentLineController;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentMapController;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentLineController;
 
 /**
  * A listener to know when a ContentLineController object is removed from ContentMapController object

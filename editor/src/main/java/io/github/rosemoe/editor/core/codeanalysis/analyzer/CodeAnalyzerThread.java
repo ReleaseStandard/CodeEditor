@@ -15,10 +15,10 @@
  */
 package io.github.rosemoe.editor.core.codeanalysis.analyzer;
 
-import io.github.rosemoe.editor.mvc.controller.widgets.contentAnalyzer.ContentMapController;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentMapController;
 import io.github.rosemoe.editor.core.codeanalysis.results.Callback;
 import io.github.rosemoe.editor.core.util.Logger;
-import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.core.widgets.colorAnalyzer.codeanalysis.CodeAnalyzerResultColor;
 
 /**
  * AnalyzeThread to control

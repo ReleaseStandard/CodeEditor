@@ -18,12 +18,12 @@ package io.github.rosemoe.editor.langs.empty;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rosemoe.editor.mvc.controller.LanguageController;
+import io.github.rosemoe.editor.core.LanguageController;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzer;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
-import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.AutoCompleteProviderController;
-import io.github.rosemoe.editor.mvc.controller.widgets.completion.CompletionItemController;
+import io.github.rosemoe.editor.core.widgets.colorAnalyzer.codeanalysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.core.widgets.completion.controller.AutoCompleteProviderController;
+import io.github.rosemoe.editor.core.widgets.completion.controller.CompletionItemController;
 
 /**
  * Empty language without any effect,

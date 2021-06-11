@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.tokenemitter.TokenEmitter;
-import io.github.rosemoe.editor.mvc.controller.widgets.colorAnalyzer.analysis.CodeAnalyzerResultColor;
+import io.github.rosemoe.editor.core.widgets.colorAnalyzer.codeanalysis.CodeAnalyzerResultColor;
 import io.github.rosemoe.editor.core.codeanalysis.analyzer.CodeAnalyzerThread;
 
 public class HTMLAnalyzer extends TokenEmitter {

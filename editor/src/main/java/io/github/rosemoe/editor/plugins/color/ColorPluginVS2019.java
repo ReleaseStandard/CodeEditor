@@ -26,7 +26,7 @@ public class ColorPluginVS2019 extends ColorPlugin {
 
     public ColorPluginVS2019(CodeEditor editor) {
         super(editor);
-        name = "VS2019 color plugin";
+        name = "VS2019 theme";
         description = "picked from Visual Studio 2019, Thanks to liyujiang-gzu (GitHub @liyujiang-gzu)";
     }
 

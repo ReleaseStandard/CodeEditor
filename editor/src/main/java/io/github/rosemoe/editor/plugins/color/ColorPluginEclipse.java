@@ -24,7 +24,7 @@ public class ColorPluginEclipse extends ColorPlugin {
 
     public ColorPluginEclipse(CodeEditor editor) {
         super(editor);
-        name = "Eclipse color plugin";
+        name = "Eclipse theme";
         description = "picked from Eclipse IDE for Java Developers Version 2019-12 (4.14.0)";
     }
 

@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.processor.content.indexer;
 
-import io.github.rosemoe.editor.mvc.model.CharPosition;
+import io.github.rosemoe.editor.core.CharPosition;
 
 /**
  * A helper class for ITextContent to transform (line,column) and index

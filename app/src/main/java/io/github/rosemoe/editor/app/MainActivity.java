@@ -38,7 +38,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import io.github.rosemoe.editor.core.extension.Extension;
-import io.github.rosemoe.editor.mvc.controller.LanguageController;
+import io.github.rosemoe.editor.core.LanguageController;
 import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.langs.desc.CDescription;
 import io.github.rosemoe.editor.langs.desc.CppDescription;
@@ -47,10 +47,9 @@ import io.github.rosemoe.editor.langs.java.JavaLanguage;
 import io.github.rosemoe.editor.langs.python.PythonLanguage;
 import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
 import io.github.rosemoe.editor.core.util.Logger;
-import io.github.rosemoe.editor.plugins.base.Emitter;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.core.CodeEditor;
-import io.github.rosemoe.editor.widget.SymbolInputView;
+import io.github.rosemoe.editor.TRASHwidget.SymbolInputView;
 import io.github.rosemoe.editor.plugins.color.*;
 
 public class MainActivity extends AppCompatActivity {

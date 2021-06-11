@@ -15,7 +15,7 @@
  */
 package io.github.rosemoe.editor.langs.universal;
 
-import io.github.rosemoe.editor.mvc.controller.LanguageController;
+import io.github.rosemoe.editor.core.LanguageController;
 
 /**
  * An interface to provide information for your language
