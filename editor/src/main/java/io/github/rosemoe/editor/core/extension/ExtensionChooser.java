@@ -33,6 +33,8 @@ import io.github.rosemoe.editor.plugins.color.ColorPlugin;
  */
 public class ExtensionChooser extends Extension {
 
+    protected String popup_title = "Extension chooser";
+    protected String popup_cancel = "Cancel";
     private int checkedTheme = 0;
     public ArrayList<Class> filter = new ArrayList<>();
 
@@ -63,14 +65,14 @@ public class ExtensionChooser extends Extension {
         }
         Context ctx = editor.getContext();
         AlertDialog.Builder adb = new AlertDialog.Builder(ctx);
-        adb.setTitle("Color theme chooser");
+        adb.setTitle(popup_title);
         adb.setSingleChoiceItems(names,checkedTheme, ((dialog, which) ->
         {
             checkedTheme = which;
             handleExtensionChoosed(extensions.get(checkedTheme));
             dialog.dismiss();
         }));
-        adb.setNegativeButton("Cancel",null);
+        adb.setNegativeButton(popup_cancel,null);
         adb.show();
     }
     public void handleExtensionChoosed(Extension e) {

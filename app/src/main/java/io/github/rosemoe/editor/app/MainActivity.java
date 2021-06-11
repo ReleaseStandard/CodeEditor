@@ -38,14 +38,15 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import io.github.rosemoe.editor.core.extension.Extension;
-import io.github.rosemoe.editor.core.LanguageController;
-import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
-import io.github.rosemoe.editor.langs.desc.CDescription;
-import io.github.rosemoe.editor.langs.desc.CppDescription;
-import io.github.rosemoe.editor.langs.html.HTMLLanguage;
-import io.github.rosemoe.editor.langs.java.JavaLanguage;
-import io.github.rosemoe.editor.langs.python.PythonLanguage;
-import io.github.rosemoe.editor.langs.universal.UniversalLanguage;
+import io.github.rosemoe.editor.core.langs.LanguagePlugin;
+import io.github.rosemoe.editor.core.langs.empty.EmptyLanguage;
+import io.github.rosemoe.editor.plugins.langs.LanguageChooser;
+import io.github.rosemoe.editor.plugins.langs.desc.CDescription;
+import io.github.rosemoe.editor.plugins.langs.desc.CppDescription;
+import io.github.rosemoe.editor.plugins.langs.html.HTMLLanguage;
+import io.github.rosemoe.editor.plugins.langs.java.JavaLanguage;
+import io.github.rosemoe.editor.plugins.langs.python.PythonLanguage;
+import io.github.rosemoe.editor.plugins.langs.universal.UniversalLanguage;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.utils.CrashHandler;
 import io.github.rosemoe.editor.core.CodeEditor;
@@ -59,18 +60,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText search, replace;
 
     private MainActivityModel mam = new MainActivityModel();
-    private static HashMap<String, ColorPlugin> themes = new HashMap<String, ColorPlugin>() {{
+    private static HashMap<String, ColorPlugin> themes = new HashMap<>();
+    private static HashMap<String, LanguagePlugin> languages = new HashMap<>();
 
-    }};
-    private static HashMap<String, LanguageController> languages = new HashMap<String, LanguageController>() {{
-        put("C",new UniversalLanguage(new CDescription()));
-        put("C++",new UniversalLanguage(new CppDescription()));
-        put("Java",new JavaLanguage());
-        put("HTML",new HTMLLanguage());
-        put("Python",new PythonLanguage());
-        put("None",new EmptyLanguage());
-    }};
-
+    protected  void loadLangs() {
+        languages.put("C",new UniversalLanguage(editor,new CDescription()));
+        languages.put("C++",new UniversalLanguage(editor,new CppDescription()));
+        languages.put("Java",new JavaLanguage(editor));
+        languages.put("HTML",new HTMLLanguage(editor));
+        languages.put("Python",new PythonLanguage(editor));
+        languages.put("None",new EmptyLanguage(editor));
+        for(Extension e : languages.values()) {
+            editor.plugins.put(e);
+        }
+    }
     protected void loadThemes() {
         themes.put("Eclipse",new ColorPluginEclipse(editor));
         themes.put("Darcula",new ColorPluginDarcula(editor));
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             editor.plugins.put(e);
         }
     }
-    protected void setEditorLanguage(LanguageController el, String fname) {
+    protected void setEditorLanguage(LanguagePlugin el, String fname) {
         editor.setEditorLanguage(el);
         new Thread(() -> {
             try {
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editor = findViewById(R.id.editor);
         loadThemes();
+        loadLangs();
         panel = findViewById(R.id.search_panel);
         search = findViewById(R.id.search_editor);
         replace = findViewById(R.id.replace_editor);
@@ -148,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
         //}
         Logger.debug();
         editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_WHITESPACE_LEADING | CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
+        langChoose = new LanguageChooser(editor);
+        colorChooser = new ColorChooser(editor);
     }
 
     @Override
@@ -157,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private LanguageChooser langChoose;
+    private ColorChooser colorChooser;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -191,15 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.formatCodeAsync();
                 break;
             case R.id.switch_language:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.switch_language)
-                        .setSingleChoiceItems(mam.languages, mam.checkedLanguage, (dialog, which) -> {
-                            setEditorLanguage(languages.get(mam.languages[which]), mam.languages_samples.get(mam.languages[which]));
-                            mam.checkedLanguage=which;
-                            dialog.dismiss();
-                        })
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show();
+                langChoose.showChooser();
                 break;
             case R.id.search_panel_st:
                 if (panel.getVisibility() == View.GONE) {
@@ -221,8 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.beginSearchMode();
                 break;
             case R.id.switch_colors:
-                new ColorChooser(editor)
-                        .showChooser();
+                colorChooser.showChooser();
                 break;
             case R.id.text_wordwrap:
                 item.setChecked(!item.isChecked());

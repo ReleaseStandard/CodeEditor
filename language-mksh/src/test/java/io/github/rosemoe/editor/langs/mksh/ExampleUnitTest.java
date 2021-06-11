@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.langs.mksh;
+package io.github.rosemoe.editor.plugins.langs.mksh;
 
 import org.junit.Test;
 

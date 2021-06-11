@@ -18,11 +18,11 @@ package io.github.rosemoe.editor.core.widgets.cursor.controller;
 import android.util.Log;
 
 import io.github.rosemoe.editor.core.widgets.cursor.view.CursorView;
-import io.github.rosemoe.editor.core.LanguageController;
+import io.github.rosemoe.editor.core.langs.LanguagePlugin;
 import io.github.rosemoe.editor.core.widgets.Widget;
 import io.github.rosemoe.editor.core.CharPosition;
 import io.github.rosemoe.editor.core.widgets.cursor.model.CursorModel;
-import io.github.rosemoe.editor.processor.content.indexer.CachedIndexer;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.processors.indexer.CachedIndexer;
 import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentMapController;
 import io.github.rosemoe.editor.core.util.IntPair;
 import io.github.rosemoe.editor.core.CodeEditor;
@@ -35,7 +35,7 @@ public final class CursorController extends Widget {
 
     private final ContentMapController mContent;
     private final CachedIndexer mIndexer;
-    private LanguageController mLanguage;
+    private LanguagePlugin mLanguage;
     public CursorModel model = new CursorModel();
 	public final CursorView view;
     public CursorBlinkController blink;        // Manage cursor blink effect
@@ -235,7 +235,7 @@ public final class CursorController extends Widget {
      *
      * @param lang The target language
      */
-    public void setLanguage(LanguageController lang) {
+    public void setLanguage(LanguagePlugin lang) {
         mLanguage = lang;
     }
 

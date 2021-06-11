@@ -38,6 +38,7 @@ public class ColorChooser extends ExtensionChooser {
 
     public ColorChooser(CodeEditor editor) {
         super(editor);
+        popup_title = "Color theme chooser";
         addFilter(ColorPlugin.class);
     }
 

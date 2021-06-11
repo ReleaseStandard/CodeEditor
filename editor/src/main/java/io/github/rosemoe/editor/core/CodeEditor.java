@@ -69,6 +69,7 @@ import io.github.rosemoe.editor.core.widgets.linenumberpanel.controller.LineNumb
 import io.github.rosemoe.editor.core.widgets.loopback.LoopbackWidget;
 import io.github.rosemoe.editor.core.widgets.widgetmanager.controller.WidgetManagerController;
 import io.github.rosemoe.editor.core.widgets.userinput.view.UserInputConnexionView;
+import io.github.rosemoe.editor.core.langs.LanguagePlugin;
 import io.github.rosemoe.editor.plugins.debug.TestPlugin;
 import io.github.rosemoe.editor.plugins.debug.WidgetAnalyzerPlugin;
 import io.github.rosemoe.editor.plugins.debug.ExamplePlugin;
@@ -84,7 +85,7 @@ import io.github.rosemoe.editor.core.widgets.contextaction.controller.ContextAct
 import io.github.rosemoe.editor.core.widgets.cursor.controller.CursorController;
 import io.github.rosemoe.editor.core.widgets.completion.controller.CompletionAdapter;
 import io.github.rosemoe.editor.core.widgets.layout.controller.WordwrapLayout;
-import io.github.rosemoe.editor.langs.empty.EmptyLanguage;
+import io.github.rosemoe.editor.core.langs.empty.EmptyLanguage;
 import io.github.rosemoe.editor.core.widgets.colorAnalyzer.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.core.widgets.colorAnalyzer.controller.spans.SpanLineController;
 import io.github.rosemoe.editor.core.widgets.colorAnalyzer.controller.spans.SpanController;
@@ -94,17 +95,13 @@ import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentL
 import io.github.rosemoe.editor.core.widgets.userinput.view.UserInputView;
 import io.github.rosemoe.editor.core.util.FontCache;
 import io.github.rosemoe.editor.core.widgets.cursor.view.CursorView;
-import io.github.rosemoe.editor.processor.TextFormatter;
-import io.github.rosemoe.editor.processor.content.ContentLineRemoveListener;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.processors.ContentLineRemoveListener;
 import io.github.rosemoe.editor.core.widgets.colorAnalyzer.processors.SpanUpdater;
 import io.github.rosemoe.editor.core.util.IntPair;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.util.LongArrayList;
 import io.github.rosemoe.editor.core.widgets.layout.controller.Layout;
 import io.github.rosemoe.editor.core.widgets.layout.controller.LineBreakLayout;
-import io.github.rosemoe.editor.TRASHwidget.EditorTextActionModeStarter;
-import io.github.rosemoe.editor.TRASHwidget.KeyMetaStates;
-import io.github.rosemoe.editor.TRASHwidget.TextActionPopupWindow;
 
 /**
  * CodeEditor is a editor that can highlight text regions by doing basic syntax analyzing
@@ -212,7 +209,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
 
     UserInputConnexionController mConnection;             // Manage other part of the user input, eg copy, paste
     // core
-    public LanguageController mLanguage;
+    public LanguagePlugin mLanguage;
 
     // widgets
     private CursorController cursor;                                        // Manage the cursor
@@ -531,7 +528,7 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
         setScalable(true);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        setEditorLanguage(new EmptyLanguage());
+        setEditorLanguage(new EmptyLanguage(this));
         setHighlightCurrentLine(true);
         setAutoCompletionEnabled(true);
         setHighlightCurrentBlock(true);
@@ -665,9 +662,9 @@ public class CodeEditor extends View implements ContentListener, TextFormatter.F
      * Set the editor's language.
      * A language is a for auto completion,highlight and auto indent analysis.
      *
-     * @param lang New LanguageController for editor
+     * @param lang New LanguagePlugin for editor
      */
-    public void setEditorLanguage(@NonNull LanguageController lang) {
+    public void setEditorLanguage(@NonNull LanguagePlugin lang) {
         this.mLanguage = lang;
 
         // Update spanner

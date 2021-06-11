@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package io.github.rosemoe.editor.langs.mksh;
+package io.github.rosemoe.editor.plugins.langs.mksh;
 
 import android.content.Context;
 
@@ -36,6 +36,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("io.github.rosemoe.editor.langs.mksh.test", appContext.getPackageName());
+        assertEquals("io.github.rosemoe.editor.plugins.langs.mksh.test", appContext.getPackageName());
     }
 }

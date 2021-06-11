@@ -26,7 +26,7 @@ import android.widget.Button;
 
 import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.CodeEditor;
-import io.github.rosemoe.editor.TRASHwidget.EditorBasePopupWindow;
+import io.github.rosemoe.editor.core.EditorBasePopupWindow;
 
 public class ContextActionView extends EditorBasePopupWindow implements View.OnClickListener, CodeEditor.EditorTextActionPresenter {
 

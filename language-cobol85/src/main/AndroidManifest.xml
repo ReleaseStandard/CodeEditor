@@ -16,6 +16,6 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.rosemoe.editor.langs.cobol85">
+    package="io.github.rosemoe.editor.plugins.langs.cobol85">
 
 </manifest>

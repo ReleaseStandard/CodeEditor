@@ -27,7 +27,7 @@ import android.widget.Toast;
 import io.github.rosemoe.editor.core.widgets.colorAnalyzer.controller.ColorSchemeController;
 import io.github.rosemoe.editor.core.widgets.cursor.controller.CursorController;
 import io.github.rosemoe.editor.core.CodeEditor;
-import io.github.rosemoe.editor.TRASHwidget.EditorBasePopupWindow;
+import io.github.rosemoe.editor.core.EditorBasePopupWindow;
 import io.github.rosemoe.editor.core.widgets.completion.controller.CompletionAdapter;
 
 public class CompleteWindowView extends EditorBasePopupWindow {

@@ -26,7 +26,7 @@ import io.github.rosemoe.editor.core.widgets.colorAnalyzer.codeanalysis.CodeAnal
 import io.github.rosemoe.editor.core.widgets.colorAnalyzer.controller.spans.SpanMapController;
 import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.ContentMapController;
 import io.github.rosemoe.editor.core.util.Logger;
-import io.github.rosemoe.editor.core.widgets.contentAnalyzer.controller.analysis.CodeAnalyzerResultContent;
+import io.github.rosemoe.editor.core.widgets.contentAnalyzer.codeanalysis.CodeAnalyzerResultContent;
 import io.github.rosemoe.editor.core.BlockLineModel;
 
 /**

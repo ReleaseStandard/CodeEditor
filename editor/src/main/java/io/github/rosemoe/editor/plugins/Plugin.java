@@ -19,8 +19,11 @@ import io.github.rosemoe.editor.R;
 import io.github.rosemoe.editor.core.extension.Extension;
 import io.github.rosemoe.editor.core.extension.events.Event;
 import io.github.rosemoe.editor.core.CodeEditor;
+import io.github.rosemoe.editor.core.widgets.colorAnalyzer.extension.ColorSchemeEvent;
+import io.github.rosemoe.editor.core.widgets.linenumberpanel.extension.LineNumberPanelEvent;
 import io.github.rosemoe.editor.core.widgets.loopback.codeanalysis.LoopbackEvent;
 import io.github.rosemoe.editor.core.widgets.userinput.extension.UserInputEvent;
+import io.github.rosemoe.editor.core.widgets.widgetmanager.extension.WidgetManagerEvent;
 
 
 /**
@@ -62,6 +65,9 @@ public abstract class Plugin extends Extension {
     public final static int PUNCT             = ACCENT8;
     public final static Class E_LOOPBACK      = LoopbackEvent.class;
     public final static Class E_USERINPUT     = UserInputEvent.class;
+    public final static Class E_COLOR         = ColorSchemeEvent.class;
+    public final static Class E_LINENUMBER    = LineNumberPanelEvent.class;
+    public final static Class E_WMANAGER      = WidgetManagerEvent.class;
     /**
      * Override this method to execute action when a given event is dispatched.
      * @param e

@@ -31,7 +31,7 @@ import io.github.rosemoe.editor.core.widgets.userinput.view.UserInputView;
 import io.github.rosemoe.editor.core.util.IntPair;
 import io.github.rosemoe.editor.core.util.Logger;
 import io.github.rosemoe.editor.core.CodeEditor;
-import io.github.rosemoe.editor.TRASHwidget.TextActionPopupWindow;
+import io.github.rosemoe.editor.core.TextActionPopupWindow;
 
 import static io.github.rosemoe.editor.core.widgets.userinput.extension.UserInputEvent.*;
 import static io.github.rosemoe.editor.core.widgets.userinput.model.UserInputModel.*;
