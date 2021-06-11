@@ -21,7 +21,6 @@ public class MainActivityModel {
 
     public int checkedTheme = 0;
 
-    public String[] languages = new String[]{"C", "C++", "Java", "HTML", "Python", "None"};
     public HashMap<String,String> languages_samples = new HashMap<String, String>(){{
         put("C","samples/c/c.txt");
         put("C++","samples/cpp/cpp.txt");

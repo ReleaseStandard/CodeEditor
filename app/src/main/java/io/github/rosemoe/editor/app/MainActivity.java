@@ -60,33 +60,29 @@ public class MainActivity extends AppCompatActivity {
     private EditText search, replace;
 
     private MainActivityModel mam = new MainActivityModel();
-    private static HashMap<String, ColorPlugin> themes = new HashMap<>();
-    private static HashMap<String, LanguagePlugin> languages = new HashMap<>();
 
     protected  void loadLangs() {
-        languages.put("C",new UniversalLanguage(editor,new CDescription()));
-        languages.put("C++",new UniversalLanguage(editor,new CppDescription()));
-        languages.put("Java",new JavaLanguage(editor));
-        languages.put("HTML",new HTMLLanguage(editor));
-        languages.put("Python",new PythonLanguage(editor));
-        languages.put("None",new EmptyLanguage(editor));
-        for(Extension e : languages.values()) {
-            editor.plugins.put(e);
-        }
+        editor.plugins.put(
+            new UniversalLanguage(editor,new CDescription()),
+            new UniversalLanguage(editor,new CppDescription()),
+            new JavaLanguage(editor),
+            new HTMLLanguage(editor),
+            new PythonLanguage(editor),
+            new EmptyLanguage(editor)
+        );
     }
     protected void loadThemes() {
-        themes.put("Eclipse",new ColorPluginEclipse(editor));
-        themes.put("Darcula",new ColorPluginDarcula(editor));
-        themes.put("VS2019",new ColorPluginVS2019(editor));
-        themes.put("NotepadXX",new ColorPluginNotepadXX(editor));
-        themes.put("HTML",new ColorPluginHTML(editor));
-        themes.put("Solarized",new ColorPluginSolarized(editor));
-        themes.put("GitHub",new ColorPluginGithub(editor));
-        themes.put("None", new ColorPluginNone(editor));
-        themes.put("Debug", new ColorPluginDebug(editor));
-        for(Extension e : themes.values()) {
-            editor.plugins.put(e);
-        }
+        editor.plugins.put(
+            new ColorPluginEclipse(editor),
+            new ColorPluginDarcula(editor),
+            new ColorPluginVS2019(editor),
+            new ColorPluginNotepadXX(editor),
+            new ColorPluginHTML(editor),
+            new ColorPluginSolarized(editor),
+            new ColorPluginGithub(editor),
+            new ColorPluginNone(editor),
+            new ColorPluginDebug(editor)
+        );
     }
     protected void setEditorLanguage(LanguagePlugin el, String fname) {
         editor.setEditorLanguage(el);
@@ -143,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         editor.setTypefaceText(Typeface.MONOSPACE);
         editor.setOverScrollEnabled(false);
         //setEditorLanguage(new MkshLanguage(), "samples/mksh/mksh.txt");
-        setEditorLanguage(languages.get("Java"), "samples/java/java.txt");
+        setEditorLanguage((LanguagePlugin) editor.plugins.get("Java"), "samples/java/java.txt");
         //setEditorLanguage(new HTMLLanguage(),"samples/html/html.txt");
         /*if ( Logger.DEBUG ) {
             new ColorPluginDebug(editor).apply();
