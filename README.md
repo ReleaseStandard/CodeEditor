@@ -28,32 +28,15 @@ Note: Language issues may not be handled.
 - [x] Show non-printable characters
 - [ ] Incremental highlight Analysis
 - [ ] Plugin System
-## How to use this editor  
-* Step 1.Add the JitPack repository to your build file   
-Add it in your root build.gradle at the end of repositories:
-```Gradle
-allprojects {
-  repositories {
-    ...
-    maven { url 'https://jitpack.io' }
-  }
-}
- ```
-* Step 2. Add the dependency to your app (app level build.gradle)
-```Gradle
-dependencies {
-  #implementation 'com.github.Rosemoe.CodeEditor:<moduleName>:<versionName>'
-  # temp stuff
-  implementation 'com.github.ReleaseStandard.CodeEditor:CodeEditor-editor:latest'
-  implementation 'com.github.ReleaseStandard.CodeEditor:CodeEditor-language-java:latest'
-  implementation 'com.github.ReleaseStandard.CodeEditor:CodeEditor-language-python:latest'
-}
-```
-To see for more language avaliable please browse the repo.<br/>
+## Language Supported  
+* Java, JavaScript, C, C++, HTML, Python (Basic Support:highlight, code block line,identifier and keyword auto-completion). Code block line isn't available for HTML Language
+## Screenshots  
+![View Outline](/images/outline.png)
+![Auto Complete](/images/auto-completion.png)
+![Select Text](/images/select-text.png)
+![Search and Replace](/images/search-replace.png)
+![Wordwrap](/images/wordwrap.png)
 
-### Some more information
-Go to [Wiki](https://github.com/Rosemoe/CodeEditor/wiki)
-temp stuff : [wiki](https://github.com/ReleaseStandard/CodeEditor/wiki)
 ### Discuss
 * Official QQ Group:[216632648](https://jq.qq.com/?_wv=1027&k=n68uxQws)
 * [Official Telegram Group](https://t.me/rosemoe_code_editor)
