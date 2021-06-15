@@ -26,3 +26,11 @@ include ':editor'
 include ':app'
 rootProject.name='CodeEditor-application'
 include ':app'
+
+/*sourceControl {
+    gitRepository('file:///DATA/CodeEditor-editor/') {
+        producesModule('CodeEditor-editor:editor')
+        //producesModule('com.github.ReleaseStandard:CodeEditor-editor')
+    }
+}*/
+
