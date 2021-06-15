@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.ReleaseStandard:CodeEditor-editor:latest@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9ffa45786986510ebc961718791d5032/jetified-CodeEditor-editor-latest/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9ffa45786986510ebc961718791d5032/jetified-CodeEditor-editor-latest/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9ffa45786986510ebc961718791d5032/jetified-CodeEditor-editor-latest/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ReleaseStandard/CodeEditor-editor/latest/63401b6b2f1ce05fb5dfc254c153411ee8a37116/CodeEditor-editor-latest-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
