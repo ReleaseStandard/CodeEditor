@@ -3,4 +3,4 @@
 	url = https://github.com/ReleaseStandard/CodeEditor-buildSrc
 [submodule "CodeEditor-editor"]
 	path = CodeEditor-editor
-	url = https://github.com/ReleaseStandard//CodeEditor-editor
+	url = https://github.com/ReleaseStandard/CodeEditor-editor
