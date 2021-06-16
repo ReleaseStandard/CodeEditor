@@ -20,6 +20,13 @@ function finit() {
 	sleep 3;
 	rm -fr "$tmp";
 }
+
+# Warning without executing this you will get duplicate error on the next build.
+function flushlibbuild() {
+	echo "Removing libs : app/libs/* ...";
+	sleep 2;
+	rm -f app/libs/*;
+}
 for plugin in "$@" ; do
 	echo "Stop working on $plugin"
 	rm "$plugin"
@@ -27,3 +34,5 @@ for plugin in "$@" ; do
 	grep -v "${plugin}" .gitmodules > "$tmp";
 	mv "$tmp" .gitmodules
 done
+
+flushlibbuild

@@ -64,8 +64,7 @@ configurations.all {
             mname = mname.substring(li+1);
             String path = "../" + mname;
 
-            if ( file(path).isDirectory()
-                    && file(path).isDirectory()) {
+            if ( file(path).exists() ) {
                 if ( buildedMods.get(path) == null || ! buildedMods.get(path) ) {
                     project.logger.lifecycle("Building of "+mname+" for local dependencies resolution")
                     exec {
