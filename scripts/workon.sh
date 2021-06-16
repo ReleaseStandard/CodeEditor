@@ -14,7 +14,7 @@ fi
 for plugin in "$@" ; do
 	echo "Working on $plugin";
 	url="${base}/${plugin}";
-	git submodule add "$url";
+	git submodule add --depth=1 "$url";
 	rm -fr "${plugin}";
 	ln -rs "../${plugin}" ./
 done

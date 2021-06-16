@@ -17,20 +17,18 @@ function init() {
 }
 function finit() {
 	echo "Removing $tmp ...";
-	sleep 3;
 	rm -fr "$tmp";
 }
 
 # Warning without executing this you will get duplicate error on the next build.
 function flushlibbuild() {
 	echo "Removing libs : app/libs/* ...";
-	sleep 2;
 	rm -f app/libs/*;
 }
 for plugin in "$@" ; do
 	echo "Stop working on $plugin"
-	rm "$plugin"
-	rm -r ".git/modules/${plugin}";
+	rm -f "$plugin"
+	rm -fr ".git/modules/${plugin}";
 	grep -v "${plugin}" .gitmodules > "$tmp";
 	mv "$tmp" .gitmodules
 done
