@@ -23,19 +23,8 @@ for mod in "$@" ; do
 	cd "$mod"
 	./gradlew assembleDebug
 	for p in $(find -name "*.aar") ; do
-		##init
-		# -exec cp {} "${op}/${dest}" \; 
-		##cp "$p" "$tmp";
-		##cd "$tmp";
-		##unzip "*.aar";
-		##cd $OLDPWD
-		##newname="${p/*\//}"
-		##newname="${newname/%.aar/.jar}"
-		##echo "op=${op}";
-		##cp "$tmp/classes.jar" "$op/libs/${newname}";
 		mkdir -p "$op/libs/"
 		cp "$p" "$op/libs/"
-		##if ! [ "$NOCLEAR" = "" ] ; then finit ; fi
 	done
 	cd "$op" 
 done
