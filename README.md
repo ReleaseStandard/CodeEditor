@@ -27,3 +27,4 @@ cd CodeEditor
 git submodule update --init --recursive
 ```
 This will clone application, plugins, core of code editor.<br />
+scripts/updateSM.sh : solution to problem of submodule syncing<br />
