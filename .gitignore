@@ -1,6 +1,0 @@
-app/libs/
-app/libs/*
-app/libs/**
-.gradle/
-.gradle/**
-.gradle/*
