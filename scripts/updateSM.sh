@@ -9,38 +9,39 @@
 # Related issue:
 #  https://stackoverflow.com/questions/8191299/update-a-submodule-to-the-latest-commit
 #
-op="$(pwd)";
-
+op="$(pwd)"
+branch="master"
 
 function init() {
-	echo "";
-	echo "$@";
+	echo ""
+	echo "$@"
 }
 function finit() {
-	echo "$@";
-	echo "";
+	echo "$@"
+	echo ""
 }
 
 
 
 # update top level submodules
-init "Syncing toplevel submodules ...";
+init "Syncing toplevel submodules ..."
 git submodule update --remote --merge
 
 # update nested submodules
 for module in $(git submodule | sed 's/^[ \t]*[^ \t]\+[ \t]*\([^ \t]\+\)[ \t]*.*/\1/g') ; do
-	cd "$module";
+	cd "$module"
 	init "Updating modules of $module ..."
+	git checkout master
 	git submodule update --remote --merge
 	git add .
 	git commit -m "Submodule syncing"
-	git push --set-upstream origin master
+	git push --set-upstream origin $branch
 	finit
-	cd "$op";
+	cd "$op"
 	git add "${module}"
 done
 
 # Commit top level submodules modifications
 git commit -m "Submodule syncing"
-git push --set-upstream origin master
+git push --set-upstream origin main
 finit
