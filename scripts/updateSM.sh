@@ -36,6 +36,9 @@ for module in $(git submodule | sed 's/^[ \t]*[^ \t]\+[ \t]*\([^ \t]\+\)[ \t]*.*
 	git add .
 	git commit -m "Submodule syncing"
 	git push --set-upstream origin $branch
+	git tag -d latest
+	git tag latest
+	git push --tags -f
 	finit
 	cd "$op"
 	git add "${module}"
