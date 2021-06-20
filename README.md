@@ -5,6 +5,7 @@
 - CodeEditor production ready [application](https://github.com/ReleaseStandard/CodeEditor-application).
 - Plugins for CodeEditor.
 - CodeEditor core.
+- [Wiki](https://github.com/ReleaseStandard/CodeEditor/wiki) sources.
 <br />
 
 ### Where you should go<br />
