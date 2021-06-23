@@ -34,3 +34,6 @@
 [submodule "CodeEditor.wiki"]
 	path = CodeEditor.wiki
 	url = https://github.com/ReleaseStandard/CodeEditor.wiki.git
+[submodule "CodeEditor-logger-debug"]
+	path = CodeEditor-logger-debug
+	url = https://github.com/ReleaseStandard/CodeEditor-logger-debug
