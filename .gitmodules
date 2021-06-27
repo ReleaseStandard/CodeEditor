@@ -37,3 +37,6 @@
 [submodule "CodeEditor-logger-debug"]
 	path = CodeEditor-logger-debug
 	url = https://github.com/ReleaseStandard/CodeEditor-logger-debug
+[submodule "CodeEditor-widget-linenumber"]
+	path = CodeEditor-widget-linenumber
+	url = https://github.com/ReleaseStandard/CodeEditor-widget-linenumber
