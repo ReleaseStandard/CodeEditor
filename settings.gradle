@@ -1,0 +1,13 @@
+rootProject.name = 'CodeEditor'
+
+rootDir.eachDirRecurse { dir ->
+  if ( ! ( dir.name.equals("buildSrc") ) && new File(dir, 'build.gradle').exists()) {
+    // this part is not great
+//    include dir.name
+    def name = dir.getPath().replace(rootProject.getProjectDir().getPath(), "")
+    name = name.replaceAll("/",":")
+    println "name=${name},dir="+dir.getPath()
+//    project("${name}").projectDir = dir
+    include("${name}")
+  }
+}

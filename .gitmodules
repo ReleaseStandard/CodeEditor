@@ -13,9 +13,6 @@
 [submodule "CodeEditor-language-universal"]
 	path = CodeEditor-language-universal
 	url = https://github.com/ReleaseStandard/CodeEditor-language-universal
-[submodule "CodeEditor-buildSrc"]
-	path = CodeEditor-buildSrc
-	url = https://github.com/ReleaseStandard/CodeEditor-buildSrc
 [submodule "CodeEditor-emptyPlugin"]
 	path = CodeEditor-emptyPlugin
 	url = https://github.com/ReleaseStandard/CodeEditor-emptyPlugin
@@ -43,3 +40,6 @@
 [submodule "CodeEditor-widget-symbolinput"]
 	path = CodeEditor-widget-symbolinput
 	url = https://github.com/ReleaseStandard/CodeEditor-widget-symbolinput
+[submodule "buildSrc"]
+	path = buildSrc
+	url = https://github.com/ReleaseStandard/CodeEditor-buildSrc
