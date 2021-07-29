@@ -7,6 +7,9 @@ function genB() {
 function genJ() {
 	echo "[![](https://jitpack.io/v/$1/$2.svg)](https://jitpack.io/#$1/$2)"
 }
+function genMC() {
+	echo "![](https://maven-badges.herokuapp.com/maven-central/io.github.${1}.CodeEditor/$2/badge.svg)"
+}
 echo "| Piece    |  Status |  Artifacts  |"
 echo "|----------|---------|-------------|"
 for p in application language-cobol85 language-java language-universal widget-symbolinput editor \
@@ -16,5 +19,5 @@ for p in application language-cobol85 language-java language-universal widget-sy
 		f="${f/.yml/}"
 		links="$links $(genB $f $p)"
 	done
-	echo "| [$p](https://github.com/${githubOwner}/CodeEditor-$p/) | $links  | $(genJ ${githubOwner} CodeEditor-$p)"
+	echo "| [$p](https://github.com/${githubOwner}/CodeEditor-$p/) | $links  | $(genJ ${githubOwner} CodeEditor-$p) $(genMC ${githubOwner} CodeEditor-$p)"
 done
