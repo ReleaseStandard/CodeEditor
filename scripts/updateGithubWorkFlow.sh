@@ -5,7 +5,10 @@
 
 rootModification=$(git status -s .github/)
 echo "rootModification=$rootModification"
-git submodule foreach --recursive bash -c "if ! [ \"$rootModification\" = \"\" ] ; then \
+if [ "$FORCE" = "" ] ; then
+	FORCE=false
+fi
+git submodule foreach --recursive bash -c "if $FORCE || ! [ \"$rootModification\" = \"\" ] ; then \
 		if [ -d ".github" ] ; then \
 			cp ../.github/workflows/* ./.github/workflows/ ; \
 			if ! [ \"\$(git status -s .github/)\" = \"\" ] ; then \

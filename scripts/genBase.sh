@@ -10,6 +10,9 @@ function genJ() {
 function genMC() {
 	echo "![](https://maven-badges.herokuapp.com/maven-central/io.github.${1}.CodeEditor/$2/badge.svg)"
 }
+function genSonatype() {
+	echo "![](https://img.shields.io/nexus/r/io.github.${1}.CodeEditor/${2}?server=https%3A%2F%2Fs01.oss.sonatype.org)"
+}
 echo "| Piece    |  Status |  Artifacts  |"
 echo "|----------|---------|-------------|"
 for p in application language-cobol85 language-java language-universal widget-symbolinput editor \
@@ -19,5 +22,5 @@ for p in application language-cobol85 language-java language-universal widget-sy
 		f="${f/.yml/}"
 		links="$links $(genB $f $p)"
 	done
-	echo "| [$p](https://github.com/${githubOwner}/CodeEditor-$p/) | $links  | $(genJ ${githubOwner} CodeEditor-$p) $(genMC ${githubOwner} CodeEditor-$p)"
+	echo "| [$p](https://github.com/${githubOwner}/CodeEditor-$p/) | $links  | $(genJ ${githubOwner} CodeEditor-$p) $(genSonatype ${githubOwner} CodeEditor-$p)"
 done
