@@ -2,7 +2,7 @@
 
 githubOwner=ReleaseStandard
 function genB() {
-	echo "![$1](https://github.com/${githubOwner}/CodeEditor-$2/actions/workflows/$1.yml/badge.svg)"
+	echo "[![$1](https://github.com/${githubOwner}/CodeEditor-$2/actions/workflows/$1.yml/badge.svg)](https://github.com/ReleaseStandard/CodeEditor-$2/actions?query=workflow%3A\"$3\")"
 }
 function genJ() {
 	echo "[![](https://jitpack.io/v/$1/$2.svg)](https://jitpack.io/#$1/$2)"
@@ -19,8 +19,9 @@ for p in application language-cobol85 language-java language-universal widget-sy
           language-golang language-mksh logger-debug emptyPlugin language-html language-python widget-linenumber ; do
 	links=""
 	for f in $(ls "CodeEditor-$p/.github/workflows/") ; do
+		wName=$(cat "CodeEditor-$p/.github/workflows/$f" |grep -E "^name:" |sed 's/name: //')
 		f="${f/.yml/}"
-		links="$links $(genB $f $p)"
+		links="$links $(genB $f $p ${wName// /+})"
 	done
 	shields=""
 	for m in genSonatype genMC ; do
