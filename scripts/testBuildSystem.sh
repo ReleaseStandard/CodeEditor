@@ -5,7 +5,8 @@
 success=0
 failure=0
 function assert() {
-	if ( [ "$#" -lt "3" ] && [ "$?" -eq "0" ] ) || [ "$2" = "$3" ] ; then
+	local rv="$?"
+	if ( [ "$3" = "" ] && [ "$rv" -eq "0" ] ) || ( [ "$2" = "$3" ] && ! [ "$3" = "" ] ) ; then
 		printf "[\033[01;32mSUCCESS\033[0m] $1\n"
 		((success=success+1))
 		return 0
