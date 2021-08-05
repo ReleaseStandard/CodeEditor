@@ -23,7 +23,7 @@ for p in application language-cobol85 language-java language-universal widget-sy
 		links="$links $(genB $f $p)"
 	done
 	shields=""
-	for m in genJ genSonatype genMC ; do
+	for m in genSonatype genMC ; do
 		shields="${shields} $($m ${githubOwner} CodeEditor-$p)"
 	done
 	echo "| [$p](https://github.com/${githubOwner}/CodeEditor-$p/) | $links  | ${shields}"
