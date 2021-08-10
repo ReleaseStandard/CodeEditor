@@ -8,10 +8,10 @@ function genJ() {
 	echo "[![](https://jitpack.io/v/$1/$2.svg)](https://jitpack.io/#$1/$2)"
 }
 function genMC() {
-	echo "![](https://img.shields.io/maven-central/v/io.github.${1}.CodeEditor/${2/CodeEditor-/})"
+	echo "[![](https://img.shields.io/maven-central/v/io.github.${1}.CodeEditor/${2/CodeEditor-/})](https://repo1.maven.org/maven2/io/github/${1}/CodeEditor/${2/CodeEditor-/}/)"
 }
 function genSonatype() {
-	echo "![](https://img.shields.io/nexus/r/io.github.${1}.CodeEditor/${2/CodeEditor-/}?server=https%3A%2F%2Fs01.oss.sonatype.org)"
+	echo "[![](https://img.shields.io/nexus/r/io.github.${1}.CodeEditor/${2/CodeEditor-/}?server=https%3A%2F%2Fs01.oss.sonatype.org)](https://s01.oss.sonatype.org/content/repositories/releases/io/github/${1}/CodeEditor/${2/CodeEditor-/}/)"
 }
 echo "| Piece    |  Status |  Artifacts  |"
 echo "|----------|---------|-------------|"
