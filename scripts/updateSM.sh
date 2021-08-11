@@ -34,8 +34,8 @@ for module in $(git submodule | sed 's/^[ \t]*[^ \t]\+[ \t]*\([^ \t]\+\)[ \t]*.*
 	git checkout master
 	git submodule update --remote --merge
 	git add .
-	git commit -m "Submodule syncing"
-	git push --set-upstream origin $branch
+	git commit --amend --no-edit
+	git push --set-upstream origin +HEAD:$branch
 #	git tag -d latest
 #	git tag latest
 	git push --tags -f
@@ -45,6 +45,7 @@ for module in $(git submodule | sed 's/^[ \t]*[^ \t]\+[ \t]*\([^ \t]\+\)[ \t]*.*
 done
 
 # Commit top level submodules modifications
-git commit -m "Submodule syncing"
-git push --set-upstream origin main
+git add .
+git commit --amend --no-edit
+git push --set-upstream origin +HEAD:main
 finit
