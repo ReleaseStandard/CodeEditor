@@ -43,6 +43,3 @@
 [submodule "buildSrc"]
 	path = buildSrc
 	url = https://github.com/ReleaseStandard/CodeEditor-buildSrc
-[submodule "CodeEditor-gradlePlugin"]
-	path = CodeEditor-gradlePlugin
-	url = https://github.com/ReleaseStandard/CodeEditor-gradlePlugin
