@@ -10,7 +10,7 @@ if [ "$FORCE" = "" ] ; then
 fi
 git submodule foreach --recursive bash -c "if $FORCE || ! [ \"$rootModification\" = \"\" ] ; then \
 		if [ -d ".github" ] ; then \
-			cp ../.github/workflows/* ./.github/workflows/ ; \
+			cp -r ../.github/* ./.github/ ; \
 			if ! [ \"\$(git status -s .github/)\" = \"\" ] ; then \
 		                git add .github/ ; \
 				git commit -m \"update workflow\" ; \
