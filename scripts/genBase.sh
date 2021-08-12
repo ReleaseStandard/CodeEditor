@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Generate links and shields from repo owner and modules inside this repo
+#
 
 githubOwner=ReleaseStandard
 function genB() {
