@@ -1,45 +1,45 @@
-[submodule "CodeEditor-editor"]
-	path = CodeEditor-editor
-	url = https://github.com/ReleaseStandard/CodeEditor-editor
-[submodule "CodeEditor-language-cobol85"]
-	path = CodeEditor-language-cobol85
+[submodule "language-cobol85"]
+	path = language-cobol85
 	url = https://github.com/ReleaseStandard/CodeEditor-language-cobol85
-[submodule "CodeEditor-language-html"]
-	path = CodeEditor-language-html
+[submodule "language-html"]
+	path = language-html
 	url = https://github.com/ReleaseStandard/CodeEditor-language-html
-[submodule "CodeEditor-language-mksh"]
-	path = CodeEditor-language-mksh
+[submodule "language-mksh"]
+	path = language-mksh
 	url = https://github.com/ReleaseStandard/CodeEditor-language-mksh
-[submodule "CodeEditor-language-universal"]
-	path = CodeEditor-language-universal
+[submodule "language-universal"]
+	path = language-universal
 	url = https://github.com/ReleaseStandard/CodeEditor-language-universal
-[submodule "CodeEditor-emptyPlugin"]
-	path = CodeEditor-emptyPlugin
+[submodule "emptyPlugin"]
+	path = emptyPlugin
 	url = https://github.com/ReleaseStandard/CodeEditor-emptyPlugin
-[submodule "CodeEditor-language-golang"]
-	path = CodeEditor-language-golang
+[submodule "language-golang"]
+	path = language-golang
 	url = https://github.com/ReleaseStandard/CodeEditor-language-golang
-[submodule "CodeEditor-language-java"]
-	path = CodeEditor-language-java
+[submodule "language-java"]
+	path = language-java
 	url = https://github.com/ReleaseStandard/CodeEditor-language-java
-[submodule "CodeEditor-language-python"]
-	path = CodeEditor-language-python
+[submodule "language-python"]
+	path = language-python
 	url = https://github.com/ReleaseStandard/CodeEditor-language-python
-[submodule "CodeEditor-application"]
-	path = CodeEditor-application
+[submodule "application"]
+	path = application
 	url = https://github.com/ReleaseStandard/CodeEditor-application
 [submodule "CodeEditor.wiki"]
 	path = CodeEditor.wiki
 	url = https://github.com/ReleaseStandard/CodeEditor.wiki.git
-[submodule "CodeEditor-logger-debug"]
-	path = CodeEditor-logger-debug
+[submodule "logger-debug"]
+	path = logger-debug
 	url = https://github.com/ReleaseStandard/CodeEditor-logger-debug
-[submodule "CodeEditor-widget-linenumber"]
-	path = CodeEditor-widget-linenumber
-	url = https://github.com/ReleaseStandard/CodeEditor-widget-linenumber
-[submodule "CodeEditor-widget-symbolinput"]
-	path = CodeEditor-widget-symbolinput
+[submodule "widget-symbolinput"]
+	path = widget-symbolinput
 	url = https://github.com/ReleaseStandard/CodeEditor-widget-symbolinput
+[submodule "widget-linenumber"]
+        path = widget-linenumber
+        url = https://github.com/ReleaseStandard/CodeEditor-widget-linenumber
 [submodule "buildSrc"]
 	path = buildSrc
 	url = https://github.com/ReleaseStandard/CodeEditor-buildSrc
+[submodule "editor"]
+        path = editor
+        url = https://github.com/ReleaseStandard/CodeEditor-editor
