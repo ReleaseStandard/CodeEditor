@@ -145,5 +145,13 @@ if ${UNITS[2]} ; then
 	done
 fi
 
+if ${UNITS[3]} ; then
+	testIntro "Test signatures of builds"
+	./gradlew assemble signPublication >/dev/null 2>&1
+	for f in $(find -name "*.asc") ; do
+		assert "Signature of $f" "$(gpg --verify $f ${f/%.asc/} 2>&1)"
+	done
+fi
+
 finit
 
