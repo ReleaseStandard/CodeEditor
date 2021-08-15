@@ -57,15 +57,21 @@ fi
 
 if ${UNITS[1]} ; then
 	testIntro "build and test"
+        ./gradlew clean 2>/dev/null 1>&2
+	./gradlew :editor:assemble 1>/dev/null 2>&1
 	for mod in $(git submodule --quiet foreach 'echo $sm_path') ; do
 		if [ "$mod" = "buildSrc" ] || [ "$mod" = "CodeEditor.wiki" ] ; then continue; fi
 		assert "from root :${mod}:assemble" "$(./gradlew :${mod}:assemble 2>&1)"
 	        assert "from root :${mod}:test" "$(./gradlew :${mod}:test 2>&1)"
+	done
+	./gradlew clean 2>/dev/null 1>&2
+	for mod in $(git submodule --quiet foreach 'echo $sm_path') ; do
+                if [ "$mod" = "buildSrc" ] || [ "$mod" = "CodeEditor.wiki" ] ; then continue; fi
 		op="$(pwd)"
-		cd "${mod}"
-	        assert "from ${mod} assemble" "$(./gradlew clean assemble 2>&1)"
-		assert "from ${mod} test" "$(./gradlew test 2>&1)"
-		cd "$op"
+                cd "${mod}"
+                assert "from ${mod} assemble" "$(./gradlew clean assemble 2>&1)"
+                assert "from ${mod} test" "$(./gradlew test 2>&1)"
+                cd "$op"
 	done
 fi
 
