@@ -159,5 +159,17 @@ if ${UNITS[3]} ; then
 	done
 fi
 
+if ${UNITS[4]} ; then
+	testIntro "Test live modifications"
+	f=logger-debug/logger-debug/src/main/java/io/github/rosemoe/editor/core/util/Logger.java
+	cp "$f" "/tmp/"
+	echo "TEST" >> "$f"
+	./gradlew :editor:assemble 1>/dev/null 2>&1
+	RV="$?"
+	assert "on dependency editor -> logger-debug" "$RV" "1"
+	mv "/tmp/${f/*\//}" "$f"
+fi
+
 finit
+
 

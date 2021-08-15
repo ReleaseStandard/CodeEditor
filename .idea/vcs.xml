@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/CodeEditor.wiki" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/application" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/application/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/editor" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/editor/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/emptyPlugin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/emptyPlugin/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-cobol85" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-cobol85/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-golang" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-golang/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-html" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-html/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-java" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-java/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-mksh" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-mksh/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-python/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-universal" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/language-universal/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/logger-debug" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/logger-debug/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/widget-linenumber" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/widget-linenumber/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/widget-symbolinput" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/widget-symbolinput/buildSrc" vcs="Git" />
+  </component>
+</project>

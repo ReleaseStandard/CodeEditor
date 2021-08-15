@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="PLATFORM" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/application" />
+            <option value="$PROJECT_DIR$/application/app" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/editor" />
+            <option value="$PROJECT_DIR$/editor/controller" />
+            <option value="$PROJECT_DIR$/editor/editor" />
+            <option value="$PROJECT_DIR$/editor/model" />
+            <option value="$PROJECT_DIR$/editor/view-android" />
+            <option value="$PROJECT_DIR$/emptyPlugin" />
+            <option value="$PROJECT_DIR$/emptyPlugin/view-android" />
+            <option value="$PROJECT_DIR$/language-cobol85" />
+            <option value="$PROJECT_DIR$/language-cobol85/language-cobol85" />
+            <option value="$PROJECT_DIR$/language-golang" />
+            <option value="$PROJECT_DIR$/language-golang/language-golang" />
+            <option value="$PROJECT_DIR$/language-html" />
+            <option value="$PROJECT_DIR$/language-html/language-html" />
+            <option value="$PROJECT_DIR$/language-java" />
+            <option value="$PROJECT_DIR$/language-java/language-java" />
+            <option value="$PROJECT_DIR$/language-mksh" />
+            <option value="$PROJECT_DIR$/language-mksh/language-mksh" />
+            <option value="$PROJECT_DIR$/language-python" />
+            <option value="$PROJECT_DIR$/language-python/language-python" />
+            <option value="$PROJECT_DIR$/language-universal" />
+            <option value="$PROJECT_DIR$/language-universal/language-universal" />
+            <option value="$PROJECT_DIR$/logger-debug" />
+            <option value="$PROJECT_DIR$/logger-debug/logger-debug" />
+            <option value="$PROJECT_DIR$/widget-linenumber" />
+            <option value="$PROJECT_DIR$/widget-linenumber/controller" />
+            <option value="$PROJECT_DIR$/widget-linenumber/model" />
+            <option value="$PROJECT_DIR$/widget-linenumber/view-android" />
+            <option value="$PROJECT_DIR$/widget-symbolinput" />
+            <option value="$PROJECT_DIR$/widget-symbolinput/controller" />
+            <option value="$PROJECT_DIR$/widget-symbolinput/model" />
+            <option value="$PROJECT_DIR$/widget-symbolinput/view-android" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

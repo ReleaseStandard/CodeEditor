@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-json/2021.1.14/d65a775321e018d57e1114999c351a218ad77c62/manifold-json-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-props/2021.1.14/f5050890fd7f8205d2c6c07c8cae70c4084da669/manifold-props-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-ext/2021.1.14/1c0a1be03c486fc3cc2dcf5067a5d1df95383ad9/manifold-ext-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-json-rt/2021.1.14/1d05e472bb8bfbdc0e0a87cdfd27c94ed92e2211/manifold-json-rt-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-props-rt/2021.1.14/8e6681c978a26c98f7c253999dcb8783f9aa4316/manifold-props-rt-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold/2021.1.14/b0d86f2249f844790f3d1fac7c9ba05a13f289e9/manifold-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-ext-rt/2021.1.14/e62f7dc0354fb453259cfe999057181d04d51b6c/manifold-ext-rt-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-rt/2021.1.14/5a7ceec6bd71012060c6eb594617e72a18bceb41/manifold-rt-2021.1.14.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-util/2021.1.14/81899b3aac78ea469b0b72b2e0ebe613857b5cbe/manifold-util-2021.1.14.jar" />
+        </processorPath>
+        <module name="CodeEditor.editor.model" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="CodeEditor" target="11" />
+      <module name="CodeEditor.application" target="11" />
+      <module name="CodeEditor.application.app" target="11" />
+      <module name="CodeEditor.buildSrc" target="11" />
+      <module name="CodeEditor.editor.controller" target="11" />
+      <module name="CodeEditor.editor.editor" target="11" />
+      <module name="CodeEditor.editor.model" target="11" />
+      <module name="CodeEditor.editor.view-android" target="11" />
+      <module name="CodeEditor.emptyPlugin.view-android" target="11" />
+      <module name="CodeEditor.language-cobol85" target="11" />
+      <module name="CodeEditor.language-cobol85.language-cobol85" target="11" />
+      <module name="CodeEditor.language-golang" target="11" />
+      <module name="CodeEditor.language-golang.language-golang" target="11" />
+      <module name="CodeEditor.language-html" target="11" />
+      <module name="CodeEditor.language-html.language-html" target="11" />
+      <module name="CodeEditor.language-java" target="11" />
+      <module name="CodeEditor.language-java.language-java" target="11" />
+      <module name="CodeEditor.language-mksh" target="11" />
+      <module name="CodeEditor.language-mksh.language-mksh" target="11" />
+      <module name="CodeEditor.language-python" target="11" />
+      <module name="CodeEditor.language-python.language-python" target="11" />
+      <module name="CodeEditor.language-universal" target="11" />
+      <module name="CodeEditor.language-universal.language-universal" target="11" />
+      <module name="CodeEditor.logger-debug" target="11" />
+      <module name="CodeEditor.logger-debug.logger-debug" target="11" />
+      <module name="CodeEditor.widget-linenumber.controller" target="11" />
+      <module name="CodeEditor.widget-linenumber.model" target="11" />
+      <module name="CodeEditor.widget-linenumber.view-android" target="11" />
+      <module name="CodeEditor.widget-symbolinput.controller" target="11" />
+      <module name="CodeEditor.widget-symbolinput.model" target="11" />
+      <module name="CodeEditor.widget-symbolinput.view-android" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-Xplugin:Manifold  -processorpath $USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-util-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-props-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-ext-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-json-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-ext-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b597569055cf30e7a8ca0ae5813a58e8/jetified-editor-master-SNAPSHOT/jars/libs/manifold-util-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b597569055cf30e7a8ca0ae5813a58e8/jetified-editor-master-SNAPSHOT/jars/libs/manifold-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b597569055cf30e7a8ca0ae5813a58e8/jetified-editor-master-SNAPSHOT/jars/libs/manifold-props-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b597569055cf30e7a8ca0ae5813a58e8/jetified-editor-master-SNAPSHOT/jars/libs/manifold-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b597569055cf30e7a8ca0ae5813a58e8/jetified-editor-master-SNAPSHOT/jars/libs/manifold-ext-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b597569055cf30e7a8ca0ae5813a58e8/jetified-editor-master-SNAPSHOT/jars/libs/manifold-json-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b597569055cf30e7a8ca0ae5813a58e8/jetified-editor-master-SNAPSHOT/jars/libs/manifold-ext-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45ecd1f2383c98b93eae17c90f8a90e3/jetified-view-android-master-SNAPSHOT/jars/libs/manifold-util-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45ecd1f2383c98b93eae17c90f8a90e3/jetified-view-android-master-SNAPSHOT/jars/libs/manifold-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45ecd1f2383c98b93eae17c90f8a90e3/jetified-view-android-master-SNAPSHOT/jars/libs/manifold-props-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45ecd1f2383c98b93eae17c90f8a90e3/jetified-view-android-master-SNAPSHOT/jars/libs/manifold-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45ecd1f2383c98b93eae17c90f8a90e3/jetified-view-android-master-SNAPSHOT/jars/libs/manifold-ext-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45ecd1f2383c98b93eae17c90f8a90e3/jetified-view-android-master-SNAPSHOT/jars/libs/manifold-json-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45ecd1f2383c98b93eae17c90f8a90e3/jetified-view-android-master-SNAPSHOT/jars/libs/manifold-ext-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-json-rt/2021.1.14/1d05e472bb8bfbdc0e0a87cdfd27c94ed92e2211/manifold-json-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-props-rt/2021.1.14/8e6681c978a26c98f7c253999dcb8783f9aa4316/manifold-props-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-ext/2021.1.14/1c0a1be03c486fc3cc2dcf5067a5d1df95383ad9/manifold-ext-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-ext-rt/2021.1.14/e62f7dc0354fb453259cfe999057181d04d51b6c/manifold-ext-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold/2021.1.14/b0d86f2249f844790f3d1fac7c9ba05a13f289e9/manifold-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-rt/2021.1.14/5a7ceec6bd71012060c6eb594617e72a18bceb41/manifold-rt-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-util/2021.1.14/81899b3aac78ea469b0b72b2e0ebe613857b5cbe/manifold-util-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-json/2021.1.14/d65a775321e018d57e1114999c351a218ad77c62/manifold-json-2021.1.14.jar:$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-props/2021.1.14/f5050890fd7f8205d2c6c07c8cae70c4084da669/manifold-props-2021.1.14.jar" />
+  </component>
+</project>

@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.ReleaseStandard.CodeEditor-editor:build:master-SNAPSHOT@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/logger-debug-1.62.0.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-util-2021.1.14.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-2021.1.14.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/model-master-9bbe506076-1.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-props-rt-2021.1.14.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-rt-2021.1.14.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-ext-rt-2021.1.14.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-json-rt-2021.1.14.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/99b9ac7c59a9e500cc52d3806b28b0db/jetified-build-master-SNAPSHOT/jars/libs/manifold-ext-2021.1.14.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

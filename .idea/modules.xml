@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CodeEditor.iml" filepath="$PROJECT_DIR$/.idea/modules/CodeEditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/CodeEditor.application.iml" filepath="$PROJECT_DIR$/.idea/modules/application/CodeEditor.application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/app/CodeEditor.application.app.iml" filepath="$PROJECT_DIR$/.idea/modules/application/app/CodeEditor.application.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CodeEditor.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/CodeEditor.buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/editor/CodeEditor.editor.iml" filepath="$PROJECT_DIR$/.idea/modules/editor/CodeEditor.editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/editor/controller/CodeEditor.editor.controller.iml" filepath="$PROJECT_DIR$/.idea/modules/editor/controller/CodeEditor.editor.controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/editor/editor/CodeEditor.editor.editor.iml" filepath="$PROJECT_DIR$/.idea/modules/editor/editor/CodeEditor.editor.editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/editor/model/CodeEditor.editor.model.iml" filepath="$PROJECT_DIR$/.idea/modules/editor/model/CodeEditor.editor.model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/editor/view-android/CodeEditor.editor.view-android.iml" filepath="$PROJECT_DIR$/.idea/modules/editor/view-android/CodeEditor.editor.view-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emptyPlugin/CodeEditor.emptyPlugin.iml" filepath="$PROJECT_DIR$/.idea/modules/emptyPlugin/CodeEditor.emptyPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emptyPlugin/view-android/CodeEditor.emptyPlugin.view-android.iml" filepath="$PROJECT_DIR$/.idea/modules/emptyPlugin/view-android/CodeEditor.emptyPlugin.view-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-cobol85/CodeEditor.language-cobol85.iml" filepath="$PROJECT_DIR$/.idea/modules/language-cobol85/CodeEditor.language-cobol85.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-cobol85/language-cobol85/CodeEditor.language-cobol85.language-cobol85.iml" filepath="$PROJECT_DIR$/.idea/modules/language-cobol85/language-cobol85/CodeEditor.language-cobol85.language-cobol85.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-golang/CodeEditor.language-golang.iml" filepath="$PROJECT_DIR$/.idea/modules/language-golang/CodeEditor.language-golang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-golang/language-golang/CodeEditor.language-golang.language-golang.iml" filepath="$PROJECT_DIR$/.idea/modules/language-golang/language-golang/CodeEditor.language-golang.language-golang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-html/CodeEditor.language-html.iml" filepath="$PROJECT_DIR$/.idea/modules/language-html/CodeEditor.language-html.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-html/language-html/CodeEditor.language-html.language-html.iml" filepath="$PROJECT_DIR$/.idea/modules/language-html/language-html/CodeEditor.language-html.language-html.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-java/CodeEditor.language-java.iml" filepath="$PROJECT_DIR$/.idea/modules/language-java/CodeEditor.language-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-java/language-java/CodeEditor.language-java.language-java.iml" filepath="$PROJECT_DIR$/.idea/modules/language-java/language-java/CodeEditor.language-java.language-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-mksh/CodeEditor.language-mksh.iml" filepath="$PROJECT_DIR$/.idea/modules/language-mksh/CodeEditor.language-mksh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-mksh/language-mksh/CodeEditor.language-mksh.language-mksh.iml" filepath="$PROJECT_DIR$/.idea/modules/language-mksh/language-mksh/CodeEditor.language-mksh.language-mksh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-python/CodeEditor.language-python.iml" filepath="$PROJECT_DIR$/.idea/modules/language-python/CodeEditor.language-python.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-python/language-python/CodeEditor.language-python.language-python.iml" filepath="$PROJECT_DIR$/.idea/modules/language-python/language-python/CodeEditor.language-python.language-python.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-universal/CodeEditor.language-universal.iml" filepath="$PROJECT_DIR$/.idea/modules/language-universal/CodeEditor.language-universal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/language-universal/language-universal/CodeEditor.language-universal.language-universal.iml" filepath="$PROJECT_DIR$/.idea/modules/language-universal/language-universal/CodeEditor.language-universal.language-universal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/logger-debug/CodeEditor.logger-debug.iml" filepath="$PROJECT_DIR$/.idea/modules/logger-debug/CodeEditor.logger-debug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/logger-debug/logger-debug/CodeEditor.logger-debug.logger-debug.iml" filepath="$PROJECT_DIR$/.idea/modules/logger-debug/logger-debug/CodeEditor.logger-debug.logger-debug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-linenumber/CodeEditor.widget-linenumber.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-linenumber/CodeEditor.widget-linenumber.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-linenumber/controller/CodeEditor.widget-linenumber.controller.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-linenumber/controller/CodeEditor.widget-linenumber.controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-linenumber/model/CodeEditor.widget-linenumber.model.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-linenumber/model/CodeEditor.widget-linenumber.model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-linenumber/view-android/CodeEditor.widget-linenumber.view-android.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-linenumber/view-android/CodeEditor.widget-linenumber.view-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-symbolinput/CodeEditor.widget-symbolinput.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-symbolinput/CodeEditor.widget-symbolinput.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-symbolinput/controller/CodeEditor.widget-symbolinput.controller.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-symbolinput/controller/CodeEditor.widget-symbolinput.controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-symbolinput/model/CodeEditor.widget-symbolinput.model.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-symbolinput/model/CodeEditor.widget-symbolinput.model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget-symbolinput/view-android/CodeEditor.widget-symbolinput.view-android.iml" filepath="$PROJECT_DIR$/.idea/modules/widget-symbolinput/view-android/CodeEditor.widget-symbolinput.view-android.iml" />
+    </modules>
+  </component>
+</project>
