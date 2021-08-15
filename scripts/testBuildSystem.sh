@@ -12,6 +12,8 @@ RED="\033[01;31m"
 GREEN="\033[01;32m"
 ZERO="\033[0m"
 >$output
+_EXCLUDED_MODULES=(buildSrc CodeEditor.wiki)
+_EXCLUDED_MODULES=("${_EXCLUDED_MODULES[@]}" "${EXCLUDED_MODULES[@]}")
 
 function assert() {
 	local rv="$?"
@@ -40,6 +42,14 @@ function testIntro() {
 	echo ""
 	echo "$@"
 }
+function moduleExcluded() {
+	for m in "${_EXCLUDED_MODULES[@]}" ; do 
+		if [ "$m" = "$1" ] ; then
+			return 0
+		fi
+	done
+	return 1
+}
 
 init
 
@@ -60,13 +70,13 @@ if ${UNITS[1]} ; then
         ./gradlew clean 2>/dev/null 1>&2
 	./gradlew :editor:assemble 1>/dev/null 2>&1
 	for mod in $(git submodule --quiet foreach 'echo $sm_path') ; do
-		if [ "$mod" = "buildSrc" ] || [ "$mod" = "CodeEditor.wiki" ] ; then continue; fi
+		moduleExcluded "$mod" && continue
 		assert "from root :${mod}:assemble" "$(./gradlew :${mod}:assemble 2>&1)"
 	        assert "from root :${mod}:test" "$(./gradlew :${mod}:test 2>&1)"
 	done
 	./gradlew clean 2>/dev/null 1>&2
 	for mod in $(git submodule --quiet foreach 'echo $sm_path') ; do
-                if [ "$mod" = "buildSrc" ] || [ "$mod" = "CodeEditor.wiki" ] ; then continue; fi
+		moduleExcluded "$mod" && continue
 		op="$(pwd)"
                 cd "${mod}"
                 assert "from ${mod} assemble" "$(./gradlew clean assemble 2>&1)"
@@ -79,7 +89,7 @@ if ${UNITS[2]} ; then
 	testIntro "Inspecting content of builds"
 	outs="build/outputs/"
 	for mod in $(git submodule --quiet foreach 'echo $sm_path') ; do
-	        if [ "$mod" = "buildSrc" ] || [ "$mod" = "CodeEditor.wiki" ] ; then continue; fi
+		moduleExcluded "$mod" && continue
 	        op="$(pwd)"
 	        cd "${mod}"
 

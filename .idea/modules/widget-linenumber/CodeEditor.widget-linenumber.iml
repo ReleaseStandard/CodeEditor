@@ -44,7 +44,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.13.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.13.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-integration:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-library:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.squareup:javawriter:2.1.1" level="project" />
@@ -99,5 +99,6 @@
     <orderEntry type="module" module-name="CodeEditor.widget-linenumber.model" />
     <orderEntry type="module" module-name="CodeEditor.editor" />
     <orderEntry type="module" module-name="CodeEditor.logger-debug" />
+    <orderEntry type="module" module-name="CodeEditor.editor.model" />
   </component>
 </module>

@@ -28,13 +28,20 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CodeEditor.logger-debug" />
     <orderEntry type="module" module-name="CodeEditor.editor.model" />
+    <orderEntry type="module" module-name="CodeEditor.logger-debug.logger-debug" scope="RUNTIME" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: systems.manifold:manifold-json-rt:2021.1.14" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: systems.manifold:manifold-props-rt:2021.1.14" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: systems.manifold:manifold-ext:2021.1.14" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: systems.manifold:manifold-ext-rt:2021.1.14" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: systems.manifold:manifold:2021.1.14" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: systems.manifold:manifold-rt:2021.1.14" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.antlr:antlr4-runtime:4.9.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.github.Rosemoe:BlockLinkedList:1.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.12.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.12.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.12.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: systems.manifold:manifold-util:2021.1.14" level="project" />
+    <orderEntry type="module" module-name="CodeEditor.logger-debug.logger-debug" scope="TEST" />
     <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: junit:junit:4.13.2">
         <CLASSES>
@@ -57,12 +64,17 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.12.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.12.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.12.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: systems.manifold:manifold-json-rt:2021.1.14" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: systems.manifold:manifold-props-rt:2021.1.14" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: systems.manifold:manifold-ext:2021.1.14" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: systems.manifold:manifold-ext-rt:2021.1.14" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: systems.manifold:manifold:2021.1.14" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: systems.manifold:manifold-rt:2021.1.14" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.antlr:antlr4-runtime:4.9.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.github.Rosemoe:BlockLinkedList:1.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: systems.manifold:manifold-util:2021.1.14" level="project" />
   </component>
 </module>
