@@ -67,13 +67,15 @@ fi
 
 if ${UNITS[1]} ; then
 	testIntro "build and test"
+	echo "First cleaning"
         ./gradlew clean 2>/dev/null 1>&2
-	./gradlew :editor:assemble 1>/dev/null 2>&1
 	for mod in $(git submodule --quiet foreach 'echo $sm_path') ; do
 		moduleExcluded "$mod" && continue
 		assert "from root :${mod}:assemble" "$(./gradlew :${mod}:assemble 2>&1)"
 	        assert "from root :${mod}:test" "$(./gradlew :${mod}:test 2>&1)"
 	done
+	echo "Waiting builds"
+	wait $(jobs -p)
 	./gradlew clean 2>/dev/null 1>&2
 	for mod in $(git submodule --quiet foreach 'echo $sm_path') ; do
 		moduleExcluded "$mod" && continue

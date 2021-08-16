@@ -18,10 +18,11 @@ function genSonatype() {
 }
 echo "| Piece    |  Status |  Artifacts  |"
 echo "|----------|---------|-------------|"
-for p in application language-cobol85 language-java language-universal widget-symbolinput editor \
-          language-golang language-mksh logger-debug emptyPlugin language-html language-python widget-linenumber ; do
+EXCLUDED=(buildSrc CodeEditor.wiki)
+for p in $(git submodule foreach "echo \$name >&2" 2>&1 1>/dev/null) ; do
+	if [[ "${EXCLUDED[@]}" =~ "${p}" ]]; then continue ; fi
 	links=""
-	for f in $(ls "CodeEditor-$p/.github/workflows/") ; do
+	for f in $(ls "$p/.github/workflows/") ; do
 		f="${f/.yml/}"
 		links="$links $(genB $f $p)"
 	done
