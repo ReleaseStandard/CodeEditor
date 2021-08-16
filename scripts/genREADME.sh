@@ -13,11 +13,11 @@ EXCLUDED=(buildSrc CodeEditor.wiki)
 for p in $(git submodule foreach "echo \$name >&2" 2>&1 1>/dev/null) ; do
 	if [[ "${EXCLUDED[@]}" =~ "${p}" ]]; then continue ; fi
 	echo "# CodeEditor module $p" >$out
-	echo "" >$out
-	./scripts/genBase.sh |head -n 2 >$out
-	./scripts/genBase.sh |grep "$p" >$out
+	echo "" >>$out
+	./scripts/genBase.sh |head -n 2 >>$out
+	./scripts/genBase.sh |grep "$p" >>$out
 
-	>$out cat <<"EOT"
+	>>$out cat <<"EOT"
 
 ### How to integrate this to your application
 In the top level ```build.gradle```
@@ -32,8 +32,8 @@ In the module level ```build.gradle```
 ```gradle
 dependencies {
 EOT
-echo "    implementation 'io.github.${githubOwner}.CodeEditor:$p:+'" >$out
->$out cat <<"EOT"
+echo "    implementation 'io.github.${githubOwner}.CodeEditor:$p:+'" >>$out
+>>$out cat <<"EOT"
 }
 ```
 

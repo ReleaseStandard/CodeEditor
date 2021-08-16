@@ -11,6 +11,7 @@ fi
 git submodule foreach --recursive bash -c "if $FORCE || ! [ \"$rootModification\" = \"\" ] ; then \
 		if [ -d ".github" ] ; then \
 			cp -r ../.github/* ./.github/ ; \
+			rm -f ./.github/workflows/testBuildSystem.yml ; \
 			if ! [ \"\$(git status -s .github/)\" = \"\" ] ; then \
 		                git add .github/ ; \
 				git commit -m \"update workflow\" ; \
